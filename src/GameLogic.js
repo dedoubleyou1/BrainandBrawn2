@@ -2,7 +2,7 @@
 GameLogic = function(map) {
   this.gameplayMap = (map);
 
-  //Turns on console.log gameplay
+  //Shows game map in console if true;
   this.debugMode = true;
 
   if (this.debugMode) {
@@ -10,79 +10,78 @@ GameLogic = function(map) {
   }
 }
 
-GameLogic.prototype.mapKey = {
-  'b':{type: 'active'},
-  'B':{type: 'active'},
-  '#':{
-    type: 'fixed', 
-    'b': {isSolid: true, isTrigger: false},
-    'B': {isSolid: true, isTrigger: false}
-  },
-  'E':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: true},
-    'B': {isSolid: false, isTrigger: true}
-  },
-  'g':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: true},
-    'B': {isSolid: false, isTrigger: false}
-  },
-  'G':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: false, isTrigger: true}
-  },
-  '1':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: true},
-    'B': {isSolid: false, isTrigger: false}
-  },
-  '2':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: true},
-    'B': {isSolid: false, isTrigger: false}
-  },
-  '3':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: true},
-    'B': {isSolid: false, isTrigger: false}
-  },
-  '4':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: true},
-    'B': {isSolid: false, isTrigger: false}
-  },
-  '9':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: true, isTrigger: false}
-  },
-  '8':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: true, isTrigger: false}
-  },
-  '7':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: true, isTrigger: false}
-  },
-  '6':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: true, isTrigger: false}
-  },
-  '5':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: true, isTrigger: false}
-  },
-  ' ':{
-    type: 'fixed', 
-    'b': {isSolid: false, isTrigger: false},
-    'B': {isSolid: false, isTrigger: false}
-  }
+GameLogic.prototype.mapKeyLookup = function(key) {
+
+  // These are functions used by tile triggers
+  var triggers = {
+    checkWin: function() {
+      var otherGoal = indexOf2d(this.gameplayMap.fixed, 'G');
+      var otherChar = indexOf2d(this.gameplayMap.active, 'B');
+      console.log(otherChar,otherGoal);
+      if (otherChar.x == otherGoal.x && otherChar.y == otherGoal.y) {
+        return 'missionSuccess';
+      }
+    }
+  };
+
+  var keyLookup = {
+    ' ':{
+      'b': {isSolid: false, trigger: function(){}},
+      'B': {isSolid: false}
+    },
+    '#':{
+      'b': {isSolid: true},
+      'B': {isSolid: true}
+    },
+    'E':{
+      'b': {isSolid: false, trigger: function(){}},
+      'B': {isSolid: false, trigger: function(){}}
+    },
+    'g':{
+      'b': {isSolid: false, trigger: triggers.checkWin},
+      'B': {isSolid: false}
+    },
+    'G':{
+      'b': {isSolid: false},
+      'B': {isSolid: false, trigger: function(){}}
+    },
+    '1':{
+      'b': {isSolid: false, trigger: function(){}},
+      'B': {isSolid: false}
+    },
+    '2':{
+      'b': {isSolid: false, trigger: function(){}},
+      'B': {isSolid: false}
+    },
+    '3':{
+      'b': {isSolid: false, trigger: function(){}},
+      'B': {isSolid: false}
+    },
+    '4':{
+      'b': {isSolid: false, trigger: function(){}},
+      'B': {isSolid: false}
+    },
+    '9':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    },
+    '8':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    },
+    '7':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    },
+    '6':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    },
+    '5':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    }}
+  return keyLookup[key];
 };
 
 GameLogic.prototype.directionLookup = {
@@ -105,7 +104,7 @@ GameLogic.prototype.directionLookup = {
 };
 
 
-// Display in console for debugging purposes
+// Display map in console for debugging purposes
 GameLogic.prototype.consoleLogMap = function() {
   var mapStrings = [];
   var tempChar;
@@ -133,22 +132,29 @@ GameLogic.prototype.gravitySwitch = function(direction) {
   var gameStateChanges = {
     'b': [],
     'B': [],
-    state: 'ready'
+    gravity: direction,
+    endState: 'none'
   };
 
-  while (this.moveOnce(direction)) {
+  var results = {
+    success: true,
+    endState: 'none'
   }
+  while (results.success === true) {
+    results = this.moveOnce(direction)
+  }
+
+  gameStateChanges.endState = results.endState;
 
   if (this.debugMode) {
     console.log(direction);
     this.consoleLogMap();
   }
-
   return gameStateChanges;
 };
 
 GameLogic.prototype.isPositionClear = function(character, x, y) {
-  if (this.mapKey[this.gameplayMap.fixed[y][x]][character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
+  if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
     return false
   } else {
     return true
@@ -172,13 +178,13 @@ GameLogic.prototype.attemptMove = function(direction, x, y) {
 };
 
 GameLogic.prototype.moveOnce = function(direction) {
-  var success = false;
+  var results = {success: false, endState: 'none'};
   // Characters closer to the "floor" move first.
   if (direction === 'up' || direction === 'left'){
     for (var i = 0; i < this.gameplayMap.height; i++) {
       for (var j = 0; j < this.gameplayMap.width; j++) { 
         if (this.attemptMove(direction, j, i)) {
-          success = true;
+          results.success = true;
         }
       }
     }
@@ -186,13 +192,39 @@ GameLogic.prototype.moveOnce = function(direction) {
     for (var i = this.gameplayMap.height - 1; i >= 0; i--) {
       for (var j = this.gameplayMap.width - 1; j >= 0; j--) { 
         if (this.attemptMove(direction, j, i)) {
-          success = true;
+          results.success = true;
         }
       }
     }
   }
-  return success;
+  
+  var triggerResults = this.checkTriggers();
+  if (typeof triggerResults === 'string') {
+    results.endState = triggerResults;
+  };
+
+  return results;
 }
+GameLogic.prototype.checkTriggers = function() {
+  for (var i = 0; i < this.gameplayMap.height; i++) {
+    for (var j = 0; j < this.gameplayMap.width; j++) {
+      var active = this.gameplayMap.active[i][j];
+      var fixed = this.gameplayMap.fixed[i][j]
+      if (active != ' ') {
+        var trigger = this.mapKeyLookup(fixed)[active].trigger;
+        if (typeof trigger === 'function') {
+          var triggerResults = trigger.call(this);
+          // Checks if the trigger returns a value that indicates a game ending state.
+          if (typeof triggerResults === 'string') {
+            return triggerResults;
+          }
+        }
+      }
+    }
+  }
+}
+
+
 
 
 
