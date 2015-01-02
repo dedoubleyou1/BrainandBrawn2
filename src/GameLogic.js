@@ -19,8 +19,16 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       var otherChar = indexOf2d(this.gameplayMap.active, 'B');
       console.log(otherChar,otherGoal);
       if (otherChar.x == otherGoal.x && otherChar.y == otherGoal.y) {
+        console.log('you win');
         return 'missionSuccess';
       }
+    },
+    unlockGates: function(gate, resultGate) {
+      return function() {
+        indexOfAll2d(this.gameplayMap.fixed, gate).forEach(function(element) {
+            this.gameplayMap.fixed[element.y][element.x] = resultGate;
+        }, this);
+      };
     }
   };
 
@@ -45,42 +53,47 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'b': {isSolid: false},
       'B': {isSolid: false, trigger: function(){}}
     },
+    '0':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    },
     '1':{
-      'b': {isSolid: false, trigger: function(){}},
+      'b': {isSolid: false, trigger: triggers.unlockGates('2','3')},
       'B': {isSolid: false}
     },
     '2':{
-      'b': {isSolid: false, trigger: function(){}},
-      'B': {isSolid: false}
+      'b': {isSolid: false},
+      'B': {isSolid: true}
     },
     '3':{
-      'b': {isSolid: false, trigger: function(){}},
+      'b': {isSolid: false},
       'B': {isSolid: false}
     },
     '4':{
-      'b': {isSolid: false, trigger: function(){}},
+      'b': {isSolid: false, trigger: triggers.unlockGates('5','6')},
       'B': {isSolid: false}
     },
-    '9':{
-      'b': {isSolid: false},
-      'B': {isSolid: true}
-    },
-    '8':{
-      'b': {isSolid: false},
-      'B': {isSolid: true}
-    },
-    '7':{
+    '5':{
       'b': {isSolid: false},
       'B': {isSolid: true}
     },
     '6':{
       'b': {isSolid: false},
-      'B': {isSolid: true}
+      'B': {isSolid: false}
     },
-    '5':{
+    '7':{
+      'b': {isSolid: false, trigger: triggers.unlockGates('8','9')},
+      'B': {isSolid: false}
+    },
+    '8':{
       'b': {isSolid: false},
       'B': {isSolid: true}
-    }}
+    },
+    '9':{
+      'b': {isSolid: false},
+      'B': {isSolid: false}
+    }
+  }
   return keyLookup[key];
 };
 
@@ -201,6 +214,7 @@ GameLogic.prototype.moveOnce = function(direction) {
   var triggerResults = this.checkTriggers();
   if (typeof triggerResults === 'string') {
     results.endState = triggerResults;
+    results.success = false;
   };
 
   return results;
