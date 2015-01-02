@@ -34,7 +34,7 @@ Level.prototype.inputDown = function() {
 
 Level.prototype.inputManager = function(direction){
 	var results = this.gameLogic.gravitySwitch(direction);
-	console.log(results.endState);
+	console.log(results);
 	if (results.endState === 'missionSuccess') {
 		this.state.start('level'+(this.level+1));
 	}

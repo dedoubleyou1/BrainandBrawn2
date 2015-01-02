@@ -12,14 +12,12 @@ GameLogic = function(map) {
 
 GameLogic.prototype.mapKeyLookup = function(key) {
 
-  // These are functions used by tile triggers
+  // These are functions used by tile triggers.
   var triggers = {
     checkWin: function() {
       var otherGoal = indexOf2d(this.gameplayMap.fixed, 'G');
       var otherChar = indexOf2d(this.gameplayMap.active, 'B');
-      console.log(otherChar,otherGoal);
       if (otherChar.x == otherGoal.x && otherChar.y == otherGoal.y) {
-        console.log('you win');
         return 'missionSuccess';
       }
     },
@@ -34,7 +32,7 @@ GameLogic.prototype.mapKeyLookup = function(key) {
 
   var keyLookup = {
     ' ':{
-      'b': {isSolid: false, trigger: function(){}},
+      'b': {isSolid: false},
       'B': {isSolid: false}
     },
     '#':{
@@ -51,7 +49,7 @@ GameLogic.prototype.mapKeyLookup = function(key) {
     },
     'G':{
       'b': {isSolid: false},
-      'B': {isSolid: false, trigger: function(){}}
+      'B': {isSolid: false}
     },
     '0':{
       'b': {isSolid: false},
@@ -143,21 +141,32 @@ GameLogic.prototype.consoleLogMap = function() {
 GameLogic.prototype.gravitySwitch = function(direction) {
 
   var gameStateChanges = {
-    'b': [],
-    'B': [],
+    'b': [indexOf2d(this.gameplayMap.active, 'b')],
+    'B': [indexOf2d(this.gameplayMap.active, 'B')],
     gravity: direction,
     endState: 'none'
   };
 
   var results = {
-    success: true,
-    endState: 'none'
-  }
-  while (results.success === true) {
-    results = this.moveOnce(direction)
+    moveSuccess: true,
   }
 
-  gameStateChanges.endState = results.endState;
+  while (results.moveSuccess === true) {
+    results = this.moveOnce(direction)
+    if (typeof results.endState === 'string') {
+      gameStateChanges.endState = results.endState;
+    }
+    if (typeof results.b != 'undefined') {
+      gameStateChanges.b.push(results.b)
+    }
+    if (typeof results.B != 'undefined') {
+      gameStateChanges.B.push(results.b)
+    }
+  }
+
+  //Add final positions
+  gameStateChanges.b.push(indexOf2d(this.gameplayMap.active, 'b'));
+  gameStateChanges.B.push(indexOf2d(this.gameplayMap.active, 'B'));  
 
   if (this.debugMode) {
     console.log(direction);
@@ -191,13 +200,13 @@ GameLogic.prototype.attemptMove = function(direction, x, y) {
 };
 
 GameLogic.prototype.moveOnce = function(direction) {
-  var results = {success: false, endState: 'none'};
-  // Characters closer to the "floor" move first.
+  var moveSuccess = false;
+  // Characters closer to the gravitational "floor" move first.
   if (direction === 'up' || direction === 'left'){
     for (var i = 0; i < this.gameplayMap.height; i++) {
       for (var j = 0; j < this.gameplayMap.width; j++) { 
         if (this.attemptMove(direction, j, i)) {
-          results.success = true;
+          moveSuccess = true;
         }
       }
     }
@@ -205,37 +214,43 @@ GameLogic.prototype.moveOnce = function(direction) {
     for (var i = this.gameplayMap.height - 1; i >= 0; i--) {
       for (var j = this.gameplayMap.width - 1; j >= 0; j--) { 
         if (this.attemptMove(direction, j, i)) {
-          results.success = true;
+          moveSuccess = true;
         }
       }
     }
   }
-  
   var triggerResults = this.checkTriggers();
-  if (typeof triggerResults === 'string') {
-    results.endState = triggerResults;
-    results.success = false;
-  };
-
-  return results;
+  triggerResults.moveSuccess = moveSuccess;
+  return triggerResults;
 }
+
+
 GameLogic.prototype.checkTriggers = function() {
+  var triggerResults = {};
+  var active;
+  var fixed;
+  var results;
   for (var i = 0; i < this.gameplayMap.height; i++) {
     for (var j = 0; j < this.gameplayMap.width; j++) {
-      var active = this.gameplayMap.active[i][j];
-      var fixed = this.gameplayMap.fixed[i][j]
+      active = this.gameplayMap.active[i][j];
+      fixed = this.gameplayMap.fixed[i][j]
       if (active != ' ') {
         var trigger = this.mapKeyLookup(fixed)[active].trigger;
         if (typeof trigger === 'function') {
-          var triggerResults = trigger.call(this);
-          // Checks if the trigger returns a value that indicates a game ending state.
-          if (typeof triggerResults === 'string') {
-            return triggerResults;
+          results = trigger.call(this);
+          if (typeof results === 'string') {
+            triggerResults.endState = results;
           }
+          triggerResults[active] = {
+            x: j,
+            y: i,
+            eventType: fixed
+          };
         }
       }
     }
   }
+  return triggerResults;
 }
 
 
