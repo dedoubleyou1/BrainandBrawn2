@@ -12,7 +12,7 @@ GameLogic = function(map) {
 
 GameLogic.prototype.mapKeyLookup = function(key) {
 
-  // These are functions used by tile triggers.
+  // These are functions used by tile triggers. They are passed in the coordinate of the trigger action.
   var triggers = {
     checkWin: function() {
       var otherGoal = indexOf2d(this.gameplayMap.fixed, 'G');
@@ -27,6 +27,12 @@ GameLogic.prototype.mapKeyLookup = function(key) {
             this.gameplayMap.fixed[element.y][element.x] = resultGate;
         }, this);
       };
+    },
+    killFixed: function(position){
+      this.gameplayMap.fixed[position.y][position.x] = ' ';
+    },
+    killActive: function(position) {
+      return 'brainyEaten';
     }
   };
 
@@ -40,8 +46,8 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'B': {isSolid: true}
     },
     'E':{
-      'b': {isSolid: false, trigger: function(){}},
-      'B': {isSolid: false, trigger: function(){}}
+      'b': {isSolid: false, trigger: triggers.killActive},
+      'B': {isSolid: false, trigger: triggers.killFixed}
     },
     'g':{
       'b': {isSolid: false, trigger: triggers.checkWin},
@@ -120,15 +126,15 @@ GameLogic.prototype.consoleLogMap = function() {
   var mapStrings = [];
   var tempChar;
   var atCoordinate;
-  for (var i = 0; i < this.gameplayMap.height; i++) {
-    mapStrings[i] = ""+i+"|";
-    for (var j = 0; j < this.gameplayMap.width; j++) {
+  for (var y = 0; y < this.gameplayMap.height; y++) {
+    mapStrings[y] = ""+y+"|";
+    for (var x = 0; x < this.gameplayMap.width; x++) {
 
       // Checks if any active characters are on a given coordinate      
-      if ((this.gameplayMap.active[i][j]) != ' ') {
-        mapStrings[i] += this.gameplayMap.active[i][j];
+      if ((this.gameplayMap.active[y][x]) != ' ') {
+        mapStrings[y] += this.gameplayMap.active[y][x];
       } else {
-        mapStrings[i] += this.gameplayMap.fixed[i][j];
+        mapStrings[y] += this.gameplayMap.fixed[y][x];
       }
     }
   }
@@ -153,7 +159,7 @@ GameLogic.prototype.gravitySwitch = function(direction) {
 
   while (results.moveSuccess === true) {
     results = this.moveOnce(direction)
-    if (typeof results.endState === 'string') {
+    if (typeof results.endState === 'string' && gameStateChanges.endState === 'none') {
       gameStateChanges.endState = results.endState;
     }
     if (typeof results.b != 'undefined') {
@@ -203,17 +209,17 @@ GameLogic.prototype.moveOnce = function(direction) {
   var moveSuccess = false;
   // Characters closer to the gravitational "floor" move first.
   if (direction === 'up' || direction === 'left'){
-    for (var i = 0; i < this.gameplayMap.height; i++) {
-      for (var j = 0; j < this.gameplayMap.width; j++) { 
-        if (this.attemptMove(direction, j, i)) {
+    for (var y = 0; y < this.gameplayMap.height; y++) {
+      for (var x = 0; x < this.gameplayMap.width; x++) { 
+        if (this.attemptMove(direction, x, y)) {
           moveSuccess = true;
         }
       }
     }
   } else if (direction === 'down' || direction === 'right'){
-    for (var i = this.gameplayMap.height - 1; i >= 0; i--) {
-      for (var j = this.gameplayMap.width - 1; j >= 0; j--) { 
-        if (this.attemptMove(direction, j, i)) {
+    for (var y = this.gameplayMap.height - 1; y >= 0; y--) {
+      for (var x = this.gameplayMap.width - 1; x >= 0; x--) { 
+        if (this.attemptMove(direction, x, y)) {
           moveSuccess = true;
         }
       }
@@ -230,20 +236,20 @@ GameLogic.prototype.checkTriggers = function() {
   var active;
   var fixed;
   var results;
-  for (var i = 0; i < this.gameplayMap.height; i++) {
-    for (var j = 0; j < this.gameplayMap.width; j++) {
-      active = this.gameplayMap.active[i][j];
-      fixed = this.gameplayMap.fixed[i][j]
+  for (var y = 0; y < this.gameplayMap.height; y++) {
+    for (var x = 0; x < this.gameplayMap.width; x++) {
+      active = this.gameplayMap.active[y][x];
+      fixed = this.gameplayMap.fixed[y][x]
       if (active != ' ') {
         var trigger = this.mapKeyLookup(fixed)[active].trigger;
         if (typeof trigger === 'function') {
-          results = trigger.call(this);
+          results = trigger.call(this, {x: x, y: y});
           if (typeof results === 'string') {
             triggerResults.endState = results;
           }
           triggerResults[active] = {
-            x: j,
-            y: i,
+            x: x,
+            y: y,
             eventType: fixed
           };
         }

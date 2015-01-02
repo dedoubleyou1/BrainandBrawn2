@@ -1,12 +1,12 @@
 Level = function(level) {
 	this.level = level;
-	this.levelData = BnBgame.cache.getJSON('level'+level);
-	this.width = this.levelData.width;
-	this.height = this.levelData.length;
 };
 
 Level.prototype = {
 	create: function() {
+		this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
+		this.width = this.levelData.width;
+		this.height = this.levelData.length;
 		this.gameLogic = new GameLogic(this.levelData);
 		this.cursors = BnBgame.input.keyboard.createCursorKeys();
 	},
@@ -34,8 +34,9 @@ Level.prototype.inputDown = function() {
 
 Level.prototype.inputManager = function(direction){
 	var results = this.gameLogic.gravitySwitch(direction);
-	console.log(results);
-	if (results.endState === 'missionSuccess') {
+	if (results.endState === 'brainyEaten') {
+		this.state.start('level'+(this.level));
+	} else if (results.endState === 'missionSuccess') {
 		this.state.start('level'+(this.level+1));
 	}
 

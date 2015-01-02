@@ -89,7 +89,7 @@ Preloader.prototype = {
         // Levels
 
         Settings.levels.forEach(function(element, index){
-            this.load.json('level'+index, element);
+            this.load.text('level'+index, element);
         }, this)
 
     },
