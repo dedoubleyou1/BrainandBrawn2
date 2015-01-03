@@ -15,26 +15,6 @@ var indexOf2d = function(array2d, value) {
 };
 
 // Returns an array of all coordinates in a 2d array with a given value
-// var indexOfAll2d = function(array2d, value) {
-// 	return array2d
-// 	.map(function(currentValue, index){
-// 		var testValue = currentValue.indexOf(value);
-// 		if (testValue != -1) {
-// 			console.log('found',index, testValue);
-// 			return {
-
-// 			};
-// 		}
-// 	})
-// 	.filter(function(element) {
-// 		if (typeof element === 'undefined') {
-// 			return false;
-// 		} else {
-// 			return true;
-// 		}
-// 	});
-// }
-
 var indexOfAll2d = function(array2d, value) {
 	return array2d.reduce(function(previousValue, currentElement, index){
 		var yIndex = index;
@@ -48,4 +28,23 @@ var indexOfAll2d = function(array2d, value) {
 		})
 		return previousValue;
 	}, []);
+};
+
+var directionLookup = {
+  up: {
+    x: 0,
+    y: -1
+  },
+  down: {
+    x: 0,
+    y: 1
+  },
+  left: {
+    x: -1,
+    y: 0
+  },
+  right: {
+    x: 1,
+    y: 0
+  }
 };

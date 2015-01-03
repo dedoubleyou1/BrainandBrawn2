@@ -31,8 +31,10 @@ GameLogic.prototype.mapKeyLookup = function(key) {
     killFixed: function(position){
       this.gameplayMap.fixed[position.y][position.x] = ' ';
     },
-    killActive: function(position) {
-      return 'brainyEaten';
+    killActive: function(killType) {
+      return function() {
+        return killType;
+      };
     }
   };
 
@@ -45,8 +47,12 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'b': {isSolid: true},
       'B': {isSolid: true}
     },
+    '.':{
+      'b': {isSolid: false, trigger: triggers.killActive('brainyLost')},
+      'B': {isSolid: false, trigger: triggers.killActive('brawnyLost')}      
+    },
     'E':{
-      'b': {isSolid: false, trigger: triggers.killActive},
+      'b': {isSolid: false, trigger: triggers.killActive('brainyEaten')},
       'B': {isSolid: false, trigger: triggers.killFixed}
     },
     'g':{
@@ -100,26 +106,6 @@ GameLogic.prototype.mapKeyLookup = function(key) {
   }
   return keyLookup[key];
 };
-
-GameLogic.prototype.directionLookup = {
-  up: {
-    x: 0,
-    y: -1
-  },
-  down: {
-    x: 0,
-    y: 1
-  },
-  left: {
-    x: -1,
-    y: 0
-  },
-  right: {
-    x: 1,
-    y: 0
-  }
-};
-
 
 // Display map in console for debugging purposes
 GameLogic.prototype.consoleLogMap = function() {
@@ -182,7 +168,9 @@ GameLogic.prototype.gravitySwitch = function(direction) {
 };
 
 GameLogic.prototype.isPositionClear = function(character, x, y) {
-  if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
+  if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
+    return false
+  } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
     return false
   } else {
     return true
@@ -192,8 +180,8 @@ GameLogic.prototype.isPositionClear = function(character, x, y) {
 GameLogic.prototype.attemptMove = function(direction, x, y) {
   var character = this.gameplayMap.active[y][x];
   var newPosition = {
-    x: this.directionLookup[direction].x + x,
-    y: this.directionLookup[direction].y + y
+    x: directionLookup[direction].x + x,
+    y: directionLookup[direction].y + y
   };
   if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
     // MOVE TO IT's NEW SPOT

@@ -34,7 +34,7 @@ Level.prototype.inputDown = function() {
 
 Level.prototype.inputManager = function(direction){
 	var results = this.gameLogic.gravitySwitch(direction);
-	if (results.endState === 'brainyEaten') {
+	if (results.endState === 'brainyEaten' || results.endState === 'brainyLost' || results.endState === 'brawnyLost') {
 		this.state.start('level'+(this.level));
 	} else if (results.endState === 'missionSuccess') {
 		this.state.start('level'+(this.level+1));
