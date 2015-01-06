@@ -2,6 +2,16 @@
 GameLogic = function(map) {
   this.gameplayMap = (map);
 
+
+  this.activeChars = []
+  for (var y = 0; y < this.gameplayMap.height; y++) {
+    for (var x = 0; x < this.gameplayMap.width; x++) {
+      if (this.gameplayMap.active[y][x] != ' ') {
+        this.activeChars.push(this.gameplayMap.active[y][x]);
+      } 
+    }
+  }
+
   //Shows game map in console if true;
   this.debugMode = true;
 
@@ -148,17 +158,27 @@ GameLogic.prototype.gravitySwitch = function(direction) {
     if (typeof results.endState === 'string' && gameStateChanges.endState === 'none') {
       gameStateChanges.endState = results.endState;
     }
-    if (typeof results.b != 'undefined') {
-      gameStateChanges.b.push(results.b)
-    }
-    if (typeof results.B != 'undefined') {
-      gameStateChanges.B.push(results.b)
-    }
+    for (var i = this.activeChars.length - 1; i >= 0; i--) {
+      if (typeof results[this.activeChars[i]] != 'undefined') {
+        gameStateChanges[this.activeChars[i]].push(results[this.activeChars[i]])
+      }
+    };
+    // if (typeof results.b != 'undefined') {
+    //   gameStateChanges.b.push(results.b)
+    // }
+    // if (typeof results.B != 'undefined') {
+    //   gameStateChanges.B.push(results.b)
+    // }
   }
 
   //Add final positions
-  gameStateChanges.b.push(indexOf2d(this.gameplayMap.active, 'b'));
-  gameStateChanges.B.push(indexOf2d(this.gameplayMap.active, 'B'));  
+  this.activeChars.forEach(function(element){
+    gameStateChanges[element].push(indexOf2d(this.gameplayMap.active, element));
+  }, this)
+  // gameStateChanges.b.push(indexOf2d(this.gameplayMap.active, 'b'));
+  // gameStateChanges.B.push(indexOf2d(this.gameplayMap.active, 'B'));  
+
+  console.log(gameStateChanges);
 
   if (this.debugMode) {
     console.log(direction);
