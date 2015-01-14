@@ -178,9 +178,9 @@ GameLogic.prototype.gravitySwitch = function(direction) {
   // gameStateChanges.b.push(indexOf2d(this.gameplayMap.active, 'b'));
   // gameStateChanges.B.push(indexOf2d(this.gameplayMap.active, 'B'));  
 
-  console.log(gameStateChanges);
 
   if (this.debugMode) {
+    console.log(gameStateChanges);
     console.log(direction);
     this.consoleLogMap();
   }

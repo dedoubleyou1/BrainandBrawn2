@@ -84,3 +84,20 @@ var wiggle2 = function ( t ) {
 	var p = 4;
 	return 1 / (Math.pow(2 * p, Math.pow((t - 0.6) * p, 2))) +  Math.sin(Math.PI * t / 2);
 }
+
+var customSin = function ( ratio ){
+	var yMult = Phaser.Easing.Sinusoidal.In(ratio);
+	return function ( t ) {
+		return Phaser.Easing.Sinusoidal.In(t * ratio) / yMult ;
+	};
+}
+
+var pointDist = function(direction, pointA, pointB) {
+	var axis;
+	if (direction === 'up' || direction === 'down') {
+		axis = 'y';
+	} else if (direction === 'left' || direction === 'right') {
+		axis = 'x'
+	}
+	return Math.abs(pointA[axis] - pointB[axis]);
+}

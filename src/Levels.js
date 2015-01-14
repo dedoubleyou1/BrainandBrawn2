@@ -7,43 +7,23 @@ Level.prototype = {
 		this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
 		this.width = this.levelData.width;
 		this.height = this.levelData.length;
-
 		this.gameLogic = new GameLogic(this.levelData);
 		this.graphicsManager = new GraphicsManager(this.levelData);
-
-		this.cursors = BnBgame.input.keyboard.createCursorKeys();
+		this.inputManager = new InputManager();
 	},
 	update: function() {
-		this.cursors.left.onDown.add(this.inputLeft, this);
-		this.cursors.right.onDown.add(this.inputRight, this);
-		this.cursors.up.onDown.add(this.inputUp, this);
-		this.cursors.down.onDown.add(this.inputDown, this);
-
-	}
-};
-
-Level.prototype.inputLeft = function() {
-	this.inputManager('left');
-}
-Level.prototype.inputRight = function() {
-	this.inputManager('right');
-}
-Level.prototype.inputUp = function() {
-	this.inputManager('up');
-}
-Level.prototype.inputDown = function() {
-	this.inputManager('down');
-}
-
-Level.prototype.inputManager = function(direction){
-	var results = this.gameLogic.gravitySwitch(direction);
-	this.graphicsManager.updateGraphics(results, (function(results){
-		return function() {
-			if (results.endState === 'brainyEaten' || results.endState === 'brainyLost' || results.endState === 'brawnyLost') {
+		if (this.inputManager.state != 'ready' && this.inputManager.state != 'waiting') {
+			this.results = this.gameLogic.gravitySwitch(this.inputManager.state);
+			this.graphicsManager.updateGraphics(this.results);
+			this.inputManager.state = 'waiting';
+		}
+		if (this.graphicsManager.areAnimationsFinished() && this.inputManager.state === 'waiting') {
+			this.inputManager.state = 'ready';
+			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost') {
 				this.state.start('level'+(this.level));
-			} else if (results.endState === 'missionSuccess') {
+			} else if (this.results.endState === 'missionSuccess') {
 				this.state.start('level'+(this.level+1));
 			}
 		}
-	})(results), this);
-}
+	}
+};

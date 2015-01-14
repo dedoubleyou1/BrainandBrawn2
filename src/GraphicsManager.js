@@ -3,15 +3,16 @@ GraphicsManager = function(map) {
   this.fixed = []
 
   this.levelGroup = BnBgame.add.group();
-  this.fixedGroup = BnBgame.add.group();
-  this.levelGroup.add(this.fixedGroup);
-  this.activeGroup = BnBgame.add.group();
-  this.levelGroup.add(this.activeGroup);
+  this.levelGroup.enableBody = true;
+  this.fixedGroup = BnBgame.add.group(this.levelGroup);
+  this.activeGroup = BnBgame.add.group(this.levelGroup);
 
   this.width = map.width;
   this.height = map.height;
   this.convertValues = this.getConvertValues();
   this.initializeSprites(map);
+
+  this.animationCounter = 0
 }
 
 GraphicsManager.prototype.graphicsKeyLookup = function(key) {
@@ -162,11 +163,39 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
   }
 };
 
-GraphicsManager.prototype.updateGraphics = function(gameStateChanges, callback, context) {
+GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   for (element in this.active) {
-    var newCoord = this.gridToPixel(gameStateChanges[element][gameStateChanges[element].length - 1]);
-    var move = BnBgame.add.tween(this.active[element]);
-    move.to({x: newCoord.x, y: newCoord.y}, 800, easingFunctions[element], true);
+    var lastPosition = gameStateChanges[element][gameStateChanges[element].length - 1];
+    var newCoord = this.gridToPixel(lastPosition);
+
+    var dist = pointDist(gameStateChanges.gravity, gameStateChanges[element][0], lastPosition);
+
+    if (dist > 0) {
+      var move = BnBgame.add.tween(this.active[element]);
+      move.to({x: newCoord.x, y: newCoord.y}, 180, Phaser.Easing.Sinusoidal.In, true);
+      this.animationCounter += 1;
+      move.onComplete.add(function(){
+        this.animationCounter -= 1;
+      }, this);
+    }
+
+
+
+
+    // move.onUpdateCallback((function(gameStateChanges, element, moveTween){
+    //   return function() {
+    //     for (var i = 1; i < gameStateChanges[element].length - 1; i++) {
+    //       console.log(gameStateChanges[element][i]);
+
+    //     };
+
+
+
+    //   }
+    // })(gameStateChanges, element, move), this)
+
+    // BnBgame.physics.enable(this.active[element], Phaser.Physics.ARCADE);
+    // BnBgame.physics.arcade.accelerateToXY(this.active[element], newCoord.x, newCoord.y, 32, 512, 512);
     //move.onComplete.add(function(){}, this);
     //move.start();
   };
@@ -175,6 +204,14 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges, callback, 
   // screenShake.to({x: shakeTo.x * 1, y: shakeTo.y * 1}, 100, wiggle2, true, 210, 0, true);
 
   //callback.call(context);
-  BnBgame.time.events.add(800, callback, context);
+  // BnBgame.time.events.add(800, callback, context);
+};
+
+GraphicsManager.prototype.areAnimationsFinished = function() {
+  if (this.animationCounter === 0) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
