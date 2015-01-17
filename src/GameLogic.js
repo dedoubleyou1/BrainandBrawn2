@@ -117,6 +117,7 @@ GameLogic.prototype.mapKeyLookup = function(key) {
   return keyLookup[key];
 };
 
+
 // Display map in console for debugging purposes
 GameLogic.prototype.consoleLogMap = function() {
   var mapStrings = [];
@@ -140,18 +141,19 @@ GameLogic.prototype.consoleLogMap = function() {
   return true;
 };
 
-GameLogic.prototype.gravitySwitch = function(direction) {
 
+GameLogic.prototype.gravitySwitch = function(direction) {
   var gameStateChanges = {
     'b': [indexOf2d(this.gameplayMap.active, 'b')],
     'B': [indexOf2d(this.gameplayMap.active, 'B')],
     gravity: direction,
     endState: 'none'
   };
-
   var results = {
     moveSuccess: true,
-  }
+  };
+  var thisChar;
+  var theseChanges;
 
   while (results.moveSuccess === true) {
     results = this.moveOnce(direction)
@@ -159,25 +161,21 @@ GameLogic.prototype.gravitySwitch = function(direction) {
       gameStateChanges.endState = results.endState;
     }
     for (var i = this.activeChars.length - 1; i >= 0; i--) {
-      if (typeof results[this.activeChars[i]] != 'undefined') {
-        gameStateChanges[this.activeChars[i]].push(results[this.activeChars[i]])
+      thisChar = this.activeChars[i];
+      theseChanges = gameStateChanges[thisChar];
+
+      if (typeof results[thisChar] != 'undefined' && typeof theseChanges[theseChanges.length - 1] != 'undefined') {
+        if (results[thisChar].x != theseChanges[theseChanges.length - 1].x || results[thisChar].y != theseChanges[theseChanges.length - 1].y) {
+          gameStateChanges[thisChar].push(results[thisChar])          
+        }
       }
     };
-    // if (typeof results.b != 'undefined') {
-    //   gameStateChanges.b.push(results.b)
-    // }
-    // if (typeof results.B != 'undefined') {
-    //   gameStateChanges.B.push(results.b)
-    // }
   }
 
   //Add final positions
   this.activeChars.forEach(function(element){
     gameStateChanges[element].push(indexOf2d(this.gameplayMap.active, element));
   }, this)
-  // gameStateChanges.b.push(indexOf2d(this.gameplayMap.active, 'b'));
-  // gameStateChanges.B.push(indexOf2d(this.gameplayMap.active, 'B'));  
-
 
   if (this.debugMode) {
     console.log(gameStateChanges);
@@ -186,6 +184,7 @@ GameLogic.prototype.gravitySwitch = function(direction) {
   }
   return gameStateChanges;
 };
+
 
 GameLogic.prototype.isPositionClear = function(character, x, y) {
   if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
@@ -196,6 +195,7 @@ GameLogic.prototype.isPositionClear = function(character, x, y) {
     return true
   }
 };
+
 
 GameLogic.prototype.attemptMove = function(direction, x, y) {
   var character = this.gameplayMap.active[y][x];
@@ -212,6 +212,7 @@ GameLogic.prototype.attemptMove = function(direction, x, y) {
     return false;
   }
 };
+
 
 GameLogic.prototype.moveOnce = function(direction) {
   var moveSuccess = false;
@@ -266,8 +267,4 @@ GameLogic.prototype.checkTriggers = function() {
   }
   return triggerResults;
 }
-
-
-
-
 

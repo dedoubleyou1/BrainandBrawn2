@@ -124,6 +124,7 @@ GraphicsManager.prototype.initializeSprites = function(map) {
         this.active[activeSpriteType] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'levelImages', this.graphicsKeyLookup(activeSpriteType).image);
         this.activeGroup.add(this.active[activeSpriteType]);
         this.active[activeSpriteType].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+        this.active[activeSpriteType].anchor = {x: 0.5, y: 0.5};
       }
 
       fixedSprite = this.graphicsKeyLookup(map.fixed[y][x]).image;
@@ -131,6 +132,7 @@ GraphicsManager.prototype.initializeSprites = function(map) {
         this.fixed[y][x] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'levelImages', fixedSprite);
         this.fixedGroup.add(this.fixed[y][x]);
         this.fixed[y][x].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+        this.fixed[y][x].anchor = {x: 0.5, y: 0.5};
       }
     }
   }
@@ -158,53 +160,64 @@ GraphicsManager.prototype.getConvertValues = function() {
 //manages grid to pixel conversion
 GraphicsManager.prototype.gridToPixel = function(coordinate) {
   return {
-    x: coordinate.x * this.convertValues.mapRatio,
-    y: coordinate.y * this.convertValues.mapRatio
+    x: (coordinate.x + 0.5) * this.convertValues.mapRatio,
+    y: (coordinate.y + 0.5) * this.convertValues.mapRatio
   }
 };
 
+GraphicsManager.prototype.pixelToGrid = function(coordinate) {
+  return {
+    x: Math.floor(coordinate.x / this.convertValues.mapRatio),
+    y: Math.floor(coordinate.y / this.convertValues.mapRatio)
+  }
+}
+
 GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
+
+  var callbackTest = function(gameStateChanges, element){
+    return function() {
+      var gridPos = this.pixelToGrid({x: this.active[element].x, y: this.active[element].y});
+      for (var i = 0; i < gameStateChanges.length; i++) {
+        //if (gameStateChanges[i]
+      };
+
+      console.log(gameStateChanges, element, gridPos);
+    }
+  };
+
+  var lastPosition;
+  var newCoord;
+  var dist;
+  var move;
+  var thisCallback;
+
   for (element in this.active) {
-    var lastPosition = gameStateChanges[element][gameStateChanges[element].length - 1];
-    var newCoord = this.gridToPixel(lastPosition);
+    console.log(element);
+
+    lastPosition = gameStateChanges[element][gameStateChanges[element].length - 1];
+    newCoord = this.gridToPixel(lastPosition);
 
     var dist = pointDist(gameStateChanges.gravity, gameStateChanges[element][0], lastPosition);
-
     if (dist > 0) {
-      var move = BnBgame.add.tween(this.active[element]);
+      move = BnBgame.add.tween(this.active[element]);
       move.to({x: newCoord.x, y: newCoord.y}, 180, Phaser.Easing.Sinusoidal.In, true);
       this.animationCounter += 1;
-      move.onComplete.add(function(){
-        this.animationCounter -= 1;
-      }, this);
+
+      thisCallback = callbackTest(gameStateChanges, element);
+      //thisCallback.call(this);
+
+      move.onComplete.add((function(thisCallback){
+        return function(){
+          thisCallback.call(this);
+          this.animationCounter -= 1;
+        }
+
+      })(thisCallback), this);
+
+      move.onUpdateCallback(thisCallback, this)
     }
-
-
-
-
-    // move.onUpdateCallback((function(gameStateChanges, element, moveTween){
-    //   return function() {
-    //     for (var i = 1; i < gameStateChanges[element].length - 1; i++) {
-    //       console.log(gameStateChanges[element][i]);
-
-    //     };
-
-
-
-    //   }
-    // })(gameStateChanges, element, move), this)
-
-    // BnBgame.physics.enable(this.active[element], Phaser.Physics.ARCADE);
-    // BnBgame.physics.arcade.accelerateToXY(this.active[element], newCoord.x, newCoord.y, 32, 512, 512);
-    //move.onComplete.add(function(){}, this);
-    //move.start();
   };
-  // var screenShake = BnBgame.add.tween(this.levelGroup);
-  // var shakeTo = directionLookup[gameStateChanges.gravity]
-  // screenShake.to({x: shakeTo.x * 1, y: shakeTo.y * 1}, 100, wiggle2, true, 210, 0, true);
 
-  //callback.call(context);
-  // BnBgame.time.events.add(800, callback, context);
 };
 
 GraphicsManager.prototype.areAnimationsFinished = function() {
