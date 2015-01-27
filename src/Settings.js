@@ -4,15 +4,15 @@ Settings = {
     HEIGHT: 960
   },
   GRAPHICS: {
-    TILESIZE: 64
+    TILESIZE: 160
   },
   levels: [
+    'levels/gatelevel.json',
+    'levels/enemylevel1.json',
     'levels/startlevel.json',
     'levels/splitlevel.json',
     'levels/teamlevel.json',
     'levels/openlevel.json',
-    'levels/enemylevel1.json',
-    'levels/passagelevel.json',
-    'levels/gatelevel.json'
+    'levels/passagelevel.json'
   ]
 }

@@ -11,6 +11,8 @@ Preloader.prototype = {
         
         //
         this.load.atlasJSONArray('levelImages', 'images/level_images.png', 'images/level_images.json');
+        this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
+
 
 
         //load blocks + floor

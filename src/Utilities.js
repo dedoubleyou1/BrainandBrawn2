@@ -30,6 +30,19 @@ var indexOfAll2d = function(array2d, value) {
 	}, []);
 };
 
+// Returns an array of all objects in a 2d array for which a given function returns as true
+var filter2d = function(array2d, passedFunction, that) {
+	var newArray = [];
+	for (var i = 0; i < array2d.length; i++) {
+		for (var j = 0; j < array2d[i].length; j++) {
+			if (passedFunction.call(that, array2d[i][j])) {
+				newArray.push(array2d[i][j]);
+			}
+		}		
+	}
+	return newArray;
+};
+
 var directionLookup = {
   up: {
     x: 0,

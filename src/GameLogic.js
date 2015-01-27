@@ -31,8 +31,9 @@ GameLogic.prototype.mapKeyLookup = function(key) {
         return 'missionSuccess';
       }
     },
-    unlockGates: function(gate, resultGate) {
-      return function() {
+    unlockGates: function(resultSwitch, gate, resultGate) {
+      return function(position) {
+        this.gameplayMap.fixed[position.y][position.x] = resultSwitch;
         indexOfAll2d(this.gameplayMap.fixed, gate).forEach(function(element) {
             this.gameplayMap.fixed[element.y][element.x] = resultGate;
         }, this);
@@ -78,38 +79,50 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'B': {isSolid: true}
     },
     '1':{
-      'b': {isSolid: false, trigger: triggers.unlockGates('2','3')},
+      'b': {isSolid: false, trigger: triggers.unlockGates('2','3','4')},
       'B': {isSolid: false}
     },
     '2':{
       'b': {isSolid: false},
-      'B': {isSolid: true}
+      'B': {isSolid: false}
     },
     '3':{
       'b': {isSolid: false},
-      'B': {isSolid: false}
+      'B': {isSolid: true}
     },
     '4':{
-      'b': {isSolid: false, trigger: triggers.unlockGates('5','6')},
+      'b': {isSolid: false},
       'B': {isSolid: false}
     },
     '5':{
-      'b': {isSolid: false},
-      'B': {isSolid: true}
+      'b': {isSolid: false, trigger: triggers.unlockGates('6','7','8')},
+      'B': {isSolid: false}
     },
     '6':{
       'b': {isSolid: false},
       'B': {isSolid: false}
     },
     '7':{
-      'b': {isSolid: false, trigger: triggers.unlockGates('8','9')},
-      'B': {isSolid: false}
-    },
-    '8':{
       'b': {isSolid: false},
       'B': {isSolid: true}
     },
+    '8':{
+      'b': {isSolid: false},
+      'B': {isSolid: false}
+    },
     '9':{
+      'b': {isSolid: false, trigger: triggers.unlockGates('10','11','12')},
+      'B': {isSolid: false}
+    },
+    '10':{
+      'b': {isSolid: false},
+      'B': {isSolid: false}
+    },
+    '11':{
+      'b': {isSolid: false},
+      'B': {isSolid: true}
+    },
+    '12':{
       'b': {isSolid: false},
       'B': {isSolid: false}
     }

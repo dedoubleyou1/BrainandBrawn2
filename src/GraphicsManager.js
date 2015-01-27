@@ -16,15 +16,62 @@ GraphicsManager = function(map) {
 }
 
 GraphicsManager.prototype.graphicsKeyLookup = function(key) {
+  var triggers = {
+    killSelf: function(position) {
+      this.fixed[position.y][position.x].sprite.destroy();
+    },
+    switchTo: function(type) {
+      return function(position) {
+        this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(type).image;
+      };
+    },
+    switchAll: function(type, typeTo) {
+      var context = {
+        type: type,
+        typeTo: typeTo
+      };
+      return function() {
+        var foundObjects = filter2d(this.fixed, function(element){
+          if (element.type === this.type) {
+            return true;
+          }
+        }, context);
+
+        for (var i = 0; i < foundObjects.length; i++) {
+          foundObjects[i].sprite.frameName = this.graphicsKeyLookup(typeTo).image;
+        };
+      };
+    },
+    switchBoth: function(typeSelf, typeOther, typeToOther) {
+      var context = {
+        type: typeOther,
+        typeTo: typeToOther
+      };
+      return function(position) {
+        this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
+
+        var foundObjects = filter2d(this.fixed, function(element){
+          if (element.type === this.type) {
+            return true;
+          }
+        }, context);
+
+        for (var i = 0; i < foundObjects.length; i++) {
+          foundObjects[i].sprite.frameName = this.graphicsKeyLookup(typeToOther).image;
+        };
+      };
+    }
+  }
+
 	var keyLookup = {
     'b':{
-      image: 'pBrainy.png',
+      image: 'brainandbrawn_brainy',
       animations: {},
       'b': {},
       'B': {}
     },
     'B':{
-      image: 'pBrawny.png',
+      image: 'brainandbrawn_brawny',
       'b': {},
       'B': {}
     },
@@ -33,7 +80,7 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       'B': {}
     },
     '#':{
-      image: 'block.png',
+      image: 'brainandbrawn_block',
       'b': {},
       'B': {}
     },
@@ -42,67 +89,82 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       'B': {}      
     },
     'E':{
-      image: 'octopus.png',
+      image: 'brainandbrawn_alien',
       'b': {},
-      'B': {}
+      'B': triggers.killSelf
     },
     'g':{
-      image: 'goalBrainy.png',
+      image: 'brainandbrawn_goalBrainy',
       'b': {},
       'B': {}
     },
     'G':{
-      image: 'goalBrawny.png',
+      image: 'brainandbrawn_goalBrawny',
       'b': {},
       'B': {}
     },
     '0':{
-      image: 'gate0.png',
+      image: 'brainandbrawn_gate',
       'b': {},
       'B': {}
     },
     '1':{
-      image: 'switch1On.png',
-      'b': {},
+      image: 'brainandbrawn_switch1A',
+      'b': triggers.switchBoth('2', '3', '4'),
       'B': {}
     },
     '2':{
-      image: 'gate1On.png',
+      image: 'brainandbrawn_switch1B',
       'b': {},
       'B': {}
     },
     '3':{
-      image: 'gate1Off.png',
+      image: 'brainandbrawn_gate1A',
       'b': {},
       'B': {}
     },
     '4':{
-      image: 'switch2On.png',
+      image: 'brainandbrawn_gate1B',
       'b': {},
       'B': {}
     },
     '5':{
-      image: 'gate2On.png',
-      'b': {},
+      image: 'brainandbrawn_switch2A',
+      'b': triggers.switchBoth('6', '7', '8'),
       'B': {}
     },
     '6':{
-      image: 'gate2Off.png',
+      image: 'brainandbrawn_switch2B',
       'b': {},
       'B': {}
     },
     '7':{
-      image: 'switch3On.png',
+      image: 'brainandbrawn_gate2A',
       'b': {},
       'B': {}
     },
     '8':{
-      image: 'gate3On.png',
+      image: 'brainandbrawn_gate2B',
       'b': {},
       'B': {}
     },
     '9':{
-      image: 'gate3Off.png',
+      image: 'brainandbrawn_switch3A',
+      'b': triggers.switchAll('10', '11', '12'),
+      'B': {}
+    },
+    '10':{
+      image: 'brainandbrawn_switch3B',
+      'b': {},
+      'B': {}
+    },
+    '11':{
+      image: 'brainandbrawn_gate3A',
+      'b': {},
+      'B': {}
+    },
+    '12':{
+      image: 'brainandbrawn_gate3B',
       'b': {},
       'B': {}
     }
@@ -121,18 +183,22 @@ GraphicsManager.prototype.initializeSprites = function(map) {
       activeSpriteType = map.active[y][x];
       activeCoordinate = this.gridToPixel({x: x, y: y})
       if (activeSpriteType != ' ') {
-        this.active[activeSpriteType] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'levelImages', this.graphicsKeyLookup(activeSpriteType).image);
+        this.active[activeSpriteType] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', this.graphicsKeyLookup(activeSpriteType).image);
         this.activeGroup.add(this.active[activeSpriteType]);
         this.active[activeSpriteType].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
         this.active[activeSpriteType].anchor = {x: 0.5, y: 0.5};
       }
 
       fixedSprite = this.graphicsKeyLookup(map.fixed[y][x]).image;
+      this.fixed[y][x] = {
+        type: map.fixed[y][x]
+      };
+      
       if (typeof fixedSprite === 'string') {
-        this.fixed[y][x] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'levelImages', fixedSprite);
-        this.fixedGroup.add(this.fixed[y][x]);
-        this.fixed[y][x].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
-        this.fixed[y][x].anchor = {x: 0.5, y: 0.5};
+        this.fixed[y][x].sprite = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', fixedSprite);
+        this.fixedGroup.add(this.fixed[y][x].sprite);
+        this.fixed[y][x].sprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+        this.fixed[y][x].sprite.anchor = {x: 0.5, y: 0.5};
       }
     }
   }
@@ -177,11 +243,17 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   var callbackTest = function(gameStateChanges, element){
     return function() {
       var gridPos = this.pixelToGrid({x: this.active[element].x, y: this.active[element].y});
-      for (var i = 0; i < gameStateChanges.length; i++) {
-        //if (gameStateChanges[i]
+      for (var i = 1; i < gameStateChanges[element].length - 1; i++) {
+        if (gameStateChanges[element][i].x === gridPos.x && gameStateChanges[element][i].y === gridPos.y) {
+          var trigger = this.graphicsKeyLookup(gameStateChanges[element][i].eventType)[element];
+          if (typeof trigger === 'function') {
+            results = trigger.call(this, {x: gridPos.x, y: gridPos.y});
+          }
+        }
+
       };
 
-      console.log(gameStateChanges, element, gridPos);
+      //console.log(gameStateChanges, element, gridPos);
     }
   };
 
