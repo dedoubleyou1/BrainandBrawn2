@@ -58,6 +58,14 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'b': {isSolid: true},
       'B': {isSolid: true}
     },
+    '|':{
+      'b': {isSolid: true},
+      'B': {isSolid: true}
+    },
+    '-':{
+      'b': {isSolid: true},
+      'B': {isSolid: true}
+    },
     '.':{
       'b': {isSolid: false, trigger: triggers.killActive('brainyLost')},
       'B': {isSolid: false, trigger: triggers.killActive('brawnyLost')}      
@@ -211,19 +219,41 @@ GameLogic.prototype.isPositionClear = function(character, x, y) {
 
 
 GameLogic.prototype.attemptMove = function(direction, x, y) {
+
   var character = this.gameplayMap.active[y][x];
-  var newPosition = {
-    x: directionLookup[direction].x + x,
-    y: directionLookup[direction].y + y
-  };
-  if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
-    // MOVE TO IT's NEW SPOT
-    this.gameplayMap.active[y][x] = ' ';
-    this.gameplayMap.active[newPosition.y][newPosition.x] = character;
-    return true;
+  if (this.gameplayMap.skinnyWalls) {
+    var newPosition1 = {
+      x: directionLookup[direction].x + x,
+      y: directionLookup[direction].y + y
+    };
+    var newPosition2 = {
+      x: directionLookup[direction].x * 2 + x,
+      y: directionLookup[direction].y * 2 + y
+    };
+    if (character != ' ' && this.isPositionClear(character, newPosition1.x, newPosition1.y) && this.isPositionClear(character, newPosition2.x, newPosition2.y)) {
+      // MOVE TO IT's NEW SPOT
+      this.gameplayMap.active[y][x] = ' ';
+      this.gameplayMap.active[newPosition2.y][newPosition2.x] = character;
+      return true;
+    } else {
+      return false;
+    }
+  
   } else {
-    return false;
+    var newPosition = {
+      x: directionLookup[direction].x + x,
+      y: directionLookup[direction].y + y
+    };
+    if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
+      // MOVE TO IT's NEW SPOT
+      this.gameplayMap.active[y][x] = ' ';
+      this.gameplayMap.active[newPosition.y][newPosition.x] = character;
+      return true;
+    } else {
+      return false;
+    }
   }
+  
 };
 
 

@@ -1,6 +1,8 @@
 GraphicsManager = function(map) {
   this.active = {};
-  this.fixed = []
+  this.fixed = [];
+  this.skinnyWalls = map.skinnyWalls;
+  console.log(this.skinnyWalls);
 
   this.levelGroup = BnBgame.add.group();
   this.levelGroup.enableBody = true;
@@ -84,7 +86,18 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       'b': {},
       'B': {}
     },
+    '|':{
+      image: 'brainandbrawn_wall-tall',
+      'b': {},
+      'B': {}
+    },
+    '-':{
+      image: 'brainandbrawn_wall-long',
+      'b': {},
+      'B': {}
+    },
     '.':{
+      image: 'brainandbrawn_cornerA',
       'b': {},
       'B': {}      
     },
@@ -206,7 +219,19 @@ GraphicsManager.prototype.initializeSprites = function(map) {
 
 GraphicsManager.prototype.getConvertValues = function() {
   var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
-  var levelRatio = this.width / this.height;
+
+  var levelWidth;
+  var levelHeight;
+  if (this.skinnyWalls) {
+    levelWidth = (Settings.GRAPHICS.SKINNYSIZE * (this.width + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.width + 0.5) / 2);
+    levelHeight = (Settings.GRAPHICS.SKINNYSIZE * (this.height + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.height + 0.5) / 2);
+  } else {
+    levelWidth = this.width;
+    levelHeight = this.height;
+  }
+  var levelRatio = levelWidth / levelHeight;
+
+
   var convertValues = {};
 
   if (screenRatio > levelRatio) {
@@ -218,17 +243,44 @@ GraphicsManager.prototype.getConvertValues = function() {
     convertValues.fitType = 'width';
     convertValues.mapRatio = Settings.GAME.WIDTH / this.width;
   }
-  convertValues.spriteScale = convertValues.mapRatio / Settings.GRAPHICS.TILESIZE;
+
+  if (this.skinnyWalls) {
+      if (convertValues.fitType === 'height') {
+      //base on level height
+      
+      convertValues.spriteScale = Settings.GAME.HEIGHT / levelHeight;
+    } else {
+      //base on level width
+      convertValues.spriteScale = Settings.GAME.WIDTH / levelWidth;
+    }
+    
+
+    //var levelRatio = ((Settings.GRAPHICS.SKINNYSIZE * (this.width + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.width + 0.5) / 2)) / ((Settings.GRAPHICS.SKINNYSIZE * (this.height + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.height + 0.5) / 2))
+  } else {
+    convertValues.spriteScale = convertValues.mapRatio / Settings.GRAPHICS.TILESIZE;
+  }
 
   return convertValues;
 };
 
 //manages grid to pixel conversion
 GraphicsManager.prototype.gridToPixel = function(coordinate) {
-  return {
-    x: (coordinate.x + 0.5) * this.convertValues.mapRatio,
-    y: (coordinate.y + 0.5) * this.convertValues.mapRatio
+  
+
+  //Math.floor((Settings.GRAPHICS.TILESIZE + Settings.GRAPHICS.TILESIZE) * (coordinate.x + 0.5) / 2)
+
+  if (this.skinnyWalls) {
+    return {
+      x: ((Settings.GRAPHICS.SKINNYSIZE * (coordinate.x + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (coordinate.x + 0.5) / 2)) * this.convertValues.spriteScale,
+      y: ((Settings.GRAPHICS.SKINNYSIZE * (coordinate.y + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (coordinate.y + 0.5) / 2)) * this.convertValues.spriteScale,
+    }  
+  } else {
+    return {
+      x: (coordinate.x + 0.5) * this.convertValues.mapRatio,
+      y: (coordinate.y + 0.5) * this.convertValues.mapRatio
+    }    
   }
+
 };
 
 GraphicsManager.prototype.pixelToGrid = function(coordinate) {
