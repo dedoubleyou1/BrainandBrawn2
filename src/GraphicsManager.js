@@ -1,13 +1,11 @@
 GraphicsManager = function(map) {
   this.active = {};
   this.fixed = [];
-  this.skinnyWalls = map.skinnyWalls;
-  console.log(this.skinnyWalls);
 
   this.levelGroup = BnBgame.add.group();
   this.levelGroup.enableBody = true;
   this.fixedGroup = BnBgame.add.group(this.levelGroup);
-  this.activeGroup = BnBgame.add.group(this.levelGroup);
+  //this.activeGroup = BnBgame.add.group(this.levelGroup);
 
   this.width = map.width;
   this.height = map.height;
@@ -67,12 +65,14 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
 
 	var keyLookup = {
     'b':{
+      order: 2,
       image: 'brainandbrawn_brainy',
       animations: {},
       'b': {},
       'B': {}
     },
     'B':{
+      order: 4,
       image: 'brainandbrawn_brawny',
       'b': {},
       'B': {}
@@ -82,102 +82,133 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       'B': {}
     },
     '#':{
+      order: 0,
       image: 'brainandbrawn_block',
       'b': {},
       'B': {}
     },
-    '|':{
-      image: 'brainandbrawn_wall-tall',
-      'b': {},
-      'B': {}
-    },
-    '-':{
-      image: 'brainandbrawn_wall-long',
-      'b': {},
-      'B': {}
-    },
     '.':{
-      image: 'brainandbrawn_cornerA',
+      order: 0,
       'b': {},
       'B': {}      
     },
     'E':{
+      order: 3,
       image: 'brainandbrawn_alien',
       'b': {},
       'B': triggers.killSelf
     },
     'g':{
+      order: 0,
       image: 'brainandbrawn_goalBrainy',
       'b': {},
       'B': {}
     },
     'G':{
+      order: 0,
       image: 'brainandbrawn_goalBrawny',
       'b': {},
       'B': {}
     },
     '0':{
+      order: 0,
       image: 'brainandbrawn_gate',
       'b': {},
       'B': {}
     },
     '1':{
-      image: 'brainandbrawn_switch1A',
+      order: 0,
+      image: 'brainandbrawn_switchNew1A',
       'b': triggers.switchBoth('2', '3', '4'),
       'B': {}
     },
     '2':{
-      image: 'brainandbrawn_switch1B',
+      order: 0,
+      image: 'brainandbrawn_switchNew1B',
       'b': {},
       'B': {}
     },
     '3':{
-      image: 'brainandbrawn_gate1A',
+      order: 0,
+      image: 'brainandbrawn_gateNew1A',
       'b': {},
       'B': {}
     },
     '4':{
-      image: 'brainandbrawn_gate1B',
+      order: 0,
+      image: 'brainandbrawn_gateNew1B',
       'b': {},
       'B': {}
     },
     '5':{
-      image: 'brainandbrawn_switch2A',
+      order: 0,
+      image: 'brainandbrawn_switchNew2A',
       'b': triggers.switchBoth('6', '7', '8'),
       'B': {}
     },
     '6':{
-      image: 'brainandbrawn_switch2B',
+      order: 0,
+      image: 'brainandbrawn_switchNew2B',
       'b': {},
       'B': {}
     },
     '7':{
-      image: 'brainandbrawn_gate2A',
+      order: 0,
+      image: 'brainandbrawn_gateNew2C',
       'b': {},
       'B': {}
     },
     '8':{
-      image: 'brainandbrawn_gate2B',
+      order: 0,
+      image: 'brainandbrawn_gateNew2D',
       'b': {},
       'B': {}
     },
     '9':{
-      image: 'brainandbrawn_switch3A',
-      'b': triggers.switchAll('10', '11', '12'),
+      order: 0,
+      image: 'brainandbrawn_switchNew3A',
+      'b': triggers.switchBoth('10', '11', '12'),
       'B': {}
     },
     '10':{
-      image: 'brainandbrawn_switch3B',
+      order: 0,
+      image: 'brainandbrawn_switchNew3B',
       'b': {},
       'B': {}
     },
     '11':{
-      image: 'brainandbrawn_gate3A',
+      order: 0,
+      image: 'brainandbrawn_gateNew3A',
       'b': {},
       'B': {}
     },
     '12':{
-      image: 'brainandbrawn_gate3B',
+      order: 0,
+      image: 'brainandbrawn_gateNew3B',
+      'b': {},
+      'B': {}
+    },
+    '13':{
+      order: 0,
+      image: 'brainandbrawn_switchNew4A',
+      'b': triggers.switchBoth('14', '15', '16'),
+      'B': {}
+    },
+    '14':{
+      order: 0,
+      image: 'brainandbrawn_switchNew4B',
+      'b': {},
+      'B': {}
+    },
+    '15':{
+      order: 0,
+      image: 'brainandbrawn_gateNew4A',
+      'b': {},
+      'B': {}
+    },
+    '16':{
+      order: 0,
+      image: 'brainandbrawn_gateNew4B',
       'b': {},
       'B': {}
     }
@@ -188,7 +219,7 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
 
 GraphicsManager.prototype.initializeSprites = function(map) {
   var activeCoordinate;
-  var fixedSprite;
+  var fixedLookup;
   var activeSpriteType;
   for (var y = 0; y < map.height; y++) {
     this.fixed[y] = [];
@@ -197,21 +228,26 @@ GraphicsManager.prototype.initializeSprites = function(map) {
       activeCoordinate = this.gridToPixel({x: x, y: y})
       if (activeSpriteType != ' ') {
         this.active[activeSpriteType] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', this.graphicsKeyLookup(activeSpriteType).image);
-        this.activeGroup.add(this.active[activeSpriteType]);
+        this.fixedGroup.add(this.active[activeSpriteType]);
         this.active[activeSpriteType].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
         this.active[activeSpriteType].anchor = {x: 0.5, y: 0.5};
+        this.active[activeSpriteType].customZ = y * 10 + this.graphicsKeyLookup(activeSpriteType).order;
+        this.active[activeSpriteType].priority = true;
       }
 
-      fixedSprite = this.graphicsKeyLookup(map.fixed[y][x]).image;
+      fixedLookup = this.graphicsKeyLookup(map.fixed[y][x]);
       this.fixed[y][x] = {
         type: map.fixed[y][x]
       };
       
-      if (typeof fixedSprite === 'string') {
-        this.fixed[y][x].sprite = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', fixedSprite);
+      if (typeof fixedLookup.image === 'string') {
+        this.fixed[y][x].sprite = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', fixedLookup.image);
         this.fixedGroup.add(this.fixed[y][x].sprite);
         this.fixed[y][x].sprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
         this.fixed[y][x].sprite.anchor = {x: 0.5, y: 0.5};
+        this.fixed[y][x].sprite.customZ = y * 10 + fixedLookup.order;
+        this.fixed[y][x].sprite.priority = false;
+
       }
     }
   }
@@ -220,45 +256,22 @@ GraphicsManager.prototype.initializeSprites = function(map) {
 GraphicsManager.prototype.getConvertValues = function() {
   var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
 
-  var levelWidth;
-  var levelHeight;
-  if (this.skinnyWalls) {
-    levelWidth = (Settings.GRAPHICS.SKINNYSIZE * (this.width + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.width + 0.5) / 2);
-    levelHeight = (Settings.GRAPHICS.SKINNYSIZE * (this.height + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.height + 0.5) / 2);
-  } else {
-    levelWidth = this.width;
-    levelHeight = this.height;
-  }
-  var levelRatio = levelWidth / levelHeight;
-
+  var levelRatio = (this.width + 0.5) / (this.height + 0.5);
 
   var convertValues = {};
 
   if (screenRatio > levelRatio) {
     //base on level height
     convertValues.fitType = 'height';
-    convertValues.mapRatio = Settings.GAME.HEIGHT / this.height;
+    convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + 0.5));
   } else {
     //base on level width
     convertValues.fitType = 'width';
-    convertValues.mapRatio = Settings.GAME.WIDTH / this.width;
+    convertValues.scaledTileSize = Math.floor(Settings.GAME.WIDTH / (this.width + 0.5));
   }
-
-  if (this.skinnyWalls) {
-      if (convertValues.fitType === 'height') {
-      //base on level height
-      
-      convertValues.spriteScale = Settings.GAME.HEIGHT / levelHeight;
-    } else {
-      //base on level width
-      convertValues.spriteScale = Settings.GAME.WIDTH / levelWidth;
-    }
-    
-
-    //var levelRatio = ((Settings.GRAPHICS.SKINNYSIZE * (this.width + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.width + 0.5) / 2)) / ((Settings.GRAPHICS.SKINNYSIZE * (this.height + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (this.height + 0.5) / 2))
-  } else {
-    convertValues.spriteScale = convertValues.mapRatio / Settings.GRAPHICS.TILESIZE;
-  }
+ 
+  console.log(convertValues.scaledTileSize);
+  convertValues.spriteScale = convertValues.scaledTileSize / Settings.GRAPHICS.TILESIZE;
 
   return convertValues;
 };
@@ -269,24 +282,18 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
   //Math.floor((Settings.GRAPHICS.TILESIZE + Settings.GRAPHICS.TILESIZE) * (coordinate.x + 0.5) / 2)
 
-  if (this.skinnyWalls) {
-    return {
-      x: ((Settings.GRAPHICS.SKINNYSIZE * (coordinate.x + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (coordinate.x + 0.5) / 2)) * this.convertValues.spriteScale,
-      y: ((Settings.GRAPHICS.SKINNYSIZE * (coordinate.y + 1) / 2) + (Settings.GRAPHICS.TILESIZE * (coordinate.y + 0.5) / 2)) * this.convertValues.spriteScale,
-    }  
-  } else {
-    return {
-      x: (coordinate.x + 0.5) * this.convertValues.mapRatio,
-      y: (coordinate.y + 0.5) * this.convertValues.mapRatio
-    }    
-  }
 
+  return {
+    x: (0.25 * Settings.GRAPHICS.TILESIZE) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
+    y: (0.1875 * Settings.GRAPHICS.TILESIZE) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
+  }    
+  
 };
 
 GraphicsManager.prototype.pixelToGrid = function(coordinate) {
   return {
-    x: Math.floor(coordinate.x / this.convertValues.mapRatio),
-    y: Math.floor(coordinate.y / this.convertValues.mapRatio)
+    x: Math.floor((coordinate.x - (0.25 * Settings.GRAPHICS.TILESIZE)) / this.convertValues.scaledTileSize),
+    y: Math.floor((coordinate.y - (0.1875 * Settings.GRAPHICS.TILESIZE)) / this.convertValues.scaledTileSize)
   }
 }
 
@@ -343,6 +350,35 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   };
 
 };
+
+GraphicsManager.prototype.refresh = function() {
+    for (element in this.active) {
+      this.active[element].customZ = ((this.active[element].y - (0.1875 * Settings.GRAPHICS.TILESIZE)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
+    };
+    this.fixedGroup.sort('customZ', Phaser.Group.SORT_ASCENDING)
+
+    // this.fixedGroup.customSort(function(childA, childB){
+    //   return 0;
+    // });
+
+    // this.fixedGroup.customSort(function(child1, child2) {
+    //   // var child1YOffset = 1;
+    //   // var child2YOffset = 1;
+    //   // if (child1.priority === true) {
+    //   //   child1YOffset = Settings.GRAPHICS.TILESIZE;
+    //   // }
+    //   // if (child2.priority === true) {
+    //   //   child2YOffset = Settings.GRAPHICS.TILESIZE;
+    //   // }
+    //   if (child1.y > child2.y) {
+    //     return 1;
+    //   } else if (child1.y < child2.y) {
+    //     return -1;
+    //   } else {
+    //     return 0;
+    //   }
+    // }, this)
+}
 
 GraphicsManager.prototype.areAnimationsFinished = function() {
   if (this.animationCounter === 0) {

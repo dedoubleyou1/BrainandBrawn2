@@ -95,7 +95,7 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'B': {isSolid: false}
     },
     '3':{
-      'b': {isSolid: false},
+      'b': {isSolid: true},
       'B': {isSolid: true}
     },
     '4':{
@@ -111,7 +111,7 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'B': {isSolid: false}
     },
     '7':{
-      'b': {isSolid: false},
+      'b': {isSolid: true},
       'B': {isSolid: true}
     },
     '8':{
@@ -127,10 +127,26 @@ GameLogic.prototype.mapKeyLookup = function(key) {
       'B': {isSolid: false}
     },
     '11':{
-      'b': {isSolid: false},
+      'b': {isSolid: true},
       'B': {isSolid: true}
     },
     '12':{
+      'b': {isSolid: false},
+      'B': {isSolid: false}
+    },
+    '13':{
+      'b': {isSolid: false, trigger: triggers.unlockGates('14','15','16')},
+      'B': {isSolid: false}
+    },
+    '14':{
+      'b': {isSolid: false},
+      'B': {isSolid: false}
+    },
+    '15':{
+      'b': {isSolid: true},
+      'B': {isSolid: true}
+    },
+    '16':{
       'b': {isSolid: false},
       'B': {isSolid: false}
     }
@@ -221,37 +237,18 @@ GameLogic.prototype.isPositionClear = function(character, x, y) {
 GameLogic.prototype.attemptMove = function(direction, x, y) {
 
   var character = this.gameplayMap.active[y][x];
-  if (this.gameplayMap.skinnyWalls) {
-    var newPosition1 = {
-      x: directionLookup[direction].x + x,
-      y: directionLookup[direction].y + y
-    };
-    var newPosition2 = {
-      x: directionLookup[direction].x * 2 + x,
-      y: directionLookup[direction].y * 2 + y
-    };
-    if (character != ' ' && this.isPositionClear(character, newPosition1.x, newPosition1.y) && this.isPositionClear(character, newPosition2.x, newPosition2.y)) {
-      // MOVE TO IT's NEW SPOT
-      this.gameplayMap.active[y][x] = ' ';
-      this.gameplayMap.active[newPosition2.y][newPosition2.x] = character;
-      return true;
-    } else {
-      return false;
-    }
-  
+ 
+  var newPosition = {
+    x: directionLookup[direction].x + x,
+    y: directionLookup[direction].y + y
+  };
+  if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
+    // MOVE TO IT's NEW SPOT
+    this.gameplayMap.active[y][x] = ' ';
+    this.gameplayMap.active[newPosition.y][newPosition.x] = character;
+    return true;
   } else {
-    var newPosition = {
-      x: directionLookup[direction].x + x,
-      y: directionLookup[direction].y + y
-    };
-    if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
-      // MOVE TO IT's NEW SPOT
-      this.gameplayMap.active[y][x] = ' ';
-      this.gameplayMap.active[newPosition.y][newPosition.x] = character;
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
   
 };

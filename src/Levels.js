@@ -12,6 +12,7 @@ Level.prototype = {
 		this.inputManager = new InputManager();
 	},
 	update: function() {
+		this.graphicsManager.refresh();
 		if (this.inputManager.state != 'ready' && this.inputManager.state != 'waiting') {
 			this.results = this.gameLogic.gravitySwitch(this.inputManager.state);
 			this.graphicsManager.updateGraphics(this.results);
@@ -22,7 +23,11 @@ Level.prototype = {
 			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost') {
 				this.state.start('level'+(this.level));
 			} else if (this.results.endState === 'missionSuccess') {
-				this.state.start('level'+(this.level+1));
+				if (this.level+1 === Settings.levels.length) {
+					this.state.start('level0');
+				} else {
+					this.state.start('level'+(this.level+1));
+				}
 			}
 		}
 	}

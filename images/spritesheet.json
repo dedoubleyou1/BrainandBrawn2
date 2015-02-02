@@ -1,324 +1,356 @@
 {"frames": [
 
 {
-	"filename": "brainandbrawn_alien",
-	"frame": {"x":2,"y":2,"w":160,"h":160},
+	"filename": "brainandbrawn-28",
+	"frame": {"x":1292,"y":292,"w":256,"h":256},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":32,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_alien",
+	"frame": {"x":1034,"y":558,"w":251,"h":260},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":28,"w":251,"h":260},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_block",
-	"frame": {"x":2,"y":164,"w":160,"h":160},
+	"frame": {"x":2,"y":2,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_brainy",
-	"frame": {"x":326,"y":820,"w":150,"h":148},
+	"frame": {"x":1808,"y":2,"w":152,"h":207},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":5,"y":12,"w":150,"h":148},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":52,"y":57,"w":152,"h":207},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_brawny",
-	"frame": {"x":2,"y":326,"w":160,"h":160},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
-},
-{
-	"filename": "brainandbrawn_cornerA",
-	"frame": {"x":233,"y":974,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerB",
-	"frame": {"x":267,"y":974,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerC",
-	"frame": {"x":301,"y":974,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerD",
-	"frame": {"x":983,"y":164,"w":32,"h":32},
+	"frame": {"x":1550,"y":292,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":33}
-},
-{
-	"filename": "brainandbrawn_cornerE",
-	"frame": {"x":983,"y":198,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":33}
-},
-{
-	"filename": "brainandbrawn_cornerF",
-	"frame": {"x":983,"y":232,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":33}
-},
-{
-	"filename": "brainandbrawn_cornerG",
-	"frame": {"x":2,"y":974,"w":32,"h":33},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":1,"y":0,"w":32,"h":33},
-	"sourceSize": {"w":33,"h":33}
-},
-{
-	"filename": "brainandbrawn_cornerH",
-	"frame": {"x":983,"y":266,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerI",
-	"frame": {"x":198,"y":974,"w":33,"h":32},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":32},
-	"sourceSize": {"w":33,"h":33}
-},
-{
-	"filename": "brainandbrawn_cornerJ",
-	"frame": {"x":983,"y":300,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerK",
-	"frame": {"x":335,"y":970,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerL",
-	"frame": {"x":369,"y":970,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "brainandbrawn_cornerM",
-	"frame": {"x":403,"y":970,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":32,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_floor",
-	"frame": {"x":2,"y":488,"w":160,"h":160},
+	"frame": {"x":1292,"y":550,"w":256,"h":256},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":32,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate",
-	"frame": {"x":2,"y":650,"w":160,"h":160},
+	"frame": {"x":2,"y":292,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate1A",
-	"frame": {"x":2,"y":812,"w":160,"h":160},
+	"frame": {"x":2,"y":582,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate1B",
-	"frame": {"x":198,"y":2,"w":160,"h":160},
+	"frame": {"x":2,"y":872,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate2A",
-	"frame": {"x":360,"y":2,"w":160,"h":160},
+	"frame": {"x":2,"y":1162,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate2B",
-	"frame": {"x":522,"y":2,"w":160,"h":160},
+	"frame": {"x":2,"y":1452,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate3A",
-	"frame": {"x":684,"y":2,"w":160,"h":160},
+	"frame": {"x":2,"y":1742,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate3B",
-	"frame": {"x":846,"y":2,"w":160,"h":160},
+	"frame": {"x":260,"y":2,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate4A",
-	"frame": {"x":164,"y":164,"w":160,"h":160},
+	"frame": {"x":518,"y":2,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_gate4B",
-	"frame": {"x":164,"y":326,"w":160,"h":160},
+	"frame": {"x":776,"y":2,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew1A",
+	"frame": {"x":1287,"y":808,"w":244,"h":250},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":32,"w":244,"h":250},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew1B",
+	"frame": {"x":1256,"y":1060,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew2A",
+	"frame": {"x":518,"y":580,"w":244,"h":250},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":32,"w":244,"h":250},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew2B",
+	"frame": {"x":518,"y":832,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew2C",
+	"frame": {"x":1034,"y":2,"w":256,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew2D",
+	"frame": {"x":1034,"y":292,"w":256,"h":264},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":24,"w":256,"h":264},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew3A",
+	"frame": {"x":764,"y":580,"w":244,"h":250},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":32,"w":244,"h":250},
+	"sourceSize": {"w":257,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew3B",
+	"frame": {"x":764,"y":832,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew4A",
+	"frame": {"x":1010,"y":820,"w":244,"h":250},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":32,"w":244,"h":250},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_gateNew4B",
+	"frame": {"x":1010,"y":1072,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_goalBrainy",
-	"frame": {"x":164,"y":488,"w":160,"h":160},
+	"frame": {"x":1292,"y":2,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_goalBrawny",
-	"frame": {"x":164,"y":650,"w":160,"h":160},
+	"frame": {"x":1550,"y":2,"w":256,"h":288},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":288},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch1A",
-	"frame": {"x":164,"y":812,"w":160,"h":160},
+	"frame": {"x":260,"y":292,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch1B",
-	"frame": {"x":335,"y":164,"w":160,"h":160},
+	"frame": {"x":260,"y":580,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch2A",
-	"frame": {"x":497,"y":164,"w":160,"h":160},
+	"frame": {"x":260,"y":868,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch2B",
-	"frame": {"x":659,"y":164,"w":160,"h":160},
+	"frame": {"x":260,"y":1156,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch3A",
-	"frame": {"x":821,"y":164,"w":160,"h":160},
+	"frame": {"x":260,"y":1444,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch3B",
-	"frame": {"x":326,"y":334,"w":160,"h":160},
+	"frame": {"x":260,"y":1732,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch4A",
-	"frame": {"x":326,"y":496,"w":160,"h":160},
+	"frame": {"x":518,"y":292,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
 	"filename": "brainandbrawn_switch4B",
-	"frame": {"x":326,"y":658,"w":160,"h":160},
+	"frame": {"x":776,"y":292,"w":256,"h":286},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":160},
-	"sourceSize": {"w":160,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":256,"h":286},
+	"sourceSize": {"w":256,"h":288}
 },
 {
-	"filename": "brainandbrawn_wall-long",
-	"frame": {"x":36,"y":974,"w":160,"h":32},
+	"filename": "brainandbrawn_switchNew1A",
+	"frame": {"x":1550,"y":550,"w":244,"h":254},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":32},
-	"sourceSize": {"w":160,"h":32}
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":28,"w":244,"h":254},
+	"sourceSize": {"w":256,"h":288}
 },
 {
-	"filename": "brainandbrawn_wall-tall",
-	"frame": {"x":164,"y":2,"w":32,"h":160},
+	"filename": "brainandbrawn_switchNew1B",
+	"frame": {"x":518,"y":1078,"w":244,"h":244},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":160},
-	"sourceSize": {"w":32,"h":160}
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_switchNew2A",
+	"frame": {"x":1796,"y":550,"w":244,"h":254},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":28,"w":244,"h":254},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_switchNew2B",
+	"frame": {"x":764,"y":1078,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_switchNew3A",
+	"frame": {"x":1550,"y":806,"w":244,"h":254},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":28,"w":244,"h":254},
+	"sourceSize": {"w":257,"h":288}
+},
+{
+	"filename": "brainandbrawn_switchNew3B",
+	"frame": {"x":1502,"y":1062,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":257,"h":288}
+},
+{
+	"filename": "brainandbrawn_switchNew4A",
+	"frame": {"x":1796,"y":806,"w":244,"h":254},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":28,"w":244,"h":254},
+	"sourceSize": {"w":256,"h":288}
+},
+{
+	"filename": "brainandbrawn_switchNew4B",
+	"frame": {"x":1256,"y":1306,"w":244,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":38,"w":244,"h":244},
+	"sourceSize": {"w":256,"h":288}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":1024,"h":1024},
+	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b4db2970261cc00a56de8f97e54f12a3:35890ff6dbcce48c06804c2277b35b05:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3396bc683ede932df44174c6f48b0ea5:578169eeac3e61a9f998c53d4c4bbf55:729adc6043343cfda41c447ce8f464d6$"
 }
 }
