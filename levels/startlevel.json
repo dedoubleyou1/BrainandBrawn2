@@ -4,8 +4,8 @@
 	"height": 7,
 	"tutorial": [
 		"tutorial1",
-        "slidesIntro2",
-        "slidesIntro3"
+        "tutorial2",
+        "tutorial3"
 	],
 	"active": [
 	    [" "," "," "," "," "," "," "," "," "],

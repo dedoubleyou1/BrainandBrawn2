@@ -1,7 +1,11 @@
 {	
-	"name": "Split Level",
+	"name": "Open Level",
 	"width": 10,
 	"height":14,
+	"tutorial": [
+		"tutorial4",
+        "tutorial5"
+	],
 	"active": [
 	    [" "," "," "," "," "," "," "," "," "," "],
 	    

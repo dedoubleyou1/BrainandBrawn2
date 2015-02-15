@@ -58,6 +58,14 @@ Preloader.prototype = {
 
         // New Tutorial images
         this.load.image('tutorial1','images/tutorials-01.png');
+        this.load.image('tutorial2','images/tutorials-02.png');
+        this.load.image('tutorial3','images/tutorials-03.png');
+        this.load.image('tutorial4','images/tutorials-04.png');
+        this.load.image('tutorial5','images/tutorials-05.png');
+        this.load.image('tutorial6','images/tutorials-06.png');
+        this.load.image('tutorial7','images/tutorials-07.png');
+        this.load.image('tutorial8','images/tutorials-08.png');
+        this.load.image('tutorial9','images/tutorials-09.png');
 
 
         //instruction slides

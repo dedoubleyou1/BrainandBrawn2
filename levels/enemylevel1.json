@@ -2,6 +2,10 @@
 	"name": "Enemy Level",
 	"width": 10,
 	"height": 10,
+	"tutorial": [
+		"tutorial6",
+        "tutorial7"
+	],
 	"active": [
 	    [" "," "," "," "," "," "," "," "," "," "],
 	    
