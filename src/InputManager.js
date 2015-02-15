@@ -1,5 +1,5 @@
-InputManager = function() {
-	this.state = 'ready';
+InputManager = function(initialState) {
+	this.state = initialState;
 
 	this.cursors = BnBgame.input.keyboard.createCursorKeys();
 

@@ -4,6 +4,7 @@ GraphicsManager = function(map) {
 
   this.levelGroup = BnBgame.add.group();
   this.levelGroup.enableBody = true;
+  this.backgroundGroup = BnBgame.add.group(this.levelGroup)
   this.fixedGroup = BnBgame.add.group(this.levelGroup);
   //this.activeGroup = BnBgame.add.group(this.levelGroup);
 
@@ -112,7 +113,7 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     },
     '0':{
       order: 0,
-      image: 'brainandbrawn_gate',
+      image: 'brainandbrawn_pipe0',
       'b': {},
       'B': {}
     },
@@ -130,13 +131,13 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     },
     '3':{
       order: 0,
-      image: 'brainandbrawn_gateNew1A',
+      image: 'brainandbrawn_gateNew1C',
       'b': {},
       'B': {}
     },
     '4':{
       order: 0,
-      image: 'brainandbrawn_gateNew1B',
+      image: 'brainandbrawn_gateNew1D',
       'b': {},
       'B': {}
     },
@@ -178,13 +179,13 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     },
     '11':{
       order: 0,
-      image: 'brainandbrawn_gateNew3A',
+      image: 'brainandbrawn_gateNew3C',
       'b': {},
       'B': {}
     },
     '12':{
       order: 0,
-      image: 'brainandbrawn_gateNew3B',
+      image: 'brainandbrawn_gateNew3D',
       'b': {},
       'B': {}
     },
@@ -202,13 +203,13 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     },
     '15':{
       order: 0,
-      image: 'brainandbrawn_gateNew4A',
+      image: 'brainandbrawn_gateNew4C',
       'b': {},
       'B': {}
     },
     '16':{
       order: 0,
-      image: 'brainandbrawn_gateNew4B',
+      image: 'brainandbrawn_gateNew4D',
       'b': {},
       'B': {}
     }
@@ -221,11 +222,20 @@ GraphicsManager.prototype.initializeSprites = function(map) {
   var activeCoordinate;
   var fixedLookup;
   var activeSpriteType;
+  var bgSpriteHolder;
   for (var y = 0; y < map.height; y++) {
     this.fixed[y] = [];
     for (var x = 0; x < map.width; x++) {
+
       activeSpriteType = map.active[y][x];
       activeCoordinate = this.gridToPixel({x: x, y: y})
+
+      bgSpriteHolder = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
+      this.backgroundGroup.add(bgSpriteHolder);
+      bgSpriteHolder.anchor = {x: 0.5, y: 0.5};
+      bgSpriteHolder.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+
+
       if (activeSpriteType != ' ') {
         this.active[activeSpriteType] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', this.graphicsKeyLookup(activeSpriteType).image);
         this.fixedGroup.add(this.active[activeSpriteType]);
@@ -263,15 +273,19 @@ GraphicsManager.prototype.getConvertValues = function() {
   if (screenRatio > levelRatio) {
     //base on level height
     convertValues.fitType = 'height';
-    convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + 0.5));
+    convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
+    // this.xOffset = Settings.GAME.WIDTH - (convertValues.scaledTileSize * this.width)
+    // this.yOffset = 0;
   } else {
     //base on level width
     convertValues.fitType = 'width';
-    convertValues.scaledTileSize = Math.floor(Settings.GAME.WIDTH / (this.width + 0.5));
+    convertValues.scaledTileSize = Math.floor(Settings.GAME.WIDTH / (this.width + Settings.GRAPHICS.BORDER_SIZE * 2));
   }
  
   console.log(convertValues.scaledTileSize);
   convertValues.spriteScale = convertValues.scaledTileSize / Settings.GRAPHICS.TILESIZE;
+  convertValues.borderX = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize;
+  convertValues.borderY = (Settings.GRAPHICS.BORDER_SIZE + (Settings.GRAPHICS.OFFSET / 2)) * convertValues.scaledTileSize;
 
   return convertValues;
 };
@@ -284,16 +298,16 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
 
   return {
-    x: (0.25 * Settings.GRAPHICS.TILESIZE) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
-    y: (0.1875 * Settings.GRAPHICS.TILESIZE) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
+    x: (this.convertValues.borderX) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
+    y: (this.convertValues.borderY) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
   }    
   
 };
 
 GraphicsManager.prototype.pixelToGrid = function(coordinate) {
   return {
-    x: Math.floor((coordinate.x - (0.25 * Settings.GRAPHICS.TILESIZE)) / this.convertValues.scaledTileSize),
-    y: Math.floor((coordinate.y - (0.1875 * Settings.GRAPHICS.TILESIZE)) / this.convertValues.scaledTileSize)
+    x: Math.floor((coordinate.x - (this.convertValues.borderX)) / this.convertValues.scaledTileSize),
+    y: Math.floor((coordinate.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize)
   }
 }
 
@@ -353,7 +367,7 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
 GraphicsManager.prototype.refresh = function() {
     for (element in this.active) {
-      this.active[element].customZ = ((this.active[element].y - (0.1875 * Settings.GRAPHICS.TILESIZE)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
+      this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };
     this.fixedGroup.sort('customZ', Phaser.Group.SORT_ASCENDING)
 

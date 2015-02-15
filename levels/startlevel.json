@@ -2,6 +2,11 @@
 	"name": "Start Level",
 	"width": 9,
 	"height": 7,
+	"tutorial": [
+		"tutorial1",
+        "slidesIntro2",
+        "slidesIntro3"
+	],
 	"active": [
 	    [" "," "," "," "," "," "," "," "," "],
 	    

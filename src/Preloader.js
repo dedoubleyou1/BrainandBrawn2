@@ -55,6 +55,11 @@ Preloader.prototype = {
 
         // Static Images
 
+
+        // New Tutorial images
+        this.load.image('tutorial1','images/tutorials-01.png');
+
+
         //instruction slides
         this.load.image('slidesIntro1','images/screens_mobile-03.png');
         this.load.image('slidesIntro2','images/screens_mobile-04.png');
@@ -81,7 +86,7 @@ Preloader.prototype = {
         //HUD & Title && reset button
         // this.load.image('imageHUD','images/HUD-02.png');
         // this.load.spritesheet('rButton', 'images/HUD-04.png',60,60);
-        this.load.image('imageTitle','images/screens_mobile-01.png');
+        this.load.image('imageTitle','images/titlescreen-01.png');
 
         // Sound
 

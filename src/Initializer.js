@@ -1,4 +1,24 @@
-var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.AUTO, 'game', {
+Settings.GAME.WIDTH = window.innerWidth * window.devicePixelRatio;
+Settings.GAME.HEIGHT = window.innerHeight * window.devicePixelRatio;
+
+  var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
+
+  var defaultRatio = Settings.GAME.STANDARD_WIDTH / Settings.GAME.STANDARD_HEIGHT;
+
+  var convertValues = {};
+
+  if (screenRatio > defaultRatio) {
+    //base on level height
+    Settings.GAME.STRETCH = 'height';
+    Settings.GAME.SCALE = Settings.GAME.HEIGHT / Settings.GAME.STANDARD_HEIGHT;
+  } else {
+    //base on level width
+    Settings.GAME.STRETCH = 'width';
+    Settings.GAME.SCALE = Settings.GAME.WIDTH / Settings.GAME.STANDARD_WIDTH;
+  }
+
+
+var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.CANVAS, 'game', {
 	preload: function() {
 		// Preload loading bar images.
 		// this.load.image('preloaderBg','images/preloaderBg.png');
