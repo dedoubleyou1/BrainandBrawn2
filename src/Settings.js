@@ -20,6 +20,10 @@ Settings = {
     MAP_HEIGHT: 1536
   },
   levels: [
+  
+    'levels/startlevel0.json',
+    'levels/openlevel2.json',
+    'levels/gatelevel.json',
     'levels/startlevel.json',
     'levels/splitlevel.json',
     'levels/fliplevel.json',
@@ -28,7 +32,6 @@ Settings = {
     'levels/passagelevel.json',
     'levels/enemylevel1.json',
     'levels/wallgatelevel.json',
-    'levels/gatetunnellevel.json',
-    'levels/gatelevel.json'
+    'levels/gatetunnellevel.json'
   ]
 }
