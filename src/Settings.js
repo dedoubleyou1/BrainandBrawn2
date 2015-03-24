@@ -22,15 +22,19 @@ Settings = {
   levels: [
   
     'levels/startlevel0.json',
-    'levels/openlevel2.json',
-    'levels/gatelevel.json',
+    'levels/startlevel1.json',
+    'levels/startlevel2.json',
+    'levels/startlevel3.json',
+    'levels/startlevel4.json',
     'levels/startlevel.json',
     'levels/splitlevel.json',
     'levels/fliplevel.json',
     'levels/teamlevel.json',
     'levels/openlevel.json',
+    'levels/openlevel2.json',
     'levels/passagelevel.json',
     'levels/enemylevel1.json',
+    'levels/gatelevel.json',
     'levels/wallgatelevel.json',
     'levels/gatetunnellevel.json'
   ]
