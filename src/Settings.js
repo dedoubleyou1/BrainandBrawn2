@@ -33,6 +33,7 @@ Settings = {
     'levels/openlevel0.json',
     'levels/passagelevel.json',
     'levels/enemylevel1.json',
+    'levels/enemylevel2.json',    
     'levels/gatelevel.json',
     'levels/wallgatelevel.json',
     'levels/gatetunnellevel.json'
