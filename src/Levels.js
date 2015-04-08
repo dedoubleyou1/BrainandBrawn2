@@ -49,7 +49,7 @@ Level.prototype = {
 		this.tutorialImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
 		this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
-
+		
 		BnBgame.input.onTap.add(function() {
 			this.currentTutorial += 1;
 			this.tutorialImage.destroy();
