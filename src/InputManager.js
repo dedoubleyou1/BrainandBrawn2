@@ -10,23 +10,18 @@ InputManager = function(initialState) {
 
 	this.startPoint = {}
 	BnBgame.input.onDown.add(function(pointer) {
-		if (this.state === 'ready') {
 			this.startPoint.x = pointer.clientX;
 			this.startPoint.y = pointer.clientY;
-			this.state = 'swiping';
-		}
 	}, this);
 
 	BnBgame.input.onUp.add(function(pointer) {
-		if (this.state === 'swiping') {
 			this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
-		}
 	}, this);
 }
 
 InputManager.prototype.setDirection = function(direction){
 	return function() {
-		if (this.state === 'swiping') {
+		if (this.state === 'swiping' || this.state === 'ready') {
 			this.state = direction;
 		}
 	};

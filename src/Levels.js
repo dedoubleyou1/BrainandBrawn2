@@ -73,8 +73,6 @@ Level.prototype = {
 			} else if (swipeDirection === 'up' || swipeDirection === 'down') {
 				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
 			}
-
-
 		} else if (this.inputManager.state != 'ready' && this.inputManager.state != 'waiting') {
 			this.results = this.gameLogic.gravitySwitch(this.inputManager.state);
 			this.graphicsManager.updateGraphics(this.results);
