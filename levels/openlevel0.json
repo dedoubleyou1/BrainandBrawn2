@@ -2,6 +2,7 @@
 	"name": "Open Level 0",
 	"width": 8,
 	"height":6,
+	"starLevels": [10,5],
 	"tutorial": [
 		"tutorial4",
         "tutorial5"

@@ -62,6 +62,18 @@ var directionLookup = {
   }
 };
 
+var getDirection = function(vector) {
+	if (vector.x < 0 && Math.abs(vector.x) >= Math.abs(vector.y)) {
+		return 'left';
+	} else if (vector.x >= 0 && Math.abs(vector.x) >= Math.abs(vector.y)){
+		return 'right';
+	} else if (vector.y <= 0 && Math.abs(vector.y) >= Math.abs(vector.x)){
+		return 'up';
+	} else if (vector.y > 0 && Math.abs(vector.y) >= Math.abs(vector.x)){
+		return 'down';
+	}
+}
+
 var easingFunctions = {
 	b: function ( t ) {
 		var p = 0.8;

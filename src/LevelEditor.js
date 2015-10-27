@@ -1,4 +1,4 @@
-LevelEditor = function() {
+ LevelEditor = function() {
 	this.width = 8;
 	this.height = 10;
 	this.touchMap = []

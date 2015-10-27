@@ -11,6 +11,49 @@ Level.prototype = {
 		this.graphicsManager = new GraphicsManager(this.levelData);
 		this.inputManager = new InputManager('waiting');
 		this.tutorialFinished = false;
+		this.levelFinished = false;
+		this.numMoves = 0;
+
+		//set STAR levels
+		this.currentStarLevel = 3;
+  	this.starLevels = [20,10];
+  	if(typeof this.levelData.starLevels != 'undefined'){
+  		this.starLevels = this.levelData.starLevels;
+  	}
+
+		//DEBUG input
+		this.nextKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.N);
+		this.nextKey.onUp.add(this.skipLevel,this);
+		this.restartKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.R);
+		this.restartKey.onUp.add(this.restartLevel,this);
+		this.printKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.P);
+		this.printKey.onUp.add(this.printMap,this);
+		//end DEBUG input
+
+		//HUD elements
+		//this.spriteHUD = BnBgame.add.sprite(0,0,'imageHUD');
+		//this.spriteHUD.width = Settings.GAME.WIDTH;
+		this.levelText = BnBgame.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+  	this.moveText = BnBgame.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+  	
+  	this.restartButton = BnBgame.add.image(570,2,'rButton');
+  	this.restartButtonBig = BnBgame.add.image(500,-30,'rButton');
+  	this.restartButtonBig.scale.setTo(2.5,2.5);
+  	this.restartButtonBig.inputEnabled = true;
+  	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
+  	this.restartButtonBig.alpha = 0;
+  	
+  	this.menuButton = BnBgame.add.image(20,8,'mButton');
+  	this.menuButton.scale.setTo(0.8,0.8);
+  	this.menuButtonBig = BnBgame.add.image(0,-12,'mButton');
+  	this.menuButtonBig.scale.setTo(2,2);
+  	this.menuButtonBig.inputEnabled = true;
+  	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
+  	this.menuButtonBig.alpha = 0;
+
+  	this.starsHUD = BnBgame.add.group();  	
+  	this.drawStarsHUD(3);
+
 
 		if (typeof this.levelData.tutorial != 'undefined') {
 			this.currentTutorial = 0;
@@ -22,25 +65,61 @@ Level.prototype = {
 	},
 	update: function() {
 		this.graphicsManager.refresh();
-		if (this.inputManager.state != 'ready' && this.inputManager.state != 'waiting') {
+		if (this.inputManager.state === 'swiping') {
+			var swipeOffset = this.inputManager.getSwipingOffset();
+			var swipeDirection = getDirection(swipeOffset);
+			if (swipeDirection === 'left' || swipeDirection === 'right') {
+				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
+			} else if (swipeDirection === 'up' || swipeDirection === 'down') {
+				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
+			}
+
+
+		} else if (this.inputManager.state != 'ready' && this.inputManager.state != 'waiting') {
 			this.results = this.gameLogic.gravitySwitch(this.inputManager.state);
 			this.graphicsManager.updateGraphics(this.results);
 			this.inputManager.state = 'waiting';
 		}
-		if (this.graphicsManager.areAnimationsFinished() && this.inputManager.state === 'waiting' && this.tutorialFinished) {
+		if (this.graphicsManager.areAnimationsFinished() && this.inputManager.state === 'waiting' && this.tutorialFinished && !this.levelFinished) {
 			this.inputManager.state = 'ready';
-			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost') {
+
+			//if the move was successful (something moved) - update the move counter
+			if(this.results.moveSuccess){
+				this.playSound('thunk');
+				//update MOVE counter
+				if(this.numMoves<99)this.numMoves++;
+				//Display # of Moves
+				var moveTextDisplay = "";
+
+			  moveTextDisplay = 'Moves: ' + this.numMoves;
+
+			  if(this.numMoves <=this.starLevels[1]){
+			  	moveTextDisplay += "/" + this.starLevels[1];	
+			  }
+			  else if(this.numMoves <=this.starLevels[0]){
+			  	moveTextDisplay += "/" + this.starLevels[0];
+			  }
+			  this.moveText.text = moveTextDisplay;
+
+			  if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[1]){
+			  	this.drawStarsHUD(2);
+			  }
+			  else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[0]){
+			  	this.drawStarsHUD(1);
+			  }
+			}
+
+			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnBgame.spikeyDeath) {
+				this.playSound('death');
 				this.state.start('level'+(this.level));
-			} else if (this.results.endState === 'missionSuccess') {
-				if (this.level+1 === Settings.levels.length) {
-					this.state.start('MainMenu');
-				} else {
-					this.state.start('level'+(this.level+1));
-				}
+				BnBgame.spikeyDeath = false;//TEMP HACK
+			} else if (this.results.endState === 'missionSuccess'){
+				this.loadVictory();
 			}
 		}
 	},
 	startTutorial: function() {
+		this.playSound('select');
 		this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
 	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
@@ -50,20 +129,239 @@ Level.prototype = {
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
 		this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
 		
-		BnBgame.input.onTap.add(function() {
-			this.currentTutorial += 1;
-			this.tutorialImage.destroy();
+		//If player taps OR presses any key - change slides
+		BnBgame.input.onTap.add(this.nextTutorial, this);
+		BnBgame.input.keyboard.addCallbacks(this,null,this.nextTutorial);
+	},
 
-			if (this.currentTutorial === this.levelData.tutorial.length) {
-				this.fadeOutGraphic.visible = false;
-				this.tutorialFinished = true;
-				this.inputManager.state = 'ready';
-			} else {
-				this.tutorialImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
-				this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-				this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
+	nextTutorial: function()
+	{
+		if(this.tutorialFinished) return;
+
+		this.playSound('select');
+
+		this.currentTutorial += 1;
+		this.tutorialImage.destroy();
+
+		if (this.currentTutorial === this.levelData.tutorial.length) {
+			this.fadeOutGraphic.visible = false;
+			this.tutorialFinished = true;
+			this.inputManager.state = 'ready';
+		} else {
+			this.tutorialImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+			this.tutorialImage.anchor = {x: 0.5, y: 0.5};
+			this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
+		}
+	},
+
+	loadVictory: function()
+	{
+		if(this.tutorialFinished){
+			this.playSound('finish');
+			this.levelFinished = true;
+			this.inputManager.state = 'waiting';
+
+			if(this.currentStarLevel > BnBgame.levelStatus[this.level]){
+				BnBgame.levelStatus[this.level] = this.currentStarLevel;
+			}
+			if(BnBgame.levelStatus[this.level+1] == -1){
+				BnBgame.levelStatus[this.level+1] = 0; //unlocked
 			}
 
-		}, this);
-	}
+			this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
+	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
+	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
+	    this.fadeOutGraphic.endFill();
+
+	    this.victoryImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 3, ('star'+this.currentStarLevel));
+			this.victoryImage.anchor = {x: 0.5, y: 0.5};
+			// this.victoryImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
+	  
+			//input for next level
+			// BnBgame.input.onTap.add(this.nextLevel, this);
+			// BnBgame.input.keyboard.addCallbacks(this,null,this.nextLevel);
+			this.newGroup = BnBgame.add.group();
+
+			this.restartButtonBig.alpha = 1;
+			this.restartButtonBig.x = 80;
+			this.restartButtonBig.y = 600;
+			this.newGroup.add(this.restartButtonBig);
+
+			this.playButton = BnBgame.add.image(400,600,'pButton');
+			this.playButton.scale.setTo(2.5,2.5);
+			this.playButton.inputEnabled = true;
+  		this.playButton.events.onInputDown.add(this.nextLevel,this);
+			this.newGroup.add(this.playButton);
+
+
+		}
+	},
+
+	nextLevel: function()
+	{
+		if(this.tutorialFinished)
+		{
+			this.playSound('select');
+			BnBgame.input.keyboard.addCallbacks(this,null,null);
+			//load next level (unless we're at the end)
+			if (this.level+1 === Settings.levels.length) {
+				this.state.start('levelSelect');
+			} else {
+				this.state.start('level'+(this.level+1));
+			}
+		}
+	},
+
+	restartLevel: function()
+	{
+		if(this.tutorialFinished){
+			this.playSound('select');
+			this.state.start('level'+this.level);
+		}
+	},
+
+	returnToLevelSelect: function()
+	{
+		if(this.tutorialFinished){
+			this.playSound('select');
+			this.state.start('levelSelect')
+		}
+	},
+
+	skipLevel: function()
+	{
+		this.numMoves = 99;
+		if(BnBgame.levelStatus[this.level] < 1) BnBgame.levelStatus[this.level] = 1;
+		if(BnBgame.levelStatus[this.level+1] == -1){
+			BnBgame.levelStatus[this.level+1] = 0; //unlocked
+		}
+		this.nextLevel();
+	},
+
+	drawStarsHUD: function(numStars)
+	{
+		this.currentStarLevel = numStars;
+		this.starsHUD.removeAll(true);
+
+		var starX = 510;
+		var starY = 30;
+
+		if(numStars == 3){
+			var scale = 0.5;
+
+			var star1 = BnBgame.add.image(0,0,'star');
+			star1.anchor = {x: 0.5, y: 0.5};
+			star1.scale.setTo(scale,scale);
+			var star2 = BnBgame.add.image(0,0,'star');
+			star2.anchor = {x: 0.5, y: 0.5};
+			star2.scale.setTo(scale,scale);
+			var star3 = BnBgame.add.image(0,0,'star');
+			star3.anchor = {x: 0.5, y: 0.5};
+			star3.scale.setTo(scale,scale);
+
+			star1.x = starX-13;
+			star1.y = starY-10;
+			star2.x = starX+13;
+			star2.y = starY-10;
+			star3.x = starX;
+			star3.y = starY+10;
+
+			this.starsHUD.add(star1);
+			this.starsHUD.add(star2);
+			this.starsHUD.add(star3);
+		} else if(numStars == 2){
+			var scale = 0.5;
+
+			var star1 = BnBgame.add.image(0,0,'star');
+			star1.anchor = {x: 0.5, y: 0.5};
+			star1.scale.setTo(scale,scale);
+			var star2 = BnBgame.add.image(0,0,'star');
+			star2.anchor = {x: 0.5, y: 0.5};
+			star2.scale.setTo(scale,scale);
+
+			this.starsHUD.add(star1);
+			this.starsHUD.add(star2);
+
+			star1.x = starX-10;
+			star1.y = starY;
+			star2.x = starX+15;
+			star2.y = starY;
+		} else {
+			var scale = 0.5;
+
+			var star1 = BnBgame.add.image(0,0,'star');
+			star1.anchor = {x: 0.5, y: 0.5};
+			star1.scale.setTo(scale,scale);
+
+			this.starsHUD.add(star1);
+
+			star1.x = starX;
+			star1.y = starY;
+		}
+	},
+
+	printMap: function()
+	{
+	  var string1 = "{\n";
+	  string1 += "\"name\": \"Exported Level\",\n";
+	  string1 += "\"width\": " + this.levelData.height +",\n";
+	  string1 += "\"height\": " + this.levelData.width + ",\n";
+	  
+	  //ACTIVE array
+	  var string2 = "\"active\": [\n";
+	  for(var i=0;i<this.levelData.width;i++)
+	  {
+	    string2 += "[";
+	    for(var j=0;j<this.levelData.height;j++)
+	    {
+	      var stringToAdd = this.levelData.active[j][i];
+	      string2 += "\"" + stringToAdd + "\"";
+
+	      //add comma if not the last element
+	      if(j < this.levelData.height-1) string2 += ","; 
+	    }
+	    if(i < this.levelData.width-1) {
+	      string2 += "],\n";
+	    }
+	    else{
+	      string2 += "]\n";
+	    }
+	  } 
+	  string2 += "],\n" 
+
+	  //FIXED array
+	  var string3 = "\"fixed\": [\n";
+	  for(var i=0;i<this.levelData.width;i++)
+	  {
+	    string3 += "[";
+	    for(var j=0;j<this.levelData.height;j++)
+	    {
+	      var stringToAdd = this.levelData.fixed[j][i];
+	      string3 += "\"" + stringToAdd + "\"";
+
+	      //add comma if not the last element
+	      if(j < this.levelData.height-1) string3 += ","; 
+
+
+	    }
+	    if(i < this.levelData.width-1) {
+	      string3 += "],\n";
+	    }
+	    else{
+	      string3 += "]\n";
+	    }
+
+	  } 
+	  string3 += "]\n" 
+
+	  console.log(string1 + "\n" + string2 + "\n" + string3 + "\n}");
+	},
+
+	playSound: function(snd)
+	{
+		var sound = BnBgame.add.audio(snd);
+  	sound.play();
+
+	},
+
 };

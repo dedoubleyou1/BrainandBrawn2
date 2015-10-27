@@ -10,22 +10,23 @@ InputManager = function(initialState) {
 
 	this.startPoint = {}
 	BnBgame.input.onDown.add(function(pointer) {
-		this.startPoint.x = pointer.clientX;
-		this.startPoint.y = pointer.clientY;
+		if (this.state === 'ready') {
+			this.startPoint.x = pointer.clientX;
+			this.startPoint.y = pointer.clientY;
+			this.state = 'swiping';
+		}
 	}, this);
 
 	BnBgame.input.onUp.add(function(pointer) {
-		console.log(pointer);
-		this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
+		if (this.state === 'swiping') {
+			this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
+		}
 	}, this);
 }
 
 InputManager.prototype.setDirection = function(direction){
 	return function() {
-		console.log(this.state);
-		if (this.state === 'ready') {
-					console.log('move', this.state);
-
+		if (this.state === 'swiping') {
 			this.state = direction;
 		}
 	};
@@ -36,9 +37,7 @@ InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 		x: endPosition.x - startPosition.x,
 		y: endPosition.y - startPosition.y
 	}
-	console.log(differences);
 	if (Math.abs(differences.x) > 15 || Math.abs(differences.y) > 15) {
-		console.log('largeenough');
 		if (differences.x < 0 && Math.abs(differences.x) > Math.abs(differences.y)) {
 			this.setDirection('left').call(this);
 		} else if (differences.x > 0 && Math.abs(differences.x) > Math.abs(differences.y)){
@@ -50,3 +49,9 @@ InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 		}
 	}
 }
+
+InputManager.prototype.getSwipingOffset = function(){
+	return {x: (BnBgame.input.activePointer.clientX - this.startPoint.x) / Settings.GAME.WIDTH,
+	y: (BnBgame.input.activePointer.clientY - this.startPoint.y) / Settings.GAME.WIDTH};
+};
+

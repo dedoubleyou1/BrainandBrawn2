@@ -1,5 +1,5 @@
-Settings.GAME.WIDTH = window.innerWidth * window.devicePixelRatio;
-Settings.GAME.HEIGHT = window.innerHeight * window.devicePixelRatio;
+// Settings.GAME.WIDTH = window.innerWidth * window.devicePixelRatio;
+// Settings.GAME.HEIGHT = window.innerHeight * window.devicePixelRatio;
 
   var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
 
@@ -31,3 +31,4 @@ var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.
 		this.state.start('Preloader');
 	}
 });
+BnBgame.spikeyDeath = false; //TEMP HACK

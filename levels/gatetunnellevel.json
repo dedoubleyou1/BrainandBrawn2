@@ -2,6 +2,7 @@
 	"name": "Gates and Tunnels Level",
 	"width": 8,
 	"height": 8,
+	"starLevels": [23,18],
 	"active": [
 	    [" "," "," "," "," "," "," "," "],
 	    

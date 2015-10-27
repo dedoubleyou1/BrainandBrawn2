@@ -2,6 +2,7 @@
 	"name": "Flip Level",
 	"width": 8,
 	"height": 6,
+	"starLevels": [12,7],
 	"active": [
 	    [" "," "," "," "," "," "," "," "],
 	    
