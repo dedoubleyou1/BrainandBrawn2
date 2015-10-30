@@ -42,7 +42,7 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
   var triggers = {
     killSelf: function(position) {
       if(this.fixed[position.y][position.x].type == 'E'){
-        this.playSound('kill');
+        playSound('kill');
       }
       this.fixed[position.y][position.x].sprite.destroy();
     },
@@ -74,7 +74,7 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         typeTo: typeToOther
       };
       return function(position) {
-        this.playSound('switch');
+        playSound('switch');
         this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
 
         var foundObjects = filter2d(this.fixed, function(element){
@@ -529,13 +529,3 @@ GraphicsManager.prototype.areAnimationsFinished = function() {
     return false;
   }
 };
-
-/*
-  TODO: Move this function to a global AudioManager
-*/
-GraphicsManager.prototype.playSound = function(snd)
-{
-  var sound = BnBgame.add.audio(snd);
-  sound.play();
-}
-

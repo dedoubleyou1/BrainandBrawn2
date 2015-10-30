@@ -105,7 +105,7 @@ Level.prototype = {
 
 			//if the move was successful (something moved) - update the move counter
 			if(this.results.moveSuccess){
-				this.playSound('thunk');
+				playSound('thunk');
 				//update MOVE counter
 				if(this.numMoves<99)this.numMoves++;
 				//Display # of Moves
@@ -130,7 +130,7 @@ Level.prototype = {
 			}
 
 			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || Settings.GAME.SPIKEY_DEATH) {
-				this.playSound('death');
+				playSound('death');
 				this.state.start('level'+(this.level));
 				Settings.GAME.SPIKEY_DEATH = false;//TEMP HACK
 			} else if (this.results.endState === 'missionSuccess'){
@@ -143,7 +143,7 @@ Level.prototype = {
 		Draw a "tutorial screen" on top of the game (player taps to continue)
 	*/
 	startTutorial: function() {
-		this.playSound('select');
+		playSound('select');
 		this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
 	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
@@ -165,7 +165,7 @@ Level.prototype = {
 	{
 		if(this.tutorialFinished) return;
 
-		this.playSound('select');
+		playSound('select');
 
 		this.currentTutorial += 1;
 		this.tutorialImage.destroy();
@@ -187,7 +187,7 @@ Level.prototype = {
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
-			this.playSound('finish');
+			playSound('finish');
 			this.levelFinished = true;
 			this.inputManager.state = 'waiting';
 
@@ -232,7 +232,7 @@ Level.prototype = {
 	{
 		if(this.tutorialFinished)
 		{
-			this.playSound('select');
+			playSound('select');
 			BnBgame.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === Settings.levels.length) {
@@ -249,7 +249,7 @@ Level.prototype = {
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
-			this.playSound('select');
+			playSound('select');
 			this.state.start('level'+this.level);
 		}
 	},
@@ -260,7 +260,7 @@ Level.prototype = {
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
-			this.playSound('select');
+			playSound('select');
 			this.state.start('levelSelect')
 		}
 	},
@@ -402,16 +402,6 @@ Level.prototype = {
 	  string3 += "]\n" 
 
 	  console.log(string1 + "\n" + string2 + "\n" + string3 + "\n}");
-	},
-
-	/*
-		TODO: Move to a global audio manager
-	*/
-	playSound: function(snd)
-	{
-		var sound = BnBgame.add.audio(snd);
-  	sound.play();
-
 	},
 
 };
