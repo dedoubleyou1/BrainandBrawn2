@@ -1,8 +1,25 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   __                _     
+  / /  _____   _____| |___ 
+ / /  / _ \ \ / / _ \ / __|
+/ /__|  __/\ V /  __/ \__ \
+\____/\___| \_/ \___|_|___/
+                           
+
+Summary: Core gameplay state - manages all gameplay that occurs inside of a level. 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 Level = function(level) {
 	this.level = level;
 };
 
 Level.prototype = {
+	/*
+		Initialize manager - gameLogic, graphicsManager,inputManager
+		Initialize all game variables
+		Initialize HUD and gameplay space
+	*/
 	create: function() {
 		this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
 		this.width = this.levelData.width;
@@ -63,6 +80,11 @@ Level.prototype = {
 			this.inputManager.state = 'ready';
 		}
 	},
+
+	/*
+		CORE UPDATE (called each step)
+		Control the game using a system of flags
+	*/
 	update: function() {
 		this.graphicsManager.refresh();
 		if (this.inputManager.state === 'swiping') {
@@ -107,15 +129,19 @@ Level.prototype = {
 			  }
 			}
 
-			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnBgame.spikeyDeath) {
+			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || Settings.GAME.SPIKEY_DEATH) {
 				this.playSound('death');
 				this.state.start('level'+(this.level));
-				BnBgame.spikeyDeath = false;//TEMP HACK
+				Settings.GAME.SPIKEY_DEATH = false;//TEMP HACK
 			} else if (this.results.endState === 'missionSuccess'){
 				this.loadVictory();
 			}
 		}
 	},
+
+	/*
+		Draw a "tutorial screen" on top of the game (player taps to continue)
+	*/
 	startTutorial: function() {
 		this.playSound('select');
 		this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
@@ -132,6 +158,9 @@ Level.prototype = {
 		BnBgame.input.keyboard.addCallbacks(this,null,this.nextTutorial);
 	},
 
+	/*
+		onTap - load the next tutorial screen OR start the level 
+	*/
 	nextTutorial: function()
 	{
 		if(this.tutorialFinished) return;
@@ -152,6 +181,9 @@ Level.prototype = {
 		}
 	},
 
+	/*
+		upon level completion - load a VICTORY screen over the game
+	*/
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
@@ -190,11 +222,12 @@ Level.prototype = {
 			this.playButton.inputEnabled = true;
   		this.playButton.events.onInputDown.add(this.nextLevel,this);
 			this.newGroup.add(this.playButton);
-
-
 		}
 	},
 
+	/*
+		load the next level state
+	*/
 	nextLevel: function()
 	{
 		if(this.tutorialFinished)
@@ -210,6 +243,9 @@ Level.prototype = {
 		}
 	},
 
+	/*
+		restart the current level state
+	*/
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
@@ -218,6 +254,9 @@ Level.prototype = {
 		}
 	},
 
+	/*
+		Return to the level select menu
+	*/
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
@@ -226,6 +265,9 @@ Level.prototype = {
 		}
 	},
 
+	/*
+		SKIP the current level (jump to then next level)
+	*/
 	skipLevel: function()
 	{
 		this.numMoves = 99;
@@ -236,6 +278,9 @@ Level.prototype = {
 		this.nextLevel();
 	},
 
+	/*
+		Draw 1-3 stars in the HUD (based on number of player moves)
+	*/
 	drawStarsHUD: function(numStars)
 	{
 		this.currentStarLevel = numStars;
@@ -298,6 +343,10 @@ Level.prototype = {
 		}
 	},
 
+	/*
+		PRINT the coordinate grid in the console
+		(TODO: check if redundant with graphics manager?)
+	*/
 	printMap: function()
 	{
 	  var string1 = "{\n";
@@ -355,6 +404,9 @@ Level.prototype = {
 	  console.log(string1 + "\n" + string2 + "\n" + string3 + "\n}");
 	},
 
+	/*
+		TODO: Move to a global audio manager
+	*/
 	playSound: function(snd)
 	{
 		var sound = BnBgame.add.audio(snd);

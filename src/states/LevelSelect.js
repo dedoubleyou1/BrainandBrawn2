@@ -1,8 +1,26 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   __                _   __      _           _   
+  / /  _____   _____| | / _\ ___| | ___  ___| |_ 
+ / /  / _ \ \ / / _ \ | \ \ / _ \ |/ _ \/ __| __|
+/ /__|  __/\ V /  __/ | _\ \  __/ |  __/ (__| |_ 
+\____/\___| \_/ \___|_| \__/\___|_|\___|\___|\__|
+                                                 
+
+Summary: Level Select State ("World Map") - player chooses from a set of unlocked levels. 
+Completed levels display star counts.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 LevelSelect = function(numLevels) {
 	this.numLevels = numLevels;
 };
 
 LevelSelect.prototype = {
+
+	/*
+		TEMP: Populate a numbered grid of boxes
+		Based on player progress - Highlight, add STARS, and add tap handlers
+	*/
 	create: function() {
 		this.buttons = BnBgame.add.group();
 		this.buttonTexts = BnBgame.add.group();
@@ -88,13 +106,14 @@ LevelSelect.prototype = {
 				star2.y = buttonY+buttonSize*.25;
 				star3.x = buttonX+buttonSize*.5;
 				star3.y = buttonY+buttonSize*.5;
-			}	
-			
-				
+			}		
 		}
 
 	},
 
+	/*
+		When player taps a specific image - load the associated level
+	*/
 	loadLevel: function(image) {
 		this.state.start('level'+(image.levelID));
 	}

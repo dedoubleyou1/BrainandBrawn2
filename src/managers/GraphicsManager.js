@@ -1,3 +1,18 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   ___                 _     _                                                     
+  / _ \_ __ __ _ _ __ | |__ (_) ___ ___    /\/\   __ _ _ __   __ _  __ _  ___ _ __ 
+ / /_\/ '__/ _` | '_ \| '_ \| |/ __/ __|  /    \ / _` | '_ \ / _` |/ _` |/ _ \ '__|
+/ /_\\| | | (_| | |_) | | | | | (__\__ \ / /\/\ \ (_| | | | | (_| | (_| |  __/ |   
+\____/|_|  \__,_| .__/|_| |_|_|\___|___/ \/    \/\__,_|_| |_|\__,_|\__, |\___|_|   
+                |_|                                                |___/      
+
+Summary: Handles all graphical updates (based on game state changes)
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/*
+  Constructor for initializing Graphics Manager
+*/
 GraphicsManager = function(map) {
   this.active = {};
   this.fixed = [];
@@ -19,6 +34,10 @@ GraphicsManager = function(map) {
   this.animationCounter = 0
 }
 
+/*
+  Given: a game object key
+  Return: Data for display with visual trigger functions
+*/
 GraphicsManager.prototype.graphicsKeyLookup = function(key) {
   var triggers = {
     killSelf: function(position) {
@@ -278,6 +297,9 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
   return keyLookup[key];
 }
 
+/*
+  Loop through map grid and add sprites to the game (layer by layer)
+*/
 GraphicsManager.prototype.initializeSprites = function(map) {
   var activeCoordinate;
   var fixedLookup;
@@ -322,6 +344,13 @@ GraphicsManager.prototype.initializeSprites = function(map) {
   }
 };
 
+/*
+  Uses MAP dimensions and SCREEN size to determine graphics scaling values:
+    -fitType ('height' or 'width')
+    -scaledTileSize
+    -spriteScale
+    -borderX & borderY
+*/
 GraphicsManager.prototype.getConvertValues = function() {
   var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
 
@@ -349,7 +378,10 @@ GraphicsManager.prototype.getConvertValues = function() {
   return convertValues;
 };
 
-//manages grid to pixel conversion
+/*
+  Given: grid coord
+  Return: screen coord
+*/
 GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
   //Math.floor((Settings.GRAPHICS.TILESIZE + Settings.GRAPHICS.TILESIZE) * (coordinate.x + 0.5) / 2)
@@ -361,6 +393,10 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
   
 };
 
+/*
+  Given: screen coord
+  Return: grid coord
+*/
 GraphicsManager.prototype.pixelToGrid = function(coordinate) {
   return {
     x: Math.floor((coordinate.x - (this.convertValues.borderX)) / this.convertValues.scaledTileSize),
@@ -368,8 +404,10 @@ GraphicsManager.prototype.pixelToGrid = function(coordinate) {
   }
 }
 
+/*
+  Sets offset for previewing drag direction by changing anchor. amount should be a number between -1 and 1.
+*/
 GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
-  // Sets offset for previewing drag direction by changing anchor. amount should be a number between -1 and 1.
   var offsetX = 0.5;
   var offsetY = 0.5;
 
@@ -385,6 +423,11 @@ GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
   }
 }
 
+/*
+  Given: game state changes
+  Update all graphics to communicate game state changes
+  (called every step)
+*/
 GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
   var callbackTest = function(gameStateChanges, element){
@@ -443,6 +486,10 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
 };
 
+/*
+  -Called at the start of each update step
+  -Sorts graphics Z order
+*/
 GraphicsManager.prototype.refresh = function() {
     for (element in this.active) {
       this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY) - this.HUDHeight) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
@@ -472,6 +519,9 @@ GraphicsManager.prototype.refresh = function() {
     // }, this)
 }
 
+/*
+  Checks to see if all animations arefinished
+*/
 GraphicsManager.prototype.areAnimationsFinished = function() {
   if (this.animationCounter === 0) {
     return true;
@@ -480,6 +530,9 @@ GraphicsManager.prototype.areAnimationsFinished = function() {
   }
 };
 
+/*
+  TODO: Move this function to a global AudioManager
+*/
 GraphicsManager.prototype.playSound = function(snd)
 {
   var sound = BnBgame.add.audio(snd);

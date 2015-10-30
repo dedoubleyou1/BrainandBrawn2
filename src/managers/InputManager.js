@@ -1,3 +1,18 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  _____                   _                                              
+  \_   \_ __  _ __  _   _| |_    /\/\   __ _ _ __   __ _  __ _  ___ _ __ 
+   / /\/ '_ \| '_ \| | | | __|  /    \ / _` | '_ \ / _` |/ _` |/ _ \ '__|
+/\/ /_ | | | | |_) | |_| | |_  / /\/\ \ (_| | | | | (_| | (_| |  __/ |   
+\____/ |_| |_| .__/ \__,_|\__| \/    \/\__,_|_| |_|\__,_|\__, |\___|_|   
+             |_|                                         |___/           
+
+Summary: Handles player input (via touch, mouse, and keyboard)
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/*
+	Constructor for initializing Input Manager - cursor & touch input
+*/
 InputManager = function(initialState) {
 	this.state = initialState;
 
@@ -19,6 +34,9 @@ InputManager = function(initialState) {
 	}, this);
 }
 
+/*
+	Set input state to a chosen direction
+*/
 InputManager.prototype.setDirection = function(direction){
 	return function() {
 		if (this.state === 'swiping' || this.state === 'ready') {
@@ -27,6 +45,10 @@ InputManager.prototype.setDirection = function(direction){
 	};
 };
 
+/*
+	Given: starting and ending pos vectors
+	Return: bool representing a successfull swipe
+*/
 InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 	var differences = {
 		x: endPosition.x - startPosition.x,
@@ -45,6 +67,10 @@ InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 	}
 }
 
+/*
+	UNUSED: get the "swiping offset" vector
+	(how far the player's finger has been dragged from its starting point)
+*/
 InputManager.prototype.getSwipingOffset = function(){
 	return {x: (BnBgame.input.activePointer.clientX - this.startPoint.x) / Settings.GAME.WIDTH,
 	y: (BnBgame.input.activePointer.clientY - this.startPoint.y) / Settings.GAME.WIDTH};

@@ -1,6 +1,22 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   ___          _                 _           
+  / _ \_ __ ___| | ___   __ _  __| | ___ _ __ 
+ / /_)/ '__/ _ \ |/ _ \ / _` |/ _` |/ _ \ '__|
+/ ___/| | |  __/ | (_) | (_| | (_| |  __/ |   
+\/    |_|  \___|_|\___/ \__,_|\__,_|\___|_|   
+                                              
+
+Summary: Entry point for the game. Initializes Phaser.Game, canvas, game states, and more!
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 Preloader = function() {};
 
 Preloader.prototype = {
+
+    /*
+        Core preload function - load spritesheet, images, audio, and level JSONs
+    */
     preload: function() {
  
         this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
@@ -75,7 +91,11 @@ Preloader.prototype = {
         }, this)
 
     },
+
+    /*
+        When preloading is finished - start the Title Screen!
+    */
     create: function() {
-        this.state.start('MainMenu');
+        this.state.start('TitleScreen');
     }
 };

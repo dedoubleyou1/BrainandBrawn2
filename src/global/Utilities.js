@@ -1,3 +1,14 @@
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+       _   _ _ _ _   _           
+ /\ /\| |_(_) (_) |_(_) ___  ___ 
+/ / \ \ __| | | | __| |/ _ \/ __|
+\ \_/ / |_| | | | |_| |  __/\__ \
+ \___/ \__|_|_|_|\__|_|\___||___/
+                                 
+Summary: Static utility functions for game-wide use
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 
 // Returns first coordinate in a 2d array with a given value
 var indexOf2d = function(array2d, value) {
@@ -43,6 +54,7 @@ var filter2d = function(array2d, passedFunction, that) {
 	return newArray;
 };
 
+//XY product values for different directions
 var directionLookup = {
   up: {
     x: 0,
@@ -62,6 +74,9 @@ var directionLookup = {
   }
 };
 
+/*
+	Given a 2D vector, get the cardinal direction
+*/
 var getDirection = function(vector) {
 	if (vector.x < 0 && Math.abs(vector.x) >= Math.abs(vector.y)) {
 		return 'left';

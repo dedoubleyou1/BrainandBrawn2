@@ -1,4 +1,18 @@
-// Converts the level data into a format more suitable for gameplay
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+   ___                         __             _      
+  / _ \__ _ _ __ ___   ___    / /  ___   __ _(_) ___ 
+ / /_\/ _` | '_ ` _ \ / _ \  / /  / _ \ / _` | |/ __|
+/ /_\\ (_| | | | | | |  __/ / /__| (_) | (_| | | (__ 
+\____/\__,_|_| |_| |_|\___| \____/\___/ \__, |_|\___|
+                                        |___/        
+
+Summary: Manages the game state, independent from graphics and input
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/*
+  Converts the level data into a format more suitable for gameplay
+*/
 GameLogic = function(map) {
   this.gameplayMap = (map);
 
@@ -20,6 +34,10 @@ GameLogic = function(map) {
   }
 }
 
+/*
+  Given: game object key, movement direciton
+  Retrun: Data for collision and graphics triggers
+*/
 GameLogic.prototype.mapKeyLookup = function(key,direction) {
 
   // These are functions used by tile triggers. They are passed in the coordinate of the trigger action.
@@ -275,6 +293,16 @@ GameLogic.prototype.consoleLogMap = function() {
 };
 
 
+
+
+
+// - - - - - - - - - - - - //
+// Gravity Switch Functions
+// - - - - - - - - - - - - //
+
+/*
+  Given a desired direction, update the game state
+*/
 GameLogic.prototype.gravitySwitch = function(direction) {
   var gameStateChanges = {
     'b': [indexOf2d(this.gameplayMap.active, 'b')],
@@ -324,49 +352,9 @@ GameLogic.prototype.gravitySwitch = function(direction) {
   return gameStateChanges;
 };
 
+/*
 
-GameLogic.prototype.isPositionClear = function(character, x, y) {
-  if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
-    return false
-  } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
-    //TEMPoRARY HACK (should be a part of triggers)
-    if(character == '$' || this.gameplayMap.active[y][x] == '$')
-    {
-      if(character == 'b' || this.gameplayMap.active[y][x] == 'b' || character == 'B' || this.gameplayMap.active[y][x] == 'B')
-      {
-        console.log("EVERYONE DIED")
-        // BnBgame.state.start('level0')
-        BnBgame.spikeyDeath = true;
-      }
-    }
-    //END TEMP HACK
-    return false
-  } else {
-    return true
-  }
-};
-
-
-GameLogic.prototype.attemptMove = function(direction, x, y) {
-
-  var character = this.gameplayMap.active[y][x];
- 
-  var newPosition = {
-    x: directionLookup[direction].x + x,
-    y: directionLookup[direction].y + y
-  };
-  if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
-    // MOVE TO IT's NEW SPOT
-    this.gameplayMap.active[y][x] = ' ';
-    this.gameplayMap.active[newPosition.y][newPosition.x] = character;
-    return true;
-  } else {
-    return false;
-  }
-  
-};
-
-
+*/
 GameLogic.prototype.moveOnce = function(direction) {
   var moveSuccess = false;
   // Characters closer to the gravitational "floor" move first.
@@ -392,7 +380,56 @@ GameLogic.prototype.moveOnce = function(direction) {
   return triggerResults;
 }
 
+/*
+  Attempt to move a target ACTIVE object in the chosen direction.
+*/
+GameLogic.prototype.attemptMove = function(direction, x, y) {
 
+  var character = this.gameplayMap.active[y][x];
+ 
+  var newPosition = {
+    x: directionLookup[direction].x + x,
+    y: directionLookup[direction].y + y
+  };
+  if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
+    // MOVE TO IT's NEW SPOT
+    this.gameplayMap.active[y][x] = ' ';
+    this.gameplayMap.active[newPosition.y][newPosition.x] = character;
+    return true;
+  } else {
+    return false;
+  }
+  
+};
+
+/*
+  Checks whether the chosen XY coord is clear for a specified ACTIVE character
+*/
+GameLogic.prototype.isPositionClear = function(character, x, y) {
+  if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
+    return false
+  } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
+    
+    //TEMP: Temporary Hack (should be a part of triggers)
+    if(character == '$' || this.gameplayMap.active[y][x] == '$')
+    {
+      if(character == 'b' || this.gameplayMap.active[y][x] == 'b' || character == 'B' || this.gameplayMap.active[y][x] == 'B')
+      {
+        console.log("EVERYONE DIED")
+        // BnBgame.state.start('level0')
+        Settings.GAME.SPIKEY_DEATH = true;
+      }
+    }
+    //END TEMP HACK
+    return false
+  } else {
+    return true
+  }
+};
+
+/*
+  Check for trigger functions that need to activate due to various collisions
+*/
 GameLogic.prototype.checkTriggers = function(direction) {
   var triggerResults = {};
   var active;
