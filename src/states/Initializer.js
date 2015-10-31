@@ -36,13 +36,16 @@ Summary: Entry point for the game. Initializes Phaser.Game, canvas, game states,
 var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.CANVAS, 'game', {
 	preload: function() {
 		// Preload loading bar images.
-		// this.load.image('preloaderBg','images/preloaderBg.png');
-        // this.load.image('preloaderBar', 'images/preloaderBar.png');
+		this.load.image('loadingBar','images/loadingBar.png');
+    this.load.image('loadingBack','images/loadingBarBack.png');
 	},
 	create: function() {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.state.add('Preloader', Preloader);
 		this.state.add('TitleScreen', TitleScreen);
+    this.state.add('levelSelect',new LevelSelect(Settings.levels.length));
+
+    //start perloading
 		this.state.start('Preloader');
 	}
 });
