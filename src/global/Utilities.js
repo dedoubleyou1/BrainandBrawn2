@@ -9,6 +9,29 @@ Summary: Static utility functions for game-wide use
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+//Creates a very simple menu of text items
+var createMenu = function(items,myFont)
+{
+	var textGroup = BnBgame.add.group();
+
+	//create text objects
+	var menuX = BnBgame.world.centerX;
+	for(var i=0;i<items.length;i++){
+		textGroup.add(BnBgame.add.text(menuX,0,items[i],myFont));	
+	}
+
+	//place text
+	var menuY = BnBgame.world.centerY -textGroup.length*textGroup.getChildAt(0).height/2;
+	for (var i = 0; i < textGroup.length; i++)
+	{
+		var textItem = textGroup.getChildAt(i);
+		textItem.anchor = {x: 0.5, y: 0.5};
+		textItem.y = menuY + i*textItem.height;
+		textItem.inputEnabled = true;
+	}
+
+	return textGroup;
+};
 
 // Returns first coordinate in a 2d array with a given value
 var indexOf2d = function(array2d, value) {

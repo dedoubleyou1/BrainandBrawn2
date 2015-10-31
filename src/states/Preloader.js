@@ -38,6 +38,8 @@ Preloader.prototype = {
         this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
 
         // Static Images
+        this.load.image('backArrow','images/back-arrow.png');
+        this.load.image('arrow','images/arrow.png');
 
         // New Tutorial images
         this.load.image('tutorial1','images/tutorials-01.png');

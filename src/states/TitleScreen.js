@@ -47,6 +47,7 @@ TitleScreen.prototype = {
 	startGame: function(){
 		BnBgame.input.keyboard.addCallbacks(this,null,null);
 		playSound('select');
-		this.state.start('levelSelect');
+		this.state.start('MainMenu');
+		// this.state.start('LevelSelect');
 	}
 };

@@ -6,7 +6,7 @@
 \_/ \_/\__,_|\__,_|_|\___/  \/    \/\__,_|_| |_|\__,_|\__, |\___|_|   
                                                       |___/            
 
-Summary: Handles player input (via touch, mouse, and keyboard)
+Summary: Handles audio in the game 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
