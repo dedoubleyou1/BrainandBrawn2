@@ -28,6 +28,7 @@ Settings = {
         TILESIZE: 256,
         OFFSET: 0.25,
         SKINNYSIZE: 32
+        HUD_HEIGHT: 50,
     },
 
     //Settings for the LevelEditor state
