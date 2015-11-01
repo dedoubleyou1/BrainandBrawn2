@@ -18,7 +18,7 @@ GraphicsManager = function(map) {
   this.fixed = [];
 
   //TEMP
-  this.HUDHeight = 50;
+  Settings.GRAPHICS.HUD_HEIGHT = 50;
 
   this.levelGroup = BnBgame.add.group();
   this.levelGroup.enableBody = true;
@@ -352,29 +352,30 @@ GraphicsManager.prototype.initializeSprites = function(map) {
     -borderX & borderY
 */
 GraphicsManager.prototype.getConvertValues = function() {
-  // var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
+  var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
 
-  // var levelRatio = (this.width + 0.5) / (this.height + 0.5);
+  var levelRatio = (this.width + 0.5) / (this.height + 0.5);
 
   var convertValues = {};
 
-  // if (screenRatio > levelRatio) {
-  //   //base on level height
-  //   convertValues.fitType = 'height';
-  //   convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
-  //   // this.xOffset = Settings.GAME.WIDTH - (convertValues.scaledTileSize * this.width)
-  //   // this.yOffset = 0;
-  // } else {
-    //base on level width
+  if (screenRatio > levelRatio) {
+    //base on level height
+    convertValues.fitType = 'height';
+    convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
+    // this.xOffset = Settings.GAME.WIDTH - (convertValues.scaledTileSize * this.width)
+    // this.yOffset = 0;
+  } else {
+    // base on level width
     convertValues.fitType = 'width';
     convertValues.scaledTileSize = Math.floor(Settings.GAME.WIDTH / (this.width + Settings.GRAPHICS.BORDER_SIZE * 2));
-    convertValues.offsetY = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
-  // }
+  }
+
+  var offsetY = (Settings.GAME.HEIGHT - convertValues.scaledTileSize*this.height)/2 - Settings.GRAPHICS.HUD_HEIGHT;
  
   console.log(convertValues.scaledTileSize);
   convertValues.spriteScale = convertValues.scaledTileSize / Settings.GRAPHICS.TILESIZE;
   convertValues.borderX = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize;
-  convertValues.borderY = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize + convertValues.offsetY;// + Settings.GRAPHICS.OFFSET/2;
+  convertValues.borderY = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize + Settings.GRAPHICS.HUD_HEIGHT + offsetY;
 
   return convertValues;
 };
@@ -389,7 +390,8 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
   return {
     x: (this.convertValues.borderX) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
-    y: this.HUDHeight + (this.convertValues.borderY) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
+    // y: (this.convertValues.borderY) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
+    y: (this.convertValues.borderY) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
   }    
   
 };
@@ -401,7 +403,8 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
 GraphicsManager.prototype.pixelToGrid = function(coordinate) {
   return {
     x: Math.floor((coordinate.x - (this.convertValues.borderX)) / this.convertValues.scaledTileSize),
-    y: Math.floor((coordinate.y - (this.convertValues.borderY)-this.HUDHeight) / this.convertValues.scaledTileSize)
+    // y: Math.floor((coordinate.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize)
+    y: Math.floor((coordinate.y - this.convertValues.borderY) / this.convertValues.scaledTileSize)
   }
 }
 
@@ -493,7 +496,7 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 */
 GraphicsManager.prototype.refresh = function() {
     for (element in this.active) {
-      this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY) - this.HUDHeight) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
+      this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY) - Settings.GRAPHICS.HUD_HEIGHT) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };
     this.fixedGroup.sort('customZ', Phaser.Group.SORT_ASCENDING)
 
