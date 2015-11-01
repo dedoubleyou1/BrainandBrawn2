@@ -352,28 +352,29 @@ GraphicsManager.prototype.initializeSprites = function(map) {
     -borderX & borderY
 */
 GraphicsManager.prototype.getConvertValues = function() {
-  var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
+  // var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
 
-  var levelRatio = (this.width + 0.5) / (this.height + 0.5);
+  // var levelRatio = (this.width + 0.5) / (this.height + 0.5);
 
   var convertValues = {};
 
-  if (screenRatio > levelRatio) {
-    //base on level height
-    convertValues.fitType = 'height';
-    convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
-    // this.xOffset = Settings.GAME.WIDTH - (convertValues.scaledTileSize * this.width)
-    // this.yOffset = 0;
-  } else {
+  // if (screenRatio > levelRatio) {
+  //   //base on level height
+  //   convertValues.fitType = 'height';
+  //   convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
+  //   // this.xOffset = Settings.GAME.WIDTH - (convertValues.scaledTileSize * this.width)
+  //   // this.yOffset = 0;
+  // } else {
     //base on level width
     convertValues.fitType = 'width';
     convertValues.scaledTileSize = Math.floor(Settings.GAME.WIDTH / (this.width + Settings.GRAPHICS.BORDER_SIZE * 2));
-  }
+    convertValues.offsetY = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
+  // }
  
   console.log(convertValues.scaledTileSize);
   convertValues.spriteScale = convertValues.scaledTileSize / Settings.GRAPHICS.TILESIZE;
   convertValues.borderX = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize;
-  convertValues.borderY = (Settings.GRAPHICS.BORDER_SIZE + (Settings.GRAPHICS.OFFSET / 2)) * convertValues.scaledTileSize;
+  convertValues.borderY = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize + convertValues.offsetY;// + Settings.GRAPHICS.OFFSET/2;
 
   return convertValues;
 };
