@@ -11,35 +11,22 @@ Summary: Entry point for the game. Initializes Phaser.Game, canvas, game states,
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-// Settings.GAME.WIDTH = window.innerWidth * window.devicePixelRatio;
-// Settings.GAME.HEIGHT = window.innerHeight * window.devicePixelRatio;
-
-  var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
-
-  var defaultRatio = Settings.GAME.STANDARD_WIDTH / Settings.GAME.STANDARD_HEIGHT;
-
-  var convertValues = {};
-
-  if (screenRatio > defaultRatio) {
-    //base on level height
-    Settings.GAME.STRETCH = 'height';
-    Settings.GAME.SCALE = Settings.GAME.HEIGHT / Settings.GAME.STANDARD_HEIGHT;
-  } else {
-    //base on level width
-    Settings.GAME.STRETCH = 'width';
-    Settings.GAME.SCALE = Settings.GAME.WIDTH / Settings.GAME.STANDARD_WIDTH;
-  }
-
 /*
   Initialize the BnBgame (Phaser.Game object)
 */
-var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.CANVAS, 'game', {
-	preload: function() {
+var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.AUTO, 'game', {
+	init: function() 
+  {
+    Settings.GAME.SCALE = Settings.GAME.WIDTH / Settings.GAME.STANDARD_WIDTH;
+  },
+  preload: function() 
+  {
 		// Preload loading bar images.
 		this.load.image('loadingBar','images/loadingBar.png');
     this.load.image('loadingBack','images/loadingBarBack.png');
 	},
-	create: function() {
+	create: function() 
+  {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.state.add('Preloader', Preloader);
 		this.state.add('TitleScreen', TitleScreen);
