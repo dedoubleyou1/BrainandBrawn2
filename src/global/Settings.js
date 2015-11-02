@@ -19,7 +19,8 @@ Settings = {
         HEIGHT: 900,//1136,//960,
         SCALE: 1,
         STRETCH: 'width',
-        SPIKEY_DEATH: false
+        SPIKEY_DEATH: false,
+        LEVEL_MODE: 'normal',
     },
 
     //Settings for the GraphicManager state
@@ -27,7 +28,7 @@ Settings = {
         BORDER_SIZE: 0.375,
         TILESIZE: 256,
         OFFSET: 0.25,
-        SKINNYSIZE: 32
+        SKINNYSIZE: 32,
         HUD_HEIGHT: 50,
     },
 
@@ -38,6 +39,11 @@ Settings = {
         MAP_WIDTH: 2048,
         MAP_HEIGHT: 1536
     },
+
+
+    empty_levels: [
+        'emptyLevel.json',
+    ],
 
     /*
     Array of level paths to load. 

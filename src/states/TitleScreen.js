@@ -34,7 +34,6 @@ TitleScreen.prototype = {
 		};
 		BnBgame.levelStatus[0] = 0; //unlock first level with 0 starts (incomplete)
 
-
 		//add input to start the game
 		BnBgame.input.onTap.add(this.startGame, this);
 		BnBgame.input.keyboard.addCallbacks(this,null,this.startGame);
@@ -48,6 +47,5 @@ TitleScreen.prototype = {
 		BnBgame.input.keyboard.addCallbacks(this,null,null);
 		playSound('select');
 		this.state.start('MainMenu');
-		// this.state.start('LevelSelect');
 	}
 };

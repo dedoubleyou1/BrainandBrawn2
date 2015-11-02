@@ -10,8 +10,9 @@ Summary: Core gameplay state - manages all gameplay that occurs inside of a leve
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-Level = function(level) {
+Level = function(level,levelData) {
 	this.level = level;
+	if(typeof levelData != 'undefined') this.levelData = levelData;
 };
 
 Level.prototype = {
@@ -21,7 +22,10 @@ Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
-		this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
+		if(typeof this.levelData == 'undefined') 
+		{
+			this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
+		}
 		this.width = this.levelData.width;
 		this.height = this.levelData.length;
 		this.gameLogic = new GameLogic(this.levelData);
@@ -70,6 +74,25 @@ Level.prototype = {
 
   	this.starsHUD = BnBgame.add.group();  	
   	this.drawStarsHUD(3);
+
+
+  	//TEMP: support level builder entry
+  	if(Settings.GAME.LEVEL_MODE == 'builder')
+  	{
+  		//hide HUD
+  		this.levelText.visible = false;
+  		this.menuButton.visible = false;
+  		this.menuButtonBig.visible = false;
+  		this.restartButton.visible = false;
+  		this.restartButtonBig.visible = false;
+  		this.starsHUD.visible = false;
+
+  		//add STOP button
+  		this.stopButton = BnBgame.add.image(0,0,'stopButton');
+	    this.stopButton.scale.setTo(0.1,0.1);
+	    this.stopButton.inputEnabled=true;
+	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
+  	}
 
 
 		if (typeof this.levelData.tutorial != 'undefined') {
@@ -250,7 +273,15 @@ Level.prototype = {
 	{
 		if(this.tutorialFinished){
 			playSound('select');
-			this.state.start('level'+this.level);
+
+			if(Settings.GAME.LEVEL_MODE == 'normal')
+			{
+				this.state.start('level'+this.level);
+			}
+			else
+			{
+				this.state.start('testLevel');
+			}
 		}
 	},
 

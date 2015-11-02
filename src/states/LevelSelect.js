@@ -22,6 +22,8 @@ LevelSelect.prototype = {
 		Based on player progress - Highlight, add STARS, and add tap handlers
 	*/
 	create: function() {
+		Settings.GAME.LEVEL_MODE = 'normal';
+
 		this.buttons = BnBgame.add.group();
 		this.buttonTexts = BnBgame.add.group();
 

@@ -34,6 +34,7 @@ var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.
     this.state.add('OptionsMenu', OptionsMenu);
     this.state.add('AboutMenu', AboutMenu);
     this.state.add('LevelSelect',new LevelSelect(Settings.levels.length));
+    this.state.add('LevelBuilder', LevelBuilder);
 
     //start perloading
 		this.state.start('Preloader');

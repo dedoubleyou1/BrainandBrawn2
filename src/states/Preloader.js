@@ -73,6 +73,41 @@ Preloader.prototype = {
         this.load.audio('kill','sound/kill_2.wav');
         this.load.audio('switch','sound/switch_2.wav');
 
+
+        //TEMP: FOR LEVEL EDITOR
+        this.load.image('floor','images/spritesheet/brainandbrawn_floor.png');
+        this.load.image('brainy','images/spritesheet/brainandbrawn_brainy.png');
+        this.load.image('brawny','images/spritesheet/brainandbrawn_brawny.png');
+        this.load.image('block','images/spritesheet/brainandbrawn_block.png');
+        this.load.image('alien','images/spritesheet/brainandbrawn_alien.png');
+        this.load.image('goalBrainy','images/spritesheet/brainandbrawn_goalBrainy.png');
+        this.load.image('goalBrawny','images/spritesheet/brainandbrawn_goalBrawny.png');
+        this.load.image('moveable','images/spritesheet/brainandbrawn_moveable.png');
+        this.load.image('pipe0','images/spritesheet/brainandbrawn_pipe0.png');
+        this.load.image('spikedBlock','images/spritesheet/brainandbrawn_alien2.png');
+        this.load.image('switchNew1A','images/spritesheet/brainandbrawn_switchNew1A.png');
+        this.load.image('switchNew1B','images/spritesheet/brainandbrawn_switchNew1B.png');
+        this.load.image('switchNew2A','images/spritesheet/brainandbrawn_switchNew2A.png');
+        this.load.image('switchNew2B','images/spritesheet/brainandbrawn_switchNew2B.png');
+        this.load.image('switchNew3A','images/spritesheet/brainandbrawn_switchNew3A.png');
+        this.load.image('switchNew3B','images/spritesheet/brainandbrawn_switchNew3B.png');
+        this.load.image('switchNew4A','images/spritesheet/brainandbrawn_switchNew4A.png');
+        this.load.image('switchNew4B','images/spritesheet/brainandbrawn_switchNew4B.png');
+        this.load.image('gateNew1C','images/spritesheet/brainandbrawn_gateNew1C.png');
+        this.load.image('gateNew1D','images/spritesheet/brainandbrawn_gateNew1D.png');
+        this.load.image('gateNew2C','images/spritesheet/brainandbrawn_gateNew2C.png');
+        this.load.image('gateNew2D','images/spritesheet/brainandbrawn_gateNew2D.png');
+        this.load.image('gateNew3C','images/spritesheet/brainandbrawn_gateNew3C.png');
+        this.load.image('gateNew3D','images/spritesheet/brainandbrawn_gateNew3D.png');
+        this.load.image('gateNew4C','images/spritesheet/brainandbrawn_gateNew4C.png');
+        this.load.image('gateNew4D','images/spritesheet/brainandbrawn_gateNew4D.png');
+        this.load.image('spikey','images/spritesheet/brainandbrawn_alien3.png');
+        this.load.image('breakable','images/spritesheet/brainandbrawn_wallDamaged.png');
+        this.load.image('playButton', 'images/playButton.png');
+        this.load.image('stopButton', 'images/stopButton.png');
+        this.load.image('eraser','images/eraserTool.png');
+        //END TEMP FOR LEVEL EDITOR
+
         // Levels
         Settings.levels.forEach(function(element, index){
             this.load.text('level'+index, element);
