@@ -15,6 +15,7 @@ Summary: Handles player input (via touch, mouse, and keyboard)
 */
 InputManager = function(initialState) {
 	this.state = initialState;
+	this.direction = 'none';
 
 	this.cursors = BnBgame.input.keyboard.createCursorKeys();
 
@@ -25,8 +26,14 @@ InputManager = function(initialState) {
 
 	this.startPoint = {}
 	BnBgame.input.onDown.add(function(pointer) {
-			this.startPoint.x = pointer.clientX;
-			this.startPoint.y = pointer.clientY;
+			if(this.state === 'ready')
+			{
+				this.startPoint.x = pointer.clientX;
+				this.startPoint.y = pointer.clientY;
+				if(Settings.DEBUG.SWIPING_OFFSET){
+					this.state = 'swiping';
+				}
+			}
 	}, this);
 
 	BnBgame.input.onUp.add(function(pointer) {
@@ -39,15 +46,13 @@ InputManager = function(initialState) {
 */
 InputManager.prototype.setDirection = function(direction){
 	return function() {
-		if (this.state === 'swiping' || this.state === 'ready') {
-			this.state = direction;
-		}
+			this.direction = direction;
+			this.state = 'moving';
 	};
 };
 
 /*
-	Given: starting and ending pos vectors
-	Return: bool representing a successfull swipe
+	Checks to see if touch movement counts as a valid cardinal swipe (called by onUp)
 */
 InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 	var differences = {
@@ -57,18 +62,25 @@ InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 	if (Math.abs(differences.x) > 15 || Math.abs(differences.y) > 15) {
 		if (differences.x < 0 && Math.abs(differences.x) > Math.abs(differences.y)) {
 			this.setDirection('left').call(this);
+			return;
 		} else if (differences.x > 0 && Math.abs(differences.x) > Math.abs(differences.y)){
 			this.setDirection('right').call(this);
+			return;
 		} else if (differences.y < 0 && Math.abs(differences.y) > Math.abs(differences.x)){
 			this.setDirection('up').call(this);
+			return;
 		} else if (differences.y > 0 && Math.abs(differences.y) > Math.abs(differences.x)){
 			this.setDirection('down').call(this);
+			return;
 		}
 	}
+
+	//swipe not good - set state back to 'ready'
+	this.state = 'ready'; 
 }
 
 /*
-	UNUSED: get the "swiping offset" vector
+	get the "swiping offset" vector
 	(how far the player's finger has been dragged from its starting point)
 */
 InputManager.prototype.getSwipingOffset = function(){

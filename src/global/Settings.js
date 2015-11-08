@@ -11,6 +11,9 @@ Summary: Global values for game-wide use
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 Settings = {
+    DEBUG: {
+        SWIPING_OFFSET: true,
+    },
     //Core settings
     GAME: {
         STANDARD_WIDTH: 2048,

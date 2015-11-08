@@ -37,10 +37,10 @@ Level.prototype = {
 
 		//set STAR levels
 		this.currentStarLevel = 3;
-  	this.starLevels = [20,10];
-  	if(typeof this.levelData.starLevels != 'undefined'){
-  		this.starLevels = this.levelData.starLevels;
-  	}
+      	this.starLevels = [20,10];
+      	if(typeof this.levelData.starLevels != 'undefined'){
+      		this.starLevels = this.levelData.starLevels;
+      	}
 
 		//DEBUG input
 		this.nextKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.N);
@@ -55,44 +55,44 @@ Level.prototype = {
 		//this.spriteHUD = BnBgame.add.sprite(0,0,'imageHUD');
 		//this.spriteHUD.width = Settings.GAME.WIDTH;
 		this.levelText = BnBgame.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-  	this.moveText = BnBgame.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-  	
-  	this.restartButton = BnBgame.add.image(570,2,'rButton');
-  	this.restartButtonBig = BnBgame.add.image(500,-30,'rButton');
-  	this.restartButtonBig.scale.setTo(2.5,2.5);
-  	this.restartButtonBig.inputEnabled = true;
-  	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
-  	this.restartButtonBig.alpha = 0;
-  	
-  	this.menuButton = BnBgame.add.image(20,8,'mButton');
-  	this.menuButton.scale.setTo(0.8,0.8);
-  	this.menuButtonBig = BnBgame.add.image(0,-12,'mButton');
-  	this.menuButtonBig.scale.setTo(2,2);
-  	this.menuButtonBig.inputEnabled = true;
-  	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
-  	this.menuButtonBig.alpha = 0;
+      	this.moveText = BnBgame.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+      	
+      	this.restartButton = BnBgame.add.image(570,2,'rButton');
+      	this.restartButtonBig = BnBgame.add.image(500,-30,'rButton');
+      	this.restartButtonBig.scale.setTo(2.5,2.5);
+      	this.restartButtonBig.inputEnabled = true;
+      	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
+      	this.restartButtonBig.alpha = 0;
+      	
+      	this.menuButton = BnBgame.add.image(20,8,'mButton');
+      	this.menuButton.scale.setTo(0.8,0.8);
+      	this.menuButtonBig = BnBgame.add.image(0,-12,'mButton');
+      	this.menuButtonBig.scale.setTo(2,2);
+      	this.menuButtonBig.inputEnabled = true;
+      	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
+      	this.menuButtonBig.alpha = 0;
 
-  	this.starsHUD = BnBgame.add.group();  	
-  	this.drawStarsHUD(3);
+      	this.starsHUD = BnBgame.add.group();  	
+      	this.drawStarsHUD(3);
 
 
-  	//TEMP: support level builder entry
-  	if(Settings.GAME.LEVEL_MODE == 'builder')
-  	{
-  		//hide HUD
-  		this.levelText.visible = false;
-  		this.menuButton.visible = false;
-  		this.menuButtonBig.visible = false;
-  		this.restartButton.visible = false;
-  		this.restartButtonBig.visible = false;
-  		this.starsHUD.visible = false;
+      	//TEMP: support level builder entry
+      	if(Settings.GAME.LEVEL_MODE == 'builder')
+      	{
+      		//hide HUD
+      		this.levelText.visible = false;
+      		this.menuButton.visible = false;
+      		this.menuButtonBig.visible = false;
+      		this.restartButton.visible = false;
+      		this.restartButtonBig.visible = false;
+      		this.starsHUD.visible = false;
 
-  		//add STOP button
-  		this.stopButton = BnBgame.add.image(0,0,'stopButton');
-	    this.stopButton.scale.setTo(0.1,0.1);
-	    this.stopButton.inputEnabled=true;
-	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
-  	}
+      		//add STOP button
+      		this.stopButton = BnBgame.add.image(0,0,'stopButton');
+    	    this.stopButton.scale.setTo(0.1,0.1);
+    	    this.stopButton.inputEnabled=true;
+    	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
+      	}
 
 
 		if (typeof this.levelData.tutorial != 'undefined') {
@@ -110,7 +110,10 @@ Level.prototype = {
 	*/
 	update: function() {
 		this.graphicsManager.refresh();
+
+
 		if (this.inputManager.state === 'swiping') {
+            //dragging finger - shift BnB based on swiping offset
 			var swipeOffset = this.inputManager.getSwipingOffset();
 			var swipeDirection = getDirection(swipeOffset);
 			if (swipeDirection === 'left' || swipeDirection === 'right') {
@@ -118,12 +121,15 @@ Level.prototype = {
 			} else if (swipeDirection === 'up' || swipeDirection === 'down') {
 				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
 			}
-		} else if (this.inputManager.state != 'ready' && this.inputManager.state != 'waiting') {
-			this.results = this.gameLogic.gravitySwitch(this.inputManager.state);
+		} else if (this.inputManager.state == 'moving') {
+            //successful swipe - brainy & brawny are moving
+			this.results = this.gameLogic.gravitySwitch(this.inputManager.direction);
 			this.graphicsManager.updateGraphics(this.results);
 			this.inputManager.state = 'waiting';
 		}
-		if (this.graphicsManager.areAnimationsFinished() && this.inputManager.state === 'waiting' && this.tutorialFinished && !this.levelFinished) {
+
+
+		if (this.inputManager.state === 'waiting' && this.graphicsManager.areAnimationsFinished() && this.tutorialFinished && !this.levelFinished) {
 			this.inputManager.state = 'ready';
 
 			//if the move was successful (something moved) - update the move counter
