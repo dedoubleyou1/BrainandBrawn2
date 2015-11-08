@@ -7,7 +7,7 @@ AboutMenu.prototype = {
 	*/
 	create: function(){
 		var myItems = ["Created by:","Rohit Crasta","David Wallin"];
-		var myFont = { font: "50px Arial", fill: "#ffffff", align: "center"}
+		var myFont = { font: "50px Arial", fill: "#ffffff", align: "center"};
 		var textGroup = createMenu(myItems,myFont);
 
 		//back arrow

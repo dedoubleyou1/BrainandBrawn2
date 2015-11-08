@@ -43,6 +43,11 @@ Settings = {
         MAP_HEIGHT: 1536
     },
 
+    BUILDER: {
+        GRID_X: 8,
+        GRID_Y: 8,
+    },
+
 
     empty_levels: [
         'emptyLevel.json',

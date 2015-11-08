@@ -66,8 +66,8 @@ LevelBuilder.prototype = {
     this.brushWidth = Settings.GAME.WIDTH/9;
     this.brushHeight = this.brushWidth;
 
-    this.gridWidth = 8;
-    this.gridHeight = 8;
+    this.gridWidth = Settings.BUILDER.GRID_X;
+    this.gridHeight = Settings.BUILDER.GRID_Y;
 
     //play space offsetY
     var playY = this.brushHeight*3;
@@ -99,6 +99,7 @@ LevelBuilder.prototype = {
 
   create: function() {
     Settings.GAME.LEVEL_MODE = 'builder';
+    this.state.add('AdjustMenu',AdjustMenu);
 
     //Phaser this.graphics drawing engine 
     this.graphics = BnBgame.add.graphics(0,0);
@@ -124,7 +125,6 @@ LevelBuilder.prototype = {
     this.brushes = BnBgame.add.group();
     this.createBrushPalette();
 
-
     this.gridImages = BnBgame.add.group();
 
     //grid images (placeholder)
@@ -132,31 +132,45 @@ LevelBuilder.prototype = {
     {
       for(var i=0;i<this.gridHeight;i++)
       {
-        for(var j=0;j<this.gridWidth;j++)
-        {
-          var currentFixedKey = savedLevelData.fixed[i][j];
-          var currentActiveKey = savedLevelData.active[i][j];
-          var newImage;
-          if(currentFixedKey in bigKeyLookup)
+        if(i >= savedLevelData.height){
+          for(var j=0;j<this.gridWidth;j++)
           {
-            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,bigKeyLookup[currentFixedKey])
-            newImage.visible = true;
-          }
-          else if(currentActiveKey in bigKeyLookup)
-          {
-            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,bigKeyLookup[currentActiveKey])
-            newImage.visible = true;
-          }
-          else
-          {
-            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
+            var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
+            newImage.width = this.cellWidth;
+            newImage.height = this.cellHeight;
             newImage.visible = false;
           }
-          
-          newImage.width = this.cellWidth;
-          newImage.height = this.cellHeight;
+        }
+        else{
+          for(var j=0;j<this.gridWidth;j++)
+          {
+            var currentFixedKey = savedLevelData.fixed[i][j];
+            var currentActiveKey = savedLevelData.active[i][j];
+            var newImage;
+            if(currentFixedKey in bigKeyLookup)
+            {
+              newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,bigKeyLookup[currentFixedKey])
+              newImage.visible = true;
+            }
+            else if(currentActiveKey in bigKeyLookup)
+            {
+              newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,bigKeyLookup[currentActiveKey])
+              newImage.visible = true;
+            }
+            else
+            {
+              newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
+              newImage.visible = false;
+            }
+            
+            newImage.width = this.cellWidth;
+            newImage.height = this.cellHeight;
+          }
         }
       }
+
+      //overwerite old map in case of new dimensions
+      this.printMap();
     }
     else
     {
@@ -273,6 +287,13 @@ LevelBuilder.prototype.createBrushPalette = function()
   this.eraseButton.height = this.brushHeight;
   this.eraseButton.inputEnabled=true;
   this.eraseButton.events.onInputDown.add(this.toggleEraser,this);
+
+  //Create Dimensions button
+  this.sizeButton = BnBgame.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
+  this.sizeButton.width = this.brushWidth;
+  this.sizeButton.height = this.brushHeight;
+  this.sizeButton.inputEnabled = true;
+  this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
   return this.brushHeight*3;
 }
@@ -442,6 +463,12 @@ LevelBuilder.prototype.printMap = function()
 
   savedLevelData.saved = true;
 };
+
+LevelBuilder.prototype.changeDimensions = function()
+{
+  this.printMap();
+  this.state.start('AdjustMenu');
+}
 
 LevelBuilder.prototype.toggleEraser = function()
 {
