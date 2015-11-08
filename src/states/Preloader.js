@@ -41,6 +41,7 @@ Preloader.prototype = {
         this.load.image('backArrow','images/back-arrow.png');
         this.load.image('arrow','images/arrow.png');
         this.load.image('dimensions','images/dimensions.png');
+        this.load.image('saveIcon','images/saveButton.png');
 
         // New Tutorial images
         this.load.image('tutorial1','images/tutorials-01.png');

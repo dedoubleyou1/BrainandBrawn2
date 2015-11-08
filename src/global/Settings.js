@@ -81,6 +81,9 @@ Settings = {
         //ACTUAL test levels
         // 'levels/testReal_01.json',
 
+        //TEST LOAD LEVEL
+        // 'levels/my_level.json',
+
         //Basic
         'levels/startlevel5.json',
         'levels/splitlevel.json',

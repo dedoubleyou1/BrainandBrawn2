@@ -207,11 +207,11 @@ LevelBuilder.prototype = {
 LevelBuilder.prototype.createBrushPalette = function()
 {
   //show current brush
-  this.brushDisplay = BnBgame.add.image(5,5,'brainy');
+  this.brushDisplay = BnBgame.add.image(2,2,'brainy');
   this.brushDisplay.width = this.brushWidth;
   this.brushDisplay.height = this.brushHeight;
   this.graphics.lineStyle(3, 0x00FFFF, 1);
-  this.graphics.drawRect(0, 0, this.brushWidth+10, this.brushHeight+10);
+  this.graphics.drawRect(0, 0, this.brushWidth+4, this.brushHeight+4);
 
   this.brushes.create(0,0,'brainy');
   this.brushes.create(0,0,'brawny');
@@ -260,7 +260,7 @@ LevelBuilder.prototype.createBrushPalette = function()
   //   image.height = refHeight;
   // });
 
-  var brushX = this.brushWidth*2;
+  var brushX = this.brushWidth;
   var totalRows = 3;
   var currentColumn = 0;
   for(var i=0;i<this.brushes.length;i++)
@@ -294,6 +294,13 @@ LevelBuilder.prototype.createBrushPalette = function()
   this.sizeButton.height = this.brushHeight;
   this.sizeButton.inputEnabled = true;
   this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
+
+  //create save button
+  this.saveButton = BnBgame.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight,'saveIcon');
+  this.saveButton.width = this.brushWidth;
+  this.saveButton.height = this.brushHeight;
+  this.saveButton.inputEnabled = true;
+  this.saveButton.events.onInputDown.add(this.saveLevel,this);
 
   return this.brushHeight*3;
 }
@@ -474,6 +481,23 @@ LevelBuilder.prototype.toggleEraser = function()
 {
   this.eraserOn = true;
   this.brushDisplay.visible = false;
+}
+
+LevelBuilder.prototype.saveLevel = function()
+{
+  //update saved data json
+  this.printMap();
+
+  var data = savedLevelData;
+
+  //turn data into BLOB
+  var json = JSON.stringify(data);
+  var blob = new Blob([json], {type: "application/json"});
+  var url  = URL.createObjectURL(blob);
+
+  //create new window + add DOWNLOAD link
+  var myWindow = window.open("", '_blank');
+  myWindow.document.write("<a href=\"" + url + "\" download=\"my_level.json\">DOWNLOAD</a>");
 }
 
 LevelBuilder.prototype.playLevel = function()
