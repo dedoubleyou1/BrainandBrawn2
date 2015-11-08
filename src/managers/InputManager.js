@@ -46,8 +46,10 @@ InputManager = function(initialState) {
 */
 InputManager.prototype.setDirection = function(direction){
 	return function() {
-			this.direction = direction;
-			this.state = 'moving';
+			if(this.state == 'ready' || this.state == 'swiping'){
+				this.direction = direction;
+				this.state = 'moving';
+			}
 	};
 };
 
