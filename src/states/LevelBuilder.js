@@ -51,11 +51,11 @@ var bigKeyLookup = {
 
 
 //global object to save the data (temp)
-var savedLevelData = {};
+// var Settings.BUILDER.DATA = {};
 
 LevelBuilder = function() 
 {
-  savedLevelData.saved = false;
+  Settings.BUILDER.DATA.saved = false;
 };
 
 LevelBuilder.prototype = {
@@ -128,11 +128,11 @@ LevelBuilder.prototype = {
     this.gridImages = BnBgame.add.group();
 
     //grid images (placeholder)
-    if(savedLevelData.saved) 
+    if(Settings.BUILDER.DATA.saved) 
     {
       for(var i=0;i<this.gridHeight;i++)
       {
-        if(i >= savedLevelData.height){
+        if(i >= Settings.BUILDER.DATA.height){
           for(var j=0;j<this.gridWidth;j++)
           {
             var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
@@ -144,8 +144,8 @@ LevelBuilder.prototype = {
         else{
           for(var j=0;j<this.gridWidth;j++)
           {
-            var currentFixedKey = savedLevelData.fixed[i][j];
-            var currentActiveKey = savedLevelData.active[i][j];
+            var currentFixedKey = Settings.BUILDER.DATA.fixed[i][j];
+            var currentActiveKey = Settings.BUILDER.DATA.active[i][j];
             var newImage;
             if(currentFixedKey in bigKeyLookup)
             {
@@ -390,11 +390,11 @@ LevelBuilder.prototype.screenToGridCoordinates = function(screenX,screenY)
 //update saved data & print to console
 LevelBuilder.prototype.printMap = function()
 {
-  savedLevelData.name = "test";
-  savedLevelData.height = this.gridHeight;
-  savedLevelData.width =this.gridWidth;
-  savedLevelData.active = [];
-  savedLevelData.fixed = [];
+  Settings.BUILDER.DATA.name = "test";
+  Settings.BUILDER.DATA.height = this.gridHeight;
+  Settings.BUILDER.DATA.width =this.gridWidth;
+  Settings.BUILDER.DATA.active = [];
+  Settings.BUILDER.DATA.fixed = [];
 
   var string1 = "{\n";
   string1 += "\"name\": \"Exported Level\",\n";
@@ -406,7 +406,7 @@ LevelBuilder.prototype.printMap = function()
   for(var i=0;i<this.gridHeight;i++)
   {
     string2 += "[";
-    savedLevelData.active.push([]);
+    Settings.BUILDER.DATA.active.push([]);
     for(var j=0;j<this.gridWidth;j++)
     {
       var key = this.gridImages.getAt(i*this.gridWidth+j).key;
@@ -420,7 +420,7 @@ LevelBuilder.prototype.printMap = function()
       //add comma if not the last element
       if(j < this.gridWidth-1) string2 += ","; 
       
-      savedLevelData.active[i].push(stringToAdd);
+      Settings.BUILDER.DATA.active[i].push(stringToAdd);
     }
     if(i < this.gridHeight-1) {
       string2 += "],\n";
@@ -436,7 +436,7 @@ LevelBuilder.prototype.printMap = function()
   for(var i=0;i<this.gridHeight;i++)
   {
     string3 += "[";
-    savedLevelData.fixed.push([]);
+    Settings.BUILDER.DATA.fixed.push([]);
     for(var j=0;j<this.gridWidth;j++)
     {
       var key = this.gridImages.getAt(i*this.gridWidth+j).key;
@@ -449,7 +449,7 @@ LevelBuilder.prototype.printMap = function()
       //add comma if not the last element
       if(j < this.gridWidth-1) string3 += ","; 
 
-      savedLevelData.fixed[i].push(stringToAdd);
+      Settings.BUILDER.DATA.fixed[i].push(stringToAdd);
     }
     if(i < this.gridHeight-1) {
       string3 += "],\n";
@@ -465,10 +465,10 @@ LevelBuilder.prototype.printMap = function()
 
 
   //create copy of saved level data + save it to STATE
-  var passingData = Phaser.Utils.extend(true,savedLevelData);
+  var passingData = Phaser.Utils.extend(true,Settings.BUILDER.DATA);
   this.state.add('testLevel',new Level(0,passingData));
 
-  savedLevelData.saved = true;
+  Settings.BUILDER.DATA.saved = true;
 };
 
 LevelBuilder.prototype.changeDimensions = function()
@@ -488,7 +488,7 @@ LevelBuilder.prototype.saveLevel = function()
   //update saved data json
   this.printMap();
 
-  var data = savedLevelData;
+  var data = Settings.BUILDER.DATA;
 
   //turn data into BLOB
   var json = JSON.stringify(data);

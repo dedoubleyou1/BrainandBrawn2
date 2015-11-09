@@ -9,6 +9,26 @@ Summary: Static utility functions for game-wide use
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+//adds state based on uploaded file
+var handleFiles = function(files)
+{	
+	var reader = new FileReader();
+  reader.onload = onReaderLoad;
+  reader.readAsText(files[0]);
+
+	// //assumes a JSON
+	// var data = files[0];//JSON.parse(files[0]);
+	// data.saved = true;
+	// Settings.BUILDER.DATA = data;
+}
+
+var onReaderLoad = function(event){
+    Settings.BUILDER.DATA = JSON.parse(event.target.result);
+    Settings.BUILDER.DATA.saved = true;
+    BnBgame.state.start('LevelBuilder');
+}
+
+
 //Creates a very simple menu of text items
 var createMenu = function(items,myFont)
 {

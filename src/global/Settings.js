@@ -44,6 +44,7 @@ Settings = {
     },
 
     BUILDER: {
+        DATA: {},
         GRID_X: 8,
         GRID_Y: 8,
     },

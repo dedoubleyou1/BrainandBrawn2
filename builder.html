@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Brain and Brawn</title>
+    <style>
+        body {
+            margin: auto;
+            background: #444;
+            @font-face { font-family: 'Quicksand'; src: url('fonts/Quicksand-700.ttf'); }
+        }
+    </style>
+
+    
+    <script type="text/javascript" src="phaser.js"></script>
+    
+    <script type="text/javascript" src="src/global/Utilities.js"></script>
+    <script type="text/javascript" src="src/global/Settings.js"></script>
+    
+    <script type="text/javascript" src="src/managers/AudioManager.js"></script>
+    <script type="text/javascript" src="src/managers/GameLogic.js"></script>
+    <script type="text/javascript" src="src/managers/GraphicsManager.js"></script>
+    <script type="text/javascript" src="src/managers/InputManager.js"></script>
+
+    <script type="text/javascript" src="src/states/menus/MainMenu.js"></script>
+    <script type="text/javascript" src="src/states/menus/OptionsMenu.js"></script>
+    <script type="text/javascript" src="src/states/menus/AboutMenu.js"></script>
+    <script type="text/javascript" src="src/states/menus/AdjustMenu.js"></script>
+
+    <script type="text/javascript" src="src/states/Preloader.js"></script>
+    <script type="text/javascript" src="src/states/TitleScreen.js"></script>
+    <script type="text/javascript" src="src/states/LevelSelect.js"></script>
+    <script type="text/javascript" src="src/states/LevelBuilder.js"></script>
+    <script type="text/javascript" src="src/states/Levels.js"></script>
+    <script type="text/javascript" src="src/states/Initializer.js"></script>
+</head>
+
+<body> 
+    <input type="file" id="input" onchange="handleFiles(this.files)">
+</body>
+    
+</html>
