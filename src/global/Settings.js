@@ -12,7 +12,8 @@ Summary: Global values for game-wide use
 
 Settings = {
     DEBUG: {
-        SWIPING_OFFSET: true,
+        MODE: 'demo',
+        SWIPING_OFFSET: false,
     },
     //Core settings
     GAME: {

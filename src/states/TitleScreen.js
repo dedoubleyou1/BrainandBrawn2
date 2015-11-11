@@ -42,7 +42,9 @@ TitleScreen.prototype = {
 		onTap - start the game!
 	*/
 	startGame: function(){
-		playSound('select');
-		this.state.start('MainMenu');
+		// playSound('select');
+
+		//TEMP - skip main menu
+		this.state.start('level0');
 	}
 };
