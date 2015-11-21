@@ -63,7 +63,6 @@ Settings = {
 
         //TEST
         // 'levels/test/openlevel.json',
-        // 'levels/test/openlevel0.json',
         // 'levels/test/startlevel4.json',
         // 'levels/test/test_reorientation2.json',
 
@@ -90,6 +89,9 @@ Settings = {
 
         'levels/test/passagelevel.json',
         'levels/gates1.json',
+
+        //open
+        'levels/test/openlevel0.json',
 
         'levels/test_breakable0.json',
         'levels/test_breakable1.json',

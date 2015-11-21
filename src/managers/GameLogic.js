@@ -353,7 +353,7 @@ GameLogic.prototype.gravitySwitch = function(direction) {
 };
 
 /*
-
+  Move all active objects a single cell in the specified direction.
 */
 GameLogic.prototype.moveOnce = function(direction) {
   var moveSuccess = false;
@@ -407,6 +407,8 @@ GameLogic.prototype.attemptMove = function(direction, x, y) {
 */
 GameLogic.prototype.isPositionClear = function(character, x, y) {
   if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
+    //TEMP HACK (should be a part of triggers)
+    Settings.GAME.SPIKEY_DEATH = true; 
     return false
   } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
     

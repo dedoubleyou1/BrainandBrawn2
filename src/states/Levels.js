@@ -55,44 +55,44 @@ Level.prototype = {
 		//this.spriteHUD = BnBgame.add.sprite(0,0,'imageHUD');
 		//this.spriteHUD.width = Settings.GAME.WIDTH;
 		this.levelText = BnBgame.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-      	this.moveText = BnBgame.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-      	
-      	this.restartButton = BnBgame.add.image(570,2,'rButton');
-      	this.restartButtonBig = BnBgame.add.image(500,-30,'rButton');
-      	this.restartButtonBig.scale.setTo(2.5,2.5);
-      	this.restartButtonBig.inputEnabled = true;
-      	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
-      	this.restartButtonBig.alpha = 0;
-      	
-      	this.menuButton = BnBgame.add.image(20,8,'mButton');
-      	this.menuButton.scale.setTo(0.8,0.8);
-      	this.menuButtonBig = BnBgame.add.image(0,-12,'mButton');
-      	this.menuButtonBig.scale.setTo(2,2);
-      	this.menuButtonBig.inputEnabled = true;
-      	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
-      	this.menuButtonBig.alpha = 0;
+  	this.moveText = BnBgame.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+  	
+  	this.restartButton = BnBgame.add.image(570,2,'rButton');
+  	this.restartButtonBig = BnBgame.add.image(500,-30,'rButton');
+  	this.restartButtonBig.scale.setTo(2.5,2.5);
+  	this.restartButtonBig.inputEnabled = true;
+  	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
+  	this.restartButtonBig.alpha = 0;
+  	
+  	this.menuButton = BnBgame.add.image(20,8,'mButton');
+  	this.menuButton.scale.setTo(0.8,0.8);
+  	this.menuButtonBig = BnBgame.add.image(0,-12,'mButton');
+  	this.menuButtonBig.scale.setTo(2,2);
+  	this.menuButtonBig.inputEnabled = true;
+  	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
+  	this.menuButtonBig.alpha = 0;
 
-      	this.starsHUD = BnBgame.add.group();  	
-      	this.drawStarsHUD(3);
+  	this.starsHUD = BnBgame.add.group();  	
+  	this.drawStarsHUD(3);
 
 
-      	//TEMP: support level builder entry
-      	if(Settings.GAME.LEVEL_MODE == 'builder')
-      	{
-      		//hide HUD
-      		this.levelText.visible = false;
-      		this.menuButton.visible = false;
-      		this.menuButtonBig.visible = false;
-      		this.restartButton.visible = false;
-      		this.restartButtonBig.visible = false;
-      		this.starsHUD.visible = false;
+  	//TEMP: support level builder entry
+  	if(Settings.GAME.LEVEL_MODE == 'builder')
+  	{
+  		//hide HUD
+  		this.levelText.visible = false;
+  		this.menuButton.visible = false;
+  		this.menuButtonBig.visible = false;
+  		this.restartButton.visible = false;
+  		this.restartButtonBig.visible = false;
+  		this.starsHUD.visible = false;
 
-      		//add STOP button
-      		this.stopButton = BnBgame.add.image(0,0,'stopButton');
-    	    this.stopButton.scale.setTo(0.1,0.1);
-    	    this.stopButton.inputEnabled=true;
-    	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
-      	}
+  		//add STOP button
+  		this.stopButton = BnBgame.add.image(0,0,'stopButton');
+	    this.stopButton.scale.setTo(0.1,0.1);
+	    this.stopButton.inputEnabled=true;
+	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
+  	}
 
 
 		if (typeof this.levelData.tutorial != 'undefined') {
