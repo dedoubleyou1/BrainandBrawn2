@@ -25,6 +25,7 @@ Settings = {
         STRETCH: 'width',
         SPIKEY_DEATH: false,
         LEVEL_MODE: 'normal',
+        BOUNDARY_DEATH: true,
     },
 
     //Settings for the GraphicManager state

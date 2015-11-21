@@ -23,6 +23,7 @@ LevelSelect.prototype = {
 	*/
 	create: function() {
 		Settings.GAME.LEVEL_MODE = 'normal';
+		Settings.GAME.BOUNDS_DEATH = true;
 
 		this.buttons = BnBgame.add.group();
 		this.buttonTexts = BnBgame.add.group();

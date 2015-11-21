@@ -408,7 +408,7 @@ GameLogic.prototype.attemptMove = function(direction, x, y) {
 GameLogic.prototype.isPositionClear = function(character, x, y) {
   if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
     //TEMP HACK (should be a part of triggers)
-    Settings.GAME.SPIKEY_DEATH = true; 
+    Settings.GAME.SPIKEY_DEATH = Settings.GAME.BOUNDARY_DEATH;
     return false
   } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
     

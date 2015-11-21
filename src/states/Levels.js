@@ -160,8 +160,8 @@ Level.prototype = {
 
 			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || Settings.GAME.SPIKEY_DEATH) {
 				playSound('death');
-				this.state.start('level'+(this.level));
 				Settings.GAME.SPIKEY_DEATH = false;//TEMP HACK
+				this.restartLevel();
 			} else if (this.results.endState === 'missionSuccess'){
                 this.loadVictory();
 			}
@@ -260,7 +260,7 @@ Level.prototype = {
 	nextLevel: function()
 	{
         if(Settings.GAME.LEVEL_MODE == 'builder'){
-            this.state.start(this.state.start('LevelBuilder'))
+            this.state.start('LevelBuilder');
         }
 		else if(this.tutorialFinished)
 		{
@@ -289,7 +289,7 @@ Level.prototype = {
 			}
 			else
 			{
-				this.state.start('testLevel');
+				this.state.start('LevelBuilder');
 			}
 		}
 	},

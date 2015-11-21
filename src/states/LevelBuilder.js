@@ -62,6 +62,9 @@ LevelBuilder.prototype = {
 
   init: function()
   {
+    //Settings
+    Settings.GAME.BOUNDS_DEATH = false;
+
     //brush panel variables
     this.brushWidth = Settings.GAME.WIDTH/9;
     this.brushHeight = this.brushWidth;

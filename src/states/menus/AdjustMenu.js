@@ -20,6 +20,8 @@ AdjustMenu.prototype = {
 		var w = Settings.GAME.WIDTH;
 		var h = Settings.GAME.HEIGHT;
 
+
+		//dimensions text
 		var myFont = { font: "80px Arial", fill: "#ffffff", align: "center"}
 		this.widthText = BnBgame.add.text(w/2,200,Settings.BUILDER.GRID_X,myFont);
 		this.widthText.anchor.setTo(0.5);
@@ -48,6 +50,12 @@ AdjustMenu.prototype = {
 		down.events.onInputDown.add(this.onDownY,this);
 		down.anchor.setTo(0.5);
 		down.rotation = 3*Math.PI/2;
+
+		//toggle off-screen death
+		myFont = { font: "30px Arial", fill: "#ffffff", align: "center"}
+		this.boundsText = BnBgame.add.text(300,0,"Boundary Death: " + Settings.GAME.BOUNDARY_DEATH,myFont);
+		this.boundsText.inputEnabled = true;
+		this.boundsText.events.onInputDown.add(this.toggleBounds,this);
 
 		//back arrow
 		var back = BnBgame.add.image(10,10,'backArrow');
@@ -86,6 +94,12 @@ AdjustMenu.prototype = {
 			Settings.BUILDER.GRID_Y--;
 			this.heightText.text = Settings.BUILDER.GRID_Y;
 		}
+	},
+
+	toggleBounds: function()
+	{
+		Settings.GAME.BOUNDARY_DEATH = !Settings.GAME.BOUNDARY_DEATH;
+		this.boundsText.text = "Boundary Death: " + Settings.GAME.BOUNDARY_DEATH;
 	},
 
 
