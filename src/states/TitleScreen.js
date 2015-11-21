@@ -45,6 +45,7 @@ TitleScreen.prototype = {
 		// playSound('select');
 
 		//TEMP - skip main menu
-		this.state.start('level0');
+		// this.state.start('level0');
+		this.state.start('MainMenu');
 	}
 };

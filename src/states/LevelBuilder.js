@@ -72,11 +72,11 @@ LevelBuilder.prototype = {
     //play space offsetY
     var playY = this.brushHeight*3;
 
-    if(this.gridWidth >= this.gridHeight)
+    if(this.gridWidth*50 >= this.gridHeight*62.5)
     {
       //base on width
       this.cellWidth = Settings.GAME.WIDTH / this.gridWidth;
-      this.cellHeight = this.cellWidth/50*62.5
+      this.cellHeight = this.cellWidth/50*62.50;
     }
     else
     {

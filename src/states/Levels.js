@@ -22,7 +22,7 @@ Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
-		if(typeof this.levelData == 'undefined') 
+		if(Settings.GAME.LEVEL_MODE == 'normal')
 		{
 			this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
 		}

@@ -24,6 +24,9 @@ var handleFiles = function(files)
 
 var onReaderLoad = function(event){
     Settings.BUILDER.DATA = JSON.parse(event.target.result);
+
+    Settings.BUILDER.GRID_X = Settings.BUILDER.DATA.width;
+ 		Settings.BUILDER.GRID_Y = Settings.BUILDER.DATA.height;
     Settings.BUILDER.DATA.saved = true;
     BnBgame.state.start('LevelBuilder');
 }
