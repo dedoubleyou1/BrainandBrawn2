@@ -18,7 +18,7 @@ MainMenu.prototype = {
 	create: function()
 	{
 		var myItems = ["Play","Options","Create Levels","About"];
-		var myFont = { font: "50px Arial", fill: "#ffffff", align: "center"}
+		var myFont = { font: "50px Quicksand", fill: "#ffffff", align: "center"}
 		var textGroup = createMenu(myItems,myFont);
 
 		//add handlers

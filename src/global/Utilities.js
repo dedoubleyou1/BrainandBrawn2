@@ -51,6 +51,7 @@ var createMenu = function(items,myFont)
 		textItem.anchor = {x: 0.5, y: 0.5};
 		textItem.y = menuY + i*textItem.height;
 		textItem.inputEnabled = true;
+		textItem.font = 'Quicksand';
 	}
 
 	return textGroup;

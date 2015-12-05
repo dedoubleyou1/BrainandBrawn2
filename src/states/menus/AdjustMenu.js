@@ -22,7 +22,7 @@ AdjustMenu.prototype = {
 
 
 		//dimensions text
-		var myFont = { font: "80px Arial", fill: "#ffffff", align: "center"}
+		var myFont = { font: "80px Quicksand", fill: "#ffffff", align: "center"}
 		this.widthText = BnBgame.add.text(w/2,200,Settings.BUILDER.GRID_X,myFont);
 		this.widthText.anchor.setTo(0.5);
 		this.heightText = BnBgame.add.text(w/2,615,Settings.BUILDER.GRID_Y,myFont);
@@ -52,7 +52,7 @@ AdjustMenu.prototype = {
 		down.rotation = 3*Math.PI/2;
 
 		//toggle off-screen death
-		myFont = { font: "30px Arial", fill: "#ffffff", align: "center"}
+		myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
 		this.boundsText = BnBgame.add.text(300,0,"Boundary Death: " + Settings.GAME.BOUNDARY_DEATH,myFont);
 		this.boundsText.inputEnabled = true;
 		this.boundsText.events.onInputDown.add(this.toggleBounds,this);
