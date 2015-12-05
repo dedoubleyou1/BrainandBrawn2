@@ -496,7 +496,7 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 */
 GraphicsManager.prototype.refresh = function() {
     for (element in this.active) {
-      this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY) - Settings.GRAPHICS.HUD_HEIGHT) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
+      this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };
     this.fixedGroup.sort('customZ', Phaser.Group.SORT_ASCENDING)
 
