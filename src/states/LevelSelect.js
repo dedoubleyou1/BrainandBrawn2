@@ -96,10 +96,10 @@ LevelSelect.prototype = {
 			if(currentColumn == 0 && i!=0) currentRow++;
 
 			var buttonX = currentColumn*(buttonSize+buttonGapX)+buttonGapX;
-			var buttonY = currentRow*(buttonSize+buttonGapY)+buttonGapX;
+			var buttonY = currentRow*(buttonSize+buttonGapY)+buttonGapX + offsetY;
 
 			this.buttons.getAt(i).x = buttonX;
-			this.buttons.getAt(i).y = buttonY + offsetY;
+			this.buttons.getAt(i).y = buttonY;
 
 			this.buttonTexts.getAt(i).x = this.buttons.getAt(i).x+this.buttons.getAt(i).width/2;
 			this.buttonTexts.getAt(i).y = this.buttons.getAt(i).y+this.buttons.getAt(i).height+15;
