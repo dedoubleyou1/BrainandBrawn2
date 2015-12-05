@@ -220,11 +220,11 @@ Level.prototype = {
 			this.levelFinished = true;
 			this.inputManager.state = 'waiting';
 
-			if(this.currentStarLevel > BnBgame.levelStatus[this.level]){
-				BnBgame.levelStatus[this.level] = this.currentStarLevel;
+			if(this.currentStarLevel > SaveData.levelStatus[this.level]){
+				SaveData.levelStatus[this.level] = this.currentStarLevel;
 			}
-			if(BnBgame.levelStatus[this.level+1] == -1){
-				BnBgame.levelStatus[this.level+1] = 0; //unlocked
+			if(SaveData.levelStatus[this.level+1] == -1){
+				SaveData.levelStatus[this.level+1] = 0; //unlocked
 			}
 
 			this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
@@ -311,9 +311,9 @@ Level.prototype = {
 	skipLevel: function()
 	{
 		this.numMoves = 99;
-		if(BnBgame.levelStatus[this.level] < 1) BnBgame.levelStatus[this.level] = 1;
-		if(BnBgame.levelStatus[this.level+1] == -1){
-			BnBgame.levelStatus[this.level+1] = 0; //unlocked
+		if(SaveData.levelStatus[this.level] < 1) SaveData.levelStatus[this.level] = 1;
+		if(SaveData.levelStatus[this.level+1] == -1){
+			SaveData.levelStatus[this.level+1] = 0; //unlocked
 		}
 		this.nextLevel();
 	},
