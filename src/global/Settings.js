@@ -68,15 +68,15 @@ Settings = {
         // 'levels/test/test_reorientation2.json',
 
         //Basic
-        'levels/startlevel5.json',
+        ' levels/startlevel5.json',
         'levels/splitlevel.json',
         'levels/startlevel3.json',
 
-        'levels/test/teamlevel.json',
         'levels/test_reorientation0_v2.json',
+        'levels/test/teamlevel.json',
+        'levels/test/reorientation04_snake.json',
         'levels/fliplevel.json',
         'levels/test_reorientation3.json',
-
 
         'levels/enemylevel2.json',
         'levels/enemylevel1.json',

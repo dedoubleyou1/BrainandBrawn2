@@ -396,6 +396,7 @@ LevelBuilder.prototype.printMap = function()
   Settings.BUILDER.DATA.name = "test";
   Settings.BUILDER.DATA.height = this.gridHeight;
   Settings.BUILDER.DATA.width =this.gridWidth;
+  Settings.BUILDER.DATA.starLevels = [];
   Settings.BUILDER.DATA.active = [];
   Settings.BUILDER.DATA.fixed = [];
 
