@@ -20,11 +20,11 @@ Preloader.prototype = {
     init: function(){
 
         //TODO: fix awkward SHIFT on page resize
-        this.loadingBar = BnBgame.add.image(this.world.centerX,this.world.centerY,'loadingBar');
+        this.loadingBar = game.add.image(this.world.centerX,this.world.centerY,'loadingBar');
         this.loadingBar.x = this.world.centerX - this.loadingBar.width/2;
         this.loadingBar.anchor.y = 0.5;
 
-        this.loadingBack = BnBgame.add.image(this.world.centerX - this.loadingBar.width/2,this.world.centerY,'loadingBack');
+        this.loadingBack = game.add.image(this.world.centerX - this.loadingBar.width/2,this.world.centerY,'loadingBack');
         this.loadingBack.anchor.y = 0.5;
     },
 

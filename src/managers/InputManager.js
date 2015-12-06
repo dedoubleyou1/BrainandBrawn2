@@ -17,7 +17,7 @@ InputManager = function(initialState) {
 	this.state = initialState;
 	this.direction = 'none';
 
-	this.cursors = BnBgame.input.keyboard.createCursorKeys();
+	this.cursors = game.input.keyboard.createCursorKeys();
 
 	this.cursors.left.onDown.add(this.setDirection('left'), this);
 	this.cursors.right.onDown.add(this.setDirection('right'), this);
@@ -25,18 +25,18 @@ InputManager = function(initialState) {
 	this.cursors.down.onDown.add(this.setDirection('down'), this);
 
 	this.startPoint = {}
-	BnBgame.input.onDown.add(function(pointer) {
+	game.input.onDown.add(function(pointer) {
 			if(this.state === 'ready')
 			{
 				this.startPoint.x = pointer.clientX;
 				this.startPoint.y = pointer.clientY;
-				if(Settings.DEBUG.SWIPING_OFFSET){
+				if(Settings.GAME.SWIPING_OFFSET){
 					this.state = 'swiping';
 				}
 			}
 	}, this);
 
-	BnBgame.input.onUp.add(function(pointer) {
+	game.input.onUp.add(function(pointer) {
 			this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
 	}, this);
 }
@@ -86,7 +86,7 @@ InputManager.prototype._isSwipeGood = function(startPosition, endPosition) {
 	(how far the player's finger has been dragged from its starting point)
 */
 InputManager.prototype.getSwipingOffset = function(){
-	return {x: (BnBgame.input.activePointer.clientX - this.startPoint.x) / Settings.GAME.WIDTH,
-	y: (BnBgame.input.activePointer.clientY - this.startPoint.y) / Settings.GAME.WIDTH};
+	return {x: (game.input.activePointer.clientX - this.startPoint.x) / Settings.GAME.WIDTH,
+	y: (game.input.activePointer.clientY - this.startPoint.y) / Settings.GAME.WIDTH};
 };
 

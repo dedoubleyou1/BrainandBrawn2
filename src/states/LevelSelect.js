@@ -21,35 +21,36 @@ LevelSelect.prototype = {
 		TEMP: Populate a numbered grid of boxes
 		Based on player progress - Highlight, add STARS, and add tap handlers
 	*/
-	create: function() {
+	create: function() 
+	{
 
 		var offsetY = 0;
 
 		//Debug/Demo only
-		if(Settings.DEBUG.MODE == 'demo')
+		if(Settings.GAME.MODE == 'demo')
 		{
 			offsetY = 110; //create space for the back button
 
 			//set up KEYBOARD CHEATS
-			this.restartKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.R);
+			this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
 			this.restartKey.onUp.add(this.resetLevels,this);
-			this.unlockKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.A);
+			this.unlockKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
 			this.unlockKey.onUp.add(this.unlockLevels,this);
 
 			//Back Button
-			var back = BnBgame.add.image(10,10,'backArrow');
+			var back = game.add.image(10,10,'backArrow');
 			back.scale.setTo(0.4);
 			back.inputEnabled = true;
 			back.events.onInputDown.add(this.onBack,this);
 
 			//Unlock ALL
 			var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-			this.unlockText = BnBgame.add.text(200,40,"Unlock All",myFont);
+			this.unlockText = game.add.text(200,40,"Unlock All",myFont);
 			this.unlockText.inputEnabled = true;
 			this.unlockText.events.onInputDown.add(this.unlockLevels,this);
 
 			//reset 
-			this.resetText = BnBgame.add.text(500,40,"Reset All",myFont);
+			this.resetText = game.add.text(500,40,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
 		}
@@ -58,8 +59,8 @@ LevelSelect.prototype = {
 		Settings.GAME.LEVEL_MODE = 'normal';
 		Settings.GAME.BOUNDS_DEATH = true;
 
-		this.buttons = BnBgame.add.group();
-		this.buttonTexts = BnBgame.add.group();
+		this.buttons = game.add.group();
+		this.buttonTexts = game.add.group();
 
 		var buttonSize = 100;
 		var buttonGapX = 23;
@@ -67,7 +68,7 @@ LevelSelect.prototype = {
 
 		for (var i=0;i<this.numLevels;i++)
 		{
-			var newButton = BnBgame.add.image(50,50,'spritesheet', 'brainandbrawn_block');
+			var newButton = game.add.image(50,50,'spritesheet', 'brainandbrawn_block');
 			newButton.width = buttonSize;
 			newButton.height = buttonSize;
 			newButton.levelID = i;
@@ -82,7 +83,7 @@ LevelSelect.prototype = {
 
 			this.buttons.add(newButton);
 
-			var newText = BnBgame.add.text(50,50,(i+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
+			var newText = game.add.text(50,50,(i+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
 			newText.anchor = {x: 0.5, y: 0.5};
 			this.buttonTexts.add(newText);
 		}
@@ -106,17 +107,17 @@ LevelSelect.prototype = {
 
 			
 			if(SaveData.levelStatus[i] == 1){
-				var star1 = BnBgame.add.image(0,0,'star');
+				var star1 = game.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				// star1.scale.setTo(0.7,0.7);
 				star1.x = buttonX+this.buttons.getAt(i).width/2;
 				star1.y = buttonY+this.buttons.getAt(i).height/2-13;
 			}
 			else if(SaveData.levelStatus[i] == 2){
-				var star1 = BnBgame.add.image(0,0,'star');
+				var star1 = game.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				star1.scale.setTo(0.7,0.7);
-				var star2 = BnBgame.add.image(0,0,'star');
+				var star2 = game.add.image(0,0,'star');
 				star2.anchor = {x: 0.5, y: 0.5};
 				star2.scale.setTo(0.7,0.7);
 
@@ -126,13 +127,13 @@ LevelSelect.prototype = {
 				star2.y = buttonY+buttonSize/2-13;
 			}
 			else if(SaveData.levelStatus[i] == 3){
-				var star1 = BnBgame.add.image(0,0,'star');
+				var star1 = game.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				star1.scale.setTo(0.7,0.7);
-				var star2 = BnBgame.add.image(0,0,'star');
+				var star2 = game.add.image(0,0,'star');
 				star2.anchor = {x: 0.5, y: 0.5};
 				star2.scale.setTo(0.7,0.7);
-				var star3 = BnBgame.add.image(0,0,'star');
+				var star3 = game.add.image(0,0,'star');
 				star3.anchor = {x: 0.5, y: 0.5};
 				star3.scale.setTo(0.7,0.7);
 
@@ -150,7 +151,8 @@ LevelSelect.prototype = {
 	/*
 		When player taps a specific image - load the associated level
 	*/
-	loadLevel: function(image) {
+	loadLevel: function(image) 
+	{
 		this.state.start('level'+(image.levelID));
 	},
 
@@ -169,7 +171,10 @@ LevelSelect.prototype = {
 	},
 
 	//handler for BACK button
-	onBack: function(){
+	onBack: function()
+	{
 		this.state.start('MainMenu');
 	},
+
+
 };

@@ -23,29 +23,29 @@ AdjustMenu.prototype = {
 
 		//dimensions text
 		var myFont = { font: "80px Quicksand", fill: "#ffffff", align: "center"}
-		this.widthText = BnBgame.add.text(w/2,200,Settings.BUILDER.GRID_X,myFont);
+		this.widthText = game.add.text(w/2,200,Settings.BUILDER.GRID_X,myFont);
 		this.widthText.anchor.setTo(0.5);
-		this.heightText = BnBgame.add.text(w/2,615,Settings.BUILDER.GRID_Y,myFont);
+		this.heightText = game.add.text(w/2,615,Settings.BUILDER.GRID_Y,myFont);
 		this.heightText.anchor.setTo(0.5);
 
-		var left = BnBgame.add.image(w/2-150,200,'arrow');
+		var left = game.add.image(w/2-150,200,'arrow');
 		left.inputEnabled = true;
 		left.anchor.setTo(0.5);
 		left.events.onInputDown.add(this.onDownX,this);
 
-		var right = BnBgame.add.image(w/2+150,200,'arrow');
+		var right = game.add.image(w/2+150,200,'arrow');
 		right.inputEnabled = true;
 		right.events.onInputDown.add(this.onUpX,this);
 		right.anchor.setTo(0.5);
 		right.rotation = Math.PI;
 
-		var up = BnBgame.add.image(w/2,480,'arrow');
+		var up = game.add.image(w/2,480,'arrow');
 		up.inputEnabled = true;
 		up.events.onInputDown.add(this.onUpY,this);
 		up.anchor.setTo(0.5);
 		up.rotation = Math.PI/2;
 
-		var down = BnBgame.add.image(w/2,750,'arrow');
+		var down = game.add.image(w/2,750,'arrow');
 		down.inputEnabled = true;
 		down.events.onInputDown.add(this.onDownY,this);
 		down.anchor.setTo(0.5);
@@ -53,12 +53,12 @@ AdjustMenu.prototype = {
 
 		//toggle off-screen death
 		myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-		this.boundsText = BnBgame.add.text(300,0,"Boundary Death: " + Settings.GAME.BOUNDARY_DEATH,myFont);
+		this.boundsText = game.add.text(300,0,"Boundary Death: " + Settings.GAME.BOUNDARY_DEATH,myFont);
 		this.boundsText.inputEnabled = true;
 		this.boundsText.events.onInputDown.add(this.toggleBounds,this);
 
 		//back arrow
-		var back = BnBgame.add.image(10,10,'backArrow');
+		var back = game.add.image(10,10,'backArrow');
 		back.scale.setTo(0.5);
 		back.inputEnabled = true;
 		back.events.onInputDown.add(this.onBack,this);

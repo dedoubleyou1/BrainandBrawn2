@@ -28,23 +28,23 @@ var onReaderLoad = function(event){
     Settings.BUILDER.GRID_X = Settings.BUILDER.DATA.width;
  		Settings.BUILDER.GRID_Y = Settings.BUILDER.DATA.height;
     Settings.BUILDER.DATA.saved = true;
-    BnBgame.state.start('LevelBuilder');
+    game.state.start('LevelBuilder');
 }
 
 
 //Creates a very simple menu of text items
 var createMenu = function(items,myFont)
 {
-	var textGroup = BnBgame.add.group();
+	var textGroup = game.add.group();
 
 	//create text objects
-	var menuX = BnBgame.world.centerX;
+	var menuX = game.world.centerX;
 	for(var i=0;i<items.length;i++){
-		textGroup.add(BnBgame.add.text(menuX,0,items[i],myFont));	
+		textGroup.add(game.add.text(menuX,0,items[i],myFont));	
 	}
 
 	//place text
-	var menuY = BnBgame.world.centerY -textGroup.length*textGroup.getChildAt(0).height/2;
+	var menuY = game.world.centerY -textGroup.length*textGroup.getChildAt(0).height/2;
 	for (var i = 0; i < textGroup.length; i++)
 	{
 		var textItem = textGroup.getChildAt(i);

@@ -12,9 +12,9 @@ Summary: Entry point for the game. Initializes Phaser.Game, canvas, game states,
 
 
 /*
-  Initialize the BnBgame (Phaser.Game object)
+  Initialize the game (Phaser.Game object)
 */
-var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.AUTO, 'game', {
+var game = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.AUTO, 'game', {
 	
   //initialize game settings
   init: function() 
@@ -22,7 +22,7 @@ var BnBgame = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.
     Settings.GAME.SCALE = Settings.GAME.WIDTH / Settings.GAME.STANDARD_WIDTH;
 
     //If in demo mode - reassign levels array
-    if(Settings.DEBUG.MODE == 'demo')
+    if(Settings.GAME.MODE == 'demo')
     {
       Settings.levels = Settings.levels_demo;
     }

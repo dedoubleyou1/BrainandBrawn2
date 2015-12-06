@@ -24,7 +24,7 @@ Level.prototype = {
 	create: function() {
 		if(Settings.GAME.LEVEL_MODE == 'normal')
 		{
-			this.levelData = JSON.parse(BnBgame.cache.getText('level'+this.level));
+			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
 		}
 		this.width = this.levelData.width;
 		this.height = this.levelData.length;
@@ -43,36 +43,36 @@ Level.prototype = {
       	}
 
 		//DEBUG input
-		this.nextKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.N);
+		this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
 		this.nextKey.onUp.add(this.skipLevel,this);
-		this.restartKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.R);
+		this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
 		this.restartKey.onUp.add(this.restartLevel,this);
-		this.printKey = BnBgame.input.keyboard.addKey(Phaser.Keyboard.P);
+		this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
 		this.printKey.onUp.add(this.printMap,this);
 		//end DEBUG input
 
 		//HUD elements
-		//this.spriteHUD = BnBgame.add.sprite(0,0,'imageHUD');
+		//this.spriteHUD = game.add.sprite(0,0,'imageHUD');
 		//this.spriteHUD.width = Settings.GAME.WIDTH;
-		this.levelText = BnBgame.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-  	this.moveText = BnBgame.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+		this.levelText = game.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+  	this.moveText = game.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
   	
-  	this.restartButton = BnBgame.add.image(570,2,'rButton');
-  	this.restartButtonBig = BnBgame.add.image(500,-30,'rButton');
+  	this.restartButton = game.add.image(570,2,'rButton');
+  	this.restartButtonBig = game.add.image(500,-30,'rButton');
   	this.restartButtonBig.scale.setTo(2.5,2.5);
   	this.restartButtonBig.inputEnabled = true;
   	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
   	this.restartButtonBig.alpha = 0;
   	
-  	this.menuButton = BnBgame.add.image(20,8,'mButton');
+  	this.menuButton = game.add.image(20,8,'mButton');
   	this.menuButton.scale.setTo(0.8,0.8);
-  	this.menuButtonBig = BnBgame.add.image(0,-12,'mButton');
+  	this.menuButtonBig = game.add.image(0,-12,'mButton');
   	this.menuButtonBig.scale.setTo(2,2);
   	this.menuButtonBig.inputEnabled = true;
   	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
   	this.menuButtonBig.alpha = 0;
 
-  	this.starsHUD = BnBgame.add.group();  	
+  	this.starsHUD = game.add.group();  	
   	this.drawStarsHUD(3);
 
 
@@ -88,7 +88,7 @@ Level.prototype = {
   		this.starsHUD.visible = false;
 
   		//add STOP button
-  		this.stopButton = BnBgame.add.image(0,0,'stopButton');
+  		this.stopButton = game.add.image(0,0,'stopButton');
 	    this.stopButton.scale.setTo(0.1,0.1);
 	    this.stopButton.inputEnabled=true;
 	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
@@ -173,18 +173,18 @@ Level.prototype = {
 	*/
 	startTutorial: function() {
 		playSound('select');
-		this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
+		this.fadeOutGraphic = game.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
 	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
 	    this.fadeOutGraphic.endFill();
     
-		this.tutorialImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+		this.tutorialImage = game.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
 		this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
 		
 		//If player taps OR presses any key - change slides
-		BnBgame.input.onTap.add(this.nextTutorial, this);
-		BnBgame.input.keyboard.addCallbacks(this,null,this.nextTutorial);
+		game.input.onTap.add(this.nextTutorial, this);
+		game.input.keyboard.addCallbacks(this,null,this.nextTutorial);
 	},
 
 	/*
@@ -204,7 +204,7 @@ Level.prototype = {
 			this.tutorialFinished = true;
 			this.inputManager.state = 'ready';
 		} else {
-			this.tutorialImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+			this.tutorialImage = game.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 			this.tutorialImage.anchor = {x: 0.5, y: 0.5};
 			this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
 		}
@@ -227,26 +227,26 @@ Level.prototype = {
 				SaveData.levelStatus[this.level+1] = 0; //unlocked
 			}
 
-			this.fadeOutGraphic = BnBgame.add.graphics(0, 0);
+			this.fadeOutGraphic = game.add.graphics(0, 0);
     	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
     	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
     	    this.fadeOutGraphic.endFill();
 
-    	    this.victoryImage = BnBgame.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 3, ('star'+this.currentStarLevel));
+    	    this.victoryImage = game.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 3, ('star'+this.currentStarLevel));
 			this.victoryImage.anchor = {x: 0.5, y: 0.5};
 			// this.victoryImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
 	  
 			//input for next level
-			// BnBgame.input.onTap.add(this.nextLevel, this);
-			// BnBgame.input.keyboard.addCallbacks(this,null,this.nextLevel);
-			this.newGroup = BnBgame.add.group();
+			// game.input.onTap.add(this.nextLevel, this);
+			// game.input.keyboard.addCallbacks(this,null,this.nextLevel);
+			this.newGroup = game.add.group();
 
 			this.restartButtonBig.alpha = 1;
 			this.restartButtonBig.x = 80;
 			this.restartButtonBig.y = 600;
 			this.newGroup.add(this.restartButtonBig);
 
-			this.playButton = BnBgame.add.image(400,600,'pButton');
+			this.playButton = game.add.image(400,600,'pButton');
 			this.playButton.scale.setTo(2.5,2.5);
 			this.playButton.inputEnabled = true;
   		    this.playButton.events.onInputDown.add(this.nextLevel,this);
@@ -265,7 +265,7 @@ Level.prototype = {
 		else if(this.tutorialFinished)
 		{
 			playSound('select');
-			BnBgame.input.keyboard.addCallbacks(this,null,null);
+			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === Settings.levels.length) {
 				this.state.start('LevelSelect');
@@ -332,13 +332,13 @@ Level.prototype = {
 		if(numStars == 3){
 			var scale = 0.5;
 
-			var star1 = BnBgame.add.image(0,0,'star');
+			var star1 = game.add.image(0,0,'star');
 			star1.anchor = {x: 0.5, y: 0.5};
 			star1.scale.setTo(scale,scale);
-			var star2 = BnBgame.add.image(0,0,'star');
+			var star2 = game.add.image(0,0,'star');
 			star2.anchor = {x: 0.5, y: 0.5};
 			star2.scale.setTo(scale,scale);
-			var star3 = BnBgame.add.image(0,0,'star');
+			var star3 = game.add.image(0,0,'star');
 			star3.anchor = {x: 0.5, y: 0.5};
 			star3.scale.setTo(scale,scale);
 
@@ -355,10 +355,10 @@ Level.prototype = {
 		} else if(numStars == 2){
 			var scale = 0.5;
 
-			var star1 = BnBgame.add.image(0,0,'star');
+			var star1 = game.add.image(0,0,'star');
 			star1.anchor = {x: 0.5, y: 0.5};
 			star1.scale.setTo(scale,scale);
-			var star2 = BnBgame.add.image(0,0,'star');
+			var star2 = game.add.image(0,0,'star');
 			star2.anchor = {x: 0.5, y: 0.5};
 			star2.scale.setTo(scale,scale);
 
@@ -372,7 +372,7 @@ Level.prototype = {
 		} else {
 			var scale = 0.5;
 
-			var star1 = BnBgame.add.image(0,0,'star');
+			var star1 = game.add.image(0,0,'star');
 			star1.anchor = {x: 0.5, y: 0.5};
 			star1.scale.setTo(scale,scale);
 

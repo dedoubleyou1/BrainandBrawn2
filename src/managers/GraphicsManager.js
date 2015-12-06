@@ -20,11 +20,11 @@ GraphicsManager = function(map) {
   //TEMP
   Settings.GRAPHICS.HUD_HEIGHT = 50;
 
-  this.levelGroup = BnBgame.add.group();
+  this.levelGroup = game.add.group();
   this.levelGroup.enableBody = true;
-  this.backgroundGroup = BnBgame.add.group(this.levelGroup)
-  this.fixedGroup = BnBgame.add.group(this.levelGroup);
-  //this.activeGroup = BnBgame.add.group(this.levelGroup);
+  this.backgroundGroup = game.add.group(this.levelGroup)
+  this.fixedGroup = game.add.group(this.levelGroup);
+  //this.activeGroup = game.add.group(this.levelGroup);
 
   this.width = map.width;
   this.height = map.height;
@@ -311,14 +311,14 @@ GraphicsManager.prototype.initializeSprites = function(map) {
       activeSpriteType = map.active[y][x];
       activeCoordinate = this.gridToPixel({x: x, y: y})
 
-      bgSpriteHolder = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
+      bgSpriteHolder = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
       this.backgroundGroup.add(bgSpriteHolder);
       bgSpriteHolder.anchor = {x: 0.5, y: 0.5};
       bgSpriteHolder.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
 
 
       if (activeSpriteType != ' ') {
-        this.active[activeSpriteType] = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', this.graphicsKeyLookup(activeSpriteType).image);
+        this.active[activeSpriteType] = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', this.graphicsKeyLookup(activeSpriteType).image);
         this.fixedGroup.add(this.active[activeSpriteType]);
         this.active[activeSpriteType].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
         this.active[activeSpriteType].anchor = {x: 0.5, y: 0.5};
@@ -332,7 +332,7 @@ GraphicsManager.prototype.initializeSprites = function(map) {
       };
       
       if (typeof fixedLookup.image === 'string') {
-        this.fixed[y][x].sprite = BnBgame.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', fixedLookup.image);
+        this.fixed[y][x].sprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', fixedLookup.image);
         this.fixedGroup.add(this.fixed[y][x].sprite);
         this.fixed[y][x].sprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
         this.fixed[y][x].sprite.anchor = {x: 0.5, y: 0.5};
@@ -464,11 +464,11 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     newCoord = this.gridToPixel(lastPosition);
 
     var dist = pointDist(gameStateChanges.gravity, gameStateChanges[element][0], lastPosition);
-    recenter = BnBgame.add.tween(this.active[element].anchor);
+    recenter = game.add.tween(this.active[element].anchor);
       recenter.to({x: 0.5, y: 0.5}, 180, Phaser.Easing.Sinusoidal.In, true);
       
     if (dist > 0) {
-      move = BnBgame.add.tween(this.active[element]);
+      move = game.add.tween(this.active[element]);
       move.to({x: newCoord.x, y: newCoord.y}, 180, Phaser.Easing.Sinusoidal.In, true);
 
       this.animationCounter += 1;

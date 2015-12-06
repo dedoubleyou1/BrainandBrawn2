@@ -11,7 +11,7 @@ AboutMenu.prototype = {
 		var textGroup = createMenu(myItems,myFont);
 
 		//back arrow
-		var back = BnBgame.add.image(10,10,'backArrow');
+		var back = game.add.image(10,10,'backArrow');
 		back.scale.setTo(0.5);
 		back.inputEnabled = true;
 		back.events.onInputDown.add(this.onBack,this);

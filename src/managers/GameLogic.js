@@ -418,7 +418,7 @@ GameLogic.prototype.isPositionClear = function(character, x, y) {
       if(character == 'b' || this.gameplayMap.active[y][x] == 'b' || character == 'B' || this.gameplayMap.active[y][x] == 'B')
       {
         console.log("EVERYONE DIED")
-        // BnBgame.state.start('level0')
+        // game.state.start('level0')
         Settings.GAME.SPIKEY_DEATH = true;
       }
     }

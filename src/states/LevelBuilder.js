@@ -105,7 +105,7 @@ LevelBuilder.prototype = {
     this.state.add('AdjustMenu',AdjustMenu);
 
     //Phaser this.graphics drawing engine 
-    this.graphics = BnBgame.add.graphics(0,0);
+    this.graphics = game.add.graphics(0,0);
 
     //draw grid
     this.graphics.lineStyle(2, 0xDDDDDD,0.5);
@@ -125,10 +125,10 @@ LevelBuilder.prototype = {
     }
 
     //brush palette
-    this.brushes = BnBgame.add.group();
+    this.brushes = game.add.group();
     this.createBrushPalette();
 
-    this.gridImages = BnBgame.add.group();
+    this.gridImages = game.add.group();
 
     //grid images (placeholder)
     if(Settings.BUILDER.DATA.saved) 
@@ -190,7 +190,7 @@ LevelBuilder.prototype = {
     }
 
     //ADD INPUT
-    BnBgame.input.onTap.add(function() {
+    game.input.onTap.add(function() {
       this.useBrush();
     }, this);   
 
@@ -210,7 +210,7 @@ LevelBuilder.prototype = {
 LevelBuilder.prototype.createBrushPalette = function()
 {
   //show current brush
-  this.brushDisplay = BnBgame.add.image(2,2,'brainy');
+  this.brushDisplay = game.add.image(2,2,'brainy');
   this.brushDisplay.width = this.brushWidth;
   this.brushDisplay.height = this.brushHeight;
   this.graphics.lineStyle(3, 0x00FFFF, 1);
@@ -276,15 +276,15 @@ LevelBuilder.prototype.createBrushPalette = function()
   }
 
   //Create PLAY button
-  this.playButton = BnBgame.add.image(0,this.brushHeight*1.1,'playButton');
-  //this.playButton = BnBgame.add.button(this.cellWidth+15,0,'button', this.printMap, this, 2, 1, 0, 1);
+  this.playButton = game.add.image(0,this.brushHeight*1.1,'playButton');
+  //this.playButton = game.add.button(this.cellWidth+15,0,'button', this.printMap, this, 2, 1, 0, 1);
   // this.playButton.scale.setTo(0.3,0.3);
   this.playButton.width = this.brushWidth;
   this.playButton.height = this.brushHeight;
   this.playButton.inputEnabled=true;
   this.playButton.events.onInputDown.add(this.playLevel,this);
 
-  this.eraseButton = BnBgame.add.image(0,this.brushHeight*2.1,'eraser');
+  this.eraseButton = game.add.image(0,this.brushHeight*2.1,'eraser');
   // this.eraseButton.scale.setTo(1.3,1.3);
   this.eraseButton.width = this.brushWidth;
   this.eraseButton.height = this.brushHeight;
@@ -292,14 +292,14 @@ LevelBuilder.prototype.createBrushPalette = function()
   this.eraseButton.events.onInputDown.add(this.toggleEraser,this);
 
   //Create Dimensions button
-  this.sizeButton = BnBgame.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
+  this.sizeButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
   this.sizeButton.width = this.brushWidth;
   this.sizeButton.height = this.brushHeight;
   this.sizeButton.inputEnabled = true;
   this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
   //create save button
-  this.saveButton = BnBgame.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight,'saveIcon');
+  this.saveButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight,'saveIcon');
   this.saveButton.width = this.brushWidth;
   this.saveButton.height = this.brushHeight;
   this.saveButton.inputEnabled = true;
@@ -324,8 +324,8 @@ LevelBuilder.prototype.selectBrush = function(image)
 
 LevelBuilder.prototype.useBrush = function()
 {
-  var mouseX = BnBgame.input.x;
-  var mouseY = BnBgame.input.y;
+  var mouseX = game.input.x;
+  var mouseY = game.input.y;
 
   if(mouseX >= this.playArea.x && mouseX <= (this.playArea.x+this.playArea.w) && mouseY >= this.playArea.y && mouseY <= (this.playArea.y+this.playArea.h))
   {
@@ -333,7 +333,7 @@ LevelBuilder.prototype.useBrush = function()
     this.drawBrushImage(gridCoordinates.x,gridCoordinates.y);
   }
 
-  if(BnBgame.input.keyboard.isDown(Phaser.Keyboard.P))
+  if(game.input.keyboard.isDown(Phaser.Keyboard.P))
   {
     // this.printMap();
   }
@@ -342,7 +342,7 @@ LevelBuilder.prototype.useBrush = function()
 LevelBuilder.prototype.drawBrushImage = function(cellX,cellY)
 {
   // if(keyIsDown('E'))
-  if(BnBgame.input.keyboard.isDown(Phaser.Keyboard.E) || this.eraserOn)
+  if(game.input.keyboard.isDown(Phaser.Keyboard.E) || this.eraserOn)
   {
     this.gridImages.getAt(cellY*this.gridWidth+cellX).visible = false;
     this.gridImages.getAt(cellY*this.gridWidth+cellX).loadTexture('floor');

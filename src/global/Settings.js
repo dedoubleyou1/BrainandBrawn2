@@ -11,21 +11,26 @@ Summary: Global values for game-wide use
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 Settings = {
-    DEBUG: {
-        MODE: 'demo',//test, demo, normal
-        SWIPING_OFFSET: false,
-    },
     //Core settings
     GAME: {
+        //sizing
         STANDARD_WIDTH: 2048,
         STANDARD_HEIGHT: 1536,
         WIDTH: 640,
-        HEIGHT: 900,//1136,//960,
+        HEIGHT: 900,
         SCALE: 1,
         STRETCH: 'width',
-        SPIKEY_DEATH: false,
+
+        //mode
         LEVEL_MODE: 'normal',
+        MODE: 'demo',//test, demo, normal
+
+        //Game Variables
+        SPIKEY_DEATH: false,
         BOUNDARY_DEATH: true,
+
+        //Visuals
+        SWIPING_OFFSET: false,
     },
 
     //Settings for the GraphicManager state
@@ -37,14 +42,7 @@ Settings = {
         HUD_HEIGHT: 50,
     },
 
-    //Settings for the LevelEditor state
-    EDITOR: {
-        MAP_XOFFSET: 0,
-        MAP_YOFFSET: 500,
-        MAP_WIDTH: 2048,
-        MAP_HEIGHT: 1536
-    },
-
+    //builder settings
     BUILDER: {
         DATA: {},
         GRID_X: 8,

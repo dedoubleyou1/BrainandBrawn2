@@ -13,6 +13,6 @@ Summary: Handles audio in the game
 //TEMP - global function
 function playSound(snd)
 {
-	var sound = BnBgame.add.audio(snd);
+	var sound = game.add.audio(snd);
   sound.play();
 }
