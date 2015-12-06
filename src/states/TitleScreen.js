@@ -25,15 +25,6 @@ TitleScreen.prototype = {
 		// background.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
 		background.scale.multiply(Settings.GAME.WIDTH/background.width,Settings.GAME.HEIGHT/background.height)
 
-
-		//Add each level as a separate state
-		SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
-		for (var i = 0; i < Settings.levels.length; i++) {
-			this.state.add('level'+i, new Level(i));
-			SaveData.levelStatus.push(-1);
-		};
-		SaveData.levelStatus[0] = 0; //unlock first level with 0 stars (incomplete)
-
 		//add input to start the game
 		this.input.onTap.add(this.startGame, this);
 	},

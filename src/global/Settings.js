@@ -12,7 +12,7 @@ Summary: Global values for game-wide use
 
 Settings = {
     DEBUG: {
-        MODE: 'demo',
+        MODE: 'demo',//test, demo, normal
         SWIPING_OFFSET: false,
     },
     //Core settings
@@ -51,9 +51,33 @@ Settings = {
         GRID_Y: 8,
     },
 
+    levels_demo: [
+        //Basic
+        'levels/splitlevel_starter.json',
+        'levels/startlevel3.json',
 
-    empty_levels: [
-        'emptyLevel.json',
+        'levels/test_reorientation0_v2.json',
+        'levels/fliplevel.json',
+
+        'levels/enemylevel2.json',
+
+        'levels/test/passagelevel.json',
+
+        'levels/wallgatelevel.json',
+        'levels/gatelevel.json',
+        'levels/test_colors1.json',
+
+        'levels/gates1.json',
+
+        //open
+        'levels/test/openlevel0.json',
+
+        'levels/test_spike1.json',
+
+        'levels/test_spikedBall0.json',
+
+        'levels/test_movable3.json',
+        'levels/test_movable1.json',
     ],
 
     /*
