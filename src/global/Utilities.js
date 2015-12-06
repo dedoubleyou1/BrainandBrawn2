@@ -19,15 +19,15 @@ var handleFiles = function(files)
 	// //assumes a JSON
 	// var data = files[0];//JSON.parse(files[0]);
 	// data.saved = true;
-	// Settings.BUILDER.DATA = data;
+	// SaveData.workingLevel = data;
 }
 
 var onReaderLoad = function(event){
-    Settings.BUILDER.DATA = JSON.parse(event.target.result);
+    SaveData.workingLevel = JSON.parse(event.target.result);
 
-    Settings.BUILDER.GRID_X = Settings.BUILDER.DATA.width;
- 		Settings.BUILDER.GRID_Y = Settings.BUILDER.DATA.height;
-    Settings.BUILDER.DATA.saved = true;
+    Settings.BUILDER.GRID_X = SaveData.workingLevel.width;
+ 		Settings.BUILDER.GRID_Y = SaveData.workingLevel.height;
+    SaveData.workingLevel.saved = true;
     game.state.start('LevelBuilder');
 }
 

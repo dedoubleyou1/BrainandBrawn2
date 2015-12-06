@@ -51,11 +51,11 @@ var bigKeyLookup = {
 
 
 //global object to save the data (temp)
-// var Settings.BUILDER.DATA = {};
+// var SaveData.workingLevel = {};
 
 LevelBuilder = function() 
 {
-  Settings.BUILDER.DATA.saved = false;
+  SaveData.workingLevel.saved = false;
 };
 
 LevelBuilder.prototype = {
@@ -131,11 +131,11 @@ LevelBuilder.prototype = {
     this.gridImages = game.add.group();
 
     //grid images (placeholder)
-    if(Settings.BUILDER.DATA.saved) 
+    if(SaveData.workingLevel.saved) 
     {
       for(var i=0;i<this.gridHeight;i++)
       {
-        if(i >= Settings.BUILDER.DATA.height){
+        if(i >= SaveData.workingLevel.height){
           for(var j=0;j<this.gridWidth;j++)
           {
             var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
@@ -147,8 +147,8 @@ LevelBuilder.prototype = {
         else{
           for(var j=0;j<this.gridWidth;j++)
           {
-            var currentFixedKey = Settings.BUILDER.DATA.fixed[i][j];
-            var currentActiveKey = Settings.BUILDER.DATA.active[i][j];
+            var currentFixedKey = SaveData.workingLevel.fixed[i][j];
+            var currentActiveKey = SaveData.workingLevel.active[i][j];
             var newImage;
             if(currentFixedKey in bigKeyLookup)
             {
@@ -393,12 +393,12 @@ LevelBuilder.prototype.screenToGridCoordinates = function(screenX,screenY)
 //update saved data & print to console
 LevelBuilder.prototype.printMap = function()
 {
-  Settings.BUILDER.DATA.name = "test";
-  Settings.BUILDER.DATA.height = this.gridHeight;
-  Settings.BUILDER.DATA.width =this.gridWidth;
-  Settings.BUILDER.DATA.starLevels = [];
-  Settings.BUILDER.DATA.active = [];
-  Settings.BUILDER.DATA.fixed = [];
+  SaveData.workingLevel.name = "test";
+  SaveData.workingLevel.height = this.gridHeight;
+  SaveData.workingLevel.width =this.gridWidth;
+  SaveData.workingLevel.starLevels = [];
+  SaveData.workingLevel.active = [];
+  SaveData.workingLevel.fixed = [];
 
   var string1 = "{\n";
   string1 += "\"name\": \"Exported Level\",\n";
@@ -410,7 +410,7 @@ LevelBuilder.prototype.printMap = function()
   for(var i=0;i<this.gridHeight;i++)
   {
     string2 += "[";
-    Settings.BUILDER.DATA.active.push([]);
+    SaveData.workingLevel.active.push([]);
     for(var j=0;j<this.gridWidth;j++)
     {
       var key = this.gridImages.getAt(i*this.gridWidth+j).key;
@@ -424,7 +424,7 @@ LevelBuilder.prototype.printMap = function()
       //add comma if not the last element
       if(j < this.gridWidth-1) string2 += ","; 
       
-      Settings.BUILDER.DATA.active[i].push(stringToAdd);
+      SaveData.workingLevel.active[i].push(stringToAdd);
     }
     if(i < this.gridHeight-1) {
       string2 += "],\n";
@@ -440,7 +440,7 @@ LevelBuilder.prototype.printMap = function()
   for(var i=0;i<this.gridHeight;i++)
   {
     string3 += "[";
-    Settings.BUILDER.DATA.fixed.push([]);
+    SaveData.workingLevel.fixed.push([]);
     for(var j=0;j<this.gridWidth;j++)
     {
       var key = this.gridImages.getAt(i*this.gridWidth+j).key;
@@ -453,7 +453,7 @@ LevelBuilder.prototype.printMap = function()
       //add comma if not the last element
       if(j < this.gridWidth-1) string3 += ","; 
 
-      Settings.BUILDER.DATA.fixed[i].push(stringToAdd);
+      SaveData.workingLevel.fixed[i].push(stringToAdd);
     }
     if(i < this.gridHeight-1) {
       string3 += "],\n";
@@ -469,10 +469,10 @@ LevelBuilder.prototype.printMap = function()
 
 
   //create copy of saved level data + save it to STATE
-  var passingData = Phaser.Utils.extend(true,Settings.BUILDER.DATA);
+  var passingData = Phaser.Utils.extend(true,SaveData.workingLevel);
   this.state.add('testLevel',new Level(0,passingData));
 
-  Settings.BUILDER.DATA.saved = true;
+  SaveData.workingLevel.saved = true;
 };
 
 LevelBuilder.prototype.changeDimensions = function()
@@ -492,7 +492,7 @@ LevelBuilder.prototype.saveLevel = function()
   //update saved data json
   this.printMap();
 
-  var data = Settings.BUILDER.DATA;
+  var data = SaveData.workingLevel;
 
   //turn data into BLOB
   var json = JSON.stringify(data);

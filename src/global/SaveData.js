@@ -3,6 +3,8 @@ Location (temporary) to hold save data
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 SaveData = {
+	workingLevel: {},
+
 	levelStatus: [],//-1=locked, 0=unlocked, 1-3=star completion
 	
 	//unlock all levels
