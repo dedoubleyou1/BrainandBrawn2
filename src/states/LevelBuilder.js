@@ -299,11 +299,18 @@ LevelBuilder.prototype.createBrushPalette = function()
   this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
   //create save button
-  this.saveButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight,'saveIcon');
+  this.saveButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,0,'saveIcon');
   this.saveButton.width = this.brushWidth;
   this.saveButton.height = this.brushHeight;
   this.saveButton.inputEnabled = true;
   this.saveButton.events.onInputDown.add(this.saveLevel,this);
+
+  //create flip button
+  this.flipButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
+  this.flipButton.width = this.brushWidth;
+  this.flipButton.height = this.brushHeight;
+  this.flipButton.inputEnabled = true;
+  this.flipButton.events.onInputDown.add(this.flipLevel,this);
 
   return this.brushHeight*3;
 }
@@ -393,6 +400,11 @@ LevelBuilder.prototype.screenToGridCoordinates = function(screenX,screenY)
 //update saved data & print to console
 LevelBuilder.prototype.printMap = function()
 {
+  //save to global
+  Settings.BUILDER.GRID_X = this.gridWidth;
+  Settings.BUILDER.GRID_Y = this.gridHeight;
+
+  //save to save data
   SaveData.workingLevel.name = "test";
   SaveData.workingLevel.height = this.gridHeight;
   SaveData.workingLevel.width =this.gridWidth;
@@ -503,6 +515,44 @@ LevelBuilder.prototype.saveLevel = function()
   var myWindow = window.open("", '_blank');
   myWindow.document.write("<a href=\"" + url + "\" download=\"my_level.json\">DOWNLOAD</a>");
 }
+
+LevelBuilder.prototype.flipLevel = function()
+{
+  //save key array (current dimensions)
+  var keys = [];
+  for(var i=0;i<this.gridWidth;i++)
+  {
+    for(var j=0;j<this.gridHeight;j++)
+    {
+      keys.push(this.gridImages.getAt(j*this.gridWidth+i).key);
+    }
+  }
+
+  //flip dimensions
+  var w = this.gridHeight;
+  var h = this.gridWidth;
+  this.gridHeight = h;
+  this.gridWidth = w;
+
+  //dump gridImages and refill
+  this.gridImages.removeAll(true);
+  for(var i=0;i<h;i++)
+  {
+    for(var j=0;j<w;j++)
+    {
+      //add new image to gridImages
+      var currentKey = keys[i*w+j];
+      this.gridImages.create(0,0,currentKey);
+      //NOTE: position doesn't matter because we are not adding
+    }
+  }
+
+  //save changes to temp object
+  this.printMap();
+
+  //restart state to SEE the changes
+  game.state.start('LevelBuilder');
+};
 
 LevelBuilder.prototype.playLevel = function()
 {
