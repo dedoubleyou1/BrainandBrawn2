@@ -59,13 +59,12 @@ Settings = {
 
         'levels/enemylevel2.json',
 
-        'levels/test/passagelevel.json',
-
         'levels/wallgatelevel.json',
         'levels/gatelevel.json',
         'levels/test_colors1.json',
 
         'levels/gates1.json',
+        'levels/gatetunnellevel.json',
 
         //open
         'levels/test/openlevel0.json',

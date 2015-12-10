@@ -408,9 +408,15 @@ LevelBuilder.prototype.printMap = function()
   SaveData.workingLevel.name = "test";
   SaveData.workingLevel.height = this.gridHeight;
   SaveData.workingLevel.width =this.gridWidth;
-  SaveData.workingLevel.starLevels = [];
   SaveData.workingLevel.active = [];
   SaveData.workingLevel.fixed = [];
+
+  //Add starlevels ONLY on first time
+  if(!SaveData.workingLevel.saved)
+  {
+    //TEMP - placeholder #s
+    SaveData.workingLevel.starLevels = [8,12];
+  }
 
   var string1 = "{\n";
   string1 += "\"name\": \"Exported Level\",\n";
