@@ -55,11 +55,12 @@ Settings = {
         'levels/startlevel3_v2.json',
 
         'levels/test_reorientation0_v2.json',
-        'levels/fliplevel.json',
+        'levels/fliplevel_v2.json',
 
-        'levels/enemylevel2.json',
+        // 'levels/enemylevel2.json',
+        'levels/enemy00.json',
 
-        'levels/wallgatelevel.json',
+        'levels/wallgatelevel_v2.json',
         'levels/gatelevel.json',
         'levels/test_colors1.json',
 
@@ -67,14 +68,14 @@ Settings = {
         'levels/gatetunnellevel.json',
 
         //open
-        'levels/test/openlevel0.json',
+        'levels/openlevel0_v2.json',
 
-        'levels/test_spike1.json',
+        'levels/test_spike1_v2.json',
 
         'levels/test_spikedBall0.json',
 
         'levels/test_movable3.json',
-        'levels/test_movable1.json',
+        'levels/test_movable1_v2.json',
     ],
 
     /*
