@@ -411,11 +411,11 @@ LevelBuilder.prototype.printMap = function()
   SaveData.workingLevel.active = [];
   SaveData.workingLevel.fixed = [];
 
-  //Add starlevels ONLY on first time
-  if(!SaveData.workingLevel.saved)
+  //If no star levels - save some!
+  if(typeof SaveData.workingLevel.starLevels == 'undefined' || SaveData.workingLevel.starLevels.length != 2)
   {
     //TEMP - placeholder #s
-    SaveData.workingLevel.starLevels = [8,12];
+    SaveData.workingLevel.starLevels = [12,8];
   }
 
   var string1 = "{\n";

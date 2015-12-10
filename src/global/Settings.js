@@ -52,7 +52,7 @@ Settings = {
     levels_demo: [
         //Basic
         'levels/splitlevel_starter.json',
-        'levels/startlevel3.json',
+        'levels/startlevel3_v2.json',
 
         'levels/test_reorientation0_v2.json',
         'levels/fliplevel.json',
