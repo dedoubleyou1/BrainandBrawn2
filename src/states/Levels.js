@@ -220,11 +220,17 @@ Level.prototype = {
 			this.levelFinished = true;
 			this.inputManager.state = 'waiting';
 
+			//Save stars
 			if(this.currentStarLevel > SaveData.levelStatus[this.level]){
 				SaveData.levelStatus[this.level] = this.currentStarLevel;
 			}
-			if(SaveData.levelStatus[this.level+1] == -1){
-				SaveData.levelStatus[this.level+1] = 0; //unlocked
+
+			//unlock next level
+			if(this.level+1 < SaveData.levelStatus.length)
+			{
+				if(SaveData.levelStatus[this.level+1] == -1){
+					SaveData.levelStatus[this.level+1] = 0; //unlocked
+				}
 			}
 
 			this.fadeOutGraphic = game.add.graphics(0, 0);
@@ -249,7 +255,7 @@ Level.prototype = {
 			this.playButton = game.add.image(400,600,'pButton');
 			this.playButton.scale.setTo(2.5,2.5);
 			this.playButton.inputEnabled = true;
-  		    this.playButton.events.onInputDown.add(this.nextLevel,this);
+  		this.playButton.events.onInputDown.add(this.nextLevel,this);
 			this.newGroup.add(this.playButton);
 		}
 	},
@@ -259,9 +265,9 @@ Level.prototype = {
 	*/
 	nextLevel: function()
 	{
-        if(Settings.GAME.LEVEL_MODE == 'builder'){
-            this.state.start('LevelBuilder');
-        }
+    if(Settings.GAME.LEVEL_MODE == 'builder'){
+        this.state.start('LevelBuilder');
+    }
 		else if(this.tutorialFinished)
 		{
 			playSound('select');
@@ -310,11 +316,17 @@ Level.prototype = {
 	*/
 	skipLevel: function()
 	{
-		this.numMoves = 99;
-		if(SaveData.levelStatus[this.level] < 1) SaveData.levelStatus[this.level] = 1;
-		if(SaveData.levelStatus[this.level+1] == -1){
-			SaveData.levelStatus[this.level+1] = 0; //unlocked
+		this.numMoves = 0;
+		SaveData.levelStatus[this.level] = 0;
+
+		//unlock next level if necessary
+		if(this.level+1 < SaveData.levelStatus.length)
+		{
+			if(SaveData.levelStatus[this.level+1] == -1){
+				SaveData.levelStatus[this.level+1] = 0; //unlocked
+			}
 		}
+
 		this.nextLevel();
 	},
 
