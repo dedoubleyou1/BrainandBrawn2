@@ -30,7 +30,7 @@ Settings = {
         BOUNDARY_DEATH: true,
 
         //Visuals
-        SWIPING_OFFSET: false,
+        SWIPING_OFFSET: true,
     },
 
     //Settings for the GraphicManager state
