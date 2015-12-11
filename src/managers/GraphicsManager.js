@@ -93,14 +93,13 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
 	var keyLookup = {
     'b':{
       order: 2,
-      image: 'brainandbrawn_brainy-b',
-      animations: {},
+      image: 'SpriteSheet0000',
       'b': {},
       'B': {}
     },
     'B':{
       order: 4,
-      image: 'brainandbrawn_brawny-b',
+      image: 'SpriteSheet0000',
       'b': {},
       'B': {}
     },
@@ -318,12 +317,28 @@ GraphicsManager.prototype.initializeSprites = function(map) {
 
 
       if (activeSpriteType != ' ') {
-        this.active[activeSpriteType] = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', this.graphicsKeyLookup(activeSpriteType).image);
+        var spritesheet;
+        if (activeSpriteType === 'b') {
+          spritesheet = 'brainy_SpriteSheet';
+        } else if (activeSpriteType === 'B') {
+          spritesheet = 'brawny_SpriteSheet';
+        } else {
+          spritesheet = 'spritesheet';
+        }
+        this.active[activeSpriteType] = game.add.sprite(activeCoordinate.x, activeCoordinate.y, spritesheet, this.graphicsKeyLookup(activeSpriteType).image);
         this.fixedGroup.add(this.active[activeSpriteType]);
         this.active[activeSpriteType].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
         this.active[activeSpriteType].anchor = {x: 0.5, y: 0.5};
         this.active[activeSpriteType].customZ = y * 10 + this.graphicsKeyLookup(activeSpriteType).order;
         this.active[activeSpriteType].priority = true;
+
+        if (activeSpriteType === 'b' || activeSpriteType === 'B') {
+          this.active[activeSpriteType].animations.add('moveRight', Phaser.Animation.generateFrameNames('SpriteSheet', 0, 10, '', 4), 24, false, false);
+          this.active[activeSpriteType].animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
+          this.active[activeSpriteType].animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 40, 50, '', 4), 24, false, false);
+
+          //this.active[activeSpriteType].animations.play('moveRight');
+        }
       }
 
       fixedLookup = this.graphicsKeyLookup(map.fixed[y][x]);
@@ -465,11 +480,25 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
     var dist = pointDist(gameStateChanges.gravity, gameStateChanges[element][0], lastPosition);
     recenter = game.add.tween(this.active[element].anchor);
-      recenter.to({x: 0.5, y: 0.5}, 180, Phaser.Easing.Sinusoidal.In, true);
+    recenter.to({x: 0.5, y: 0.5}, 180, Phaser.Easing.Sinusoidal.In, true);
       
     if (dist > 0) {
       move = game.add.tween(this.active[element]);
       move.to({x: newCoord.x, y: newCoord.y}, 180, Phaser.Easing.Sinusoidal.In, true);
+
+      if (element === 'b' || element === 'B'){
+        if (this.active[element].x - newCoord.x < 0) {
+          this.active[element].scale.x = Math.abs(this.active[element].scale.x);
+          this.active[element].animations.play('moveRight');
+        } else if (this.active[element].x - newCoord.x > 0){
+          this.active[element].scale.x = -1 * Math.abs(this.active[element].scale.x);
+          this.active[element].animations.play('moveRight'); 
+        } else if (this.active[element].y - newCoord.y < 0){
+          this.active[element].animations.play('moveDown'); 
+        } else if (this.active[element].y - newCoord.y > 0){
+          this.active[element].animations.play('moveUp'); 
+        }
+      }
 
       this.animationCounter += 1;
 

@@ -34,8 +34,11 @@ Preloader.prototype = {
     */
     preload: function() {
         
-        //load in main spritehseet
+        //load in Spritesheets
         this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
+        this.load.atlasJSONArray('brainy_SpriteSheet', 'images/Brainy_SpriteSheet.png', 'images/Brainy_SpriteSheet.json');
+        this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
+
 
         // Static Images
         this.load.image('backArrow','images/back-arrow.png');
