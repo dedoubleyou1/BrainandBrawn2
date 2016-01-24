@@ -1,12 +1,12 @@
 //Main Game Object
-var BrainAndBrawn = {
+var BnB = {
     //Constants
     
 };
 
-BrainAndBrawn.Boot = function() {};
+BnB.Boot = function() {};
 
-BrainAndBrawn.Boot.prototype = {
+BnB.Boot.prototype = {
     //initialize game settings
     init: function() 
     {

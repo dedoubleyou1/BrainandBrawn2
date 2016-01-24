@@ -10,12 +10,12 @@ Summary: Core gameplay state - manages all gameplay that occurs inside of a leve
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-BrainAndBrawn.Level = function(level,levelData) {
+BnB.Level = function(level,levelData) {
 	this.level = level;
 	if(typeof levelData != 'undefined') this.levelData = levelData;
 };
 
-BrainAndBrawn.Level.prototype = {
+BnB.Level.prototype = {
 	/*
 		Initialize manager - gameLogic, graphicsManager,inputManager
 		Initialize all game variables
@@ -28,9 +28,9 @@ BrainAndBrawn.Level.prototype = {
 		}
 		this.width = this.levelData.width;
 		this.height = this.levelData.length;
-		this.gameLogic = new BrainAndBrawn.GameLogic(this.levelData);
-		this.graphicsManager = new BrainAndBrawn.GraphicsManager(this.levelData);
-		this.inputManager = new BrainAndBrawn.InputManager('waiting');
+		this.gameLogic = new BnB.GameLogic(this.levelData);
+		this.graphicsManager = new BnB.GraphicsManager(this.levelData);
+		this.inputManager = new BnB.InputManager('waiting');
 		this.tutorialFinished = false;
 		this.levelFinished = false;
 		this.numMoves = 0;
@@ -221,15 +221,15 @@ BrainAndBrawn.Level.prototype = {
 			this.inputManager.state = 'waiting';
 
 			//Save stars
-			if(this.currentStarLevel > BrainAndBrawn.SaveData.levelStatus[this.level]){
-				BrainAndBrawn.SaveData.levelStatus[this.level] = this.currentStarLevel;
+			if(this.currentStarLevel > BnB.SaveData.levelStatus[this.level]){
+				BnB.SaveData.levelStatus[this.level] = this.currentStarLevel;
 			}
 
 			//unlock next level
-			if(this.level+1 < BrainAndBrawn.SaveData.levelStatus.length)
+			if(this.level+1 < BnB.SaveData.levelStatus.length)
 			{
-				if(BrainAndBrawn.SaveData.levelStatus[this.level+1] == -1){
-					BrainAndBrawn.SaveData.levelStatus[this.level+1] = 0; //unlocked
+				if(BnB.SaveData.levelStatus[this.level+1] == -1){
+					BnB.SaveData.levelStatus[this.level+1] = 0; //unlocked
 				}
 			}
 
@@ -317,13 +317,13 @@ BrainAndBrawn.Level.prototype = {
 	skipLevel: function()
 	{
 		this.numMoves = 0;
-		BrainAndBrawn.SaveData.levelStatus[this.level] = 0;
+		BnB.SaveData.levelStatus[this.level] = 0;
 
 		//unlock next level if necessary
-		if(this.level+1 < BrainAndBrawn.SaveData.levelStatus.length)
+		if(this.level+1 < BnB.SaveData.levelStatus.length)
 		{
-			if(BrainAndBrawn.SaveData.levelStatus[this.level+1] == -1){
-				BrainAndBrawn.SaveData.levelStatus[this.level+1] = 0; //unlocked
+			if(BnB.SaveData.levelStatus[this.level+1] == -1){
+				BnB.SaveData.levelStatus[this.level+1] = 0; //unlocked
 			}
 		}
 

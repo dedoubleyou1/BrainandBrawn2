@@ -10,8 +10,8 @@ Summary: Displays the starting logo - tap to enter the game
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-BrainAndBrawn.TitleScreen = function() {};
-BrainAndBrawn.TitleScreen.prototype = {
+BnB.TitleScreen = function() {};
+BnB.TitleScreen.prototype = {
 
 	/*
 		Create and display background (title screen)

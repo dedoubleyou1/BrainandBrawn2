@@ -51,13 +51,13 @@ var bigKeyLookup = {
 
 
 //global object to save the data (temp)
-// var BrainAndBrawn.SaveData.workingLevel = {};
+// var BnB.SaveData.workingLevel = {};
 
-BrainAndBrawn.LevelBuilder = function() {
-  BrainAndBrawn.SaveData.workingLevel.saved = false;
+BnB.LevelBuilder = function() {
+  BnB.SaveData.workingLevel.saved = false;
 };
 
-BrainAndBrawn.LevelBuilder.prototype = {
+BnB.LevelBuilder.prototype = {
 
     init: function()
     {
@@ -101,7 +101,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
 
     create: function() {
         C.LEVEL_MODE = 'builder';
-        this.state.add('AdjustMenu',BrainAndBrawn.AdjustMenu);
+        this.state.add('AdjustMenu',BnB.AdjustMenu);
 
         //Phaser this.graphics drawing engine 
         this.graphics = game.add.graphics(0,0);
@@ -130,11 +130,11 @@ BrainAndBrawn.LevelBuilder.prototype = {
         this.gridImages = game.add.group();
 
         //grid images (placeholder)
-        if(BrainAndBrawn.SaveData.workingLevel.saved) 
+        if(BnB.SaveData.workingLevel.saved) 
         {
             for(var i=0;i<this.gridHeight;i++)
             {
-                if(i >= BrainAndBrawn.SaveData.workingLevel.height){
+                if(i >= BnB.SaveData.workingLevel.height){
                     for(var j=0;j<this.gridWidth;j++)
                     {
                         var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
@@ -146,8 +146,8 @@ BrainAndBrawn.LevelBuilder.prototype = {
                 else{
                     for(var j=0;j<this.gridWidth;j++)
                     {
-                        var currentFixedKey = BrainAndBrawn.SaveData.workingLevel.fixed[i][j];
-                        var currentActiveKey = BrainAndBrawn.SaveData.workingLevel.active[i][j];
+                        var currentFixedKey = BnB.SaveData.workingLevel.fixed[i][j];
+                        var currentActiveKey = BnB.SaveData.workingLevel.active[i][j];
                         var newImage;
                         if(currentFixedKey in bigKeyLookup)
                         {
@@ -404,17 +404,17 @@ BrainAndBrawn.LevelBuilder.prototype = {
         C.GRID_Y = this.gridHeight;
 
         //save to save data
-        BrainAndBrawn.SaveData.workingLevel.name = "test";
-        BrainAndBrawn.SaveData.workingLevel.height = this.gridHeight;
-        BrainAndBrawn.SaveData.workingLevel.width =this.gridWidth;
-        BrainAndBrawn.SaveData.workingLevel.active = [];
-        BrainAndBrawn.SaveData.workingLevel.fixed = [];
+        BnB.SaveData.workingLevel.name = "test";
+        BnB.SaveData.workingLevel.height = this.gridHeight;
+        BnB.SaveData.workingLevel.width =this.gridWidth;
+        BnB.SaveData.workingLevel.active = [];
+        BnB.SaveData.workingLevel.fixed = [];
 
         //If no star levels - save some!
-        if(typeof BrainAndBrawn.SaveData.workingLevel.starLevels == 'undefined' || BrainAndBrawn.SaveData.workingLevel.starLevels.length != 2)
+        if(typeof BnB.SaveData.workingLevel.starLevels == 'undefined' || BnB.SaveData.workingLevel.starLevels.length != 2)
         {
             //TEMP - placeholder #s
-            BrainAndBrawn.SaveData.workingLevel.starLevels = [12,8];
+            BnB.SaveData.workingLevel.starLevels = [12,8];
         }
 
         var string1 = "{\n";
@@ -427,7 +427,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
         for(var i=0;i<this.gridHeight;i++)
         {
             string2 += "[";
-            BrainAndBrawn.SaveData.workingLevel.active.push([]);
+            BnB.SaveData.workingLevel.active.push([]);
             for(var j=0;j<this.gridWidth;j++)
             {
                 var key = this.gridImages.getAt(i*this.gridWidth+j).key;
@@ -441,7 +441,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
                 //add comma if not the last element
                 if(j < this.gridWidth-1) string2 += ","; 
 
-                BrainAndBrawn.SaveData.workingLevel.active[i].push(stringToAdd);
+                BnB.SaveData.workingLevel.active[i].push(stringToAdd);
             }
             if(i < this.gridHeight-1) {
                 string2 += "],\n";
@@ -457,7 +457,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
         for(var i=0;i<this.gridHeight;i++)
         {
             string3 += "[";
-            BrainAndBrawn.SaveData.workingLevel.fixed.push([]);
+            BnB.SaveData.workingLevel.fixed.push([]);
             for(var j=0;j<this.gridWidth;j++)
             {
                 var key = this.gridImages.getAt(i*this.gridWidth+j).key;
@@ -470,7 +470,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
                 //add comma if not the last element
                 if(j < this.gridWidth-1) string3 += ","; 
 
-                BrainAndBrawn.SaveData.workingLevel.fixed[i].push(stringToAdd);
+                BnB.SaveData.workingLevel.fixed[i].push(stringToAdd);
             }
             if(i < this.gridHeight-1) {
               string3 += "],\n";
@@ -485,10 +485,10 @@ BrainAndBrawn.LevelBuilder.prototype = {
 
 
         //create copy of saved level data + save it to STATE
-        var passingData = Phaser.Utils.extend(true,BrainAndBrawn.SaveData.workingLevel);
-        this.state.add('testLevel',new BrainAndBrawn.Level(0,passingData));
+        var passingData = Phaser.Utils.extend(true,BnB.SaveData.workingLevel);
+        this.state.add('testLevel',new BnB.Level(0,passingData));
 
-        BrainAndBrawn.SaveData.workingLevel.saved = true;
+        BnB.SaveData.workingLevel.saved = true;
     },
 
     changeDimensions: function()
@@ -508,7 +508,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
         //update saved data json
         this.printMap();
 
-        var data = BrainAndBrawn.SaveData.workingLevel;
+        var data = BnB.SaveData.workingLevel;
 
         //turn data into BLOB
         var json = JSON.stringify(data);

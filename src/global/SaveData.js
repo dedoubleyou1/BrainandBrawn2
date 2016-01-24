@@ -2,7 +2,7 @@
 Location (temporary) to hold save data
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-BrainAndBrawn.SaveData = {
+BnB.SaveData = {
 	workingLevel: {},
 
 	levelStatus: [],//-1=locked, 0=unlocked, 1-3=star completion

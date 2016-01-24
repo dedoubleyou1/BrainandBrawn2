@@ -1,6 +1,6 @@
 
-BrainAndBrawn.AboutMenu = function() {};
-BrainAndBrawn.AboutMenu.prototype = {
+BnB.AboutMenu = function() {};
+BnB.AboutMenu.prototype = {
 
 	/*
 		Create text buttons

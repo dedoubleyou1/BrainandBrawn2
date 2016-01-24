@@ -9,8 +9,8 @@ Summary: List of buttons to navigate to different states: PLAY, OPTIONS, ABOUT
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-BrainAndBrawn.AdjustMenu = function() {};
-BrainAndBrawn.AdjustMenu.prototype = {
+BnB.AdjustMenu = function() {};
+BnB.AdjustMenu.prototype = {
 
 	/*
 		Create text buttons

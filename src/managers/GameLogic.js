@@ -13,7 +13,7 @@ Summary: Manages the game state, independent from graphics and input
 /*
   Converts the level data into a format more suitable for gameplay
 */
-BrainAndBrawn.GameLogic = function(map) {
+BnB.GameLogic = function(map) {
   this.gameplayMap = (map);
 
 
@@ -38,7 +38,7 @@ BrainAndBrawn.GameLogic = function(map) {
   Given: game object key, movement direciton
   Retrun: Data for collision and graphics triggers
 */
-BrainAndBrawn.GameLogic.prototype.mapKeyLookup = function(key,direction) {
+BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
 
   // These are functions used by tile triggers. They are passed in the coordinate of the trigger action.
   var triggers = {
@@ -270,7 +270,7 @@ BrainAndBrawn.GameLogic.prototype.mapKeyLookup = function(key,direction) {
 
 
 // Display map in console for debugging purposes
-BrainAndBrawn.GameLogic.prototype.consoleLogMap = function() {
+BnB.GameLogic.prototype.consoleLogMap = function() {
   var mapStrings = [];
   var tempChar;
   var atCoordinate;
@@ -303,7 +303,7 @@ BrainAndBrawn.GameLogic.prototype.consoleLogMap = function() {
 /*
   Given a desired direction, update the game state
 */
-BrainAndBrawn.GameLogic.prototype.gravitySwitch = function(direction) {
+BnB.GameLogic.prototype.gravitySwitch = function(direction) {
   var gameStateChanges = {
     'b': [Util.indexOf2d(this.gameplayMap.active, 'b')],
     'B': [Util.indexOf2d(this.gameplayMap.active, 'B')],
@@ -355,7 +355,7 @@ BrainAndBrawn.GameLogic.prototype.gravitySwitch = function(direction) {
 /*
   Move all active objects a single cell in the specified direction.
 */
-BrainAndBrawn.GameLogic.prototype.moveOnce = function(direction) {
+BnB.GameLogic.prototype.moveOnce = function(direction) {
   var moveSuccess = false;
   // Characters closer to the gravitational "floor" move first.
   if (direction === 'up' || direction === 'left'){
@@ -383,7 +383,7 @@ BrainAndBrawn.GameLogic.prototype.moveOnce = function(direction) {
 /*
   Attempt to move a target ACTIVE object in the chosen direction.
 */
-BrainAndBrawn.GameLogic.prototype.attemptMove = function(direction, x, y) {
+BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
 
   var character = this.gameplayMap.active[y][x];
  
@@ -405,7 +405,7 @@ BrainAndBrawn.GameLogic.prototype.attemptMove = function(direction, x, y) {
 /*
   Checks whether the chosen XY coord is clear for a specified ACTIVE character
 */
-BrainAndBrawn.GameLogic.prototype.isPositionClear = function(character, x, y) {
+BnB.GameLogic.prototype.isPositionClear = function(character, x, y) {
   if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
     //TEMP HACK (should be a part of triggers)
     C.SPIKEY_DEATH = C.BOUNDARY_DEATH;
@@ -432,7 +432,7 @@ BrainAndBrawn.GameLogic.prototype.isPositionClear = function(character, x, y) {
 /*
   Check for trigger functions that need to activate due to various collisions
 */
-BrainAndBrawn.GameLogic.prototype.checkTriggers = function(direction) {
+BnB.GameLogic.prototype.checkTriggers = function(direction) {
   var triggerResults = {};
   var active;
   var fixed;

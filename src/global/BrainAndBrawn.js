@@ -1,5 +1,5 @@
 //Defines the MAIN game objects + global settings
-var BrainAndBrawn = {
+var BnB = {
     //Core settings
     GAME: {
         //sizing

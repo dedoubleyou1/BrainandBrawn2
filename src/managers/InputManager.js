@@ -13,7 +13,7 @@ Summary: Handles player input (via touch, mouse, and keyboard)
 /*
 	Constructor for initializing Input Manager - cursor & touch input
 */
-BrainAndBrawn.InputManager = function(initialState) {
+BnB.InputManager = function(initialState) {
 	this.state = initialState;
 	this.direction = 'none';
 
@@ -41,7 +41,7 @@ BrainAndBrawn.InputManager = function(initialState) {
 	}, this);
 };
 
-BrainAndBrawn.InputManager.prototype = {
+BnB.InputManager.prototype = {
     /*
         Set input state to a chosen direction
     */

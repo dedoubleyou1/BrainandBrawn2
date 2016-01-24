@@ -20,7 +20,7 @@ var Util = {
         // //assumes a JSON
         // var data = files[0];//JSON.parse(files[0]);
         // data.saved = true;
-        // BrainAndBrawn.SaveData.workingLevel = data;
+        // BnB.SaveData.workingLevel = data;
     },
 
     //Given a file, play audio
@@ -31,11 +31,11 @@ var Util = {
     },
 
     onReaderLoad: function(event){
-        BrainAndBrawn.SaveData.workingLevel = JSON.parse(event.target.result);
+        BnB.SaveData.workingLevel = JSON.parse(event.target.result);
 
-        C.GRID_X = BrainAndBrawn.SaveData.workingLevel.width;
-            C.GRID_Y = BrainAndBrawn.SaveData.workingLevel.height;
-        BrainAndBrawn.SaveData.workingLevel.saved = true;
+        C.GRID_X = BnB.SaveData.workingLevel.width;
+            C.GRID_Y = BnB.SaveData.workingLevel.height;
+        BnB.SaveData.workingLevel.saved = true;
         game.state.start('LevelBuilder');
     },
 
