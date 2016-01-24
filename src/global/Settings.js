@@ -17,13 +17,13 @@ Settings = {
         STANDARD_WIDTH: 2048,
         STANDARD_HEIGHT: 1536,
         WIDTH: 640,
-        HEIGHT: 900,
+        HEIGHT: 900,//900, 1136
         SCALE: 1,
         STRETCH: 'width',
 
         //mode
         LEVEL_MODE: 'normal',
-        MODE: 'demo',//test, demo, normal
+        MODE: 'test',//test, demo, normal
 
         //Game Variables
         SPIKEY_DEATH: false,

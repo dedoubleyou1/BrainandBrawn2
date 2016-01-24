@@ -27,7 +27,7 @@ LevelSelect.prototype = {
 		var offsetY = 0;
 
 		//Debug/Demo only
-		if(Settings.GAME.MODE == 'demo')
+		if(Settings.GAME.MODE == 'demo' || Settings.GAME.MODE == 'test')
 		{
 			offsetY = 110; //create space for the back button
 
