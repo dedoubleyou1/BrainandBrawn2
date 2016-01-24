@@ -115,7 +115,7 @@ BrainAndBrawn.Level.prototype = {
 		if (this.inputManager.state === 'swiping') {
             //dragging finger - shift BnB based on swiping offset
 			var swipeOffset = this.inputManager.getSwipingOffset();
-			var swipeDirection = getDirection(swipeOffset);
+			var swipeDirection = Util.getDirection(swipeOffset);
 			if (swipeDirection === 'left' || swipeDirection === 'right') {
 				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
 			} else if (swipeDirection === 'up' || swipeDirection === 'down') {
@@ -134,7 +134,7 @@ BrainAndBrawn.Level.prototype = {
 
 			//if the move was successful (something moved) - update the move counter
 			if(this.results.moveSuccess){
-				playSound('thunk');
+				Util.playSound('thunk');
 				//update MOVE counter
 				if(this.numMoves<99)this.numMoves++;
 				//Display # of Moves
@@ -159,7 +159,7 @@ BrainAndBrawn.Level.prototype = {
 			}
 
 			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || C.SPIKEY_DEATH) {
-				playSound('death');
+				Util.playSound('death');
 				C.SPIKEY_DEATH = false;//TEMP HACK
 				this.restartLevel();
 			} else if (this.results.endState === 'missionSuccess'){
@@ -172,7 +172,7 @@ BrainAndBrawn.Level.prototype = {
 		Draw a "tutorial screen" on top of the game (player taps to continue)
 	*/
 	startTutorial: function() {
-		playSound('select');
+		Util.playSound('select');
 		this.fadeOutGraphic = game.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
 	    this.fadeOutGraphic.drawRect(0, 0, C.WIDTH, C.HEIGHT);
@@ -194,7 +194,7 @@ BrainAndBrawn.Level.prototype = {
 	{
 		if(this.tutorialFinished) return;
 
-		playSound('select');
+		Util.playSound('select');
 
 		this.currentTutorial += 1;
 		this.tutorialImage.destroy();
@@ -216,7 +216,7 @@ BrainAndBrawn.Level.prototype = {
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
-			playSound('finish');
+			Util.playSound('finish');
 			this.levelFinished = true;
 			this.inputManager.state = 'waiting';
 
@@ -270,7 +270,7 @@ BrainAndBrawn.Level.prototype = {
     }
 		else if(this.tutorialFinished)
 		{
-			playSound('select');
+			Util.playSound('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === C.levels.length) {
@@ -287,7 +287,7 @@ BrainAndBrawn.Level.prototype = {
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
-			playSound('select');
+			Util.playSound('select');
 
 			if(C.LEVEL_MODE == 'normal')
 			{
@@ -306,7 +306,7 @@ BrainAndBrawn.Level.prototype = {
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
-			playSound('select');
+			Util.playSound('select');
 			this.state.start('LevelSelect')
 		}
 	},

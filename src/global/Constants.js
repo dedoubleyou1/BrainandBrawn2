@@ -1,17 +1,8 @@
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
- __      _   _   _                 
-/ _\ ___| |_| |_(_)_ __   __ _ ___ 
-\ \ / _ \ __| __| | '_ \ / _` / __|
-_\ \  __/ |_| |_| | | | | (_| \__ \
-\__/\___|\__|\__|_|_| |_|\__, |___/
-                         |___/     
-
-Summary: Contants for game-wide use
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
+/*
+    Summary: Contants for game-wide use
+*/
 var C = {
-    //Core settings
+    //Core constants
     //sizing
     STANDARD_WIDTH: 2048,
     STANDARD_HEIGHT: 1536,
@@ -31,14 +22,14 @@ var C = {
     //Visuals
     SWIPING_OFFSET: true,
 
-    //Settings for the GraphicManager state
+    //constants for the GraphicManager state
     BORDER_SIZE: 0.375,
     TILESIZE: 256,
     OFFSET: 0.25,
     SKINNYSIZE: 32,
     HUD_HEIGHT: 50,
 
-    //builder settings
+    //builder constants
     DATA: {},
     GRID_X: 8,
     GRID_Y: 8,

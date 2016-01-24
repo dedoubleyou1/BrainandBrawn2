@@ -43,8 +43,8 @@ BrainAndBrawn.GameLogic.prototype.mapKeyLookup = function(key,direction) {
   // These are functions used by tile triggers. They are passed in the coordinate of the trigger action.
   var triggers = {
     checkWin: function() {
-      var otherGoal = indexOf2d(this.gameplayMap.fixed, 'G');
-      var otherChar = indexOf2d(this.gameplayMap.active, 'B');
+      var otherGoal = Util.indexOf2d(this.gameplayMap.fixed, 'G');
+      var otherChar = Util.indexOf2d(this.gameplayMap.active, 'B');
       if (otherChar.x == otherGoal.x && otherChar.y == otherGoal.y) {
         return 'missionSuccess';
       }
@@ -52,7 +52,7 @@ BrainAndBrawn.GameLogic.prototype.mapKeyLookup = function(key,direction) {
     unlockGates: function(resultSwitch, gate, resultGate) {
       return function(position) {
         this.gameplayMap.fixed[position.y][position.x] = resultSwitch;
-        indexOfAll2d(this.gameplayMap.fixed, gate).forEach(function(element) {
+        Util.indexOfAll2d(this.gameplayMap.fixed, gate).forEach(function(element) {
             this.gameplayMap.fixed[element.y][element.x] = resultGate;
         }, this);
       };
@@ -305,10 +305,10 @@ BrainAndBrawn.GameLogic.prototype.consoleLogMap = function() {
 */
 BrainAndBrawn.GameLogic.prototype.gravitySwitch = function(direction) {
   var gameStateChanges = {
-    'b': [indexOf2d(this.gameplayMap.active, 'b')],
-    'B': [indexOf2d(this.gameplayMap.active, 'B')],
-    '@': [indexOf2d(this.gameplayMap.active, '@')],
-    '$': [indexOf2d(this.gameplayMap.active, '$')],
+    'b': [Util.indexOf2d(this.gameplayMap.active, 'b')],
+    'B': [Util.indexOf2d(this.gameplayMap.active, 'B')],
+    '@': [Util.indexOf2d(this.gameplayMap.active, '@')],
+    '$': [Util.indexOf2d(this.gameplayMap.active, '$')],
     gravity: direction,
     endState: 'none',
     moveSuccess: false,
@@ -341,7 +341,7 @@ BrainAndBrawn.GameLogic.prototype.gravitySwitch = function(direction) {
 
   //Add final positions
   this.activeChars.forEach(function(element){
-    gameStateChanges[element].push(indexOf2d(this.gameplayMap.active, element));
+    gameStateChanges[element].push(Util.indexOf2d(this.gameplayMap.active, element));
   }, this)
 
   if (this.debugMode) {
@@ -388,8 +388,8 @@ BrainAndBrawn.GameLogic.prototype.attemptMove = function(direction, x, y) {
   var character = this.gameplayMap.active[y][x];
  
   var newPosition = {
-    x: directionLookup[direction].x + x,
-    y: directionLookup[direction].y + y
+    x: Util.directionLookup[direction].x + x,
+    y: Util.directionLookup[direction].y + y
   };
   if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) {
     // MOVE TO IT's NEW SPOT

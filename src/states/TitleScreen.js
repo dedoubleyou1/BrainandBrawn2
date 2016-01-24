@@ -33,7 +33,7 @@ BrainAndBrawn.TitleScreen.prototype = {
 		onTap - start the game!
 	*/
 	startGame: function(){
-		// playSound('select');
+		// Util.playSound('select');
 
 		//TEMP - skip main menu
 		// this.state.start('level0');
