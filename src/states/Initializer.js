@@ -6,57 +6,31 @@
 \____/ |_| |_|_|\__|_|\__,_|_|_/___\___|_|   
                                              
 
-Summary: Entry point for the game. Initializes Phaser.Game, canvas, game states, and more!
+Summary: Entry point for the game. Initialize Phaser.Game and adds states
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-/*
-  Initialize the game (Phaser.Game object)
-*/
-var game = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT, Phaser.AUTO, 'game', {
-	
-  //initialize game settings
-  init: function() 
-  {
-    Settings.GAME.SCALE = Settings.GAME.WIDTH / Settings.GAME.STANDARD_WIDTH;
+//Phaser Game Object
+var game = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
 
-    //If in demo mode - reassign levels array
-    if(Settings.GAME.MODE == 'demo')
-    {
-      Settings.levels = Settings.levels_demo;
-    }
-  },
+//add states
+game.state.add('Boot', BrainAndBrawn.Boot);
+game.state.add('Preloader', BrainAndBrawn.Preloader);
+game.state.add('TitleScreen', BrainAndBrawn.TitleScreen);
+game.state.add('MainMenu', BrainAndBrawn.MainMenu);
+game.state.add('OptionsMenu', BrainAndBrawn.OptionsMenu);
+game.state.add('AboutMenu', BrainAndBrawn.AboutMenu);
+game.state.add('LevelSelect', BrainAndBrawn.LevelSelect);
+game.state.add('LevelBuilder', BrainAndBrawn.LevelBuilder);
 
-  // Preload loading bar images.
-  preload: function() 
-  {
-		this.load.image('loadingBar','images/loadingBar.png');
-    this.load.image('loadingBack','images/loadingBarBack.png');
-	},
+//Add each level as a separate state
+BrainAndBrawn.SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
+for (var i = 0; i < Settings.levels.length; i++) {
+  game.state.add('level'+i, new BrainAndBrawn.Level(i));
+  BrainAndBrawn.SaveData.levelStatus.push(-1);
+};
+BrainAndBrawn.SaveData.levelStatus[0] = 0; //unlock first level with 0 stars (incomplete)
 
-  //set up Phaser states and star the Preloader
-	create: function() 
-  {
-    //add core states
-		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.state.add('Preloader', Preloader);
-		this.state.add('TitleScreen', TitleScreen);
-    this.state.add('MainMenu', MainMenu);
-    this.state.add('OptionsMenu', OptionsMenu);
-    this.state.add('AboutMenu', AboutMenu);
-    this.state.add('LevelSelect',new LevelSelect(Settings.levels.length));
-    this.state.add('LevelBuilder', LevelBuilder);
-
-    //Add each level as a separate state
-    SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
-    for (var i = 0; i < Settings.levels.length; i++) {
-      this.state.add('level'+i, new Level(i));
-      SaveData.levelStatus.push(-1);
-    };
-    SaveData.levelStatus[0] = 0; //unlock first level with 0 stars (incomplete)
-
-    //start perloading
-		this.state.start('Preloader');
-	}
-});
+//start BOOT.js
+game.state.start('Boot');

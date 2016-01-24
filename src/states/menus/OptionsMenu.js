@@ -1,6 +1,6 @@
 
-OptionsMenu = function() {};
-OptionsMenu.prototype = {
+BrainAndBrawn.OptionsMenu = function() {};
+BrainAndBrawn.OptionsMenu.prototype = {
 
 	/*
 		Create text buttons

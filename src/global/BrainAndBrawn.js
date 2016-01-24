@@ -1,16 +1,5 @@
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
- __      _   _   _                 
-/ _\ ___| |_| |_(_)_ __   __ _ ___ 
-\ \ / _ \ __| __| | '_ \ / _` / __|
-_\ \  __/ |_| |_| | | | | (_| \__ \
-\__/\___|\__|\__|_|_| |_|\__, |___/
-                         |___/     
-
-Summary: Global values for game-wide use
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-Settings = {
+//Defines the MAIN game objects + global settings
+var BrainAndBrawn = {
     //Core settings
     GAME: {
         //sizing

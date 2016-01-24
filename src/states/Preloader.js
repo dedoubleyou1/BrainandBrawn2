@@ -10,9 +10,9 @@ Summary: Entry point for the game. Initializes Phaser.Game, canvas, game states,
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-Preloader = function() {};
+BrainAndBrawn.Preloader = function() {};
 
-Preloader.prototype = {
+BrainAndBrawn.Preloader.prototype = {
 
     /*
         Called before preload

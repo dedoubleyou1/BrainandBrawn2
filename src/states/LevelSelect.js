@@ -11,11 +11,14 @@ Completed levels display star counts.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-LevelSelect = function(numLevels) {
-	this.numLevels = numLevels;
-};
+BrainAndBrawn.LevelSelect = function() {};
 
-LevelSelect.prototype = {
+BrainAndBrawn.LevelSelect.prototype = {
+    init: function()
+    {
+        //reset on entry (just in case the array changed...)
+        this.numLevels = Settings.levels.length;
+    },
 
 	/*
 		TEMP: Populate a numbered grid of boxes
@@ -73,7 +76,7 @@ LevelSelect.prototype = {
 			newButton.height = buttonSize;
 			newButton.levelID = i;
 
-			if(SaveData.levelStatus[i] < 0){
+			if(BrainAndBrawn.SaveData.levelStatus[i] < 0){
 				newButton.alpha = 0.3;
 			}
 			else{
@@ -106,14 +109,14 @@ LevelSelect.prototype = {
 			this.buttonTexts.getAt(i).y = this.buttons.getAt(i).y+this.buttons.getAt(i).height+15;
 
 			
-			if(SaveData.levelStatus[i] == 1){
+			if(BrainAndBrawn.SaveData.levelStatus[i] == 1){
 				var star1 = game.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				// star1.scale.setTo(0.7,0.7);
 				star1.x = buttonX+this.buttons.getAt(i).width/2;
 				star1.y = buttonY+this.buttons.getAt(i).height/2-13;
 			}
-			else if(SaveData.levelStatus[i] == 2){
+			else if(BrainAndBrawn.SaveData.levelStatus[i] == 2){
 				var star1 = game.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				star1.scale.setTo(0.7,0.7);
@@ -126,7 +129,7 @@ LevelSelect.prototype = {
 				star2.x = buttonX+buttonSize*.67;
 				star2.y = buttonY+buttonSize/2-13;
 			}
-			else if(SaveData.levelStatus[i] == 3){
+			else if(BrainAndBrawn.SaveData.levelStatus[i] == 3){
 				var star1 = game.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				star1.scale.setTo(0.7,0.7);
@@ -159,14 +162,14 @@ LevelSelect.prototype = {
 	//reset levels + restart state
 	resetLevels: function()
 	{
-		SaveData.reset();
+		BrainAndBrawn.SaveData.reset();
 		this.state.start('LevelSelect');
 	},
 
 	//unlock all levels + restart state
 	unlockLevels: function()
 	{
-		SaveData.unlockAll();
+		BrainAndBrawn.SaveData.unlockAll();
 		this.state.start('LevelSelect');
 	},
 

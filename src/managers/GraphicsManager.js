@@ -13,7 +13,7 @@ Summary: Handles all graphical updates (based on game state changes)
 /*
   Constructor for initializing Graphics Manager
 */
-GraphicsManager = function(map) {
+BrainAndBrawn.GraphicsManager = function(map) {
   this.active = {};
   this.fixed = [];
 
@@ -38,7 +38,7 @@ GraphicsManager = function(map) {
   Given: a game object key
   Return: Data for display with visual trigger functions
 */
-GraphicsManager.prototype.graphicsKeyLookup = function(key) {
+BrainAndBrawn.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
   var triggers = {
     killSelf: function(position) {
       if(this.fixed[position.y][position.x].type == 'E'){
@@ -299,7 +299,7 @@ GraphicsManager.prototype.graphicsKeyLookup = function(key) {
 /*
   Loop through map grid and add sprites to the game (layer by layer)
 */
-GraphicsManager.prototype.initializeSprites = function(map) {
+BrainAndBrawn.GraphicsManager.prototype.initializeSprites = function(map) {
   var activeCoordinate;
   var fixedLookup;
   var activeSpriteType;
@@ -366,7 +366,7 @@ GraphicsManager.prototype.initializeSprites = function(map) {
     -spriteScale
     -borderX & borderY
 */
-GraphicsManager.prototype.getConvertValues = function() {
+BrainAndBrawn.GraphicsManager.prototype.getConvertValues = function() {
   var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
 
   var levelRatio = (this.width + 0.5) / (this.height + 0.5);
@@ -399,7 +399,7 @@ GraphicsManager.prototype.getConvertValues = function() {
   Given: grid coord
   Return: screen coord
 */
-GraphicsManager.prototype.gridToPixel = function(coordinate) {
+BrainAndBrawn.GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
   //Math.floor((Settings.GRAPHICS.TILESIZE + Settings.GRAPHICS.TILESIZE) * (coordinate.x + 0.5) / 2)
 
@@ -415,7 +415,7 @@ GraphicsManager.prototype.gridToPixel = function(coordinate) {
   Given: screen coord
   Return: grid coord
 */
-GraphicsManager.prototype.pixelToGrid = function(coordinate) {
+BrainAndBrawn.GraphicsManager.prototype.pixelToGrid = function(coordinate) {
   return {
     x: Math.floor((coordinate.x - (this.convertValues.borderX)) / this.convertValues.scaledTileSize),
     // y: Math.floor((coordinate.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize)
@@ -426,7 +426,7 @@ GraphicsManager.prototype.pixelToGrid = function(coordinate) {
 /*
   Sets offset for previewing drag direction by changing anchor. amount should be a number between -1 and 1.
 */
-GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
+BrainAndBrawn.GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
   var offsetX = 0.5;
   var offsetY = 0.5;
 
@@ -447,7 +447,7 @@ GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
   Update all graphics to communicate game state changes
   (called every step)
 */
-GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
+BrainAndBrawn.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
   var callbackTest = function(gameStateChanges, element){
     return function() {
@@ -523,7 +523,7 @@ GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   -Called at the start of each update step
   -Sorts graphics Z order
 */
-GraphicsManager.prototype.refresh = function() {
+BrainAndBrawn.GraphicsManager.prototype.refresh = function() {
     for (element in this.active) {
       this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };
@@ -555,7 +555,7 @@ GraphicsManager.prototype.refresh = function() {
 /*
   Checks to see if all animations arefinished
 */
-GraphicsManager.prototype.areAnimationsFinished = function() {
+BrainAndBrawn.GraphicsManager.prototype.areAnimationsFinished = function() {
   if (this.animationCounter === 0) {
     return true;
   } else {

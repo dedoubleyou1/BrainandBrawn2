@@ -1,21 +1,21 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
    __                _     
-  / /  _____   _____| |___ 
- / /  / _ \ \ / / _ \ / __|
-/ /__|  __/\ V /  __/ \__ \
-\____/\___| \_/ \___|_|___/
+  / /  _____   _____| | 
+ / /  / _ \ \ / / _ \ |
+/ /__|  __/\ V /  __/ |
+\____/\___| \_/ \___|_|
                            
 
 Summary: Core gameplay state - manages all gameplay that occurs inside of a level. 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-Level = function(level,levelData) {
+BrainAndBrawn.Level = function(level,levelData) {
 	this.level = level;
 	if(typeof levelData != 'undefined') this.levelData = levelData;
 };
 
-Level.prototype = {
+BrainAndBrawn.Level.prototype = {
 	/*
 		Initialize manager - gameLogic, graphicsManager,inputManager
 		Initialize all game variables
@@ -28,9 +28,9 @@ Level.prototype = {
 		}
 		this.width = this.levelData.width;
 		this.height = this.levelData.length;
-		this.gameLogic = new GameLogic(this.levelData);
-		this.graphicsManager = new GraphicsManager(this.levelData);
-		this.inputManager = new InputManager('waiting');
+		this.gameLogic = new BrainAndBrawn.GameLogic(this.levelData);
+		this.graphicsManager = new BrainAndBrawn.GraphicsManager(this.levelData);
+		this.inputManager = new BrainAndBrawn.InputManager('waiting');
 		this.tutorialFinished = false;
 		this.levelFinished = false;
 		this.numMoves = 0;
@@ -221,15 +221,15 @@ Level.prototype = {
 			this.inputManager.state = 'waiting';
 
 			//Save stars
-			if(this.currentStarLevel > SaveData.levelStatus[this.level]){
-				SaveData.levelStatus[this.level] = this.currentStarLevel;
+			if(this.currentStarLevel > BrainAndBrawn.SaveData.levelStatus[this.level]){
+				BrainAndBrawn.SaveData.levelStatus[this.level] = this.currentStarLevel;
 			}
 
 			//unlock next level
-			if(this.level+1 < SaveData.levelStatus.length)
+			if(this.level+1 < BrainAndBrawn.SaveData.levelStatus.length)
 			{
-				if(SaveData.levelStatus[this.level+1] == -1){
-					SaveData.levelStatus[this.level+1] = 0; //unlocked
+				if(BrainAndBrawn.SaveData.levelStatus[this.level+1] == -1){
+					BrainAndBrawn.SaveData.levelStatus[this.level+1] = 0; //unlocked
 				}
 			}
 
@@ -317,13 +317,13 @@ Level.prototype = {
 	skipLevel: function()
 	{
 		this.numMoves = 0;
-		SaveData.levelStatus[this.level] = 0;
+		BrainAndBrawn.SaveData.levelStatus[this.level] = 0;
 
 		//unlock next level if necessary
-		if(this.level+1 < SaveData.levelStatus.length)
+		if(this.level+1 < BrainAndBrawn.SaveData.levelStatus.length)
 		{
-			if(SaveData.levelStatus[this.level+1] == -1){
-				SaveData.levelStatus[this.level+1] = 0; //unlocked
+			if(BrainAndBrawn.SaveData.levelStatus[this.level+1] == -1){
+				BrainAndBrawn.SaveData.levelStatus[this.level+1] = 0; //unlocked
 			}
 		}
 

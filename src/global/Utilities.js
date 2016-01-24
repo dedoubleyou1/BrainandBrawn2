@@ -19,15 +19,22 @@ var handleFiles = function(files)
 	// //assumes a JSON
 	// var data = files[0];//JSON.parse(files[0]);
 	// data.saved = true;
-	// SaveData.workingLevel = data;
+	// BrainAndBrawn.SaveData.workingLevel = data;
+}
+
+//Given a file, play audio
+var playSound = function(snd)
+{
+    var sound = game.add.audio(snd);
+    sound.play();
 }
 
 var onReaderLoad = function(event){
-    SaveData.workingLevel = JSON.parse(event.target.result);
+    BrainAndBrawn.SaveData.workingLevel = JSON.parse(event.target.result);
 
-    Settings.BUILDER.GRID_X = SaveData.workingLevel.width;
- 		Settings.BUILDER.GRID_Y = SaveData.workingLevel.height;
-    SaveData.workingLevel.saved = true;
+    Settings.BUILDER.GRID_X = BrainAndBrawn.SaveData.workingLevel.width;
+ 		Settings.BUILDER.GRID_Y = BrainAndBrawn.SaveData.workingLevel.height;
+    BrainAndBrawn.SaveData.workingLevel.saved = true;
     game.state.start('LevelBuilder');
 }
 

@@ -9,8 +9,8 @@ Summary: List of buttons to navigate to different states: PLAY, OPTIONS, ABOUT
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-MainMenu = function() {};
-MainMenu.prototype = {
+BrainAndBrawn.MainMenu = function() {};
+BrainAndBrawn.MainMenu.prototype = {
 
 	/*
 		Create text buttons
@@ -35,7 +35,7 @@ MainMenu.prototype = {
 	onPlay: function()
 	{
 		playSound('select');
-		this.state.start('LevelSelect');
+		this.state.start('LevelSelect',true,false,Settings.levels.length);
 	},
 
 	/*
