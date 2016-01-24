@@ -9,12 +9,12 @@ Summary: Static utility functions for game-wide use
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
  
-var Util = {
+BnB.Util = {
     //adds state based on uploaded file
     handleFiles: function(files)
     {   
         var reader = new FileReader();
-      reader.onload = Util.onReaderLoad;
+      reader.onload = BnB.Util.onReaderLoad;
       reader.readAsText(files[0]);
 
         // //assumes a JSON

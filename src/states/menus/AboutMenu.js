@@ -8,7 +8,7 @@ BnB.AboutMenu.prototype = {
 	create: function(){
 		var myItems = ["Created by:","Rohit Crasta","David Wallin"];
 		var myFont = { font: "50px Quicksand", fill: "#ffffff", align: "center"};
-		var textGroup = Util.createMenu(myItems,myFont);
+		var textGroup = BnB.Util.createMenu(myItems,myFont);
 
 		//back arrow
 		var back = game.add.image(10,10,'backArrow');

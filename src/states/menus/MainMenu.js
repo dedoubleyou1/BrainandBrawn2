@@ -19,7 +19,7 @@ BnB.MainMenu.prototype = {
 	{
 		var myItems = ["Play","Options","Create Levels","About"];
 		var myFont = { font: "50px Quicksand", fill: "#ffffff", align: "center"}
-		var textGroup = Util.createMenu(myItems,myFont);
+		var textGroup = BnB.Util.createMenu(myItems,myFont);
 
 		//add handlers
 		textGroup.getChildAt(0).events.onInputDown.add(this.onPlay,this);
@@ -34,7 +34,7 @@ BnB.MainMenu.prototype = {
 	*/
 	onPlay: function()
 	{
-		Util.playSound('select');
+		BnB.Util.playSound('select');
 		this.state.start('LevelSelect',true,false,C.levels.length);
 	},
 

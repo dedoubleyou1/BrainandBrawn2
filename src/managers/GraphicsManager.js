@@ -42,7 +42,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
   var triggers = {
     killSelf: function(position) {
       if(this.fixed[position.y][position.x].type == 'E'){
-        Util.playSound('kill');
+        BnB.Util.playSound('kill');
       }
       this.fixed[position.y][position.x].sprite.destroy();
     },
@@ -57,7 +57,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         typeTo: typeTo
       };
       return function() {
-        var foundObjects = Util.filter2d(this.fixed, function(element){
+        var foundObjects = BnB.Util.filter2d(this.fixed, function(element){
           if (element.type === this.type) {
             return true;
           }
@@ -74,10 +74,10 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         typeTo: typeToOther
       };
       return function(position) {
-        Util.playSound('switch');
+        BnB.Util.playSound('switch');
         this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
 
-        var foundObjects = Util.filter2d(this.fixed, function(element){
+        var foundObjects = BnB.Util.filter2d(this.fixed, function(element){
           if (element.type === this.type) {
             return true;
           }
@@ -478,7 +478,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     lastPosition = gameStateChanges[element][gameStateChanges[element].length - 1];
     newCoord = this.gridToPixel(lastPosition);
 
-    var dist = Util.pointDist(gameStateChanges.gravity, gameStateChanges[element][0], lastPosition);
+    var dist = BnB.Util.pointDist(gameStateChanges.gravity, gameStateChanges[element][0], lastPosition);
     recenter = game.add.tween(this.active[element].anchor);
     recenter.to({x: 0.5, y: 0.5}, 180, Phaser.Easing.Sinusoidal.In, true);
       
