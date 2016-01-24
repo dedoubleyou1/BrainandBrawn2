@@ -12,7 +12,7 @@ Summary: Entry point for the game. Initialize Phaser.Game and adds states
 
 
 //Phaser Game Object
-var game = new Phaser.Game(Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
+var game = new Phaser.Game(C.WIDTH, C.HEIGHT);
 
 //add states
 game.state.add('Boot', BrainAndBrawn.Boot);
@@ -26,7 +26,7 @@ game.state.add('LevelBuilder', BrainAndBrawn.LevelBuilder);
 
 //Add each level as a separate state
 BrainAndBrawn.SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
-for (var i = 0; i < Settings.levels.length; i++) {
+for (var i = 0; i < C.levels.length; i++) {
   game.state.add('level'+i, new BrainAndBrawn.Level(i));
   BrainAndBrawn.SaveData.levelStatus.push(-1);
 };

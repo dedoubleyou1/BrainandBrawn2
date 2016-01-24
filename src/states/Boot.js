@@ -10,12 +10,12 @@ BrainAndBrawn.Boot.prototype = {
     //initialize game settings
     init: function() 
     {
-        Settings.GAME.SCALE = Settings.GAME.WIDTH / Settings.GAME.STANDARD_WIDTH;
+        C.SCALE = C.WIDTH / C.STANDARD_WIDTH;
 
         //If in demo mode - reassign levels array
-        if(Settings.GAME.MODE == 'demo')
+        if(C.MODE == 'demo')
         {
-          Settings.levels = Settings.levels_demo;
+          C.levels = C.levels_demo;
         }
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;

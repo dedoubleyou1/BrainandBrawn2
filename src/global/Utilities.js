@@ -32,8 +32,8 @@ var playSound = function(snd)
 var onReaderLoad = function(event){
     BrainAndBrawn.SaveData.workingLevel = JSON.parse(event.target.result);
 
-    Settings.BUILDER.GRID_X = BrainAndBrawn.SaveData.workingLevel.width;
- 		Settings.BUILDER.GRID_Y = BrainAndBrawn.SaveData.workingLevel.height;
+    C.GRID_X = BrainAndBrawn.SaveData.workingLevel.width;
+ 		C.GRID_Y = BrainAndBrawn.SaveData.workingLevel.height;
     BrainAndBrawn.SaveData.workingLevel.saved = true;
     game.state.start('LevelBuilder');
 }

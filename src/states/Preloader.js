@@ -115,7 +115,7 @@ BrainAndBrawn.Preloader.prototype = {
         //END TEMP FOR LEVEL EDITOR
 
         // Levels
-        Settings.levels.forEach(function(element, index){
+        C.levels.forEach(function(element, index){
             this.load.text('level'+index, element);
         }, this)
 

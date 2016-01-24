@@ -408,7 +408,7 @@ BrainAndBrawn.GameLogic.prototype.attemptMove = function(direction, x, y) {
 BrainAndBrawn.GameLogic.prototype.isPositionClear = function(character, x, y) {
   if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
     //TEMP HACK (should be a part of triggers)
-    Settings.GAME.SPIKEY_DEATH = Settings.GAME.BOUNDARY_DEATH;
+    C.SPIKEY_DEATH = C.BOUNDARY_DEATH;
     return false
   } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
     
@@ -419,7 +419,7 @@ BrainAndBrawn.GameLogic.prototype.isPositionClear = function(character, x, y) {
       {
         console.log("EVERYONE DIED")
         // game.state.start('level0')
-        Settings.GAME.SPIKEY_DEATH = true;
+        C.SPIKEY_DEATH = true;
       }
     }
     //END TEMP HACK

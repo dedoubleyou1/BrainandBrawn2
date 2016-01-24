@@ -35,7 +35,7 @@ BrainAndBrawn.MainMenu.prototype = {
 	onPlay: function()
 	{
 		playSound('select');
-		this.state.start('LevelSelect',true,false,Settings.levels.length);
+		this.state.start('LevelSelect',true,false,C.levels.length);
 	},
 
 	/*

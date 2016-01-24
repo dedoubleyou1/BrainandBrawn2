@@ -22,7 +22,7 @@ BrainAndBrawn.Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
-		if(Settings.GAME.LEVEL_MODE == 'normal')
+		if(C.LEVEL_MODE == 'normal')
 		{
 			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
 		}
@@ -53,7 +53,7 @@ BrainAndBrawn.Level.prototype = {
 
 		//HUD elements
 		//this.spriteHUD = game.add.sprite(0,0,'imageHUD');
-		//this.spriteHUD.width = Settings.GAME.WIDTH;
+		//this.spriteHUD.width = C.WIDTH;
 		this.levelText = game.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
   	this.moveText = game.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
   	
@@ -77,7 +77,7 @@ BrainAndBrawn.Level.prototype = {
 
 
   	//TEMP: support level builder entry
-  	if(Settings.GAME.LEVEL_MODE == 'builder')
+  	if(C.LEVEL_MODE == 'builder')
   	{
   		//hide HUD
   		this.levelText.visible = false;
@@ -158,9 +158,9 @@ BrainAndBrawn.Level.prototype = {
 			  }
 			}
 
-			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || Settings.GAME.SPIKEY_DEATH) {
+			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || C.SPIKEY_DEATH) {
 				playSound('death');
-				Settings.GAME.SPIKEY_DEATH = false;//TEMP HACK
+				C.SPIKEY_DEATH = false;//TEMP HACK
 				this.restartLevel();
 			} else if (this.results.endState === 'missionSuccess'){
                 this.loadVictory();
@@ -175,12 +175,12 @@ BrainAndBrawn.Level.prototype = {
 		playSound('select');
 		this.fadeOutGraphic = game.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
+	    this.fadeOutGraphic.drawRect(0, 0, C.WIDTH, C.HEIGHT);
 	    this.fadeOutGraphic.endFill();
     
-		this.tutorialImage = game.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+		this.tutorialImage = game.add.sprite(C.WIDTH / 2, C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-		this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
+		this.tutorialImage.scale.multiply(C.SCALE, C.SCALE);
 		
 		//If player taps OR presses any key - change slides
 		game.input.onTap.add(this.nextTutorial, this);
@@ -204,9 +204,9 @@ BrainAndBrawn.Level.prototype = {
 			this.tutorialFinished = true;
 			this.inputManager.state = 'ready';
 		} else {
-			this.tutorialImage = game.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+			this.tutorialImage = game.add.sprite(C.WIDTH / 2, C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 			this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-			this.tutorialImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
+			this.tutorialImage.scale.multiply(C.SCALE, C.SCALE);
 		}
 	},
 
@@ -235,12 +235,12 @@ BrainAndBrawn.Level.prototype = {
 
 			this.fadeOutGraphic = game.add.graphics(0, 0);
     	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-    	    this.fadeOutGraphic.drawRect(0, 0, Settings.GAME.WIDTH, Settings.GAME.HEIGHT);
+    	    this.fadeOutGraphic.drawRect(0, 0, C.WIDTH, C.HEIGHT);
     	    this.fadeOutGraphic.endFill();
 
-    	    this.victoryImage = game.add.sprite(Settings.GAME.WIDTH / 2, Settings.GAME.HEIGHT / 3, ('star'+this.currentStarLevel));
+    	    this.victoryImage = game.add.sprite(C.WIDTH / 2, C.HEIGHT / 3, ('star'+this.currentStarLevel));
 			this.victoryImage.anchor = {x: 0.5, y: 0.5};
-			// this.victoryImage.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
+			// this.victoryImage.scale.multiply(C.SCALE, C.SCALE);
 	  
 			//input for next level
 			// game.input.onTap.add(this.nextLevel, this);
@@ -265,7 +265,7 @@ BrainAndBrawn.Level.prototype = {
 	*/
 	nextLevel: function()
 	{
-    if(Settings.GAME.LEVEL_MODE == 'builder'){
+    if(C.LEVEL_MODE == 'builder'){
         this.state.start('LevelBuilder');
     }
 		else if(this.tutorialFinished)
@@ -273,7 +273,7 @@ BrainAndBrawn.Level.prototype = {
 			playSound('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
-			if (this.level+1 === Settings.levels.length) {
+			if (this.level+1 === C.levels.length) {
 				this.state.start('LevelSelect');
 			} else {
 				this.state.start('level'+(this.level+1));
@@ -289,7 +289,7 @@ BrainAndBrawn.Level.prototype = {
 		if(this.tutorialFinished){
 			playSound('select');
 
-			if(Settings.GAME.LEVEL_MODE == 'normal')
+			if(C.LEVEL_MODE == 'normal')
 			{
 				this.state.start('level'+this.level);
 			}

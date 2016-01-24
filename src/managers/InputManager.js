@@ -30,7 +30,7 @@ BrainAndBrawn.InputManager = function(initialState) {
 		{
 			this.startPoint.x = pointer.clientX;
 			this.startPoint.y = pointer.clientY;
-			if(Settings.GAME.SWIPING_OFFSET){
+			if(C.SWIPING_OFFSET){
 				this.state = 'swiping';
 			}
 		}
@@ -87,7 +87,7 @@ BrainAndBrawn.InputManager.prototype = {
         (how far the player's finger has been dragged from its starting point)
     */
     getSwipingOffset: function(){
-        return {x: (game.input.activePointer.clientX - this.startPoint.x) / Settings.GAME.WIDTH,
-        y: (game.input.activePointer.clientY - this.startPoint.y) / Settings.GAME.WIDTH};
+        return {x: (game.input.activePointer.clientX - this.startPoint.x) / C.WIDTH,
+        y: (game.input.activePointer.clientY - this.startPoint.y) / C.WIDTH};
     },
 }

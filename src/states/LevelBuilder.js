@@ -62,14 +62,14 @@ BrainAndBrawn.LevelBuilder.prototype = {
     init: function()
     {
         //Settings
-        Settings.GAME.BOUNDS_DEATH = false;
+        C.BOUNDS_DEATH = false;
 
         //brush panel variables
-        this.brushWidth = Settings.GAME.WIDTH/9;
+        this.brushWidth = C.WIDTH/9;
         this.brushHeight = this.brushWidth;
 
-        this.gridWidth = Settings.BUILDER.GRID_X;
-        this.gridHeight = Settings.BUILDER.GRID_Y;
+        this.gridWidth = C.GRID_X;
+        this.gridHeight = C.GRID_Y;
 
         //play space offsetY
         var playY = this.brushHeight*3;
@@ -77,17 +77,17 @@ BrainAndBrawn.LevelBuilder.prototype = {
         if(this.gridWidth*50 >= this.gridHeight*62.5)
         {
             //base on width
-            this.cellWidth = Settings.GAME.WIDTH / this.gridWidth;
+            this.cellWidth = C.WIDTH / this.gridWidth;
             this.cellHeight = this.cellWidth/50*62.50;
         }
         else
         {
             //base on height
-            this.cellHeight = (Settings.GAME.HEIGHT-playY) / this.gridHeight;
+            this.cellHeight = (C.HEIGHT-playY) / this.gridHeight;
             this.cellWidth = (this.cellHeight)/62.5*50;//62.5;
         }
 
-        var playX = (Settings.GAME.WIDTH - this.gridWidth*this.cellWidth)/2;
+        var playX = (C.WIDTH - this.gridWidth*this.cellWidth)/2;
         this.playArea = {x:playX,y:playY, w: this.cellWidth*this.gridWidth, h: this.cellHeight*this.gridHeight};
         // this.playArea = {x:playX,y:25, w: this.cellWidth*this.gridWidth, h: this.cellHeight*this.gridHeight};
 
@@ -100,7 +100,7 @@ BrainAndBrawn.LevelBuilder.prototype = {
     },
 
     create: function() {
-        Settings.GAME.LEVEL_MODE = 'builder';
+        C.LEVEL_MODE = 'builder';
         this.state.add('AdjustMenu',BrainAndBrawn.AdjustMenu);
 
         //Phaser this.graphics drawing engine 
@@ -291,21 +291,21 @@ BrainAndBrawn.LevelBuilder.prototype = {
         this.eraseButton.events.onInputDown.add(this.toggleEraser,this);
 
         //Create Dimensions button
-        this.sizeButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
+        this.sizeButton = game.add.image(C.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
         this.sizeButton.width = this.brushWidth;
         this.sizeButton.height = this.brushHeight;
         this.sizeButton.inputEnabled = true;
         this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
         //create save button
-        this.saveButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,0,'saveIcon');
+        this.saveButton = game.add.image(C.WIDTH-this.brushWidth,0,'saveIcon');
         this.saveButton.width = this.brushWidth;
         this.saveButton.height = this.brushHeight;
         this.saveButton.inputEnabled = true;
         this.saveButton.events.onInputDown.add(this.saveLevel,this);
 
         //create flip button
-        this.flipButton = game.add.image(Settings.GAME.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
+        this.flipButton = game.add.image(C.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
         this.flipButton.width = this.brushWidth;
         this.flipButton.height = this.brushHeight;
         this.flipButton.inputEnabled = true;
@@ -400,8 +400,8 @@ BrainAndBrawn.LevelBuilder.prototype = {
     printMap: function()
     {
         //save to global
-        Settings.BUILDER.GRID_X = this.gridWidth;
-        Settings.BUILDER.GRID_Y = this.gridHeight;
+        C.GRID_X = this.gridWidth;
+        C.GRID_Y = this.gridHeight;
 
         //save to save data
         BrainAndBrawn.SaveData.workingLevel.name = "test";

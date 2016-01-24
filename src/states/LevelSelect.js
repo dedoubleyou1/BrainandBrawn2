@@ -17,7 +17,7 @@ BrainAndBrawn.LevelSelect.prototype = {
     init: function()
     {
         //reset on entry (just in case the array changed...)
-        this.numLevels = Settings.levels.length;
+        this.numLevels = C.levels.length;
     },
 
 	/*
@@ -30,7 +30,7 @@ BrainAndBrawn.LevelSelect.prototype = {
 		var offsetY = 0;
 
 		//Debug/Demo only
-		if(Settings.GAME.MODE == 'demo' || Settings.GAME.MODE == 'test')
+		if(C.MODE == 'demo' || C.MODE == 'test')
 		{
 			offsetY = 110; //create space for the back button
 
@@ -59,8 +59,8 @@ BrainAndBrawn.LevelSelect.prototype = {
 		}
 
 		//Set up level buttons
-		Settings.GAME.LEVEL_MODE = 'normal';
-		Settings.GAME.BOUNDS_DEATH = true;
+		C.LEVEL_MODE = 'normal';
+		C.BOUNDS_DEATH = true;
 
 		this.buttons = game.add.group();
 		this.buttonTexts = game.add.group();

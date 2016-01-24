@@ -20,10 +20,10 @@ BrainAndBrawn.TitleScreen.prototype = {
 	create: function() {
 
 		//set up background image
-		var background = this.add.sprite(Settings.GAME.WIDTH/2, Settings.GAME.HEIGHT/2, 'imageTitle');
+		var background = this.add.sprite(C.WIDTH/2, C.HEIGHT/2, 'imageTitle');
 		background.anchor = {x: 0.5, y: 0.5};
-		// background.scale.multiply(Settings.GAME.SCALE, Settings.GAME.SCALE);
-		background.scale.multiply(Settings.GAME.WIDTH/background.width,Settings.GAME.HEIGHT/background.height)
+		// background.scale.multiply(C.SCALE, C.SCALE);
+		background.scale.multiply(C.WIDTH/background.width,C.HEIGHT/background.height)
 
 		//add input to start the game
 		this.input.onTap.add(this.startGame, this);

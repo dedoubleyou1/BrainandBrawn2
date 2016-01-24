@@ -18,7 +18,7 @@ BrainAndBrawn.GraphicsManager = function(map) {
   this.fixed = [];
 
   //TEMP
-  Settings.GRAPHICS.HUD_HEIGHT = 50;
+  C.HUD_HEIGHT = 50;
 
   this.levelGroup = game.add.group();
   this.levelGroup.enableBody = true;
@@ -367,7 +367,7 @@ BrainAndBrawn.GraphicsManager.prototype.initializeSprites = function(map) {
     -borderX & borderY
 */
 BrainAndBrawn.GraphicsManager.prototype.getConvertValues = function() {
-  var screenRatio = Settings.GAME.WIDTH / Settings.GAME.HEIGHT;
+  var screenRatio = C.WIDTH / C.HEIGHT;
 
   var levelRatio = (this.width + 0.5) / (this.height + 0.5);
 
@@ -376,21 +376,21 @@ BrainAndBrawn.GraphicsManager.prototype.getConvertValues = function() {
   if (screenRatio > levelRatio) {
     //base on level height
     convertValues.fitType = 'height';
-    convertValues.scaledTileSize = Math.floor(Settings.GAME.HEIGHT / (this.height + Settings.GRAPHICS.BORDER_SIZE * 2 + Settings.GRAPHICS.OFFSET));
-    // this.xOffset = Settings.GAME.WIDTH - (convertValues.scaledTileSize * this.width)
+    convertValues.scaledTileSize = Math.floor(C.HEIGHT / (this.height + C.BORDER_SIZE * 2 + C.OFFSET));
+    // this.xOffset = C.WIDTH - (convertValues.scaledTileSize * this.width)
     // this.yOffset = 0;
   } else {
     // base on level width
     convertValues.fitType = 'width';
-    convertValues.scaledTileSize = Math.floor(Settings.GAME.WIDTH / (this.width + Settings.GRAPHICS.BORDER_SIZE * 2));
+    convertValues.scaledTileSize = Math.floor(C.WIDTH / (this.width + C.BORDER_SIZE * 2));
   }
 
-  var offsetY = (Settings.GAME.HEIGHT - convertValues.scaledTileSize*this.height)/2 - Settings.GRAPHICS.HUD_HEIGHT;
+  var offsetY = (C.HEIGHT - convertValues.scaledTileSize*this.height)/2 - C.HUD_HEIGHT;
  
   console.log(convertValues.scaledTileSize);
-  convertValues.spriteScale = convertValues.scaledTileSize / Settings.GRAPHICS.TILESIZE;
-  convertValues.borderX = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize;
-  convertValues.borderY = Settings.GRAPHICS.BORDER_SIZE * convertValues.scaledTileSize + Settings.GRAPHICS.HUD_HEIGHT + offsetY;
+  convertValues.spriteScale = convertValues.scaledTileSize / C.TILESIZE;
+  convertValues.borderX = C.BORDER_SIZE * convertValues.scaledTileSize;
+  convertValues.borderY = C.BORDER_SIZE * convertValues.scaledTileSize + C.HUD_HEIGHT + offsetY;
 
   return convertValues;
 };
@@ -401,7 +401,7 @@ BrainAndBrawn.GraphicsManager.prototype.getConvertValues = function() {
 */
 BrainAndBrawn.GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
-  //Math.floor((Settings.GRAPHICS.TILESIZE + Settings.GRAPHICS.TILESIZE) * (coordinate.x + 0.5) / 2)
+  //Math.floor((C.TILESIZE + C.TILESIZE) * (coordinate.x + 0.5) / 2)
 
   return {
     x: (this.convertValues.borderX) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
@@ -537,10 +537,10 @@ BrainAndBrawn.GraphicsManager.prototype.refresh = function() {
     //   // var child1YOffset = 1;
     //   // var child2YOffset = 1;
     //   // if (child1.priority === true) {
-    //   //   child1YOffset = Settings.GRAPHICS.TILESIZE;
+    //   //   child1YOffset = C.TILESIZE;
     //   // }
     //   // if (child2.priority === true) {
-    //   //   child2YOffset = Settings.GRAPHICS.TILESIZE;
+    //   //   child2YOffset = C.TILESIZE;
     //   // }
     //   if (child1.y > child2.y) {
     //     return 1;

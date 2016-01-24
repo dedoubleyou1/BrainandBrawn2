@@ -6,48 +6,44 @@ _\ \  __/ |_| |_| | | | | (_| \__ \
 \__/\___|\__|\__|_|_| |_|\__, |___/
                          |___/     
 
-Summary: Global values for game-wide use
+Summary: Contants for game-wide use
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-Settings = {
+var C = {
     //Core settings
-    GAME: {
-        //sizing
-        STANDARD_WIDTH: 2048,
-        STANDARD_HEIGHT: 1536,
-        WIDTH: 640,
-        HEIGHT: 900,//900, 1136
-        SCALE: 1,
-        STRETCH: 'width',
+    //sizing
+    STANDARD_WIDTH: 2048,
+    STANDARD_HEIGHT: 1536,
+    WIDTH: 640,
+    HEIGHT: 900,//900, 1136
+    SCALE: 1,
+    STRETCH: 'width',
 
-        //mode
-        LEVEL_MODE: 'normal',
-        MODE: 'test',//test, demo, normal
+    //mode
+    LEVEL_MODE: 'normal',
+    MODE: 'test',//test, demo, normal
 
-        //Game Variables
-        SPIKEY_DEATH: false,
-        BOUNDARY_DEATH: true,
+    //Game Variables
+    SPIKEY_DEATH: false,
+    BOUNDARY_DEATH: true,
 
-        //Visuals
-        SWIPING_OFFSET: true,
-    },
+    //Visuals
+    SWIPING_OFFSET: true,
 
     //Settings for the GraphicManager state
-    GRAPHICS: {
-        BORDER_SIZE: 0.375,
-        TILESIZE: 256,
-        OFFSET: 0.25,
-        SKINNYSIZE: 32,
-        HUD_HEIGHT: 50,
-    },
+    BORDER_SIZE: 0.375,
+    TILESIZE: 256,
+    OFFSET: 0.25,
+    SKINNYSIZE: 32,
+    HUD_HEIGHT: 50,
 
     //builder settings
-    BUILDER: {
-        DATA: {},
-        GRID_X: 8,
-        GRID_Y: 8,
-    },
+    DATA: {},
+    GRID_X: 8,
+    GRID_Y: 8,
+
+
 
     levels_demo: [
         //Basic
