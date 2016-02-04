@@ -23,29 +23,29 @@ BnB.AdjustMenu.prototype = {
 
 		//dimensions text
 		var myFont = { font: "80px Quicksand", fill: "#ffffff", align: "center"}
-		this.widthText = game.add.text(w/2,200,C.GRID_X,myFont);
+		this.widthText = this.add.text(w/2,200,C.GRID_X,myFont);
 		this.widthText.anchor.setTo(0.5);
-		this.heightText = game.add.text(w/2,615,C.GRID_Y,myFont);
+		this.heightText = this.add.text(w/2,615,C.GRID_Y,myFont);
 		this.heightText.anchor.setTo(0.5);
 
-		var left = game.add.image(w/2-150,200,'arrow');
+		var left = this.add.image(w/2-150,200,'arrow');
 		left.inputEnabled = true;
 		left.anchor.setTo(0.5);
 		left.events.onInputDown.add(this.onDownX,this);
 
-		var right = game.add.image(w/2+150,200,'arrow');
+		var right = this.add.image(w/2+150,200,'arrow');
 		right.inputEnabled = true;
 		right.events.onInputDown.add(this.onUpX,this);
 		right.anchor.setTo(0.5);
 		right.rotation = Math.PI;
 
-		var up = game.add.image(w/2,480,'arrow');
+		var up = this.add.image(w/2,480,'arrow');
 		up.inputEnabled = true;
 		up.events.onInputDown.add(this.onUpY,this);
 		up.anchor.setTo(0.5);
 		up.rotation = Math.PI/2;
 
-		var down = game.add.image(w/2,750,'arrow');
+		var down = this.add.image(w/2,750,'arrow');
 		down.inputEnabled = true;
 		down.events.onInputDown.add(this.onDownY,this);
 		down.anchor.setTo(0.5);
@@ -53,12 +53,12 @@ BnB.AdjustMenu.prototype = {
 
 		//toggle off-screen death
 		myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-		this.boundsText = game.add.text(300,0,"Boundary Death: " + C.BOUNDARY_DEATH,myFont);
+		this.boundsText = this.add.text(300,0,"Boundary Death: " + C.BOUNDARY_DEATH,myFont);
 		this.boundsText.inputEnabled = true;
 		this.boundsText.events.onInputDown.add(this.toggleBounds,this);
 
 		//back arrow
-		var back = game.add.image(10,10,'backArrow');
+		var back = this.add.image(10,10,'backArrow');
 		back.scale.setTo(0.5);
 		back.inputEnabled = true;
 		back.events.onInputDown.add(this.onBack,this);

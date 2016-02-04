@@ -41,19 +41,19 @@ BnB.LevelSelect.prototype = {
 			this.unlockKey.onUp.add(this.unlockLevels,this);
 
 			//Back Button
-			var back = game.add.image(10,10,'backArrow');
+			var back = this.add.image(10,10,'backArrow');
 			back.scale.setTo(0.4);
 			back.inputEnabled = true;
 			back.events.onInputDown.add(this.onBack,this);
 
 			//Unlock ALL
 			var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-			this.unlockText = game.add.text(200,40,"Unlock All",myFont);
+			this.unlockText = this.add.text(200,40,"Unlock All",myFont);
 			this.unlockText.inputEnabled = true;
 			this.unlockText.events.onInputDown.add(this.unlockLevels,this);
 
 			//reset 
-			this.resetText = game.add.text(500,40,"Reset All",myFont);
+			this.resetText = this.add.text(500,40,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
 		}
@@ -62,8 +62,8 @@ BnB.LevelSelect.prototype = {
 		C.LEVEL_MODE = 'normal';
 		C.BOUNDS_DEATH = true;
 
-		this.buttons = game.add.group();
-		this.buttonTexts = game.add.group();
+		this.buttons = this.add.group();
+		this.buttonTexts = this.add.group();
 
 		var buttonSize = 100;
 		var buttonGapX = 23;
@@ -71,7 +71,7 @@ BnB.LevelSelect.prototype = {
 
 		for (var i=0;i<this.numLevels;i++)
 		{
-			var newButton = game.add.image(50,50,'spritesheet', 'brainandbrawn_block');
+			var newButton = this.add.image(50,50,'spritesheet', 'brainandbrawn_block');
 			newButton.width = buttonSize;
 			newButton.height = buttonSize;
 			newButton.levelID = i;
@@ -86,7 +86,7 @@ BnB.LevelSelect.prototype = {
 
 			this.buttons.add(newButton);
 
-			var newText = game.add.text(50,50,(i+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
+			var newText = this.add.text(50,50,(i+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
 			newText.anchor = {x: 0.5, y: 0.5};
 			this.buttonTexts.add(newText);
 		}
@@ -110,17 +110,17 @@ BnB.LevelSelect.prototype = {
 
 			
 			if(BnB.SaveData.levelStatus[i] == 1){
-				var star1 = game.add.image(0,0,'star');
+				var star1 = this.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				// star1.scale.setTo(0.7,0.7);
 				star1.x = buttonX+this.buttons.getAt(i).width/2;
 				star1.y = buttonY+this.buttons.getAt(i).height/2-13;
 			}
 			else if(BnB.SaveData.levelStatus[i] == 2){
-				var star1 = game.add.image(0,0,'star');
+				var star1 = this.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				star1.scale.setTo(0.7,0.7);
-				var star2 = game.add.image(0,0,'star');
+				var star2 = this.add.image(0,0,'star');
 				star2.anchor = {x: 0.5, y: 0.5};
 				star2.scale.setTo(0.7,0.7);
 
@@ -130,13 +130,13 @@ BnB.LevelSelect.prototype = {
 				star2.y = buttonY+buttonSize/2-13;
 			}
 			else if(BnB.SaveData.levelStatus[i] == 3){
-				var star1 = game.add.image(0,0,'star');
+				var star1 = this.add.image(0,0,'star');
 				star1.anchor = {x: 0.5, y: 0.5};
 				star1.scale.setTo(0.7,0.7);
-				var star2 = game.add.image(0,0,'star');
+				var star2 = this.add.image(0,0,'star');
 				star2.anchor = {x: 0.5, y: 0.5};
 				star2.scale.setTo(0.7,0.7);
-				var star3 = game.add.image(0,0,'star');
+				var star3 = this.add.image(0,0,'star');
 				star3.anchor = {x: 0.5, y: 0.5};
 				star3.scale.setTo(0.7,0.7);
 

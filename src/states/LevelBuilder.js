@@ -105,7 +105,7 @@ BnB.LevelBuilder.prototype = {
         this.state.add('AdjustMenu',BnB.AdjustMenu);
 
         //Phaser this.graphics drawing engine 
-        this.graphics = game.add.graphics(0,0);
+        this.graphics = this.add.graphics(0,0);
 
         //draw grid
         this.graphics.lineStyle(2, 0xDDDDDD,0.5);
@@ -125,10 +125,10 @@ BnB.LevelBuilder.prototype = {
         }
 
         //brush palette
-        this.brushes = game.add.group();
+        this.brushes = this.add.group();
         this.createBrushPalette();
 
-        this.gridImages = game.add.group();
+        this.gridImages = this.add.group();
 
         //grid images (placeholder)
         if(BnB.SaveData.workingLevel.saved) 
@@ -210,7 +210,7 @@ BnB.LevelBuilder.prototype = {
     createBrushPalette: function()
     {
         //show current brush
-        this.brushDisplay = game.add.image(2,2,'brainy');
+        this.brushDisplay = this.add.image(2,2,'brainy');
         this.brushDisplay.width = this.brushWidth;
         this.brushDisplay.height = this.brushHeight;
         this.graphics.lineStyle(3, 0x00FFFF, 1);
@@ -276,15 +276,15 @@ BnB.LevelBuilder.prototype = {
         }
 
         //Create PLAY button
-        this.playButton = game.add.image(0,this.brushHeight*1.1,'playButton');
-        //this.playButton = game.add.button(this.cellWidth+15,0,'button', this.printMap, this, 2, 1, 0, 1);
+        this.playButton = this.add.image(0,this.brushHeight*1.1,'playButton');
+        //this.playButton = this.add.button(this.cellWidth+15,0,'button', this.printMap, this, 2, 1, 0, 1);
         // this.playButton.scale.setTo(0.3,0.3);
         this.playButton.width = this.brushWidth;
         this.playButton.height = this.brushHeight;
         this.playButton.inputEnabled=true;
         this.playButton.events.onInputDown.add(this.playLevel,this);
 
-        this.eraseButton = game.add.image(0,this.brushHeight*2.1,'eraser');
+        this.eraseButton = this.add.image(0,this.brushHeight*2.1,'eraser');
         // this.eraseButton.scale.setTo(1.3,1.3);
         this.eraseButton.width = this.brushWidth;
         this.eraseButton.height = this.brushHeight;
@@ -292,21 +292,21 @@ BnB.LevelBuilder.prototype = {
         this.eraseButton.events.onInputDown.add(this.toggleEraser,this);
 
         //Create Dimensions button
-        this.sizeButton = game.add.image(C.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
+        this.sizeButton = this.add.image(C.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
         this.sizeButton.width = this.brushWidth;
         this.sizeButton.height = this.brushHeight;
         this.sizeButton.inputEnabled = true;
         this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
         //create save button
-        this.saveButton = game.add.image(C.WIDTH-this.brushWidth,0,'saveIcon');
+        this.saveButton = this.add.image(C.WIDTH-this.brushWidth,0,'saveIcon');
         this.saveButton.width = this.brushWidth;
         this.saveButton.height = this.brushHeight;
         this.saveButton.inputEnabled = true;
         this.saveButton.events.onInputDown.add(this.saveLevel,this);
 
         //create flip button
-        this.flipButton = game.add.image(C.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
+        this.flipButton = this.add.image(C.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
         this.flipButton.width = this.brushWidth;
         this.flipButton.height = this.brushHeight;
         this.flipButton.inputEnabled = true;
