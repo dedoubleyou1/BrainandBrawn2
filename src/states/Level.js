@@ -10,13 +10,15 @@ Summary: Core gameplay state - manages all gameplay that occurs inside of a leve
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-BnB.Level = function(level,levelData) {
-	this.level = level;
-	if(typeof levelData != 'undefined') this.levelData = levelData;
-};
+BnB.Level = function() {};
 
 BnB.Level.prototype = {
-	/*
+	init: function(level,levelData){
+        this.level = level;
+        if(typeof levelData != 'undefined') this.levelData = levelData;
+    },
+
+    /*
 		Initialize manager - gameLogic, graphicsManager,inputManager
 		Initialize all game variables
 		Initialize HUD and gameplay space
@@ -276,7 +278,7 @@ BnB.Level.prototype = {
 			if (this.level+1 === C.levels.length) {
 				this.state.start('LevelSelect');
 			} else {
-				this.state.start('level'+(this.level+1));
+				this.state.start('Level',true,false,this.level+1);
 			}
 		}
 	},
@@ -291,7 +293,7 @@ BnB.Level.prototype = {
 
 			if(C.LEVEL_MODE == 'normal')
 			{
-				this.state.start('level'+this.level);
+				this.state.start('Level',true,false,this.level);
 			}
 			else
 			{

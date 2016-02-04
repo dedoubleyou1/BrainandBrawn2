@@ -156,7 +156,7 @@ BnB.LevelSelect.prototype = {
 	*/
 	loadLevel: function(image) 
 	{
-		this.state.start('level'+(image.levelID));
+        this.state.start('Level',true,false,image.levelID);
 	},
 
 	//reset levels + restart state

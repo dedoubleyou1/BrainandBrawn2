@@ -55,6 +55,7 @@ var bigKeyLookup = {
 
 BnB.LevelBuilder = function() {
   BnB.SaveData.workingLevel.saved = false;
+  this.passingData;
 };
 
 BnB.LevelBuilder.prototype = {
@@ -450,7 +451,7 @@ BnB.LevelBuilder.prototype = {
                 string2 += "]\n";
             }
         } 
-        string2 += "],\n" 
+        string2 += "],\n";
 
         //FIXED array
         var string3 = "\"fixed\": [\n";
@@ -479,14 +480,13 @@ BnB.LevelBuilder.prototype = {
               string3 += "]\n";
             }
         } 
-        string3 += "]\n" 
+        string3 += "]\n";
 
         console.log(string1 + "\n" + string2 + "\n" + string3 + "\n}");
 
 
         //create copy of saved level data + save it to STATE
-        var passingData = Phaser.Utils.extend(true,BnB.SaveData.workingLevel);
-        this.state.add('testLevel',new BnB.Level(0,passingData));
+        this.passingData = Phaser.Utils.extend(true,BnB.SaveData.workingLevel);
 
         BnB.SaveData.workingLevel.saved = true;
     },
@@ -561,6 +561,6 @@ BnB.LevelBuilder.prototype = {
     playLevel: function()
     {
         this.printMap();
-        this.state.start('testLevel');
+        this.state.start('Level',true,false,0,this.passingData);
     },
 };

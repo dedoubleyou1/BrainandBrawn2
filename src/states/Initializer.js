@@ -23,11 +23,12 @@ game.state.add('OptionsMenu', BnB.OptionsMenu);
 game.state.add('AboutMenu', BnB.AboutMenu);
 game.state.add('LevelSelect', BnB.LevelSelect);
 game.state.add('LevelBuilder', BnB.LevelBuilder);
+game.state.add('Level',BnB.Level);
 
 //Add each level as a separate state
 BnB.SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
 for (var i = 0; i < C.levels.length; i++) {
-  game.state.add('level'+i, new BnB.Level(i));
+  // game.state.add('level'+i, new BnB.Level(i));
   BnB.SaveData.levelStatus.push(-1);
 };
 BnB.SaveData.levelStatus[0] = 0; //unlock first level with 0 stars (incomplete)
