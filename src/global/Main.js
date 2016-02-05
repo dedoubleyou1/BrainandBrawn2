@@ -6,6 +6,10 @@ var BnB = {
 
     levelBuilderX: 8,
     levelBuilderY: 8,
+
+    //mode
+    levelType: 'normal',
+    buildType: 'test',//test, demo, normal
 };
 
 /*
@@ -20,10 +24,6 @@ BnB.C = {
     HEIGHT: 900,//900, 1136
     STRETCH: 'width',
 
-    //mode
-    LEVEL_MODE: 'normal',
-    MODE: 'test',//test, demo, normal
-
     //Game Variables
     SPIKEY_DEATH: false,
     BOUNDARY_DEATH: true,
@@ -37,9 +37,6 @@ BnB.C = {
     OFFSET: 0.25,
     SKINNYSIZE: 32,
     HUD_HEIGHT: 50,
-
-    // BUILDER_START_X,
-    // BUILDER_START_Y,
 
 
     LEVELS_DEMO: [

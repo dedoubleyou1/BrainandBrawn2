@@ -30,7 +30,7 @@ BnB.LevelSelect.prototype = {
 		var offsetY = 0;
 
 		//Debug/Demo only
-		if(BnB.C.MODE == 'demo' || BnB.C.MODE == 'test')
+		if(BnB.buildType == 'demo' || BnB.buildType == 'test')
 		{
 			offsetY = 110; //create space for the back button
 
@@ -59,7 +59,7 @@ BnB.LevelSelect.prototype = {
 		}
 
 		//Set up level buttons
-		BnB.C.LEVEL_MODE = 'normal';
+		BnB.levelType = 'normal';
 		BnB.C.BOUNDS_DEATH = true;
 
 		this.buttons = this.add.group();

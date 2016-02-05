@@ -101,7 +101,7 @@ BnB.LevelBuilder.prototype = {
     },
 
     create: function() {
-        BnB.C.LEVEL_MODE = 'builder';
+        BnB.levelType = 'builder';
         this.state.add('AdjustMenu',BnB.AdjustMenu);
 
         //Phaser this.graphics drawing engine 

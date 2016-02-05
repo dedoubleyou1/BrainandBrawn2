@@ -24,7 +24,7 @@ BnB.Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
-		if(BnB.C.LEVEL_MODE == 'normal')
+		if(BnB.levelType == 'normal')
 		{
 			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
 		}
@@ -79,7 +79,7 @@ BnB.Level.prototype = {
 
 
   	//TEMP: support level builder entry
-  	if(BnB.C.LEVEL_MODE == 'builder')
+  	if(BnB.levelType == 'builder')
   	{
   		//hide HUD
   		this.levelText.visible = false;
@@ -267,7 +267,7 @@ BnB.Level.prototype = {
 	*/
 	nextLevel: function()
 	{
-    if(BnB.C.LEVEL_MODE == 'builder'){
+    if(BnB.levelType == 'builder'){
         this.state.start('LevelBuilder');
     }
 		else if(this.tutorialFinished)
@@ -291,7 +291,7 @@ BnB.Level.prototype = {
 		if(this.tutorialFinished){
 			BnB.Util.playSound('select');
 
-			if(BnB.C.LEVEL_MODE == 'normal')
+			if(BnB.levelType == 'normal')
 			{
 				this.state.start('Level',true,false,this.level);
 			}

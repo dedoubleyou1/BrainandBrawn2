@@ -1,5 +1,7 @@
+/*
+    The first state - initialize settings and preload the preloading bar!
+*/
 BnB.Boot = function() {};
-
 BnB.Boot.prototype = {
     //initialize game settings
     init: function() 
@@ -7,7 +9,7 @@ BnB.Boot.prototype = {
         BnB.scale = BnB.C.WIDTH / BnB.C.STANDARD_WIDTH;
 
         //If in demo mode - reassign levels array
-        if(BnB.C.MODE == 'demo')
+        if(BnB.buildType == 'demo')
         {
             BnB.levels = BnB.C.LEVELS_DEMO;
         }
