@@ -23,9 +23,9 @@ BnB.AdjustMenu.prototype = {
 
 		//dimensions text
 		var myFont = { font: "80px Quicksand", fill: "#ffffff", align: "center"}
-		this.widthText = this.add.text(w/2,200,BnB.C.GRID_X,myFont);
+		this.widthText = this.add.text(w/2,200,BnB.levelBuilderX,myFont);
 		this.widthText.anchor.setTo(0.5);
-		this.heightText = this.add.text(w/2,615,BnB.C.GRID_Y,myFont);
+		this.heightText = this.add.text(w/2,615,BnB.levelBuilderY,myFont);
 		this.heightText.anchor.setTo(0.5);
 
 		var left = this.add.image(w/2-150,200,'arrow');
@@ -66,33 +66,33 @@ BnB.AdjustMenu.prototype = {
 
 	onUpX: function()
 	{
-		if(BnB.C.GRID_X < 10){
-			BnB.C.GRID_X++;
-			this.widthText.text = BnB.C.GRID_X;
+		if(BnB.levelBuilderX < 10){
+			BnB.levelBuilderX++;
+			this.widthText.text = BnB.levelBuilderX;
 		}
 	},
 
 	onDownX: function()
 	{
-		if(BnB.C.GRID_X > 3){
-			BnB.C.GRID_X--;
-			this.widthText.text = BnB.C.GRID_X;
+		if(BnB.levelBuilderX > 3){
+			BnB.levelBuilderX--;
+			this.widthText.text = BnB.levelBuilderX;
 		}
 	},
 
 	onUpY: function()
 	{
-		if(BnB.C.GRID_Y < 16){
-			BnB.C.GRID_Y++;
-			this.heightText.text = BnB.C.GRID_Y;
+		if(BnB.levelBuilderY < 16){
+			BnB.levelBuilderY++;
+			this.heightText.text = BnB.levelBuilderY;
 		}
 	},
 
 	onDownY: function()
 	{
-		if(BnB.C.GRID_Y > 3){
-			BnB.C.GRID_Y--;
-			this.heightText.text = BnB.C.GRID_Y;
+		if(BnB.levelBuilderY > 3){
+			BnB.levelBuilderY--;
+			this.heightText.text = BnB.levelBuilderY;
 		}
 	},
 

@@ -1,11 +1,11 @@
 //Main Game Object
-var BnB = {};
+var BnB = {
+    //properties for game-wide use
+    levels: [],
+    scale: 1,
 
-/*
-    Variables for game-wide use
-*/
-BnB.G = {
-
+    levelBuilderX: 8,
+    levelBuilderY: 8,
 };
 
 /*
@@ -18,7 +18,6 @@ BnB.C = {
     STANDARD_HEIGHT: 1536,
     WIDTH: 640,
     HEIGHT: 900,//900, 1136
-    SCALE: 1,
     STRETCH: 'width',
 
     //mode
@@ -39,14 +38,11 @@ BnB.C = {
     SKINNYSIZE: 32,
     HUD_HEIGHT: 50,
 
-    //builder constants
-    DATA: {},
-    GRID_X: 8,
-    GRID_Y: 8,
+    // BUILDER_START_X,
+    // BUILDER_START_Y,
 
 
-
-    levels_demo: [
+    LEVELS_DEMO: [
         //Basic
         'levels/splitlevel_starter.json',
         'levels/startlevel3_v2.json',
@@ -79,7 +75,7 @@ BnB.C = {
     Array of level paths to load. 
     Order of array = order of levels
     */
-    levels: [
+    LEVELS_NORMAL: [
 
         //TEST
         // 'levels/test/openlevel.json',

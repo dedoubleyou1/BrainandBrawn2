@@ -275,7 +275,7 @@ BnB.Level.prototype = {
 			BnB.Util.playSound('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
-			if (this.level+1 === BnB.C.levels.length) {
+			if (this.level+1 === BnB.levels.length) {
 				this.state.start('LevelSelect');
 			} else {
 				this.state.start('Level',true,false,this.level+1);

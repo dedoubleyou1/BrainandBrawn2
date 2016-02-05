@@ -69,8 +69,8 @@ BnB.LevelBuilder.prototype = {
         this.brushWidth = BnB.C.WIDTH/9;
         this.brushHeight = this.brushWidth;
 
-        this.gridWidth = BnB.C.GRID_X;
-        this.gridHeight = BnB.C.GRID_Y;
+        this.gridWidth = BnB.levelBuilderX;
+        this.gridHeight = BnB.levelBuilderY;
 
         //play space offsetY
         var playY = this.brushHeight*3;
@@ -401,8 +401,8 @@ BnB.LevelBuilder.prototype = {
     printMap: function()
     {
         //save to global
-        BnB.C.GRID_X = this.gridWidth;
-        BnB.C.GRID_Y = this.gridHeight;
+        BnB.levelBuilderX = this.gridWidth;
+        BnB.levelBuilderY = this.gridHeight;
 
         //save to save data
         BnB.SaveData.workingLevel.name = "test";

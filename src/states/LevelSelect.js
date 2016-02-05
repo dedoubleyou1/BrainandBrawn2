@@ -17,7 +17,7 @@ BnB.LevelSelect.prototype = {
     init: function()
     {
         //reset on entry (just in case the array changed...)
-        this.numLevels = BnB.C.levels.length;
+        this.numLevels = BnB.levels.length;
     },
 
 	/*

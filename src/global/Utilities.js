@@ -33,8 +33,8 @@ BnB.Util = {
     onReaderLoad: function(event){
         BnB.SaveData.workingLevel = JSON.parse(event.target.result);
 
-        BnB.C.GRID_X = BnB.SaveData.workingLevel.width;
-        BnB.C.GRID_Y = BnB.SaveData.workingLevel.height;
+        BnB.levelBuilderX = BnB.SaveData.workingLevel.width;
+        BnB.levelBuilderY = BnB.SaveData.workingLevel.height;
         BnB.SaveData.workingLevel.saved = true;
         game.state.start('LevelBuilder');
     },
