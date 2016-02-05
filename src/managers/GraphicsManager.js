@@ -18,7 +18,7 @@ BnB.GraphicsManager = function(map) {
   this.fixed = [];
 
   //TEMP
-  C.HUD_HEIGHT = 50;
+  BnB.C.HUD_HEIGHT = 50;
 
   this.levelGroup = game.add.group();
   this.levelGroup.enableBody = true;
@@ -367,7 +367,7 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
     -borderX & borderY
 */
 BnB.GraphicsManager.prototype.getConvertValues = function() {
-  var screenRatio = C.WIDTH / C.HEIGHT;
+  var screenRatio = BnB.C.WIDTH / BnB.C.HEIGHT;
 
   var levelRatio = (this.width + 0.5) / (this.height + 0.5);
 
@@ -376,21 +376,21 @@ BnB.GraphicsManager.prototype.getConvertValues = function() {
   if (screenRatio > levelRatio) {
     //base on level height
     convertValues.fitType = 'height';
-    convertValues.scaledTileSize = Math.floor(C.HEIGHT / (this.height + C.BORDER_SIZE * 2 + C.OFFSET));
-    // this.xOffset = C.WIDTH - (convertValues.scaledTileSize * this.width)
+    convertValues.scaledTileSize = Math.floor(BnB.C.HEIGHT / (this.height + BnB.C.BORDER_SIZE * 2 + BnB.C.OFFSET));
+    // this.xOffset = BnB.C.WIDTH - (convertValues.scaledTileSize * this.width)
     // this.yOffset = 0;
   } else {
     // base on level width
     convertValues.fitType = 'width';
-    convertValues.scaledTileSize = Math.floor(C.WIDTH / (this.width + C.BORDER_SIZE * 2));
+    convertValues.scaledTileSize = Math.floor(BnB.C.WIDTH / (this.width + BnB.C.BORDER_SIZE * 2));
   }
 
-  var offsetY = (C.HEIGHT - convertValues.scaledTileSize*this.height)/2 - C.HUD_HEIGHT;
+  var offsetY = (BnB.C.HEIGHT - convertValues.scaledTileSize*this.height)/2 - BnB.C.HUD_HEIGHT;
  
   console.log(convertValues.scaledTileSize);
-  convertValues.spriteScale = convertValues.scaledTileSize / C.TILESIZE;
-  convertValues.borderX = C.BORDER_SIZE * convertValues.scaledTileSize;
-  convertValues.borderY = C.BORDER_SIZE * convertValues.scaledTileSize + C.HUD_HEIGHT + offsetY;
+  convertValues.spriteScale = convertValues.scaledTileSize / BnB.C.TILESIZE;
+  convertValues.borderX = BnB.C.BORDER_SIZE * convertValues.scaledTileSize;
+  convertValues.borderY = BnB.C.BORDER_SIZE * convertValues.scaledTileSize + BnB.C.HUD_HEIGHT + offsetY;
 
   return convertValues;
 };
@@ -401,7 +401,7 @@ BnB.GraphicsManager.prototype.getConvertValues = function() {
 */
 BnB.GraphicsManager.prototype.gridToPixel = function(coordinate) {
 
-  //Math.floor((C.TILESIZE + C.TILESIZE) * (coordinate.x + 0.5) / 2)
+  //Math.floor((BnB.C.TILESIZE + BnB.C.TILESIZE) * (coordinate.x + 0.5) / 2)
 
   return {
     x: (this.convertValues.borderX) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
@@ -537,10 +537,10 @@ BnB.GraphicsManager.prototype.refresh = function() {
     //   // var child1YOffset = 1;
     //   // var child2YOffset = 1;
     //   // if (child1.priority === true) {
-    //   //   child1YOffset = C.TILESIZE;
+    //   //   child1YOffset = BnB.C.TILESIZE;
     //   // }
     //   // if (child2.priority === true) {
-    //   //   child2YOffset = C.TILESIZE;
+    //   //   child2YOffset = BnB.C.TILESIZE;
     //   // }
     //   if (child1.y > child2.y) {
     //     return 1;

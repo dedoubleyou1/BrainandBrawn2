@@ -14,8 +14,8 @@ BnB.Util = {
     handleFiles: function(files)
     {   
         var reader = new FileReader();
-      reader.onload = BnB.Util.onReaderLoad;
-      reader.readAsText(files[0]);
+        reader.onload = BnB.Util.onReaderLoad;
+        reader.readAsText(files[0]);
 
         // //assumes a JSON
         // var data = files[0];//JSON.parse(files[0]);
@@ -33,8 +33,8 @@ BnB.Util = {
     onReaderLoad: function(event){
         BnB.SaveData.workingLevel = JSON.parse(event.target.result);
 
-        C.GRID_X = BnB.SaveData.workingLevel.width;
-            C.GRID_Y = BnB.SaveData.workingLevel.height;
+        BnB.C.GRID_X = BnB.SaveData.workingLevel.width;
+        BnB.C.GRID_Y = BnB.SaveData.workingLevel.height;
         BnB.SaveData.workingLevel.saved = true;
         game.state.start('LevelBuilder');
     },

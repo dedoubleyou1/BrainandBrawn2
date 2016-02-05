@@ -20,10 +20,10 @@ BnB.TitleScreen.prototype = {
 	create: function() {
 
 		//set up background image
-		var background = this.add.sprite(C.WIDTH/2, C.HEIGHT/2, 'imageTitle');
+		var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'imageTitle');
 		background.anchor = {x: 0.5, y: 0.5};
-		// background.scale.multiply(C.SCALE, C.SCALE);
-		background.scale.multiply(C.WIDTH/background.width,C.HEIGHT/background.height)
+		// background.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
+		background.scale.multiply(BnB.C.WIDTH/background.width,BnB.C.HEIGHT/background.height)
 
 		//add input to start the game
 		this.input.onTap.add(this.startGame, this);

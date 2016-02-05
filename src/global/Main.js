@@ -1,7 +1,17 @@
+//Main Game Object
+var BnB = {};
+
 /*
-    Summary: Contants for game-wide use
+    Variables for game-wide use
 */
-var C = {
+BnB.G = {
+
+};
+
+/*
+    Constants for game-wide use
+*/
+BnB.C = {
     //Core constants
     //sizing
     STANDARD_WIDTH: 2048,
@@ -20,7 +30,7 @@ var C = {
     BOUNDARY_DEATH: true,
 
     //Visuals
-    SWIPING_OFFSET: true,
+    SWIPING_OFFSET: false,
 
     //constants for the GraphicManager state
     BORDER_SIZE: 0.375,
@@ -121,4 +131,4 @@ var C = {
         'levels/test_movable1.json',
         'levels/test_moveBlock0.json',
     ]
-}
+};

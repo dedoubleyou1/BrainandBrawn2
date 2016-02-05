@@ -12,7 +12,7 @@ Summary: Entry point for the game. Initialize Phaser.Game and adds states
 
 
 //Phaser Game Object
-var game = new Phaser.Game(C.WIDTH, C.HEIGHT);
+var game = new Phaser.Game(BnB.C.WIDTH, BnB.C.HEIGHT);
 
 //add states
 game.state.add('Boot', BnB.Boot);
@@ -27,7 +27,7 @@ game.state.add('Level',BnB.Level);
 
 //Add each level as a separate state
 BnB.SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
-for (var i = 0; i < C.levels.length; i++) {
+for (var i = 0; i < BnB.C.levels.length; i++) {
   // game.state.add('level'+i, new BnB.Level(i));
   BnB.SaveData.levelStatus.push(-1);
 };

@@ -24,7 +24,7 @@ BnB.Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
-		if(C.LEVEL_MODE == 'normal')
+		if(BnB.C.LEVEL_MODE == 'normal')
 		{
 			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
 		}
@@ -55,7 +55,7 @@ BnB.Level.prototype = {
 
 		//HUD elements
 		//this.spriteHUD = this.add.sprite(0,0,'imageHUD');
-		//this.spriteHUD.width = C.WIDTH;
+		//this.spriteHUD.width = BnB.C.WIDTH;
 		this.levelText = this.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
   	this.moveText = this.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
   	
@@ -79,7 +79,7 @@ BnB.Level.prototype = {
 
 
   	//TEMP: support level builder entry
-  	if(C.LEVEL_MODE == 'builder')
+  	if(BnB.C.LEVEL_MODE == 'builder')
   	{
   		//hide HUD
   		this.levelText.visible = false;
@@ -160,9 +160,9 @@ BnB.Level.prototype = {
 			  }
 			}
 
-			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || C.SPIKEY_DEATH) {
+			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnB.C.SPIKEY_DEATH) {
 				BnB.Util.playSound('death');
-				C.SPIKEY_DEATH = false;//TEMP HACK
+				BnB.C.SPIKEY_DEATH = false;//TEMP HACK
 				this.restartLevel();
 			} else if (this.results.endState === 'missionSuccess'){
                 this.loadVictory();
@@ -177,12 +177,12 @@ BnB.Level.prototype = {
 		BnB.Util.playSound('select');
 		this.fadeOutGraphic = this.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-	    this.fadeOutGraphic.drawRect(0, 0, C.WIDTH, C.HEIGHT);
+	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, BnB.C.HEIGHT);
 	    this.fadeOutGraphic.endFill();
     
-		this.tutorialImage = this.add.sprite(C.WIDTH / 2, C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+		this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-		this.tutorialImage.scale.multiply(C.SCALE, C.SCALE);
+		this.tutorialImage.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
 		
 		//If player taps OR presses any key - change slides
 		game.input.onTap.add(this.nextTutorial, this);
@@ -206,9 +206,9 @@ BnB.Level.prototype = {
 			this.tutorialFinished = true;
 			this.inputManager.state = 'ready';
 		} else {
-			this.tutorialImage = this.add.sprite(C.WIDTH / 2, C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+			this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 			this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-			this.tutorialImage.scale.multiply(C.SCALE, C.SCALE);
+			this.tutorialImage.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
 		}
 	},
 
@@ -237,12 +237,12 @@ BnB.Level.prototype = {
 
 			this.fadeOutGraphic = this.add.graphics(0, 0);
     	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-    	    this.fadeOutGraphic.drawRect(0, 0, C.WIDTH, C.HEIGHT);
+    	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, BnB.C.HEIGHT);
     	    this.fadeOutGraphic.endFill();
 
-    	    this.victoryImage = this.add.sprite(C.WIDTH / 2, C.HEIGHT / 3, ('star'+this.currentStarLevel));
+    	    this.victoryImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 3, ('star'+this.currentStarLevel));
 			this.victoryImage.anchor = {x: 0.5, y: 0.5};
-			// this.victoryImage.scale.multiply(C.SCALE, C.SCALE);
+			// this.victoryImage.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
 	  
 			//input for next level
 			// game.input.onTap.add(this.nextLevel, this);
@@ -267,7 +267,7 @@ BnB.Level.prototype = {
 	*/
 	nextLevel: function()
 	{
-    if(C.LEVEL_MODE == 'builder'){
+    if(BnB.C.LEVEL_MODE == 'builder'){
         this.state.start('LevelBuilder');
     }
 		else if(this.tutorialFinished)
@@ -275,7 +275,7 @@ BnB.Level.prototype = {
 			BnB.Util.playSound('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
-			if (this.level+1 === C.levels.length) {
+			if (this.level+1 === BnB.C.levels.length) {
 				this.state.start('LevelSelect');
 			} else {
 				this.state.start('Level',true,false,this.level+1);
@@ -291,7 +291,7 @@ BnB.Level.prototype = {
 		if(this.tutorialFinished){
 			BnB.Util.playSound('select');
 
-			if(C.LEVEL_MODE == 'normal')
+			if(BnB.C.LEVEL_MODE == 'normal')
 			{
 				this.state.start('Level',true,false,this.level);
 			}

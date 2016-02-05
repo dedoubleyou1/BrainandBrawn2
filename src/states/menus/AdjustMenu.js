@@ -17,15 +17,15 @@ BnB.AdjustMenu.prototype = {
 	*/
 	create: function()
 	{
-		var w = C.WIDTH;
-		var h = C.HEIGHT;
+		var w = BnB.C.WIDTH;
+		var h = BnB.C.HEIGHT;
 
 
 		//dimensions text
 		var myFont = { font: "80px Quicksand", fill: "#ffffff", align: "center"}
-		this.widthText = this.add.text(w/2,200,C.GRID_X,myFont);
+		this.widthText = this.add.text(w/2,200,BnB.C.GRID_X,myFont);
 		this.widthText.anchor.setTo(0.5);
-		this.heightText = this.add.text(w/2,615,C.GRID_Y,myFont);
+		this.heightText = this.add.text(w/2,615,BnB.C.GRID_Y,myFont);
 		this.heightText.anchor.setTo(0.5);
 
 		var left = this.add.image(w/2-150,200,'arrow');
@@ -53,7 +53,7 @@ BnB.AdjustMenu.prototype = {
 
 		//toggle off-screen death
 		myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-		this.boundsText = this.add.text(300,0,"Boundary Death: " + C.BOUNDARY_DEATH,myFont);
+		this.boundsText = this.add.text(300,0,"Boundary Death: " + BnB.C.BOUNDARY_DEATH,myFont);
 		this.boundsText.inputEnabled = true;
 		this.boundsText.events.onInputDown.add(this.toggleBounds,this);
 
@@ -66,40 +66,40 @@ BnB.AdjustMenu.prototype = {
 
 	onUpX: function()
 	{
-		if(C.GRID_X < 10){
-			C.GRID_X++;
-			this.widthText.text = C.GRID_X;
+		if(BnB.C.GRID_X < 10){
+			BnB.C.GRID_X++;
+			this.widthText.text = BnB.C.GRID_X;
 		}
 	},
 
 	onDownX: function()
 	{
-		if(C.GRID_X > 3){
-			C.GRID_X--;
-			this.widthText.text = C.GRID_X;
+		if(BnB.C.GRID_X > 3){
+			BnB.C.GRID_X--;
+			this.widthText.text = BnB.C.GRID_X;
 		}
 	},
 
 	onUpY: function()
 	{
-		if(C.GRID_Y < 16){
-			C.GRID_Y++;
-			this.heightText.text = C.GRID_Y;
+		if(BnB.C.GRID_Y < 16){
+			BnB.C.GRID_Y++;
+			this.heightText.text = BnB.C.GRID_Y;
 		}
 	},
 
 	onDownY: function()
 	{
-		if(C.GRID_Y > 3){
-			C.GRID_Y--;
-			this.heightText.text = C.GRID_Y;
+		if(BnB.C.GRID_Y > 3){
+			BnB.C.GRID_Y--;
+			this.heightText.text = BnB.C.GRID_Y;
 		}
 	},
 
 	toggleBounds: function()
 	{
-		C.BOUNDARY_DEATH = !C.BOUNDARY_DEATH;
-		this.boundsText.text = "Boundary Death: " + C.BOUNDARY_DEATH;
+		BnB.C.BOUNDARY_DEATH = !BnB.C.BOUNDARY_DEATH;
+		this.boundsText.text = "Boundary Death: " + BnB.C.BOUNDARY_DEATH;
 	},
 
 

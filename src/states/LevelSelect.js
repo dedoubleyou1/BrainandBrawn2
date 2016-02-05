@@ -17,7 +17,7 @@ BnB.LevelSelect.prototype = {
     init: function()
     {
         //reset on entry (just in case the array changed...)
-        this.numLevels = C.levels.length;
+        this.numLevels = BnB.C.levels.length;
     },
 
 	/*
@@ -30,7 +30,7 @@ BnB.LevelSelect.prototype = {
 		var offsetY = 0;
 
 		//Debug/Demo only
-		if(C.MODE == 'demo' || C.MODE == 'test')
+		if(BnB.C.MODE == 'demo' || BnB.C.MODE == 'test')
 		{
 			offsetY = 110; //create space for the back button
 
@@ -59,8 +59,8 @@ BnB.LevelSelect.prototype = {
 		}
 
 		//Set up level buttons
-		C.LEVEL_MODE = 'normal';
-		C.BOUNDS_DEATH = true;
+		BnB.C.LEVEL_MODE = 'normal';
+		BnB.C.BOUNDS_DEATH = true;
 
 		this.buttons = this.add.group();
 		this.buttonTexts = this.add.group();

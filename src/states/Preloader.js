@@ -115,7 +115,7 @@ BnB.Preloader.prototype = {
         //END TEMP FOR LEVEL EDITOR
 
         // Levels
-        C.levels.forEach(function(element, index){
+        BnB.C.levels.forEach(function(element, index){
             this.load.text('level'+index, element);
         }, this)
 

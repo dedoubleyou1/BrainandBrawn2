@@ -35,7 +35,7 @@ BnB.MainMenu.prototype = {
 	onPlay: function()
 	{
 		BnB.Util.playSound('select');
-		this.state.start('LevelSelect',true,false,C.levels.length);
+		this.state.start('LevelSelect',true,false,BnB.C.levels.length);
 	},
 
 	/*

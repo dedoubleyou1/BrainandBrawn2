@@ -408,7 +408,7 @@ BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
 BnB.GameLogic.prototype.isPositionClear = function(character, x, y) {
   if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height) {
     //TEMP HACK (should be a part of triggers)
-    C.SPIKEY_DEATH = C.BOUNDARY_DEATH;
+    BnB.C.SPIKEY_DEATH = BnB.C.BOUNDARY_DEATH;
     return false
   } else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') {
     
@@ -419,7 +419,7 @@ BnB.GameLogic.prototype.isPositionClear = function(character, x, y) {
       {
         console.log("EVERYONE DIED")
         // game.state.start('level0')
-        C.SPIKEY_DEATH = true;
+        BnB.C.SPIKEY_DEATH = true;
       }
     }
     //END TEMP HACK

@@ -30,7 +30,7 @@ BnB.InputManager = function(initialState) {
 		{
 			this.startPoint.x = pointer.clientX;
 			this.startPoint.y = pointer.clientY;
-			if(C.SWIPING_OFFSET){
+			if(BnB.C.SWIPING_OFFSET){
 				this.state = 'swiping';
 			}
 		}
@@ -87,7 +87,7 @@ BnB.InputManager.prototype = {
         (how far the player's finger has been dragged from its starting point)
     */
     getSwipingOffset: function(){
-        return {x: (game.input.activePointer.clientX - this.startPoint.x) / C.WIDTH,
-        y: (game.input.activePointer.clientY - this.startPoint.y) / C.WIDTH};
+        return {x: (game.input.activePointer.clientX - this.startPoint.x) / BnB.C.WIDTH,
+        y: (game.input.activePointer.clientY - this.startPoint.y) / BnB.C.WIDTH};
     },
 }

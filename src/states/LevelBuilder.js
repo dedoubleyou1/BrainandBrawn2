@@ -63,14 +63,14 @@ BnB.LevelBuilder.prototype = {
     init: function()
     {
         //Settings
-        C.BOUNDS_DEATH = false;
+        BnB.C.BOUNDS_DEATH = false;
 
         //brush panel variables
-        this.brushWidth = C.WIDTH/9;
+        this.brushWidth = BnB.C.WIDTH/9;
         this.brushHeight = this.brushWidth;
 
-        this.gridWidth = C.GRID_X;
-        this.gridHeight = C.GRID_Y;
+        this.gridWidth = BnB.C.GRID_X;
+        this.gridHeight = BnB.C.GRID_Y;
 
         //play space offsetY
         var playY = this.brushHeight*3;
@@ -78,17 +78,17 @@ BnB.LevelBuilder.prototype = {
         if(this.gridWidth*50 >= this.gridHeight*62.5)
         {
             //base on width
-            this.cellWidth = C.WIDTH / this.gridWidth;
+            this.cellWidth = BnB.C.WIDTH / this.gridWidth;
             this.cellHeight = this.cellWidth/50*62.50;
         }
         else
         {
             //base on height
-            this.cellHeight = (C.HEIGHT-playY) / this.gridHeight;
+            this.cellHeight = (BnB.C.HEIGHT-playY) / this.gridHeight;
             this.cellWidth = (this.cellHeight)/62.5*50;//62.5;
         }
 
-        var playX = (C.WIDTH - this.gridWidth*this.cellWidth)/2;
+        var playX = (BnB.C.WIDTH - this.gridWidth*this.cellWidth)/2;
         this.playArea = {x:playX,y:playY, w: this.cellWidth*this.gridWidth, h: this.cellHeight*this.gridHeight};
         // this.playArea = {x:playX,y:25, w: this.cellWidth*this.gridWidth, h: this.cellHeight*this.gridHeight};
 
@@ -101,7 +101,7 @@ BnB.LevelBuilder.prototype = {
     },
 
     create: function() {
-        C.LEVEL_MODE = 'builder';
+        BnB.C.LEVEL_MODE = 'builder';
         this.state.add('AdjustMenu',BnB.AdjustMenu);
 
         //Phaser this.graphics drawing engine 
@@ -292,21 +292,21 @@ BnB.LevelBuilder.prototype = {
         this.eraseButton.events.onInputDown.add(this.toggleEraser,this);
 
         //Create Dimensions button
-        this.sizeButton = this.add.image(C.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
+        this.sizeButton = this.add.image(BnB.C.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
         this.sizeButton.width = this.brushWidth;
         this.sizeButton.height = this.brushHeight;
         this.sizeButton.inputEnabled = true;
         this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
         //create save button
-        this.saveButton = this.add.image(C.WIDTH-this.brushWidth,0,'saveIcon');
+        this.saveButton = this.add.image(BnB.C.WIDTH-this.brushWidth,0,'saveIcon');
         this.saveButton.width = this.brushWidth;
         this.saveButton.height = this.brushHeight;
         this.saveButton.inputEnabled = true;
         this.saveButton.events.onInputDown.add(this.saveLevel,this);
 
         //create flip button
-        this.flipButton = this.add.image(C.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
+        this.flipButton = this.add.image(BnB.C.WIDTH-this.brushWidth,this.brushHeight,'flipIcon');
         this.flipButton.width = this.brushWidth;
         this.flipButton.height = this.brushHeight;
         this.flipButton.inputEnabled = true;
@@ -401,8 +401,8 @@ BnB.LevelBuilder.prototype = {
     printMap: function()
     {
         //save to global
-        C.GRID_X = this.gridWidth;
-        C.GRID_Y = this.gridHeight;
+        BnB.C.GRID_X = this.gridWidth;
+        BnB.C.GRID_Y = this.gridHeight;
 
         //save to save data
         BnB.SaveData.workingLevel.name = "test";

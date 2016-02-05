@@ -1,21 +1,15 @@
-//Main Game Object
-var BnB = {
-    //Constants
-    
-};
-
 BnB.Boot = function() {};
 
 BnB.Boot.prototype = {
     //initialize game settings
     init: function() 
     {
-        C.SCALE = C.WIDTH / C.STANDARD_WIDTH;
+        BnB.C.SCALE = BnB.C.WIDTH / BnB.C.STANDARD_WIDTH;
 
         //If in demo mode - reassign levels array
-        if(C.MODE == 'demo')
+        if(BnB.C.MODE == 'demo')
         {
-          C.levels = C.levels_demo;
+          BnB.C.levels = BnB.C.levels_demo;
         }
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
