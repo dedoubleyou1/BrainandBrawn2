@@ -22,7 +22,7 @@ BnB.TitleScreen.prototype = {
 		//set up background image
 		var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'imageTitle');
 		background.anchor = {x: 0.5, y: 0.5};
-		// background.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
+		// background.scale.multiply(BnB.scale, BnB.scale);
 		background.scale.multiply(BnB.C.WIDTH/background.width,BnB.C.HEIGHT/background.height)
 
 		//add input to start the game

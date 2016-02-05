@@ -182,7 +182,7 @@ BnB.Level.prototype = {
     
 		this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-		this.tutorialImage.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
+		this.tutorialImage.scale.multiply(BnB.scale, BnB.scale);
 		
 		//If player taps OR presses any key - change slides
 		game.input.onTap.add(this.nextTutorial, this);
@@ -208,7 +208,7 @@ BnB.Level.prototype = {
 		} else {
 			this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 			this.tutorialImage.anchor = {x: 0.5, y: 0.5};
-			this.tutorialImage.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
+			this.tutorialImage.scale.multiply(BnB.scale, BnB.scale);
 		}
 	},
 
@@ -242,7 +242,7 @@ BnB.Level.prototype = {
 
     	    this.victoryImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 3, ('star'+this.currentStarLevel));
 			this.victoryImage.anchor = {x: 0.5, y: 0.5};
-			// this.victoryImage.scale.multiply(BnB.C.SCALE, BnB.C.SCALE);
+			// this.victoryImage.scale.multiply(BnB.scale, BnB.scale);
 	  
 			//input for next level
 			// game.input.onTap.add(this.nextLevel, this);
