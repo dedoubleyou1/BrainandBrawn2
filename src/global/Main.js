@@ -9,7 +9,7 @@ var BnB = {
 
     //mode
     levelType: 'normal',
-    buildType: 'test',//test, demo, normal
+    buildType: 'normal',//normal, test, demo
 };
 
 /*
