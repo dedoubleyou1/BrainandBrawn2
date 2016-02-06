@@ -13,7 +13,12 @@ Summary: Core gameplay state - manages all gameplay that occurs inside of a leve
 BnB.Level = function() {};
 
 BnB.Level.prototype = {
-	init: function(level,levelData){
+
+// - - - - - - - - - - - - //
+// SETUP functions
+// - - - - - - - - - - - - //
+
+    init: function(level,levelData){
         this.level = level;
         if(typeof levelData != 'undefined') this.levelData = levelData;
     },
@@ -53,50 +58,13 @@ BnB.Level.prototype = {
 		this.printKey.onUp.add(this.printMap,this);
 		//end DEBUG input
 
-		//HUD elements
-		//this.spriteHUD = this.add.sprite(0,0,'imageHUD');
-		//this.spriteHUD.width = BnB.C.WIDTH;
-		this.levelText = this.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-  	this.moveText = this.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-  	
-  	this.restartButton = this.add.image(570,2,'rButton');
-  	this.restartButtonBig = this.add.image(500,-30,'rButton');
-  	this.restartButtonBig.scale.setTo(2.5,2.5);
-  	this.restartButtonBig.inputEnabled = true;
-  	this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
-  	this.restartButtonBig.alpha = 0;
-  	
-  	this.menuButton = this.add.image(20,8,'mButton');
-  	this.menuButton.scale.setTo(0.8,0.8);
-  	this.menuButtonBig = this.add.image(0,-12,'mButton');
-  	this.menuButtonBig.scale.setTo(2,2);
-  	this.menuButtonBig.inputEnabled = true;
-  	this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
-  	this.menuButtonBig.alpha = 0;
+		//Set up the HUD
+		this.setUpHUD();
 
-  	this.starsHUD = this.add.group();  	
-  	this.drawStarsHUD(3);
+      	//TEMP: support level builder entry
+      	if(BnB.levelType == 'builder') this.enableBuilderMode();
 
-
-  	//TEMP: support level builder entry
-  	if(BnB.levelType == 'builder')
-  	{
-  		//hide HUD
-  		this.levelText.visible = false;
-  		this.menuButton.visible = false;
-  		this.menuButtonBig.visible = false;
-  		this.restartButton.visible = false;
-  		this.restartButtonBig.visible = false;
-  		this.starsHUD.visible = false;
-
-  		//add STOP button
-  		this.stopButton = this.add.image(0,0,'stopButton');
-	    this.stopButton.scale.setTo(0.1,0.1);
-	    this.stopButton.inputEnabled=true;
-	    this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
-  	}
-
-
+        //start tutorial if it exists
 		if (typeof this.levelData.tutorial != 'undefined') {
 			this.currentTutorial = 0;
 			this.startTutorial();
@@ -105,6 +73,59 @@ BnB.Level.prototype = {
 			this.inputManager.state = 'ready';
 		}
 	},
+
+    /*
+        called from CREATE - set up HUD elements
+    */
+    setUpHUD: function(){
+        //this.spriteHUD = this.add.sprite(0,0,'imageHUD');
+        //this.spriteHUD.width = BnB.C.WIDTH;
+        this.levelText = this.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.moveText = this.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        
+        this.restartButton = this.add.image(570,2,'rButton');
+        this.restartButtonBig = this.add.image(500,-30,'rButton');
+        this.restartButtonBig.scale.setTo(2.5,2.5);
+        this.restartButtonBig.inputEnabled = true;
+        this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
+        this.restartButtonBig.alpha = 0;
+        
+        this.menuButton = this.add.image(20,8,'mButton');
+        this.menuButton.scale.setTo(0.8,0.8);
+        this.menuButtonBig = this.add.image(0,-12,'mButton');
+        this.menuButtonBig.scale.setTo(2,2);
+        this.menuButtonBig.inputEnabled = true;
+        this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
+        this.menuButtonBig.alpha = 0;
+
+        this.starsHUD = this.add.group();   
+        this.drawStarsHUD(3);
+    },
+
+    /*
+        This is a test level accesed from the BUILDER
+    */
+    enableBuilderMode: function()
+    {
+        //hide HUD
+        this.levelText.visible = false;
+        this.menuButton.visible = false;
+        this.menuButtonBig.visible = false;
+        this.restartButton.visible = false;
+        this.restartButtonBig.visible = false;
+        this.starsHUD.visible = false;
+
+        //add STOP button
+        this.stopButton = this.add.image(0,0,'stopButton');
+        this.stopButton.scale.setTo(0.1,0.1);
+        this.stopButton.inputEnabled=true;
+        this.stopButton.events.onInputDown.add(function(){this.state.start('LevelBuilder');},this);
+    },
+
+
+// - - - - - - - - - - - - //
+// UPDATE
+// - - - - - - - - - - - - //
 
 	/*
 		CORE UPDATE (called each step)
@@ -169,6 +190,43 @@ BnB.Level.prototype = {
 			}
 		}
 	},
+
+    /*
+        Draw 1-3 stars in the HUD (based on number of player moves)
+    */
+    drawStarsHUD: function(numStars)
+    {
+        this.currentStarLevel = numStars;
+        this.starsHUD.removeAll(true);
+
+        var starX = 510;
+        var starY = 30;
+
+        if(numStars == 3){
+            this.createStar(starX-13,starY-10);
+            this.createStar(starX+13,starY-10);
+            this.createStar(starX,starY+10);
+        } else if(numStars == 2){
+            this.createStar(starX-10,starY);
+            this.createStar(starX+15,starY);
+        } else {
+            this.createStar(starX,starY);
+        }
+    },
+
+    createStar: function(posX,posY)
+    {
+        var star = this.add.image(posX,posY,'star');
+        star.anchor = {x: 0.5, y: 0.5};
+        star.scale.setTo(0.5,0.5);
+        this.starsHUD.add(star);
+    },
+
+
+
+// - - - - - - - - - - - - //
+// SCREENS and MENUS
+// - - - - - - - - - - - - //
 
 	/*
 		Draw a "tutorial screen" on top of the game (player taps to continue)
@@ -262,6 +320,14 @@ BnB.Level.prototype = {
 		}
 	},
 
+
+
+
+
+// - - - - - - - - - - - - //
+// LEVEL FUNCTIONS
+// - - - - - - - - - - - - //
+
 	/*
 		load the next level state
 	*/
@@ -330,71 +396,6 @@ BnB.Level.prototype = {
 		}
 
 		this.nextLevel();
-	},
-
-	/*
-		Draw 1-3 stars in the HUD (based on number of player moves)
-	*/
-	drawStarsHUD: function(numStars)
-	{
-		this.currentStarLevel = numStars;
-		this.starsHUD.removeAll(true);
-
-		var starX = 510;
-		var starY = 30;
-
-		if(numStars == 3){
-			var scale = 0.5;
-
-			var star1 = this.add.image(0,0,'star');
-			star1.anchor = {x: 0.5, y: 0.5};
-			star1.scale.setTo(scale,scale);
-			var star2 = this.add.image(0,0,'star');
-			star2.anchor = {x: 0.5, y: 0.5};
-			star2.scale.setTo(scale,scale);
-			var star3 = this.add.image(0,0,'star');
-			star3.anchor = {x: 0.5, y: 0.5};
-			star3.scale.setTo(scale,scale);
-
-			star1.x = starX-13;
-			star1.y = starY-10;
-			star2.x = starX+13;
-			star2.y = starY-10;
-			star3.x = starX;
-			star3.y = starY+10;
-
-			this.starsHUD.add(star1);
-			this.starsHUD.add(star2);
-			this.starsHUD.add(star3);
-		} else if(numStars == 2){
-			var scale = 0.5;
-
-			var star1 = this.add.image(0,0,'star');
-			star1.anchor = {x: 0.5, y: 0.5};
-			star1.scale.setTo(scale,scale);
-			var star2 = this.add.image(0,0,'star');
-			star2.anchor = {x: 0.5, y: 0.5};
-			star2.scale.setTo(scale,scale);
-
-			this.starsHUD.add(star1);
-			this.starsHUD.add(star2);
-
-			star1.x = starX-10;
-			star1.y = starY;
-			star2.x = starX+15;
-			star2.y = starY;
-		} else {
-			var scale = 0.5;
-
-			var star1 = this.add.image(0,0,'star');
-			star1.anchor = {x: 0.5, y: 0.5};
-			star1.scale.setTo(scale,scale);
-
-			this.starsHUD.add(star1);
-
-			star1.x = starX;
-			star1.y = starY;
-		}
 	},
 
 	/*
