@@ -122,22 +122,22 @@ BnB.Util = {
 
     //XY product values for different directions
     directionLookup: {
-      up: {
-        x: 0,
-        y: -1
-      },
-      down: {
-        x: 0,
-        y: 1
-      },
-      left: {
-        x: -1,
-        y: 0
-      },
-      right: {
-        x: 1,
-        y: 0
-      }
+        up: {
+            x: 0,
+            y: -1
+        },
+        down: {
+            x: 0,
+            y: 1
+        },
+        left: {
+            x: -1,
+            y: 0
+        },
+        right: {
+            x: 1,
+            y: 0
+        }
     },
 
     /*

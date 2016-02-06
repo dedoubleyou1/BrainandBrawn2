@@ -129,7 +129,7 @@ BnB.Level.prototype = {
 
 
 // - - - - - - - - - - - - //
-// UPDATE
+// UPDATE functions
 // - - - - - - - - - - - - //
 
 	/*
@@ -283,8 +283,10 @@ BnB.Level.prototype = {
 
 
 
+
+
 // - - - - - - - - - - - - //
-// SCREENS and MENUS
+// SCREENS
 // - - - - - - - - - - - - //
 
 	/*
@@ -384,7 +386,7 @@ BnB.Level.prototype = {
 
 
 // - - - - - - - - - - - - //
-// LEVEL FUNCTIONS
+// STATE CHANGE functions
 // - - - - - - - - - - - - //
 
 	/*
@@ -456,6 +458,13 @@ BnB.Level.prototype = {
 
 		this.nextLevel();
 	},
+
+
+
+
+// - - - - - - - - - - - - //
+// DEBUG functions
+// - - - - - - - - - - - - //
 
 	/*
 		PRINT the coordinate grid in the console
