@@ -16,6 +16,9 @@ BnB.Boot.prototype = {
         else{
             BnB.levels = BnB.C.LEVELS_NORMAL;
         }
+
+        //initialize level status
+        BnB.SaveData.init();
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     },

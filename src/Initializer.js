@@ -6,7 +6,7 @@
 \____/ |_| |_|_|\__|_|\__,_|_|_/___\___|_|   
                                              
 
-Summary: Entry point for the game. Initialize Phaser.Game and adds states
+Summary: Entry point for the game - called from the HTML body
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -24,14 +24,6 @@ game.state.add('AboutMenu', BnB.AboutMenu);
 game.state.add('LevelSelect', BnB.LevelSelect);
 game.state.add('LevelBuilder', BnB.LevelBuilder);
 game.state.add('Level',BnB.Level);
-
-//Add each level as a separate state
-BnB.SaveData.levelStatus = []; //-1=locked, 0=unlocked, 1-3=star completion
-for (var i = 0; i < BnB.levels.length; i++) {
-  // game.state.add('level'+i, new BnB.Level(i));
-  BnB.SaveData.levelStatus.push(-1);
-};
-BnB.SaveData.levelStatus[0] = 0; //unlock first level with 0 stars (incomplete)
 
 //start BOOT.js
 game.state.start('Boot');

@@ -33,10 +33,7 @@ BnB.TitleScreen.prototype = {
 		onTap - start the game!
 	*/
 	startGame: function(){
-		// BnB.Util.playSound('select');
-
-		//TEMP - skip main menu
-		// this.state.start('level0');
+		BnB.Util.playSound('select');
 		this.state.start('MainMenu');
 	}
 };
