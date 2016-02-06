@@ -96,60 +96,46 @@ BnB.LevelSelect.prototype = {
 		//rows of five!
 		for(var i=0;i<this.buttons.length;i++)
 		{
+            //get row and column
 			var currentColumn = i%totalColumns;
 			if(currentColumn == 0 && i!=0) currentRow++;
 
+            //get desired button coordinates
 			var buttonX = currentColumn*(buttonSize+buttonGapX)+buttonGapX;
 			var buttonY = currentRow*(buttonSize+buttonGapY)+buttonGapX + offsetY;
 
+            //set button position
 			this.buttons.getAt(i).x = buttonX;
 			this.buttons.getAt(i).y = buttonY;
 
+            //set button text position
 			this.buttonTexts.getAt(i).x = this.buttons.getAt(i).x+this.buttons.getAt(i).width/2;
 			this.buttonTexts.getAt(i).y = this.buttons.getAt(i).y+this.buttons.getAt(i).height+15;
-
 			
+            //CREATE STARS
 			if(BnB.SaveData.levelStatus[i] == 1){
-				var star1 = this.add.image(0,0,'star');
-				star1.anchor = {x: 0.5, y: 0.5};
-				// star1.scale.setTo(0.7,0.7);
-				star1.x = buttonX+this.buttons.getAt(i).width/2;
-				star1.y = buttonY+this.buttons.getAt(i).height/2-13;
+                this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
+                this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
 			}
 			else if(BnB.SaveData.levelStatus[i] == 2){
-				var star1 = this.add.image(0,0,'star');
-				star1.anchor = {x: 0.5, y: 0.5};
-				star1.scale.setTo(0.7,0.7);
-				var star2 = this.add.image(0,0,'star');
-				star2.anchor = {x: 0.5, y: 0.5};
-				star2.scale.setTo(0.7,0.7);
-
-				star1.x = buttonX+buttonSize*.33;
-				star1.y = buttonY+buttonSize/2-13;
-				star2.x = buttonX+buttonSize*.67;
-				star2.y = buttonY+buttonSize/2-13;
+                this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize/2-13);
+                this.createStar(buttonX+buttonSize*.67, buttonY+buttonSize/2-13);
 			}
 			else if(BnB.SaveData.levelStatus[i] == 3){
-				var star1 = this.add.image(0,0,'star');
-				star1.anchor = {x: 0.5, y: 0.5};
-				star1.scale.setTo(0.7,0.7);
-				var star2 = this.add.image(0,0,'star');
-				star2.anchor = {x: 0.5, y: 0.5};
-				star2.scale.setTo(0.7,0.7);
-				var star3 = this.add.image(0,0,'star');
-				star3.anchor = {x: 0.5, y: 0.5};
-				star3.scale.setTo(0.7,0.7);
-
-				star1.x = buttonX+buttonSize*.33;
-				star1.y = buttonY+buttonSize*.25;
-				star2.x = buttonX+buttonSize*.67;
-				star2.y = buttonY+buttonSize*.25;
-				star3.x = buttonX+buttonSize*.5;
-				star3.y = buttonY+buttonSize*.5;
+                this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize*.25);
+                this.createStar(buttonX+buttonSize*.67,buttonY+buttonSize*.25);
+                this.createStar(buttonX+buttonSize*.5,buttonY+buttonSize*.5);
 			}		
 		}
 
 	},
+
+    createStar: function(starX,starY)
+    {
+        var star = this.add.image(starX,starY,'star');
+        star.anchor = {x: 0.5, y: 0.5};
+        star.scale.setTo(0.7,0.7);
+    },
 
 	/*
 		When player taps a specific image - load the associated level
