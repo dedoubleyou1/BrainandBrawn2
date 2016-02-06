@@ -8,8 +8,26 @@
 Summary: Static utility functions for game-wide use
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
- 
+
 BnB.Util = {
+    //
+    goToLevel: function(id)
+    {
+        game.state.start('Level',true,false,id);
+    },
+
+    goToCustomLevel: function(id,saveData)
+    {
+        game.state.start('Level',true,false,id,saveData);
+    },
+
+    //Given a file, play audio
+    playSound: function(snd)
+    {
+        var sound = game.add.audio(snd);
+        sound.play();
+    },
+
     //adds state based on uploaded file
     handleFiles: function(files)
     {   
@@ -21,13 +39,6 @@ BnB.Util = {
         // var data = files[0];//JSON.parse(files[0]);
         // data.saved = true;
         // BnB.SaveData.workingLevel = data;
-    },
-
-    //Given a file, play audio
-    playSound: function(snd)
-    {
-        var sound = game.add.audio(snd);
-        sound.play();
     },
 
     onReaderLoad: function(event){

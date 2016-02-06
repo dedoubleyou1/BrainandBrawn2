@@ -34,7 +34,7 @@ BnB.TitleScreen.prototype = {
 	*/
 	startGame: function(){
 		if(BnB.buildType == 'demo'){
-            this.state.start('Level',true,false,0);
+            BnB.Util.goToLevel(0);
         }
         else{
             BnB.Util.playSound('select');

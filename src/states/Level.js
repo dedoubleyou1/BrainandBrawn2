@@ -278,7 +278,7 @@ BnB.Level.prototype = {
 			if (this.level+1 === BnB.levels.length) {
 				this.state.start('LevelSelect');
 			} else {
-				this.state.start('Level',true,false,this.level+1);
+                BnB.Util.goToLevel(this.level+1);
 			}
 		}
 	},
@@ -293,7 +293,7 @@ BnB.Level.prototype = {
 
 			if(BnB.levelType == 'normal')
 			{
-				this.state.start('Level',true,false,this.level);
+                BnB.Util.goToLevel(this.level);
 			}
 			else
 			{

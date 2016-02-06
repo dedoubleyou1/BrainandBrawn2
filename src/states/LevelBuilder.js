@@ -561,6 +561,6 @@ BnB.LevelBuilder.prototype = {
     playLevel: function()
     {
         this.printMap();
-        this.state.start('Level',true,false,0,this.passingData);
+        BnB.Util.goToCustomLevel(0,this.passingData);
     },
 };
