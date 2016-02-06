@@ -69,31 +69,30 @@ BnB.LevelSelect.prototype = {
 		var buttonGapX = 23;
 		var buttonGapY = 60;
 
+        //populate level buttons
 		for (var i=0;i<this.numLevels;i++)
 		{
-			var newButton = this.add.image(50,50,'spritesheet', 'brainandbrawn_block');
-			newButton.width = buttonSize;
-			newButton.height = buttonSize;
-			newButton.levelID = i;
+            var newButton = this.createButton(buttonSize,i);
 
+            //Determine button state/status from SaveData
 			if(BnB.SaveData.levelStatus[i] < 0){
 				newButton.alpha = 0.3;
 			}
 			else{
 				newButton.inputEnabled = true;
-  			newButton.events.onInputDown.add(this.loadLevel,this);
+                newButton.events.onInputDown.add(this.loadLevel,this);
 			}
 
-			this.buttons.add(newButton);
-
+            //set up text
 			var newText = this.add.text(50,50,(i+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
 			newText.anchor = {x: 0.5, y: 0.5};
 			this.buttonTexts.add(newText);
 		}
 		
-		var totalColumns = 5;
+		
+        //position level buttons
+        var totalColumns = 5;
 		var currentRow = 0;
-		//rows of five!
 		for(var i=0;i<this.buttons.length;i++)
 		{
             //get row and column
@@ -130,6 +129,19 @@ BnB.LevelSelect.prototype = {
 
 	},
 
+    //helper function to create a BUTTON
+    createButton: function(buttonSize,id)
+    {
+        //set up button
+        var newButton = this.add.image(50,50,'spritesheet', 'brainandbrawn_block');
+        newButton.width = buttonSize;
+        newButton.height = buttonSize;
+        newButton.levelID = id;
+        this.buttons.add(newButton);
+        return newButton;
+    },
+
+    //helper function to create a STAR
     createStar: function(starX,starY)
     {
         var star = this.add.image(starX,starY,'star');
