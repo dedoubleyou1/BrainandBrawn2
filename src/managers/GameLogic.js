@@ -14,9 +14,9 @@ Summary: Manages the game state, independent from graphics and input
   Converts the level data into a format more suitable for gameplay
 */
 BnB.GameLogic = function(map) {
-  this.gameplayMap = (map);
+  this.gameplayMap = map;
 
-
+  //populate active map
   this.activeChars = []
   for (var y = 0; y < this.gameplayMap.height; y++) {
     for (var x = 0; x < this.gameplayMap.width; x++) {
@@ -27,7 +27,7 @@ BnB.GameLogic = function(map) {
   }
 
   //Shows game map in console if true;
-  this.debugMode = true;
+  this.debugMode = BnB.buildType == 'test';
 
   if (this.debugMode) {
     this.consoleLogMap();

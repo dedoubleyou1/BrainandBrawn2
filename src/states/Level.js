@@ -29,34 +29,30 @@ BnB.Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
-		if(BnB.levelType == 'normal')
+		//set up level data
+        if(BnB.levelType == 'normal')
 		{
 			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
 		}
 		this.width = this.levelData.width;
 		this.height = this.levelData.length;
+
+        //set up managers
 		this.gameLogic = new BnB.GameLogic(this.levelData);
 		this.graphicsManager = new BnB.GraphicsManager(this.levelData);
 		this.inputManager = new BnB.InputManager('waiting');
-		this.tutorialFinished = false;
+		
+        //initialize settings
+        this.tutorialFinished = false;
 		this.levelFinished = false;
 		this.numMoves = 0;
 
 		//set STAR levels
 		this.currentStarLevel = 3;
-      	this.starLevels = [20,10];
+      	this.starLevels = [20,10];//defult
       	if(typeof this.levelData.starLevels != 'undefined'){
       		this.starLevels = this.levelData.starLevels;
       	}
-
-		//DEBUG input
-		this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
-		this.nextKey.onUp.add(this.skipLevel,this);
-		this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
-		this.restartKey.onUp.add(this.restartLevel,this);
-		this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-		this.printKey.onUp.add(this.printMap,this);
-		//end DEBUG input
 
 		//Set up the HUD
 		this.setUpHUD();
@@ -72,6 +68,15 @@ BnB.Level.prototype = {
 			this.tutorialFinished = true;
 			this.inputManager.state = 'ready';
 		}
+
+        //Set up DEBUG input
+        this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
+        this.nextKey.onUp.add(this.skipLevel,this);
+        this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+        this.restartKey.onUp.add(this.restartLevel,this);
+        this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        this.printKey.onUp.add(this.printMap,this);
+        //end DEBUG input
 	},
 
     /*
@@ -99,7 +104,7 @@ BnB.Level.prototype = {
         this.menuButtonBig.alpha = 0;
 
         this.starsHUD = this.add.group();   
-        this.drawStarsHUD(3);
+        this.updateStars(3);
     },
 
     /*
@@ -132,69 +137,120 @@ BnB.Level.prototype = {
 		Control the game using a system of flags
 	*/
 	update: function() {
-		this.graphicsManager.refresh();
+		//refresh graphics
+        this.graphicsManager.refresh();
 
-
-		if (this.inputManager.state === 'swiping') {
-            //dragging finger - shift BnB based on swiping offset
-			var swipeOffset = this.inputManager.getSwipingOffset();
-			var swipeDirection = BnB.Util.getDirection(swipeOffset);
-			if (swipeDirection === 'left' || swipeDirection === 'right') {
-				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
-			} else if (swipeDirection === 'up' || swipeDirection === 'down') {
-				this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
-			}
+        if(this.inputManager.state == 'ready'){
+            //Do nothing
+        }
+		else if (this.inputManager.state === 'swiping') {
+            //player is dragging finger
+            this.doSwipingOffset();
 		} else if (this.inputManager.state == 'moving') {
-            //successful swipe - brainy & brawny are moving
-			this.results = this.gameLogic.gravitySwitch(this.inputManager.direction);
-			this.graphicsManager.updateGraphics(this.results);
-			this.inputManager.state = 'waiting';
+            //player completed a successful swipe
+            this.startMoving();
 		}
-
-
-		if (this.inputManager.state === 'waiting' && this.graphicsManager.areAnimationsFinished() && this.tutorialFinished && !this.levelFinished) {
-			this.inputManager.state = 'ready';
-
-			//if the move was successful (something moved) - update the move counter
-			if(this.results.moveSuccess){
-				BnB.Util.playSound('thunk');
-				//update MOVE counter
-				if(this.numMoves<99)this.numMoves++;
-				//Display # of Moves
-				var moveTextDisplay = "";
-
-			  moveTextDisplay = 'Moves: ' + this.numMoves;
-
-			  if(this.numMoves <=this.starLevels[1]){
-			  	moveTextDisplay += "/" + this.starLevels[1];	
-			  }
-			  else if(this.numMoves <=this.starLevels[0]){
-			  	moveTextDisplay += "/" + this.starLevels[0];
-			  }
-			  this.moveText.text = moveTextDisplay;
-
-			  if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[1]){
-			  	this.drawStarsHUD(2);
-			  }
-			  else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[0]){
-			  	this.drawStarsHUD(1);
-			  }
-			}
-
-			if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnB.C.SPIKEY_DEATH) {
-				BnB.Util.playSound('death');
-				BnB.C.SPIKEY_DEATH = false;//TEMP HACK
-				this.restartLevel();
-			} else if (this.results.endState === 'missionSuccess'){
-                this.loadVictory();
-			}
+		else if (this.inputManager.state === 'waiting' && this.graphicsManager.areAnimationsFinished() && this.tutorialFinished && !this.levelFinished) {
+			this.finishMoving();
 		}
 	},
+
+    //offset player chars during player finger drag
+    doSwipingOffset: function()
+    {
+        //dragging finger - shift BnB based on swiping offset
+        var swipeOffset = this.inputManager.getSwipingOffset();
+        var swipeDirection = BnB.Util.getDirection(swipeOffset);
+        if (swipeDirection === 'left' || swipeDirection === 'right') {
+            this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
+        } else if (swipeDirection === 'up' || swipeDirection === 'down') {
+            this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
+        }
+    },
+
+    //start player/gravity movement
+    startMoving: function()
+    {
+        //update logic and set the RESULTS
+        this.results = this.gameLogic.gravitySwitch(this.inputManager.direction);
+
+        //update graphics based on the results
+        this.graphicsManager.updateGraphics(this.results);
+
+        //WAIT for movement to finish
+        this.inputManager.state = 'waiting';
+    },
+
+    //called when all animations are complete
+    finishMoving: function()
+    {
+        //Check for a successful move
+        if(this.results.moveSuccess){
+            this.onMoveComplete();
+        }
+
+        //check for the END state (possible without a successful move?)
+        if(!this.checkEndState()){
+            //Ready for more input!
+            this.inputManager.state = 'ready';
+        }
+    },
+
+    //Called when animations finish and a successful move was completed
+    onMoveComplete: function()
+    {
+        BnB.Util.playSound('thunk');
+        
+        //update # of moves
+        if(this.numMoves<99)this.numMoves++;
+        
+        this.updateHUD();
+    },
+
+    //Based on results - check if we shoudl end the level (good or bad)
+    checkEndState: function()
+    {
+        if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnB.C.SPIKEY_DEATH) {
+            BnB.Util.playSound('death');
+            BnB.C.SPIKEY_DEATH = false;//TEMP HACK
+            this.restartLevel();
+            return true;
+        } else if (this.results.endState === 'missionSuccess'){
+            this.loadVictory();
+            return true;
+        }
+
+        return false;
+    },
+
+    /*
+        Called when a successul move is completed
+    */
+    updateHUD: function()
+    {
+        //Display # of Moves
+        var moveTextDisplay = "Moves: " + this.numMoves;
+        if(this.numMoves <=this.starLevels[1]){
+            moveTextDisplay += "/" + this.starLevels[1];    
+        }
+        else if(this.numMoves <=this.starLevels[0]){
+            moveTextDisplay += "/" + this.starLevels[0];
+        }
+        this.moveText.text = moveTextDisplay;
+
+        //update stars in the HUD
+        if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[1]){
+            this.updateStars(2);
+        }
+        else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[0]){
+            this.updateStars(1);
+        }
+    },
 
     /*
         Draw 1-3 stars in the HUD (based on number of player moves)
     */
-    drawStarsHUD: function(numStars)
+    updateStars: function(numStars)
     {
         this.currentStarLevel = numStars;
         this.starsHUD.removeAll(true);
@@ -214,6 +270,9 @@ BnB.Level.prototype = {
         }
     },
 
+    /*
+        Dynamically create a star
+    */
     createStar: function(posX,posY)
     {
         var star = this.add.image(posX,posY,'star');

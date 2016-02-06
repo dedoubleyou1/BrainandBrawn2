@@ -47,10 +47,10 @@ BnB.InputManager.prototype = {
     */
     setDirection: function(direction){
         return function() {
-                if(this.state == 'ready' || this.state == 'swiping'){
-                    this.direction = direction;
-                    this.state = 'moving';
-                }
+            if(this.state == 'ready' || this.state == 'swiping'){
+                this.direction = direction;
+                this.state = 'moving';
+            }
         };
     },
 
@@ -58,10 +58,13 @@ BnB.InputManager.prototype = {
         Checks to see if touch movement counts as a valid cardinal swipe (called by onUp)
     */
     _isSwipeGood: function(startPosition, endPosition) {
+        //set touch vector (endPos-startPos)
         var differences = {
             x: endPosition.x - startPosition.x,
             y: endPosition.y - startPosition.y
         }
+
+        //If the swipe distance is great enough - set the movement direction
         if (Math.abs(differences.x) > 15 || Math.abs(differences.y) > 15) {
             if (differences.x < 0 && Math.abs(differences.x) > Math.abs(differences.y)) {
                 this.setDirection('left').call(this);
