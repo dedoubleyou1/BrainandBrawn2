@@ -54,15 +54,19 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
         },
 
         //Called when Brainy collides with a switch
-        unlockGates: function(resultSwitch, gate, resultGate) {
+        unlockGates: function(resultSwitch, gate, resultGate, peg) {
             return function(position) {
                 //Disable switch
                 this.gameplayMap.fixed[position.y][position.x] = resultSwitch;
                 
-                //Get all connected gates
+                //Disable connected gate
                 BnB.Util.indexOfAll2d(this.gameplayMap.fixed, gate).forEach(function(element) {
-                    //Disable connected gate
                     this.gameplayMap.fixed[element.y][element.x] = resultGate;
+                }, this);
+
+                //Disable connected pegs
+                BnB.Util.indexOfAll2d(this.gameplayMap.fixed, peg).forEach(function(element) {
+                    this.gameplayMap.fixed[element.y][element.x] = ' ';
                 }, this);
             };
         },
@@ -145,7 +149,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '$': {isSolid: true}
         },
         '1':{
-          'b': {isSolid: false, trigger: triggers.unlockGates('2','3','4')},
+          'b': {isSolid: false, trigger: triggers.unlockGates('2','3','4','17')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
           '$': {isSolid: false}
@@ -169,7 +173,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '$': {isSolid: false}
         },
         '5':{
-          'b': {isSolid: false, trigger: triggers.unlockGates('6','7','8')},
+          'b': {isSolid: false, trigger: triggers.unlockGates('6','7','8','18')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
           '$': {isSolid: false}
@@ -193,7 +197,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '$': {isSolid: false}
         },
         '9':{
-          'b': {isSolid: false, trigger: triggers.unlockGates('10','11','12')},
+          'b': {isSolid: false, trigger: triggers.unlockGates('10','11','12','19')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
           '$': {isSolid: false}
@@ -217,7 +221,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '$': {isSolid: false}
         },
         '13':{
-          'b': {isSolid: false, trigger: triggers.unlockGates('14','15','16')},
+          'b': {isSolid: false, trigger: triggers.unlockGates('14','15','16','20')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
           '$': {isSolid: false}
@@ -240,6 +244,34 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '@': {isSolid: false}, 
           '$': {isSolid: false}
         },
+
+
+        //colored pegs
+        '17':{
+          'b': {isSolid: false},
+          'B': {isSolid: true},
+          '@': {isSolid: true}, 
+          '$': {isSolid: true}
+        },
+        '18':{
+          'b': {isSolid: false},
+          'B': {isSolid: true},
+          '@': {isSolid: true}, 
+          '$': {isSolid: true}
+        },
+        '19':{
+          'b': {isSolid: false},
+          'B': {isSolid: true},
+          '@': {isSolid: true}, 
+          '$': {isSolid: true}
+        },
+        '20':{
+          'b': {isSolid: false},
+          'B': {isSolid: true},
+          '@': {isSolid: true}, 
+          '$': {isSolid: true}
+        },
+
 
         //spikes (4-way)
         'X':{

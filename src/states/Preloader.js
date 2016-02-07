@@ -35,7 +35,7 @@ BnB.Preloader.prototype = {
     preload: function() {
         
         //load in Spritesheets
-        this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
+        this.load.atlasJSONArray('spritesheet', 'images/spritesheet_temp.png', 'images/spritesheet_temp.json');
         this.load.atlasJSONArray('brainy_SpriteSheet', 'images/Brainy_SpriteSheet.png', 'images/Brainy_SpriteSheet.json');
         this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
 
@@ -109,6 +109,10 @@ BnB.Preloader.prototype = {
         this.load.image('gateNew4D','images/spritesheet/brainandbrawn_gateNew4D.png');
         this.load.image('spikey','images/spritesheet/brainandbrawn_alien3.png');
         this.load.image('breakable','images/spritesheet/brainandbrawn_wallDamaged.png');
+        this.load.image('coloredPeg1','images/spritesheet/brainandbrawn_peg1.png');
+        this.load.image('coloredPeg2','images/spritesheet/brainandbrawn_peg2.png');
+        this.load.image('coloredPeg3','images/spritesheet/brainandbrawn_peg3.png');
+        this.load.image('coloredPeg4','images/spritesheet/brainandbrawn_peg4.png');
         this.load.image('playButton', 'images/playButton.png');
         this.load.image('stopButton', 'images/stopButton.png');
         this.load.image('eraser','images/eraserTool.png');

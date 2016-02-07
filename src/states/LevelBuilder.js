@@ -22,6 +22,12 @@ var fixedKeyChar = {
   gateNew2C: '7',
   gateNew3C: '11',
   gateNew4C: '15',
+
+  //colored coloredPeg
+  coloredPeg1: '17',
+  coloredPeg2: '18',
+  coloredPeg3: '19',
+  coloredPeg4: '20',
 };
 
 var bigKeyLookup = {
@@ -46,6 +52,11 @@ var bigKeyLookup = {
     '7': 'gateNew2C',     
     '11':'gateNew3C',     
     '15':'gateNew4C',      
+
+    '17': 'coloredPeg1',
+    '18': 'coloredPeg2',
+    '19': 'coloredPeg3',
+    '20': 'coloredPeg4',
 };
 
 
@@ -66,7 +77,7 @@ BnB.LevelBuilder.prototype = {
         BnB.C.BOUNDS_DEATH = false;
 
         //brush panel variables
-        this.brushWidth = BnB.C.WIDTH/9;
+        this.brushWidth = BnB.C.WIDTH/10;
         this.brushHeight = this.brushWidth;
 
         this.gridWidth = BnB.levelBuilderX;
@@ -233,6 +244,10 @@ BnB.LevelBuilder.prototype = {
         this.brushes.create(0,0,'gateNew2C');
         this.brushes.create(0,0,'gateNew3C');
         this.brushes.create(0,0,'gateNew4C');
+        this.brushes.create(0,0,'coloredPeg1');
+        this.brushes.create(0,0,'coloredPeg2');
+        this.brushes.create(0,0,'coloredPeg3');
+        this.brushes.create(0,0,'coloredPeg4');
 
         this.brushes.create(0,0,'alien');
         this.brushes.create(0,0,'moveable');

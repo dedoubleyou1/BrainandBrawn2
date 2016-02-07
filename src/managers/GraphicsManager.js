@@ -39,56 +39,71 @@ BnB.GraphicsManager = function(map) {
   Return: Data for display with visual trigger functions
 */
 BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
-  var triggers = {
-    killSelf: function(position) {
-      if(this.fixed[position.y][position.x].type == 'E'){
-        BnB.Util.playSound('kill');
-      }
-      this.fixed[position.y][position.x].sprite.destroy();
-    },
-    switchTo: function(type) {
-      return function(position) {
-        this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(type).image;
-      };
-    },
-    switchAll: function(type, typeTo) {
-      var context = {
-        type: type,
-        typeTo: typeTo
-      };
-      return function() {
-        var foundObjects = BnB.Util.filter2d(this.fixed, function(element){
-          if (element.type === this.type) {
-            return true;
+    var triggers = {
+        killSelf: function(position) {
+          if(this.fixed[position.y][position.x].type == 'E'){
+            BnB.Util.playSound('kill');
           }
-        }, context);
+          this.fixed[position.y][position.x].sprite.destroy();
+        },
+        switchTo: function(type) {
+          return function(position) {
+            this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(type).image;
+          };
+        },
+        switchAll: function(type, typeTo) {
+          var context = {
+            type: type,
+            typeTo: typeTo
+          };
+          return function() {
+            var foundObjects = BnB.Util.filter2d(this.fixed, function(element){
+              if (element.type === this.type) {
+                return true;
+              }
+            }, context);
 
-        for (var i = 0; i < foundObjects.length; i++) {
-          foundObjects[i].sprite.frameName = this.graphicsKeyLookup(typeTo).image;
-        };
-      };
-    },
-    switchBoth: function(typeSelf, typeOther, typeToOther) {
-      var context = {
-        type: typeOther,
-        typeTo: typeToOther
-      };
-      return function(position) {
-        BnB.Util.playSound('switch');
-        this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
+            for (var i = 0; i < foundObjects.length; i++) {
+              foundObjects[i].sprite.frameName = this.graphicsKeyLookup(typeTo).image;
+            };
+          };
+        },
+        switchBoth: function(typeSelf, typeOther, typeToOther,typePeg) {
+            var context = {
+                type: typeOther,
+                typeTo: typeToOther,
+                typePeg: typePeg
+            };
+            return function(position) {
+                BnB.Util.playSound('switch');
+                this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
 
-        var foundObjects = BnB.Util.filter2d(this.fixed, function(element){
-          if (element.type === this.type) {
-            return true;
-          }
-        }, context);
+                //get gates
+                var foundObjects = BnB.Util.filter2d(this.fixed, function(element){
+                    if (element.type === this.type) {
+                        return true;
+                    }
+                }, context);
 
-        for (var i = 0; i < foundObjects.length; i++) {
-          foundObjects[i].sprite.frameName = this.graphicsKeyLookup(typeToOther).image;
-        };
-      };
+                //disable gates
+                for (var i = 0; i < foundObjects.length; i++) {
+                    foundObjects[i].sprite.frameName = this.graphicsKeyLookup(typeToOther).image;
+                };
+
+                //get pegs
+                var foundPegs = BnB.Util.filter2d(this.fixed, function(element){
+                    if (element.type === this.typePeg) {
+                        return true;
+                    }
+                }, context);
+
+                //disable gates
+                for (var i = 0; i < foundPegs.length; i++) {
+                    foundPegs[i].sprite.destroy();
+                };
+            };
+        }
     }
-  }
 
 	var keyLookup = {
     'b':{
@@ -146,7 +161,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     '1':{
       order: 0,
       image: 'brainandbrawn_switchNew1A',
-      'b': triggers.switchBoth('2', '3', '4'),
+      'b': triggers.switchBoth('2', '3', '4','17'),
       'B': {}
     },
     '2':{
@@ -170,7 +185,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     '5':{
       order: 0,
       image: 'brainandbrawn_switchNew2A',
-      'b': triggers.switchBoth('6', '7', '8'),
+      'b': triggers.switchBoth('6', '7', '8','18'),
       'B': {}
     },
     '6':{
@@ -194,7 +209,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     '9':{
       order: 0,
       image: 'brainandbrawn_switchNew3A',
-      'b': triggers.switchBoth('10', '11', '12'),
+      'b': triggers.switchBoth('10', '11', '12','19'),
       'B': {}
     },
     '10':{
@@ -218,7 +233,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     '13':{
       order: 0,
       image: 'brainandbrawn_switchNew4A',
-      'b': triggers.switchBoth('14', '15', '16'),
+      'b': triggers.switchBoth('14', '15', '16','20'),
       'B': {}
     },
     '14':{
@@ -236,6 +251,32 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     '16':{
       order: 0,
       image: 'brainandbrawn_gateNew4D',
+      'b': {},
+      'B': {}
+    },
+
+    //colored pegs (TEST)
+    '17':{
+      order: 0,
+      image: 'brainandbrawn_coloredPeg1',
+      'b': {},
+      'B': {}
+    },
+    '18':{
+      order: 0,
+      image: 'brainandbrawn_coloredPeg2',
+      'b': {},
+      'B': {}
+    },
+    '19':{
+      order: 0,
+      image: 'brainandbrawn_coloredPeg3',
+      'b': {},
+      'B': {}
+    },
+    '20':{
+      order: 0,
+      image: 'brainandbrawn_coloredPeg4',
       'b': {},
       'B': {}
     },
