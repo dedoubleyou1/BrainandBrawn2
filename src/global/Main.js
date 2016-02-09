@@ -74,54 +74,73 @@ BnB.C = {
     */
     LEVELS_NORMAL: [
 
-        //TEST
-        // 'levels/test/openlevel.json',
+        //TEST - EH
         // 'levels/test/startlevel4.json',
         // 'levels/test/test_reorientation2.json',
+        // 'levels/test/001.json',
+
+        //TEST - 2
+
+        //REMOVED
+        // 'levels/enemylevel2.json',
+        // 'levels/enemylevel1.json',
 
         //Basic
-        ' levels/startlevel5.json',
-        'levels/splitlevel.json',
-        'levels/startlevel3.json',
+        'levels/splitlevel_starter.json',
+        'levels/startlevel3_v2.json',
 
         'levels/test_reorientation0_v2.json',
-        'levels/test/teamlevel.json',
-        'levels/test/reorientation04_snake.json',
+        'levels/teamlevel.json',
+        'levels/reorientation04_snake.json',
         'levels/fliplevel_v2.json',
         'levels/test_reorientation3.json',
 
-        'levels/enemylevel2.json',
-        'levels/enemylevel1.json',
+        'levels/enemy00.json',
+        'levels/test/enemy02.json',
+        'levels/test/enemy03_Rampage01_v2.json',
 
-        'levels/test/passagelevel.json',
-
-        'levels/wallgatelevel.json',
+        'levels/wallgatelevel_v2.json',
         'levels/gatelevel.json',
         'levels/gatetunnellevel.json',
         'levels/test_colors1.json',
 
-        'levels/test/passagelevel.json',
+        //pegs
+        'levels/passagelevel.json',
         'levels/gates1.json',
+        'levels/test/pegBridge.json',
 
         //open
-        'levels/test/openlevel0.json',
+        'levels/openlevel0_v2.json',
+        'levels/test/openLevel02.json',
+        'levels/test/openLevel03.json',
 
+        //colored 
+        'levels/test/switchPegs01.json',
+        'levels/test/switchPegs02.json',
+        'levels/test/switchPegs03.json',
+
+        //breakable
         'levels/test_breakable0.json',
         'levels/test_breakable1.json',
         'levels/test_breakable2.json',
 
-
+        //spike
         'levels/test_spikedBlock0.json',
-        'levels/test_spike1.json',
+        'levels/test_spike1_v2.json',
         'levels/test_spike2.json',
 
+        //spiked ball
         'levels/test_spikedBall0.json',
         'levels/test_spikedBall1.json',
         'levels/test_spikedBall2.json',
 
+        //movable
         'levels/test_movable2.json',
         'levels/test_movable3.json',
-        'levels/test_movable1.json',
+        'levels/test_movable1_v2.json',
         'levels/test_moveBlock0.json',
+    ],
+
+    LEVELS_TEST: [
     ]
 };
