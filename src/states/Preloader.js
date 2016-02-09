@@ -82,13 +82,13 @@ BnB.Preloader.prototype = {
 
         //TEMP: FOR LEVEL EDITOR
         this.load.image('floor','images/spritesheet/brainandbrawn_floor.png');
-        this.load.image('brainy','images/spritesheet/brainandbrawn_brainy.png');
-        this.load.image('brawny','images/spritesheet/brainandbrawn_brawny.png');
+        this.load.image('brainy','images/spritesheet/brainandbrawn_brainy-b.png');
+        this.load.image('brawny','images/spritesheet/brainandbrawn_brawny-b.png');
         this.load.image('block','images/spritesheet/brainandbrawn_block.png');
-        this.load.image('alien','images/spritesheet/brainandbrawn_alien.png');
+        this.load.image('alien','images/spritesheet/brainandbrawn_alien-b.png');
         this.load.image('goalBrainy','images/spritesheet/brainandbrawn_goalBrainy.png');
         this.load.image('goalBrawny','images/spritesheet/brainandbrawn_goalBrawny.png');
-        this.load.image('moveable','images/spritesheet/brainandbrawn_moveable.png');
+        this.load.image('moveable','images/spritesheet/brainandbrawn_slidingBlock.png');
         this.load.image('pipe0','images/spritesheet/brainandbrawn_pipe0.png');
         this.load.image('spikedBlock','images/spritesheet/brainandbrawn_alien2.png');
         this.load.image('switchNew1A','images/spritesheet/brainandbrawn_switchNew1A.png');

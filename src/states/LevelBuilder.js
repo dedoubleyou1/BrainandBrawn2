@@ -84,7 +84,7 @@ BnB.LevelBuilder.prototype = {
         this.gridHeight = BnB.levelBuilderY;
 
         //play space offsetY
-        var playY = this.brushHeight*3;
+        var playY = this.brushHeight*3.2;
 
         if(this.gridWidth*50 >= this.gridHeight*62.5)
         {
@@ -227,36 +227,39 @@ BnB.LevelBuilder.prototype = {
         this.graphics.lineStyle(3, 0x00FFFF, 1);
         this.graphics.drawRect(0, 0, this.brushWidth+4, this.brushHeight+4);
 
-        this.brushes.create(0,0,'brainy');
-        this.brushes.create(0,0,'brawny');
-        this.brushes.create(0,0,'goalBrainy');
-        this.brushes.create(0,0,'goalBrawny');
-        this.brushes.create(0,0,'block');
-        this.brushes.create(0,0,'spikedBlock');
-        this.brushes.create(0,0,'pipe0');
-        this.brushes.create(0,0,'breakable');
+        
 
         this.brushes.create(0,0,'switchNew1A');
         this.brushes.create(0,0,'switchNew2A');
         this.brushes.create(0,0,'switchNew3A');
         this.brushes.create(0,0,'switchNew4A');
+
+        this.brushes.create(0,0,'brainy');
+        this.brushes.create(0,0,'brawny');
+        this.brushes.create(0,0,'goalBrainy');
+        this.brushes.create(0,0,'goalBrawny');
+
         this.brushes.create(0,0,'gateNew1C');
         this.brushes.create(0,0,'gateNew2C');
         this.brushes.create(0,0,'gateNew3C');
         this.brushes.create(0,0,'gateNew4C');
+
+        this.brushes.create(0,0,'block');
+        this.brushes.create(0,0,'pipe0');
+        this.brushes.create(0,0,'breakable');
+        this.brushes.create(0,0,'moveable');
+
         this.brushes.create(0,0,'coloredPeg1');
         this.brushes.create(0,0,'coloredPeg2');
         this.brushes.create(0,0,'coloredPeg3');
         this.brushes.create(0,0,'coloredPeg4');
 
         this.brushes.create(0,0,'alien');
-        this.brushes.create(0,0,'moveable');
+        this.brushes.create(0,0,'spikedBlock');
         this.brushes.create(0,0,'spikey');
 
-        // var refWidth = this.brushWidth;
-        // var refHeight = this.brushHeight;
-        // var refBrush = this.selectBrush;
 
+        //create brushes
         for(var i=0;i<this.brushes.length;i++)
         {
             var image = this.brushes.getAt(i);
@@ -268,23 +271,15 @@ BnB.LevelBuilder.prototype = {
             image.width = this.brushWidth;
             image.height = this.brushHeight;
         }
-        // this.brushes.forEach(function(image)
-        // {  
-        //   console.log("I was here!");
-        //   image.inputEnabled=true;
-        //   image.events.onInputDown.add(refBrush, this);
 
-        //   image.width = refWidth;
-        //   image.height = refHeight;
-        // });
-
+        //place brushes
         var brushX = this.brushWidth;
-        var totalRows = 3;
-        var currentColumn = 0;
+        var totalColumns = 8;
+        var currentRow = 0;
         for(var i=0;i<this.brushes.length;i++)
         {
-            var currentRow = i%totalRows;
-            if(currentRow==0 && i!=0) currentColumn++;
+            var currentColumn = i%totalColumns;
+            if(currentColumn==0 && i!=0) currentRow++;
 
             this.brushes.getAt(i).x = currentColumn*this.brushWidth+brushX;
             this.brushes.getAt(i).y = currentRow*this.brushHeight;
