@@ -124,7 +124,7 @@ BnB.C = {
         'levels/openLevel03.json',
         'levels/tetris.json',
 
-        //colored 
+        //colored pegs
         'levels/switchPegs01.json',
         'levels/switchPegs02.json',
         'levels/switchPegs03.json',
