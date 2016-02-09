@@ -430,7 +430,7 @@ BnB.LevelBuilder.prototype = {
         if(typeof BnB.SaveData.workingLevel.starLevels == 'undefined' || BnB.SaveData.workingLevel.starLevels.length != 2)
         {
             //TEMP - placeholder #s
-            BnB.SaveData.workingLevel.starLevels = [12,8];
+            BnB.SaveData.workingLevel.starLevels = [98,99];
         }
 
         var string1 = "{\n";

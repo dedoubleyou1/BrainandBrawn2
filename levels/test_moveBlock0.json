@@ -2,7 +2,7 @@
 	"name": "Test Level",
 	"width": 8,
 	"height": 6,
-	"starLevels": [21,16],
+	"starLevels": [20,10],
 	"active": [
 	    [" "," "," "," "," "," "," "," "],
 	    

@@ -2,6 +2,7 @@
 	"name": "Team Level",
 	"width": 8,
 	"height": 6,
+    "starLevels": [14,9],
 	"active": [
 	    [" "," "," "," "," "," "," "," "],
 	    
