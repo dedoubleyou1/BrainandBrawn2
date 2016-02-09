@@ -47,7 +47,6 @@ BnB.C = {
         'levels/test_reorientation0_v2.json',
         'levels/fliplevel_v2.json',
 
-        // 'levels/enemylevel2.json',
         'levels/enemy00.json',
 
         'levels/wallgatelevel_v2.json',
@@ -82,8 +81,6 @@ BnB.C = {
         //TEST - 2
 
         //REMOVED
-        // 'levels/enemylevel2.json',
-        // 'levels/enemylevel1.json',
 
         //Basic
         'levels/splitlevel_starter.json',
