@@ -89,16 +89,24 @@ BnB.C = {
         'levels/splitlevel_starter.json',
         'levels/startlevel3_v2.json',
 
+        //spatial
+        'levels/rotate_simple.json',
         'levels/test_reorientation0_v2.json',
         'levels/teamlevel.json',
         'levels/reorientation04_snake.json',
+        'levels/rotation.json',
         'levels/fliplevel_v2.json',
+        'levels/doubleBrain.json',
         'levels/test_reorientation3.json',
 
+        //enemy
         'levels/enemy00.json',
-        'levels/test/enemy02.json',
-        'levels/test/enemy03_Rampage01_v2.json',
+        'levels/rotateEnemy.json',
+        'levels/enemy02.json',
+        'levels/enemy03_Rampage01_v2.json',
+        'levels/tower.json',
 
+        //switches
         'levels/wallgatelevel_v2.json',
         'levels/gatelevel.json',
         'levels/gatetunnellevel.json',
@@ -106,28 +114,33 @@ BnB.C = {
 
         //pegs
         'levels/passagelevel.json',
+        'levels/rotatePegs.json',
         'levels/gates1.json',
-        'levels/test/pegBridge.json',
+        'levels/pegBridge.json',
 
         //open
         'levels/openlevel0_v2.json',
-        'levels/test/openLevel02.json',
-        'levels/test/openLevel03.json',
+        'levels/openLevel02.json',
+        'levels/openLevel03.json',
+        'levels/tetris.json',
 
         //colored 
-        'levels/test/switchPegs01.json',
-        'levels/test/switchPegs02.json',
-        'levels/test/switchPegs03.json',
+        'levels/switchPegs01.json',
+        'levels/switchPegs02.json',
+        'levels/switchPegs03.json',
 
         //breakable
         'levels/test_breakable0.json',
         'levels/test_breakable1.json',
         'levels/test_breakable2.json',
+        'levels/switchCracked.json',
 
         //spike
         'levels/test_spikedBlock0.json',
+        'levels/rotateSpike02.json',
         'levels/test_spike1_v2.json',
         'levels/test_spike2.json',
+        'levels/spikeCrack02.json',
 
         //spiked ball
         'levels/test_spikedBall0.json',
@@ -137,8 +150,12 @@ BnB.C = {
         //movable
         'levels/test_movable2.json',
         'levels/test_movable3.json',
+        'levels/moveBlock01.json',
         'levels/test_movable1_v2.json',
         'levels/test_moveBlock0.json',
+
+        //moveable + 
+        //superHard - FINISH LEVEL!
     ],
 
     LEVELS_TEST: [
