@@ -155,6 +155,7 @@ BnB.Util = {
         }
     },
 
+    //get distance (# cells) between two coordinate locations in the same row/column
     pointDist: function(direction, pointA, pointB) {
         var axis;
         if (direction === 'up' || direction === 'down') {

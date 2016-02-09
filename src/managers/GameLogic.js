@@ -378,9 +378,12 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
 
         if(tempResults.moveSuccess) gameStateChanges.moveSuccess = true;
 
+        //If this step triggered and end state, update the game state
         if (typeof tempResults.endState === 'string' && gameStateChanges.endState === 'none') {
             gameStateChanges.endState = tempResults.endState;
         }
+
+        
         for (var i = this.activeChars.length - 1; i >= 0; i--) {
             thisChar = this.activeChars[i];
             theseChanges = gameStateChanges[thisChar];
