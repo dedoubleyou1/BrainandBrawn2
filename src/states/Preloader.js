@@ -46,6 +46,7 @@ BnB.Preloader.prototype = {
         this.load.image('dimensions','images/dimensions.png');
         this.load.image('saveIcon','images/saveButton.png');
         this.load.image('flipIcon','images/flipButton.png');
+        this.load.image('flipVertIcon','images/flipButtonVert.png');
 
         // New Tutorial images
         this.load.image('tutorial1','images/tutorials-01.png');

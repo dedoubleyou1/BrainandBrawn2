@@ -77,7 +77,7 @@ BnB.LevelBuilder.prototype = {
         BnB.C.BOUNDS_DEATH = false;
 
         //brush panel variables
-        this.brushWidth = BnB.C.WIDTH/10;
+        this.brushWidth = BnB.C.WIDTH/11;
         this.brushHeight = this.brushWidth;
 
         this.gridWidth = BnB.levelBuilderX;
@@ -273,7 +273,7 @@ BnB.LevelBuilder.prototype = {
         }
 
         //place brushes
-        var brushX = this.brushWidth;
+        var brushX = this.brushWidth*1.1;
         var totalColumns = 8;
         var currentRow = 0;
         for(var i=0;i<this.brushes.length;i++)
@@ -301,12 +301,7 @@ BnB.LevelBuilder.prototype = {
         this.eraseButton.inputEnabled=true;
         this.eraseButton.events.onInputDown.add(this.toggleEraser,this);
 
-        //Create Dimensions button
-        this.sizeButton = this.add.image(BnB.C.WIDTH-this.brushWidth,this.brushHeight*2,'dimensions');
-        this.sizeButton.width = this.brushWidth;
-        this.sizeButton.height = this.brushHeight;
-        this.sizeButton.inputEnabled = true;
-        this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
+        
 
         //create save button
         this.saveButton = this.add.image(BnB.C.WIDTH-this.brushWidth,0,'saveIcon');
@@ -321,6 +316,20 @@ BnB.LevelBuilder.prototype = {
         this.flipButton.height = this.brushHeight;
         this.flipButton.inputEnabled = true;
         this.flipButton.events.onInputDown.add(this.flipLevel,this);
+
+        //create vert flip button
+        this.flipVertButton = this.add.image(BnB.C.WIDTH-this.brushWidth,this.brushHeight*2,'flipVertIcon');
+        this.flipVertButton.width = this.brushWidth;
+        this.flipVertButton.height = this.brushHeight;
+        this.flipVertButton.inputEnabled = true;
+        this.flipVertButton.events.onInputDown.add(this.flipLevelVertically,this);
+
+        //Create Dimensions button
+        this.sizeButton = this.add.image(BnB.C.WIDTH-this.brushWidth*2,this.brushHeight*2,'dimensions');
+        this.sizeButton.width = this.brushWidth;
+        this.sizeButton.height = this.brushHeight;
+        this.sizeButton.inputEnabled = true;
+        this.sizeButton.events.onInputDown.add(this.changeDimensions,this);
 
         return this.brushHeight*3;
     },
@@ -547,6 +556,42 @@ BnB.LevelBuilder.prototype = {
         var h = this.gridWidth;
         this.gridHeight = h;
         this.gridWidth = w;
+
+        //dump gridImages and refill
+        this.gridImages.removeAll(true);
+        for(var i=0;i<h;i++)
+        {
+            for(var j=0;j<w;j++)
+            {
+                //add new image to gridImages
+                var currentKey = keys[i*w+j];
+                this.gridImages.create(0,0,currentKey);
+                //NOTE: position doesn't matter because we are not adding
+            }
+        }
+
+        //save changes to temp object
+        this.printMap();
+
+        //restart state to SEE the changes
+        game.state.start('LevelBuilder');
+    },
+
+    flipLevelVertically: function()
+    {
+        //get dimensions
+        var w = this.gridWidth;
+        var h = this.gridHeight;
+
+        //save key array (flipped Y
+        var keys = [];
+        for(var i=this.gridHeight-1;i>=0;i--)
+        {
+            for(var j=0;j<this.gridWidth;j++)
+            {
+                keys.push(this.gridImages.getAt(i*this.gridWidth+j).key);
+            }
+        }
 
         //dump gridImages and refill
         this.gridImages.removeAll(true);
