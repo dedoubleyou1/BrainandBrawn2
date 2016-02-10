@@ -403,7 +403,7 @@ BnB.Level.prototype = {
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === BnB.levels.length) {
-				this.state.start('LevelSelect');
+				this.state.start('LevelSelect',true,false,0);
 			} else {
                 BnB.Util.goToLevel(this.level+1);
 			}
@@ -436,7 +436,10 @@ BnB.Level.prototype = {
 	{
 		if(this.tutorialFinished){
 			BnB.Util.playSound('select');
-			this.state.start('LevelSelect')
+
+            var pageNum = Math.floor(this.level/BnB.C.LEVELS_PER_PAGE);
+
+			this.state.start('LevelSelect',true,false,pageNum*BnB.C.LEVELS_PER_PAGE);
 		}
 	},
 

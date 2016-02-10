@@ -14,10 +14,15 @@ Completed levels display star counts.
 BnB.LevelSelect = function() {};
 
 BnB.LevelSelect.prototype = {
-    init: function()
+    init: function(startingID)
     {
         //reset on entry (just in case the array changed...)
-        this.numLevels = BnB.levels.length;
+        this.numLevels = BnB.levels.length - startingID;
+        this.startingID = startingID;
+
+        if(this.numLevels > BnB.C.LEVELS_PER_PAGE){
+            this.numLevels = 25;
+        }
     },
 
 	/*
@@ -27,24 +32,16 @@ BnB.LevelSelect.prototype = {
 	create: function() 
 	{
 
-		var offsetY = 0;
+		var offsetY = 110;
 
 		//Debug/Demo only
 		if(BnB.buildType == 'demo' || BnB.buildType == 'test')
 		{
-			offsetY = 110; //create space for the back button
-
 			//set up KEYBOARD CHEATS
 			this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
 			this.restartKey.onUp.add(this.resetLevels,this);
 			this.unlockKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
 			this.unlockKey.onUp.add(this.unlockLevels,this);
-
-			//Back Button
-			var back = this.add.image(10,10,'backArrow');
-			back.scale.setTo(0.4);
-			back.inputEnabled = true;
-			back.events.onInputDown.add(this.onBack,this);
 
 			//Unlock ALL
 			var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
@@ -53,10 +50,29 @@ BnB.LevelSelect.prototype = {
 			this.unlockText.events.onInputDown.add(this.unlockLevels,this);
 
 			//reset 
-			this.resetText = this.add.text(500,40,"Reset All",myFont);
+			this.resetText = this.add.text(400,40,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
 		}
+
+        if(this.startingID != 0)
+        {
+            //Back Button
+            var back = this.add.image(10,10,'backArrow');
+            back.scale.setTo(0.4);
+            back.inputEnabled = true;
+            back.events.onInputDown.add(this.onBack,this);
+        }
+
+        if(BnB.levels.length - this.startingID > BnB.C.LEVELS_PER_PAGE)
+        {
+            var forward = this.add.image(0,10,'forwardArrow');
+            forward.scale.setTo(0.4);
+
+            forward.inputEnabled = true;
+            forward.events.onInputDown.add(this.onForward,this);
+            forward.x = BnB.C.WIDTH - forward.width;
+        }
 
 		//Set up level buttons
 		BnB.levelType = 'normal';
@@ -72,10 +88,11 @@ BnB.LevelSelect.prototype = {
         //populate level buttons
 		for (var i=0;i<this.numLevels;i++)
 		{
-            var newButton = this.createButton(buttonSize,i);
+            var currentID = this.startingID + i;
+            var newButton = this.createButton(buttonSize,currentID);
 
             //Determine button state/status from SaveData
-			if(BnB.SaveData.levelStatus[i] < 0){
+			if(BnB.SaveData.levelStatus[currentID] < 0){
 				newButton.alpha = 0.3;
 			}
 			else{
@@ -84,7 +101,7 @@ BnB.LevelSelect.prototype = {
 			}
 
             //set up text
-			var newText = this.add.text(50,50,(i+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
+			var newText = this.add.text(50,50,(currentID+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
 			newText.anchor = {x: 0.5, y: 0.5};
 			this.buttonTexts.add(newText);
 		}
@@ -95,6 +112,8 @@ BnB.LevelSelect.prototype = {
 		var currentRow = 0;
 		for(var i=0;i<this.buttons.length;i++)
 		{
+            var currentID = this.startingID + i;
+
             //get row and column
 			var currentColumn = i%totalColumns;
 			if(currentColumn == 0 && i!=0) currentRow++;
@@ -112,15 +131,15 @@ BnB.LevelSelect.prototype = {
 			this.buttonTexts.getAt(i).y = this.buttons.getAt(i).y+this.buttons.getAt(i).height+15;
 			
             //CREATE STARS
-			if(BnB.SaveData.levelStatus[i] == 1){
+			if(BnB.SaveData.levelStatus[currentID] == 1){
                 this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
                 this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
 			}
-			else if(BnB.SaveData.levelStatus[i] == 2){
+			else if(BnB.SaveData.levelStatus[currentID] == 2){
                 this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize/2-13);
                 this.createStar(buttonX+buttonSize*.67, buttonY+buttonSize/2-13);
 			}
-			else if(BnB.SaveData.levelStatus[i] == 3){
+			else if(BnB.SaveData.levelStatus[currentID] == 3){
                 this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize*.25);
                 this.createStar(buttonX+buttonSize*.67,buttonY+buttonSize*.25);
                 this.createStar(buttonX+buttonSize*.5,buttonY+buttonSize*.5);
@@ -161,21 +180,28 @@ BnB.LevelSelect.prototype = {
 	resetLevels: function()
 	{
 		BnB.SaveData.reset();
-		this.state.start('LevelSelect');
+		this.state.start('LevelSelect',true,false,0);
 	},
 
 	//unlock all levels + restart state
 	unlockLevels: function()
 	{
 		BnB.SaveData.unlockAll();
-		this.state.start('LevelSelect');
+		this.state.start('LevelSelect',true,false,this.startingID);
 	},
 
 	//handler for BACK button
 	onBack: function()
 	{
-		this.state.start('MainMenu');
+        var newStart = this.startingID-BnB.C.LEVELS_PER_PAGE;
+		this.state.start('LevelSelect',true,false,newStart);
 	},
+
+    onForward: function()
+    {
+        var newStart = this.startingID+BnB.C.LEVELS_PER_PAGE;
+        this.state.start('LevelSelect',true,false,newStart);
+    },
 
 
 };

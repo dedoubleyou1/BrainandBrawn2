@@ -42,6 +42,7 @@ BnB.Preloader.prototype = {
 
         // Static Images
         this.load.image('backArrow','images/back-arrow.png');
+        this.load.image('forwardArrow','images/forward-arrow.png');
         this.load.image('arrow','images/arrow.png');
         this.load.image('dimensions','images/dimensions.png');
         this.load.image('saveIcon','images/saveButton.png');
