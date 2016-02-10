@@ -83,10 +83,13 @@ BnB.Level.prototype = {
         called from CREATE - set up HUD elements
     */
     setUpHUD: function(){
-        //this.spriteHUD = this.add.sprite(0,0,'imageHUD');
-        //this.spriteHUD.width = BnB.C.WIDTH;
-        this.levelText = this.add.text(100,15,('Level '+(this.level+1)), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-        this.moveText = this.add.text(300,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        var levelName = "";
+        if(this.levelData.name != "test" && this.levelData.name != "Exported Level"){
+            levelName = ": " + this.levelData.name;
+        }
+
+        this.moveText = this.add.text(200,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.levelText = this.add.text(15,BnB.C.HEIGHT-50,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
         this.restartButtonBig = this.add.image(500,-30,'rButton');
