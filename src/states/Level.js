@@ -89,7 +89,7 @@ BnB.Level.prototype = {
         }
 
         this.moveText = this.add.text(200,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-        this.levelText = this.add.text(15,BnB.C.HEIGHT-50,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.levelText = this.add.text(15,BnB.C.HEIGHT-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
         this.restartButtonBig = this.add.image(500,-30,'rButton');

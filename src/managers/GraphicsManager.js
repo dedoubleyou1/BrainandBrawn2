@@ -18,8 +18,8 @@ BnB.GraphicsManager = function(map) {
     this.fixed = [];
 
     //Set grid dimensions
-    this.width = map.width;
-    this.height = map.height;
+    this.gridWidth = map.width;
+    this.gridHeight = map.height;
 
     //set up groups to hold SPRITE objects
     // var levelGroup = game.add.group();
@@ -415,32 +415,33 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
     -borderX & borderY
 */
 BnB.GraphicsManager.prototype.getConvertValues = function() {
-    var convertValues = {};
+    var convertValues = {
+        //Determine the size of the "play space"
+        w: BnB.C.WIDTH-BnB.C.BORDER_X*2,
+        h: BnB.C.HEIGHT-BnB.C.HUD_HEIGHT-BnB.C.BOTTOM_HUD_HEIGHT,
+    };
 
     //get screen and grid ratios
-    var screenRatio = BnB.C.WIDTH / BnB.C.HEIGHT;
-    var levelRatio = (this.width + 0.5) / (this.height + 0.5);
+    var screenRatio = convertValues.w / convertValues.h;
+    var levelRatio = (this.gridWidth + 0.5) / (this.gridHeight + 0.5); 
+    
+    //TODO: account for difference between height and width of individual cells
 
-
+    //Determine fit type and scaling
     if (screenRatio > levelRatio) {
         //base on level height
         convertValues.fitType = 'height';
-        convertValues.scaledTileSize = Math.floor(BnB.C.HEIGHT / (this.height + BnB.C.BORDER_SIZE * 2 + BnB.C.OFFSET));
-        // this.xOffset = BnB.C.WIDTH - (convertValues.scaledTileSize * this.width)
-        // this.yOffset = 0;
+        convertValues.scaledTileSize = convertValues.h/ this.gridHeight;
     } else {
         // base on level width
         convertValues.fitType = 'width';
-        convertValues.scaledTileSize = Math.floor(BnB.C.WIDTH / (this.width + BnB.C.BORDER_SIZE * 2));
+        convertValues.scaledTileSize = convertValues.w / this.gridWidth;
     }
-
-    //determine Y Offset 
-    var offsetY = (BnB.C.HEIGHT - convertValues.scaledTileSize*this.height)/2 - BnB.C.HUD_HEIGHT;
-
+    
     //set remaining values
     convertValues.spriteScale = convertValues.scaledTileSize / BnB.C.TILESIZE;
-    convertValues.borderX = BnB.C.BORDER_SIZE * convertValues.scaledTileSize;
-    convertValues.borderY = BnB.C.BORDER_SIZE * convertValues.scaledTileSize + BnB.C.HUD_HEIGHT + offsetY;
+    convertValues.borderX = (convertValues.w - this.gridWidth*convertValues.scaledTileSize)/2 + BnB.C.BORDER_X;
+    convertValues.borderY = (convertValues.h - this.gridHeight*convertValues.scaledTileSize)/2 + BnB.C.HUD_HEIGHT;
 
     return convertValues;
 };
@@ -452,9 +453,8 @@ BnB.GraphicsManager.prototype.getConvertValues = function() {
 BnB.GraphicsManager.prototype.gridToPixel = function(coordinate) {
     //Math.floor((BnB.C.TILESIZE + BnB.C.TILESIZE) * (coordinate.x + 0.5) / 2)
     return {
-        x: (this.convertValues.borderX) + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
-        // y: (this.convertValues.borderY) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
-        y: (this.convertValues.borderY) + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
+        x: this.convertValues.borderX + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
+        y: this.convertValues.borderY + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
     }    
 };
 
