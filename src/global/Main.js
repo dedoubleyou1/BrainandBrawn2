@@ -32,6 +32,7 @@ BnB.C = {
 
     //Visuals
     SWIPING_OFFSET: false,
+    ENABLE_SCREEN_SHAKE: true,
 
     //constants for the GraphicManager state
     TILESIZE: 256,

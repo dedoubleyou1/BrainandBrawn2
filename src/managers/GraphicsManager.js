@@ -616,7 +616,7 @@ BnB.GraphicsManager.prototype.areAnimationsFinished = function() {
     if (this.animationCounter === 0) {
 
       // NEED TO CREATE BETTER PLACE TO CALL THIS, SHAKES EVEN WHEN NOTHING MOVED
-      this.screenShake(this.gravityDirection);
+      if(BnB.C.ENABLE_SCREEN_SHAKE) this.screenShake(this.gravityDirection);
       this.gravityFinished = undefined;
 
         return true;
