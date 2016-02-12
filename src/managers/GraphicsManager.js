@@ -28,7 +28,7 @@ BnB.GraphicsManager = function(map) {
     this.mainGroup = game.add.group(); //holds everything
     this.mainGroup.enableBody = true;
 
-    //Get graphics conversioun values
+    //Get graphics conversion values
     this.convertValues = this.getConvertValues();
     
     //initialize sprites
@@ -36,6 +36,7 @@ BnB.GraphicsManager = function(map) {
 
     //used to track 
     this.animationCounter = 0
+    this.gravityDirection;
 }
 
 /*
@@ -439,7 +440,8 @@ BnB.GraphicsManager.prototype.getConvertValues = function() {
     }
     
     //set remaining values
-    convertValues.spriteScale = convertValues.scaledTileSize / BnB.C.TILESIZE;
+    convertValues.spriteScale = Math.ceil(convertValues.scaledTileSize) / BnB.C.TILESIZE;
+    convertValues.scaledTileSize = Math.floor(convertValues.scaledTileSize);
     convertValues.borderX = (convertValues.w - this.gridWidth*convertValues.scaledTileSize)/2 + BnB.C.BORDER_X;
     convertValues.borderY = (convertValues.h - this.gridHeight*convertValues.scaledTileSize)/2 + BnB.C.HUD_HEIGHT;
 
@@ -453,8 +455,8 @@ BnB.GraphicsManager.prototype.getConvertValues = function() {
 BnB.GraphicsManager.prototype.gridToPixel = function(coordinate) {
     //Math.floor((BnB.C.TILESIZE + BnB.C.TILESIZE) * (coordinate.x + 0.5) / 2)
     return {
-        x: this.convertValues.borderX + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize),
-        y: this.convertValues.borderY + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize)
+        x: Math.round(this.convertValues.borderX + ((coordinate.x + 0.5) * this.convertValues.scaledTileSize)),
+        y: Math.round(this.convertValues.borderY + ((coordinate.y + 0.5) * this.convertValues.scaledTileSize))
     }    
 };
 
@@ -495,6 +497,7 @@ BnB.GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
   (called every step)
 */
 BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
+    this.gravityDirection = gameStateChanges.gravity;
 
     //Callback - called every frame of movement tweens
     var checkGraphicalTriggers = function(gameStateChanges, element){
@@ -540,10 +543,10 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
             //If active obj is Brainy or Brawny - run animations
             if (element === 'b' || element === 'B'){
                 if (this.active[element].x - finalPixelPos.x < 0) {
-                    this.active[element].scale.x = Math.abs(this.active[element].scale.x);
+                    this.active[element].scale.x = Math.abs(this.active[element].scale.x); //Reset flip
                     this.active[element].animations.play('moveRight');
                 } else if (this.active[element].x - finalPixelPos.x > 0){
-                    this.active[element].scale.x = -1 * Math.abs(this.active[element].scale.x);
+                    this.active[element].scale.x = -1 * Math.abs(this.active[element].scale.x); //Flip animation
                     this.active[element].animations.play('moveRight'); 
                 } else if (this.active[element].y - finalPixelPos.y < 0){
                     this.active[element].animations.play('moveDown'); 
@@ -561,8 +564,8 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
             //set up callback for when moveTween finishes
             moveTween.onComplete.add((function(moveUpdateCallback){
                 return function(){
-                    moveUpdateCallback.call(this);
-                    this.animationCounter -= 1;
+                  moveUpdateCallback.call(this);
+                  this.animationCounter -= 1;
                 }
             })(moveUpdateCallback), this);
 
@@ -611,8 +614,52 @@ BnB.GraphicsManager.prototype.refresh = function() {
 */
 BnB.GraphicsManager.prototype.areAnimationsFinished = function() {
     if (this.animationCounter === 0) {
+
+      // NEED TO CREATE BETTER PLACE TO CALL THIS, SHAKES EVEN WHEN NOTHING MOVED
+      this.screenShake(this.gravityDirection);
+      this.gravityFinished = undefined;
+
         return true;
     } else {
         return false;
     }
 };
+
+/*
+  Shakes the screen
+*/
+BnB.GraphicsManager.prototype.screenShake = function(direction) {
+    var animateProperties;
+
+    if (direction === 'up') {
+      animateProperties = {x: 0, y: -1};
+    } else if (direction === 'down') {
+      animateProperties = {x: 0, y: 1};
+    } else if (direction === 'left') {
+      animateProperties = {x: -1, y: 0};
+    } else if (direction === 'right') {
+      animateProperties = {x: 1, y: 0};
+    } else {
+      return false;
+    }
+
+    this.mainGroup.x += animateProperties.x;
+    this.mainGroup.y += animateProperties.y;
+
+    var callback = (function(animateProperties){
+      return function () {
+        this.mainGroup.x -= animateProperties.x;
+        this.mainGroup.y -= animateProperties.y;
+      }
+    })(animateProperties).bind(this);
+
+    setTimeout(callback, 32);
+
+    // var quakeFront = game.add.tween(this.mainGroup);
+    // var quakeBack = game.add.tween(this.backgroundGroup);
+    // quakeFront.to(animateProperties, 100, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, true);
+    // quakeBack.to(animateProperties, 100, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, true);
+
+    return true
+};
+                  
