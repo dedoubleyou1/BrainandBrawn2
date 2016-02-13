@@ -89,6 +89,9 @@ BnB.C = {
         //REMOVED
 
         //Basic
+        'levels/starterA.json',
+        'levels/starterB.json',
+        'levels/starterC.json',
         'levels/splitlevel_starter.json',
         'levels/startlevel3_v2.json',
 
