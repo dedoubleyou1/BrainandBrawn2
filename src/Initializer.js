@@ -12,7 +12,9 @@ Summary: Entry point for the game - called from the HTML body
 
 
 //Phaser Game Object
-var game = new Phaser.Game(BnB.C.WIDTH, BnB.C.HEIGHT);
+var ratio = window.innerHeight/window.innerWidth; // Gets screen ratio
+var height = (BnB.C.WIDTH * ratio > BnB.C.HEIGHT) ? BnB.C.WIDTH * ratio : BnB.C.HEIGHT;
+var game = new Phaser.Game(BnB.C.WIDTH, height); //Stretch height to fill device
 
 //add states
 game.state.add('Boot', BnB.Boot);

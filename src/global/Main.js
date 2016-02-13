@@ -97,7 +97,7 @@ BnB.C = {
 
         //spatial
         'levels/rotate_simple.json',
-        'levels/test_reorientation0_v2.json',
+        'levels/test_reorientation0_v2b.json',
         'levels/teamlevel.json',
         'levels/reorientation04_snake.json',
         'levels/rotation.json',
