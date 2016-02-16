@@ -14,7 +14,7 @@ Summary: Handles all graphical updates (based on game state changes)
   Constructor for initializing Graphics Manager
 */
 BnB.GraphicsManager = function(map) {
-    this.active = {};
+    this.activeObjs = [];
     this.fixed = [];
 
     //Set grid dimensions
@@ -51,15 +51,11 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
             }
             this.fixed[position.y][position.x].sprite.destroy();
         },
-        killActive: function(type){
-            return function() {
-                BnB.Util.playSound('kill');
-                var target = this.active[type];
-
-                target.visible = false;//TEMP HACK
-                // this.mainGroup.removeChild(target);
-                // target.destroy();
-            }
+        killActive: function(target){
+            BnB.Util.playSound('kill');
+            this.activeObjs[target].alive = false;
+            // this.activeObjs[target].sprite.destroy();
+            this.activeObjs[target].sprite.visible = false;
         },
         switchTo: function(type) {
             return function(position) {
@@ -113,13 +109,13 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
                 }, context);
 
                 //disable gates
-                for (var i = 0; i < foundPegs.length; i++) {
+                for (var i = foundPegs.length-1; i >=0 ; i--) {
                     foundPegs[i].sprite.destroy();
                 };
             };
         }
     }
-
+ 
     var keyLookup = {
         //active
         'b':{
@@ -138,8 +134,8 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           order: 3,
           image: 'brainandbrawn_alien4',
           'b': {},
-          'B': triggers.killActive('m'),
-          '$': triggers.killActive('m')
+          'B': triggers.killActive,
+          '$': triggers.killActive
         },
         '@':{
           order: 3,
@@ -395,19 +391,26 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                 }
                 
                 //Set up the ACTIVE sprite
-                this.active[activeSpriteType] = game.add.sprite(activeCoordinate.x, activeCoordinate.y, spritesheet, this.graphicsKeyLookup(activeSpriteType).image);
-                this.mainGroup.add(this.active[activeSpriteType]);
-                this.active[activeSpriteType].scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
-                this.active[activeSpriteType].anchor = {x: 0.5, y: 0.5};
-                this.active[activeSpriteType].customZ = y * 10 + this.graphicsKeyLookup(activeSpriteType).order;
-                this.active[activeSpriteType].priority = true;
+                var activeSprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, spritesheet, this.graphicsKeyLookup(activeSpriteType).image);
+                activeSprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+                activeSprite.anchor = {x: 0.5, y: 0.5};
+                activeSprite.customZ = y * 10 + this.graphicsKeyLookup(activeSpriteType).order;
+                activeSprite.priority = true;
+
+                this.mainGroup.add(activeSprite);
+                this.activeObjs.push({
+                    type: activeSpriteType,
+                    alive: true,
+                    sprite: activeSprite,
+                });
+
                 
 
                 //If Brainy or Brawny - set up animations
                 if (activeSpriteType === 'b' || activeSpriteType === 'B') {
-                    this.active[activeSpriteType].animations.add('moveRight', Phaser.Animation.generateFrameNames('SpriteSheet', 0, 10, '', 4), 24, false, false);
-                    this.active[activeSpriteType].animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
-                    this.active[activeSpriteType].animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 40, 50, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveRight', Phaser.Animation.generateFrameNames('SpriteSheet', 0, 10, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 40, 50, '', 4), 24, false, false);
                 }
             }
 
@@ -507,8 +510,8 @@ BnB.GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
         offsetY = 0.5 - (amount * 0.25);
     }
 
-    for (element in this.active) {
-        this.active[element].anchor = {x: offsetX, y: offsetY};
+    for (element in this.activeObjs) {
+        this.activeObjs[element].sprite.anchor = {x: offsetX, y: offsetY};
         //console.log(element, element.anchor);
     }
 }
@@ -522,61 +525,80 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     this.gravityDirection = gameStateChanges.gravity;
 
     //Callback - called every frame of movement tweens
-    var checkGraphicalTriggers = function(gameStateChanges, element){
+    var checkGraphicalTriggers = function(gridPosArray, target, type){
         return function() {
+            /*
+                TODO: Revamp this system to only work in one direction (state changes -> graphics).
+                Risks of the currently implemented bi-direcitonal system include:
+                -missing a graphical trigger due to lag (which can already be seen if the game is lagging in a larger level)
+                -calling the same graphical trigger multiple times (because several update frames fall in the same gridPos)
+            */
+
             //get current grid position of sprite
-            var gridPos = this.pixelToGrid({x: this.active[element].x, y: this.active[element].y});
+            var gridPos = this.pixelToGrid({x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y});
+            if(type == 'B') console.log(gridPos);
 
             //loop through coordinates
-            for (var i = 1; i < gameStateChanges[element].length - 1; i++) 
+            for (var i = 1; i < gridPosArray.length - 1; i++) 
             {
-                if (gameStateChanges[element][i].x === gridPos.x && gameStateChanges[element][i].y === gridPos.y) 
+                if (gridPosArray[i].x === gridPos.x && gridPosArray[i].y === gridPos.y) 
                 {
                     //get graphical trigger and call it
-                    var trigger = this.graphicsKeyLookup(gameStateChanges[element][i].eventType)[element];
+                    var trigger = this.graphicsKeyLookup(gridPosArray[i].eventType)[type];
                     if (typeof trigger === 'function') {
-                        results = trigger.call(this, {x: gridPos.x, y: gridPos.y});
+                        if(typeof gridPosArray[i].target != 'undefined'){
+                            results = trigger.call(this, gridPosArray[i].target);
+                        }
+                        else{
+                            results = trigger.call(this, {x: gridPos.x, y: gridPos.y});
+                        }
                     }
                 }
 
             };
-            //console.log(gameStateChanges, element, gridPos);
+            //console.log(gameStateChanges, target, gridPos);
         }
     };
 
-    //loop through char element in this.active array
-    for (element in this.active) {
-        console.log(element);
+    //loop through char element in this.activeObjs array
+    for (var i=0;i<this.activeObjs.length;i++) 
+    {
+        if(!this.activeObjs[i].alive) continue;
+
+        var activeSprite = this.activeObjs[i].sprite;
+        var element = this.activeObjs[i].type;
+
+        var gridPosArray = gameStateChanges.activeChanges[i];
 
         //get ending position
-        var finalGridPos = gameStateChanges[element][gameStateChanges[element].length - 1];
+        var finalGridPos = gridPosArray[gridPosArray.length - 1];
         var finalPixelPos = this.gridToPixel(finalGridPos);
 
         //get distance (in cells) between two grid coordinates
-        var gridDist = BnB.Util.pointDist(gameStateChanges.gravity, gameStateChanges[element][0], finalGridPos);
+        var gridDist = BnB.Util.pointDist(gameStateChanges.gravity, gridPosArray[0], finalGridPos);
 
         //Tween sprite to CENTER of cell?
-        recenter = game.add.tween(this.active[element].anchor);
-        recenter.to({x: 0.5, y: 0.5}, 180, Phaser.Easing.Sinusoidal.In, true);
+        recenter = game.add.tween(activeSprite.anchor);
+        recenter.to({x: 0.5, y: 0.5}, 250, Phaser.Easing.Sinusoidal.In, true);
 
         //If the active element must move at least one cell - animate it
         if (gridDist > 0) {
             //create movement tween
-            var moveTween = game.add.tween(this.active[element]);
+            var moveTween = game.add.tween(activeSprite);
             moveTween.to({x: finalPixelPos.x, y: finalPixelPos.y}, 180, Phaser.Easing.Sinusoidal.In, true);
 
             //If active obj is Brainy or Brawny - run animations
             if (element === 'b' || element === 'B'){
-                if (this.active[element].x - finalPixelPos.x < 0) {
-                    this.active[element].scale.x = Math.abs(this.active[element].scale.x); //Reset flip
-                    this.active[element].animations.play('moveRight');
-                } else if (this.active[element].x - finalPixelPos.x > 0){
-                    this.active[element].scale.x = -1 * Math.abs(this.active[element].scale.x); //Flip animation
-                    this.active[element].animations.play('moveRight'); 
-                } else if (this.active[element].y - finalPixelPos.y < 0){
-                    this.active[element].animations.play('moveDown'); 
-                } else if (this.active[element].y - finalPixelPos.y > 0){
-                    this.active[element].animations.play('moveUp'); 
+                if (activeSprite.x - finalPixelPos.x < 0) {
+                    activeSprite.scale.x = Math.abs(activeSprite.scale.x); //Reset flip
+                    activeSprite.animations.play('moveRight');
+                } else if (activeSprite.x - finalPixelPos.x > 0){
+                    activeSprite.scale.x = -1 * Math.abs(activeSprite.scale.x); //Flip animation
+                    activeSprite.animations.play('moveRight'); 
+                } else if (activeSprite.y - finalPixelPos.y < 0){
+                    activeSprite.animations.play('moveDown'); 
+                } else if (activeSprite.y - finalPixelPos.y > 0){
+                    activeSprite.animations.play('moveUp'); 
                 }
             }
 
@@ -584,7 +606,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
             this.animationCounter += 1;
 
             //get moveUpdatecallback
-            var moveUpdateCallback = checkGraphicalTriggers(gameStateChanges, element);
+            var moveUpdateCallback = checkGraphicalTriggers(gridPosArray, i, element);
             
             //set up callback for when moveTween finishes
             moveTween.onComplete.add((function(moveUpdateCallback){
@@ -606,8 +628,8 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   -Sorts graphics Z order
 */
 BnB.GraphicsManager.prototype.refresh = function() {
-    for (element in this.active) {
-      this.active[element].customZ = ((this.active[element].y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
+    for (element in this.activeObjs) {
+      this.activeObjs[element].sprite.customZ = ((this.activeObjs[element].sprite.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };
     this.mainGroup.sort('customZ', Phaser.Group.SORT_ASCENDING)
 

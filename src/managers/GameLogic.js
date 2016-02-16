@@ -16,21 +16,32 @@ Summary: Manages the game state, independent from graphics and input
 BnB.GameLogic = function(map) {
     this.gameplayMap = map;
 
-    //populate active map (WHY NOT FIXED?)
-    this.activeChars = [];
-    for (var y = 0; y < this.gameplayMap.height; y++) {
-        for (var x = 0; x < this.gameplayMap.width; x++) {
-            if (this.gameplayMap.active[y][x] != ' ') {
-                this.activeChars.push(this.gameplayMap.active[y][x]);
-            } 
-        }
-    }
+    //populate array of active objects
+    this.initializeActiveObjects();
 
     //Shows game map in console if true;
     this.debugMode = BnB.buildType == 'test';
 
     if (this.debugMode) {
         this.consoleLogMap();
+    }
+}
+
+BnB.GameLogic.prototype.initializeActiveObjects = function()
+{
+    this.activeObjects = [];
+    for (var y = 0; y < this.gameplayMap.height; y++) {
+        for (var x = 0; x < this.gameplayMap.width; x++) {
+            var currentChar = this.gameplayMap.active[y][x];
+            if (currentChar != ' ') {
+                var activeObj = {
+                    type: currentChar,
+                    alive: true,
+                    gridPos: {x: x, y: y},
+                };
+                this.activeObjects.push(activeObj);
+            } 
+        }
     }
 }
 
@@ -388,73 +399,84 @@ BnB.GameLogic.prototype.consoleLogMap = function() {
 */
 BnB.GameLogic.prototype.gravitySwitch = function(direction) {
     //final return object
-    var gameStateChanges = {
-        'b': [BnB.Util.indexOf2d(this.gameplayMap.active, 'b')],
-        'B': [BnB.Util.indexOf2d(this.gameplayMap.active, 'B')],
-        '@': [BnB.Util.indexOf2d(this.gameplayMap.active, '@')],
-        '$': [BnB.Util.indexOf2d(this.gameplayMap.active, '$')],
-        'm': [BnB.Util.indexOf2d(this.gameplayMap.active, 'm')],
+    this.gameStateChanges = {
+        activeChanges: [],
         gravity: direction,
         endState: 'none',
         moveSuccess: false,
     };
+    this.populateActiveChanges();
 
     //set temporary variables
-    var tempResults = {
+    var stepResults = {
         moveSuccess: true,
     };
-    var thisChar;
-    var theseChanges;
 
     //Attempt a gravity switch - one tile-step at a time
-    while (tempResults.moveSuccess === true) {
+    while (stepResults.moveSuccess === true) {
         //atempt a single move step
-        tempResults = this.moveOnce(direction);
+        stepResults = this.stepOnce(direction);
 
-        if(tempResults.moveSuccess) gameStateChanges.moveSuccess = true;
+        if(stepResults.moveSuccess) this.gameStateChanges.moveSuccess = true;
 
         //If this step triggered and end state, update the game state
-        if (typeof tempResults.endState === 'string' && gameStateChanges.endState === 'none') {
-            gameStateChanges.endState = tempResults.endState;
+        if (typeof stepResults.endState === 'string' && this.gameStateChanges.endState === 'none') {
+            this.gameStateChanges.endState = stepResults.endState;
         }
 
-        //loop through each active char and log state updates
-        for (var i = this.activeChars.length - 1; i >= 0; i--) {
-            thisChar = this.activeChars[i];
-            theseChanges = gameStateChanges[thisChar];
+        // //loop through each active char and log state updates
+        // for (var i = this.activeObjects.length - 1; i >= 0; i--) {
+        //     var activeObj = this.activeObjects[i];
+        //     var currentChanges = this.gameStateChanges.activeChanges[i];
 
-            if (typeof tempResults[thisChar] != 'undefined' && typeof theseChanges[theseChanges.length - 1] != 'undefined') {
-                if (tempResults[thisChar].x != theseChanges[theseChanges.length - 1].x || tempResults[thisChar].y != theseChanges[theseChanges.length - 1].y) {
-                    gameStateChanges[thisChar].push(tempResults[thisChar])          
-                }
-            }
-        };
+        //     if (typeof stepResults[activeObj] != 'undefined' && typeof currentChanges[currentChanges.length - 1] != 'undefined') {
+        //         if (stepResults[activeObj].x != currentChanges[currentChanges.length - 1].x || stepResults[activeObj].y != currentChanges[currentChanges.length - 1].y) {
+        //             this.gameStateChanges[activeObj].push(stepResults[activeObj])          
+        //         }
+        //     }
+        // };
     }
 
     //Add final positions
-    this.activeChars.forEach(function(element){
-        var finalGridPos = BnB.Util.indexOf2d(this.gameplayMap.active, element)
-        if(finalGridPos.x != -1 && finalGridPos.y != -1){
-            gameStateChanges[element].push(BnB.Util.indexOf2d(this.gameplayMap.active, element));
+    for(var i=0; i<this.activeObjects.length;i++)
+    {
+        var element = this.activeObjects[i];
+        if(element.gridPos.x != -1 && element.gridPos.y != -1){
+            this.gameStateChanges.activeChanges[i].push(element.gridPos);
         }
-    }, this)
+    }
 
     if (this.debugMode) {
-        console.log(gameStateChanges);
+        console.log(this.gameStateChanges);
         console.log(direction);
         this.consoleLogMap();
     }
 
     //return changes to the game state
-    return gameStateChanges;
+    return this.gameStateChanges;
 };
+
+BnB.GameLogic.prototype.populateActiveChanges = function()
+{
+    for(var i=0;i<this.activeObjects.length;i++)
+    {
+        //array to hold all significant grid positions
+        var positions = [];
+
+        //add initial position
+        positions.push(this.activeObjects[i].gridPos);
+
+        //push to main array
+        this.gameStateChanges.activeChanges.push(positions);
+    }
+}
 
 /*
   Move all active objects a single cell in the specified direction.
 */
-BnB.GameLogic.prototype.moveOnce = function(direction) {
+BnB.GameLogic.prototype.stepOnce = function(direction) {
     var moveSuccess = false;
-    var triggerResults = {};
+    var stepResults = {};
 
     /* 
         Move all active objects one cell in the chosen direction
@@ -464,7 +486,7 @@ BnB.GameLogic.prototype.moveOnce = function(direction) {
         //floor = top or left
         for (var y = 0; y < this.gameplayMap.height; y++) {
             for (var x = 0; x < this.gameplayMap.width; x++) { 
-                if (this.attemptMove(triggerResults,direction, x, y)) {
+                if (this.attemptMove(direction, x, y)) {
                     moveSuccess = true;
                 }
             }
@@ -475,7 +497,7 @@ BnB.GameLogic.prototype.moveOnce = function(direction) {
         //floor = bottom or right
         for (var y = this.gameplayMap.height - 1; y >= 0; y--) {
             for (var x = this.gameplayMap.width - 1; x >= 0; x--) { 
-                if (this.attemptMove(triggerResults,direction, x, y)) {
+                if (this.attemptMove(direction, x, y)) {
                     moveSuccess = true;
                 }
             }
@@ -483,18 +505,23 @@ BnB.GameLogic.prototype.moveOnce = function(direction) {
     }
 
     //Now that everything is in its "new" position - check all fixed triggers
-    this.checkFixedTriggers(direction,triggerResults);
-    triggerResults.moveSuccess = moveSuccess;
+    this.checkFixedTriggers(direction,stepResults);
+    stepResults.moveSuccess = moveSuccess;
 
-    return triggerResults;
+    return stepResults;
 }
 
 /*
   Attempt to move a target ACTIVE object in the chosen direction.
 */
-BnB.GameLogic.prototype.attemptMove = function(triggerResults,direction, x, y) {
-
+BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
+    //cget active character at specified location
     var character = this.gameplayMap.active[y][x];
+    if(character == ' ') return false;
+
+    //get index of active object
+    var target = this.getActiveObjectAtGridPos(x,y);
+    if(target == -1) return false;
 
     //get new position
     var newPosition = {
@@ -502,11 +529,14 @@ BnB.GameLogic.prototype.attemptMove = function(triggerResults,direction, x, y) {
         y: BnB.Util.directionLookup[direction].y + y
     };
 
-    if (character != ' ' && this.isPositionClear(triggerResults,character, newPosition.x, newPosition.y)) 
+    if (this.isPositionClear(character, target, newPosition.x, newPosition.y)) 
     {
         //Move active char to new spot
         this.gameplayMap.active[y][x] = ' ';
         this.gameplayMap.active[newPosition.y][newPosition.x] = character;
+        
+        this.activeObjects[target].gridPos = newPosition;
+
         return true;
     } 
 
@@ -516,7 +546,7 @@ BnB.GameLogic.prototype.attemptMove = function(triggerResults,direction, x, y) {
 /*
   Checks whether the chosen XY coord is clear for a specified ACTIVE character
 */
-BnB.GameLogic.prototype.isPositionClear = function(triggerResults,character, x, y) {
+BnB.GameLogic.prototype.isPositionClear = function(character, target, x, y) {
     //First check if we are in bounds
     if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height)
     {
@@ -524,107 +554,190 @@ BnB.GameLogic.prototype.isPositionClear = function(triggerResults,character, x, 
 
         //- - - - TEMP HACK - - - -//
         //should be a part of triggers
-        BnB.C.SPIKEY_DEATH = BnB.C.BOUNDARY_DEATH;
+        if(BnB.C.SPIKEY_DEATH) BnB.C.BOUNDARY_DEATH = true;
         //- - - END TEMP HACK - - - //
 
         return false;
     } 
-
-    var activeChar = this.gameplayMap.active[y][x];
-
-    if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || activeChar != ' ') 
+    else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true) 
     {
         //Active object is colliding with something
-
-        //- - - - TEMP HACK - - - -//
-        //should be a part of triggers
-        if(character == '$' || activeChar == '$')
-        {
-            //purple moving alien
-            if(character == 'b' || activeChar == 'b' || character == 'B' || activeChar == 'B')
-            {
-                BnB.C.SPIKEY_DEATH = true;
-            }
-        }
-        else if(character == 'm' || activeChar == 'm')
-        {
-            //green moving alien
-            if(character == 'b' || activeChar == 'b')
-            {
-                BnB.C.SPIKEY_DEATH = true;
-            }
-            else if(character == 'B' || character == '$')
-            {
-                //Brawny moving into green alien
-
-                //update triggerResults
-                triggerResults[character] = {
-                    x: x,
-                    y: y,
-                    eventType: activeChar
-                };
-
-                //add final position for killed activeChar
-                triggerResults[activeChar] = {x,y};
-                
-                return true;
-            }
-            else if(activeChar == 'B' || activeChar == '$'){
-                //update triggerResults
-                triggerResults[activeChar] = {
-                    x: x,
-                    y: y,
-                    eventType: character
-                };
-
-                return false;
-            }
-        }
-        //- - - END TEMP HACK - - - //
-
         return false;
+    }
+    else if(this.gameplayMap.active[y][x] != ' ')
+    {
+        //colliding with another active object
+        return this.checkActiveTriggers(character,target,this.gameplayMap.active[y][x],x,y);
     }
 
     //Position is clear!
     return true;
 };
 
+
+/*
+    active1 - object moving INTO the specified cell
+    active2 - object already in the specified cell (should have stopped moving)
+*/
+BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,active2,x,y)
+{
+    //- - - - TEMP HACK - - - -//
+    //TODO: work this functionality into TRIGGERS
+    if(active1 == '$' || active2 == '$')
+    {
+        //purple moving alien
+        if(active1 == 'b' || active2 == 'b' || active1 == 'B' || active2 == 'B')
+        {
+            BnB.C.SPIKEY_DEATH = true;
+            return true;
+        }
+    }
+    else if(active1 == 'm' || active2 == 'm')
+    {
+        //green moving alien
+        if(active1 == 'b' || active2 == 'b')
+        {
+            BnB.C.SPIKEY_DEATH = true;
+            return true;
+        }
+        else if(active1 == 'B' || active1 == '$')
+        {
+            //Brawny moving into green alien
+
+            //add final position for killed active2
+            var active2Index = this.getActiveObjectAtGridPos(x,y);
+            this.gameStateChanges.activeChanges[active2Index].push({x,y});
+            this.killActiveObj(active2Index);
+
+            //update game state changes
+            this.gameStateChanges.activeChanges[active1Index].push({
+                x: x,
+                y: y,
+                eventType: active2,
+                target: active2Index,
+            });
+            
+            return true;
+        }
+        else if(active2 == 'B' || active2 == '$'){
+            //add "kill" event to killer
+            var active2Index = this.getActiveObjectAtGridPos(x,y);
+            this.gameStateChanges.activeChanges[active2Index].push({
+                x: x,
+                y: y,
+                eventType: active1,
+                target: active1Index,
+            });
+
+            //add final position for killed
+            this.gameStateChanges.activeChanges[active1Index].push({x,y});
+            this.killActiveObj(active1Index);
+
+            return false;
+        }
+    }
+
+    return false;
+    //- - - END TEMP HACK - - - //
+}
+
 /*
     Check for trigger functions that need to activate due to various collisions
     (Collision = overlapping active and fixed objects)
 */
-BnB.GameLogic.prototype.checkFixedTriggers = function(direction,triggerResults) {
-    var active;
-    var fixed;
-    var results;
-    for (var y = 0; y < this.gameplayMap.height; y++) 
-    {
-        for (var x = 0; x < this.gameplayMap.width; x++) 
-        {
-            //Get overlapping active + fixed objects at this gridPos
-            active = this.gameplayMap.active[y][x];
-            fixed = this.gameplayMap.fixed[y][x]
+BnB.GameLogic.prototype.checkFixedTriggers = function(direction,stepResults) {
+    
 
-            if (active != ' ') 
-            {
-                //get trigger for this collision
-                var trigger = this.mapKeyLookup(fixed,direction)[active].trigger;
-                if (typeof trigger === 'function') 
-                {
-                    //Call trigger function + setup results
-                    results = trigger.call(this, {x: x, y: y});
-                    
-                    if (typeof results === 'string') {
-                        triggerResults.endState = results;
-                    }
-                    triggerResults[active] = {
-                        x: x,
-                        y: y,
-                        eventType: fixed
-                    };
-                }
+    for(var i=0;i<this.activeObjects.length;i++)
+    {
+        var activeObj = this.activeObjects[i];
+
+        if(!activeObj.alive) return;
+
+        var x = activeObj.gridPos.x;
+        var y = activeObj.gridPos.y;
+
+        var fixed = this.gameplayMap.fixed[y][x];
+
+        //get trigger for this collision
+        var trigger = this.mapKeyLookup(fixed,direction)[activeObj.type].trigger;
+        if (typeof trigger === 'function') 
+        {
+            //Call trigger function + setup results
+            results = trigger.call(this, {x: x, y: y});
+            
+            if (typeof results === 'string') {
+                stepResults.endState = results;
             }
+
+            //update game state changes
+            var newGridPos = {
+                x: x,
+                y: y,
+                eventType: fixed
+            };
+            this.gameStateChanges.activeChanges[i].push(newGridPos);
         }
+    }
+
+
+    // var active;
+    // var fixed;
+    // var results;
+    // for (var y = 0; y < this.gameplayMap.height; y++) 
+    // {
+    //     for (var x = 0; x < this.gameplayMap.width; x++) 
+    //     {
+    //         //Get overlapping active + fixed objects at this gridPos
+    //         active = this.gameplayMap.active[y][x];
+    //         fixed = this.gameplayMap.fixed[y][x]
+
+    //         if (active != ' ') 
+    //         {
+    //             //get trigger for this collision
+    //             var trigger = this.mapKeyLookup(fixed,direction)[active].trigger;
+    //             if (typeof trigger === 'function') 
+    //             {
+    //                 //Call trigger function + setup results
+    //                 results = trigger.call(this, {x: x, y: y});
+                    
+    //                 if (typeof results === 'string') {
+    //                     stepResults.endState = results;
+    //                 }
+    //                 stepResults[active] = {
+    //                     x: x,
+    //                     y: y,
+    //                     eventType: fixed
+    //                 };
+    //             }
+    //         }
+    //     }
+    // }
+}
+
+BnB.GameLogic.prototype.getActiveObjectAtGridPos = function(gridX,gridY)
+{
+    for(var i=0;i<this.activeObjects.length;i++)
+    {
+        var activeObj = this.activeObjects[i];
+        if(activeObj.alive && activeObj.gridPos.x == gridX && activeObj.gridPos.y == gridY)
+        {
+            return i;
+        }
+    }
+
+    //something went wrong
+    return -1;
+}
+
+BnB.GameLogic.prototype.killActiveObj = function(target)
+{
+    if(target >= 0 && target < this.activeObjects.length)   
+    {
+        var obj = this.activeObjects[target];
+        obj.alive = false;
+        this.gameplayMap.active[obj.gridPos.y][obj.gridPos.x] = ' ';
+        obj.gridPos = {x:-1,y:-1};
     }
 }
 
