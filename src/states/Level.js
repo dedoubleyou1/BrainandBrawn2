@@ -89,7 +89,7 @@ BnB.Level.prototype = {
         }
 
         this.moveText = this.add.text(200,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-        this.levelText = this.add.text(15,BnB.C.HEIGHT-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.levelText = this.add.text(15,game.height-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
         this.restartButtonBig = this.add.image(500,-30,'rButton');
@@ -300,7 +300,7 @@ BnB.Level.prototype = {
 		BnB.Util.playSound('select');
 		this.fadeOutGraphic = this.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, BnB.C.HEIGHT);
+	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, game.height);
 	    this.fadeOutGraphic.endFill();
     
 		this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);

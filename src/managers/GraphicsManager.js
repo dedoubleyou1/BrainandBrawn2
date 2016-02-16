@@ -441,7 +441,7 @@ BnB.GraphicsManager.prototype.getConvertValues = function() {
     var convertValues = {
         //Determine the size of the "play space"
         w: BnB.C.WIDTH-BnB.C.BORDER_X*2,
-        h: BnB.C.HEIGHT-BnB.C.HUD_HEIGHT-BnB.C.BOTTOM_HUD_HEIGHT,
+        h: game.height-BnB.C.HUD_HEIGHT-BnB.C.BOTTOM_HUD_HEIGHT,
     };
 
     //get screen and grid ratios
