@@ -35,8 +35,8 @@ BnB.LevelSelect.prototype = {
 		var offsetY = 110;
 
 		//Debug/Demo only
-		if(BnB.buildType == 'demo' || BnB.buildType == 'test')
-		{
+		// if(BnB.buildType == 'demo' || BnB.buildType == 'test')
+		// {
 			//set up KEYBOARD CHEATS
 			this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
 			this.restartKey.onUp.add(this.resetLevels,this);
@@ -53,7 +53,7 @@ BnB.LevelSelect.prototype = {
 			this.resetText = this.add.text(400,40,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
-		}
+		// }
 
         if(this.startingID != 0)
         {

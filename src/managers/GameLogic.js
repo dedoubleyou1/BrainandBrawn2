@@ -17,7 +17,7 @@ BnB.GameLogic = function(map) {
     this.gameplayMap = map;
 
     //populate active map (WHY NOT FIXED?)
-    this.activeChars = []
+    this.activeChars = [];
     for (var y = 0; y < this.gameplayMap.height; y++) {
         for (var x = 0; x < this.gameplayMap.width; x++) {
             if (this.gameplayMap.active[y][x] != ' ') {
@@ -98,151 +98,176 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '#':{
           'b': {isSolid: true},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
-        '|':{
-          'b': {isSolid: true},
-          'B': {isSolid: true},
-          '@': {isSolid: false}, 
-          '$': {isSolid: false}
-        },
-        '-':{
-          'b': {isSolid: true},
-          'B': {isSolid: true},
-          '@': {isSolid: false}, 
-          '$': {isSolid: false}
-        },
+        // '|':{
+        //   'b': {isSolid: true},
+        //   'B': {isSolid: true},
+        //   '@': {isSolid: false}, 
+        //   '$': {isSolid: false},
+        //   'm': {isSolid: false}
+        // },
+        // '-':{
+        //   'b': {isSolid: true},
+        //   'B': {isSolid: true},
+        //   '@': {isSolid: false}, 
+        //   '$': {isSolid: false},
+        //   'm': {isSolid: false}
+        // },
         '.':{
           'b': {isSolid: false, trigger: triggers.killActive('brainyLost')},
           'B': {isSolid: false, trigger: triggers.killActive('brawnyLost')},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}      
+          '$': {isSolid: false},
+          'm': {isSolid: false}      
         },
         'E':{
           'b': {isSolid: false, trigger: triggers.killActive('brainyEaten')},
           'B': {isSolid: false, trigger: triggers.killFixed},
           '@': {isSolid: true}, 
-          '$': {isSolid: false, trigger: triggers.killFixed}
+          '$': {isSolid: false, trigger: triggers.killFixed},
+          'm': {isSolid: false},
         },
         'g':{
           'b': {isSolid: false, trigger: triggers.checkWin},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         'G':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '0':{
           'b': {isSolid: false},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '1':{
           'b': {isSolid: false, trigger: triggers.unlockGates('2','3','4','17')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '2':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '3':{
           'b': {isSolid: true},
           'B': {isSolid: true},
           '@': {isSolid: true},
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '4':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '5':{
           'b': {isSolid: false, trigger: triggers.unlockGates('6','7','8','18')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '6':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '7':{
           'b': {isSolid: true},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '8':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '9':{
           'b': {isSolid: false, trigger: triggers.unlockGates('10','11','12','19')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '10':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '11':{
           'b': {isSolid: true},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '12':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '13':{
           'b': {isSolid: false, trigger: triggers.unlockGates('14','15','16','20')},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '14':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
         '15':{
           'b': {isSolid: true},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '16':{
           'b': {isSolid: false},
           'B': {isSolid: false},
           '@': {isSolid: false}, 
-          '$': {isSolid: false}
+          '$': {isSolid: false},
+          'm': {isSolid: false}
         },
 
 
@@ -251,25 +276,29 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           'b': {isSolid: false},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '18':{
           'b': {isSolid: false},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '19':{
           'b': {isSolid: false},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
         '20':{
           'b': {isSolid: false},
           'B': {isSolid: true},
           '@': {isSolid: true}, 
-          '$': {isSolid: true}
+          '$': {isSolid: true},
+          'm': {isSolid: true}
         },
 
 
@@ -278,7 +307,8 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           'b': {isSolid: false, trigger: triggers.killActive('brainyLost')},
           'B': {isSolid: false, trigger: triggers.killActive('brawnyLost')},
           '@': {isSolid: true}, 
-          '$': {isSolid: true} 
+          '$': {isSolid: true},
+          'm': {isSolid: true} 
         },
         //breakable block
         '+':{
@@ -289,30 +319,34 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
         },
 
         //unused
-        '^':{
-          'b': {isSolid: false, trigger: triggers.killActiveDirectional('down','brainyLost')},
-          'B': {isSolid: false, trigger: triggers.killActiveDirectional('down','brawnyLost')},
-          '@': {isSolid: false}, 
-          '$': {isSolid: false} 
-        },
-        'V':{
-          'b': {isSolid: false, trigger: triggers.killActiveDirectional('up','brainyLost')},
-          'B': {isSolid: false, trigger: triggers.killActiveDirectional('up','brawnyLost')},
-          '@': {isSolid: false}, 
-          '$': {isSolid: false} 
-        },
-        '>':{
-          'b': {isSolid: false, trigger: triggers.killActiveDirectional('left','brainyLost')},
-          'B': {isSolid: false, trigger: triggers.killActiveDirectional('left','brawnyLost')},
-          '@': {isSolid: false}, 
-          '$': {isSolid: false}
-        },
-        '<':{
-          'b': {isSolid: false, trigger: triggers.killActiveDirectional('right','brainyLost')},
-          'B': {isSolid: false, trigger: triggers.killActiveDirectional('right','brawnyLost')},
-          '@': {isSolid: false}, 
-          '$': {isSolid: false} 
-        },
+        // '^':{
+        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('down','brainyLost')},
+        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('down','brawnyLost')},
+        //   '@': {isSolid: false}, 
+        //   '$': {isSolid: false},
+        //   'm': {isSolid: false} 
+        // },
+        // 'V':{
+        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('up','brainyLost')},
+        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('up','brawnyLost')},
+        //   '@': {isSolid: false}, 
+        //   '$': {isSolid: false},
+        //   'm': {isSolid: false} 
+        // },
+        // '>':{
+        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('left','brainyLost')},
+        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('left','brawnyLost')},
+        //   '@': {isSolid: false}, 
+        //   '$': {isSolid: false},
+        //   'm': {isSolid: false}
+        // },
+        // '<':{
+        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('right','brainyLost')},
+        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('right','brawnyLost')},
+        //   '@': {isSolid: false}, 
+        //   '$': {isSolid: false},
+        //   'm': {isSolid: false} 
+        // },
     }
     return keyLookup[key];
 };
@@ -359,6 +393,7 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
         'B': [BnB.Util.indexOf2d(this.gameplayMap.active, 'B')],
         '@': [BnB.Util.indexOf2d(this.gameplayMap.active, '@')],
         '$': [BnB.Util.indexOf2d(this.gameplayMap.active, '$')],
+        'm': [BnB.Util.indexOf2d(this.gameplayMap.active, 'm')],
         gravity: direction,
         endState: 'none',
         moveSuccess: false,
@@ -383,7 +418,7 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
             gameStateChanges.endState = tempResults.endState;
         }
 
-        
+        //loop through each active char and log state updates
         for (var i = this.activeChars.length - 1; i >= 0; i--) {
             thisChar = this.activeChars[i];
             theseChanges = gameStateChanges[thisChar];
@@ -398,7 +433,10 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
 
     //Add final positions
     this.activeChars.forEach(function(element){
-        gameStateChanges[element].push(BnB.Util.indexOf2d(this.gameplayMap.active, element));
+        var finalGridPos = BnB.Util.indexOf2d(this.gameplayMap.active, element)
+        if(finalGridPos.x != -1 && finalGridPos.y != -1){
+            gameStateChanges[element].push(BnB.Util.indexOf2d(this.gameplayMap.active, element));
+        }
     }, this)
 
     if (this.debugMode) {
@@ -416,6 +454,7 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
 */
 BnB.GameLogic.prototype.moveOnce = function(direction) {
     var moveSuccess = false;
+    var triggerResults = {};
 
     /* 
         Move all active objects one cell in the chosen direction
@@ -425,7 +464,7 @@ BnB.GameLogic.prototype.moveOnce = function(direction) {
         //floor = top or left
         for (var y = 0; y < this.gameplayMap.height; y++) {
             for (var x = 0; x < this.gameplayMap.width; x++) { 
-                if (this.attemptMove(direction, x, y)) {
+                if (this.attemptMove(triggerResults,direction, x, y)) {
                     moveSuccess = true;
                 }
             }
@@ -436,15 +475,15 @@ BnB.GameLogic.prototype.moveOnce = function(direction) {
         //floor = bottom or right
         for (var y = this.gameplayMap.height - 1; y >= 0; y--) {
             for (var x = this.gameplayMap.width - 1; x >= 0; x--) { 
-                if (this.attemptMove(direction, x, y)) {
+                if (this.attemptMove(triggerResults,direction, x, y)) {
                     moveSuccess = true;
                 }
             }
         }
     }
 
-    //Now that everything is in its "new" position - check all triggers
-    var triggerResults = this.checkTriggers(direction);
+    //Now that everything is in its "new" position - check all fixed triggers
+    this.checkFixedTriggers(direction,triggerResults);
     triggerResults.moveSuccess = moveSuccess;
 
     return triggerResults;
@@ -453,7 +492,7 @@ BnB.GameLogic.prototype.moveOnce = function(direction) {
 /*
   Attempt to move a target ACTIVE object in the chosen direction.
 */
-BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
+BnB.GameLogic.prototype.attemptMove = function(triggerResults,direction, x, y) {
 
     var character = this.gameplayMap.active[y][x];
 
@@ -463,7 +502,7 @@ BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
         y: BnB.Util.directionLookup[direction].y + y
     };
 
-    if (character != ' ' && this.isPositionClear(character, newPosition.x, newPosition.y)) 
+    if (character != ' ' && this.isPositionClear(triggerResults,character, newPosition.x, newPosition.y)) 
     {
         //Move active char to new spot
         this.gameplayMap.active[y][x] = ' ';
@@ -477,7 +516,8 @@ BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
 /*
   Checks whether the chosen XY coord is clear for a specified ACTIVE character
 */
-BnB.GameLogic.prototype.isPositionClear = function(character, x, y) {
+BnB.GameLogic.prototype.isPositionClear = function(triggerResults,character, x, y) {
+    //First check if we are in bounds
     if (x < 0 || y < 0 || x >= this.gameplayMap.width || y >= this.gameplayMap.height)
     {
         //Active object is leaving the boundaries
@@ -489,17 +529,55 @@ BnB.GameLogic.prototype.isPositionClear = function(character, x, y) {
 
         return false;
     } 
-    else if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || this.gameplayMap.active[y][x] != ' ') 
+
+    var activeChar = this.gameplayMap.active[y][x];
+
+    if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[character].isSolid === true || activeChar != ' ') 
     {
-        //Active object is colliding with something solid
+        //Active object is colliding with something
 
         //- - - - TEMP HACK - - - -//
         //should be a part of triggers
-        if(character == '$' || this.gameplayMap.active[y][x] == '$')
+        if(character == '$' || activeChar == '$')
         {
-            if(character == 'b' || this.gameplayMap.active[y][x] == 'b' || character == 'B' || this.gameplayMap.active[y][x] == 'B')
+            //purple moving alien
+            if(character == 'b' || activeChar == 'b' || character == 'B' || activeChar == 'B')
             {
                 BnB.C.SPIKEY_DEATH = true;
+            }
+        }
+        else if(character == 'm' || activeChar == 'm')
+        {
+            //green moving alien
+            if(character == 'b' || activeChar == 'b')
+            {
+                BnB.C.SPIKEY_DEATH = true;
+            }
+            else if(character == 'B' || character == '$')
+            {
+                //Brawny moving into green alien
+
+                //update triggerResults
+                triggerResults[character] = {
+                    x: x,
+                    y: y,
+                    eventType: activeChar
+                };
+
+                //add final position for killed activeChar
+                triggerResults[activeChar] = {x,y};
+                
+                return true;
+            }
+            else if(activeChar == 'B' || activeChar == '$'){
+                //update triggerResults
+                triggerResults[activeChar] = {
+                    x: x,
+                    y: y,
+                    eventType: character
+                };
+
+                return false;
             }
         }
         //- - - END TEMP HACK - - - //
@@ -515,8 +593,7 @@ BnB.GameLogic.prototype.isPositionClear = function(character, x, y) {
     Check for trigger functions that need to activate due to various collisions
     (Collision = overlapping active and fixed objects)
 */
-BnB.GameLogic.prototype.checkTriggers = function(direction) {
-    var triggerResults = {};
+BnB.GameLogic.prototype.checkFixedTriggers = function(direction,triggerResults) {
     var active;
     var fixed;
     var results;
@@ -549,6 +626,5 @@ BnB.GameLogic.prototype.checkTriggers = function(direction) {
             }
         }
     }
-    return triggerResults;
 }
 

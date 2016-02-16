@@ -3,6 +3,7 @@ var activeKeyChar = {
   brawny: 'B',
   moveable: '@',
   spikey: '$',
+  alienRoller: 'm',
 };
 
 var fixedKeyChar = {
@@ -43,6 +44,7 @@ var bigKeyLookup = {
     '0': 'pipe0',         
     'X': 'spikedBlock',  
     '+': 'breakable', 
+    'm': 'alienRoller',
     
     '1': 'switchNew1A',   
     '5': 'switchNew2A',   
@@ -227,8 +229,6 @@ BnB.LevelBuilder.prototype = {
         this.graphics.lineStyle(3, 0x00FFFF, 1);
         this.graphics.drawRect(0, 0, this.brushWidth+4, this.brushHeight+4);
 
-        
-
         this.brushes.create(0,0,'switchNew1A');
         this.brushes.create(0,0,'switchNew2A');
         this.brushes.create(0,0,'switchNew3A');
@@ -255,6 +255,7 @@ BnB.LevelBuilder.prototype = {
         this.brushes.create(0,0,'coloredPeg4');
 
         this.brushes.create(0,0,'alien');
+        this.brushes.create(0,0,'alienRoller');
         this.brushes.create(0,0,'spikedBlock');
         this.brushes.create(0,0,'spikey');
 

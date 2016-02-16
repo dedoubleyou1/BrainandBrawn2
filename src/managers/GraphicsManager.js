@@ -51,6 +51,16 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
             }
             this.fixed[position.y][position.x].sprite.destroy();
         },
+        killActive: function(type){
+            return function() {
+                BnB.Util.playSound('kill');
+                var target = this.active[type];
+
+                target.visible = false;//TEMP HACK
+                // this.mainGroup.removeChild(target);
+                // target.destroy();
+            }
+        },
         switchTo: function(type) {
             return function(position) {
                 this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(type).image;
@@ -111,6 +121,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     }
 
     var keyLookup = {
+        //active
         'b':{
           order: 2,
           image: 'SpriteSheet0000',
@@ -123,6 +134,28 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'b': {},
           'B': {}
         },
+        'm':{
+          order: 3,
+          image: 'brainandbrawn_alien4',
+          'b': {},
+          'B': triggers.killActive('m'),
+          '$': triggers.killActive('m')
+        },
+        '@':{
+          order: 3,
+          image: 'brainandbrawn_slidingBlock',
+          'b': {},    
+          'B': {}
+        },
+        '$':{
+          order: 0,
+          image: 'brainandbrawn_alien3',
+          'b': {},
+          'B': {}
+        },
+
+
+        //fixed
         ' ':{
           'b': {},
           'B': {}
@@ -301,42 +334,31 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'B': triggers.killSelf,
           '$': triggers.killSelf
         },
-        '^':{
-          order: 0,
-          image: 'brainandbrawn_switchNew1A',
-          'b': {},
-          'B': {}
-        },
-        'V':{
-          order: 0,
-          image: 'brainandbrawn_switchNew2A',
-          'b': {},
-          'B': {}
-        },
-        '<':{
-          order: 0,
-          image: 'brainandbrawn_switchNew3A',
-          'b': {},
-          'B': {}
-        },
-        '>':{
-          order: 0,
-          image: 'brainandbrawn_switchNew4A',
-          'b': {},
-          'B': {}
-        },
-        '@':{
-          order: 3,
-          image: 'brainandbrawn_slidingBlock',
-          'b': {},    
-          'B': {}
-        },
-        '$':{
-          order: 0,
-          image: 'brainandbrawn_alien3',
-          'b': {},
-          'B': {}
-        },
+
+        // '^':{
+        //   order: 0,
+        //   image: 'brainandbrawn_switchNew1A',
+        //   'b': {},
+        //   'B': {}
+        // },
+        // 'V':{
+        //   order: 0,
+        //   image: 'brainandbrawn_switchNew2A',
+        //   'b': {},
+        //   'B': {}
+        // },
+        // '<':{
+        //   order: 0,
+        //   image: 'brainandbrawn_switchNew3A',
+        //   'b': {},
+        //   'B': {}
+        // },
+        // '>':{
+        //   order: 0,
+        //   image: 'brainandbrawn_switchNew4A',
+        //   'b': {},
+        //   'B': {}
+        // },
     }
 
     return keyLookup[key];
@@ -502,7 +524,10 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     //Callback - called every frame of movement tweens
     var checkGraphicalTriggers = function(gameStateChanges, element){
         return function() {
+            //get current grid position of sprite
             var gridPos = this.pixelToGrid({x: this.active[element].x, y: this.active[element].y});
+
+            //loop through coordinates
             for (var i = 1; i < gameStateChanges[element].length - 1; i++) 
             {
                 if (gameStateChanges[element][i].x === gridPos.x && gameStateChanges[element][i].y === gridPos.y) 

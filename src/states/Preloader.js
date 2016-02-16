@@ -35,7 +35,7 @@ BnB.Preloader.prototype = {
     preload: function() {
         
         //load in Spritesheets
-        this.load.atlasJSONArray('spritesheet', 'images/spritesheet_temp.png', 'images/spritesheet_temp.json');
+        this.load.atlasJSONArray('spritesheet', 'images/spritesheet_temp2.png', 'images/spritesheet_temp2.json');
         this.load.atlasJSONArray('brainy_SpriteSheet', 'images/Brainy_SpriteSheet.png', 'images/Brainy_SpriteSheet.json');
         this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
 
@@ -88,6 +88,7 @@ BnB.Preloader.prototype = {
         this.load.image('brawny','images/spritesheet/brainandbrawn_brawny-b.png');
         this.load.image('block','images/spritesheet/brainandbrawn_block.png');
         this.load.image('alien','images/spritesheet/brainandbrawn_alien-b.png');
+        this.load.image('alienRoller','images/spritesheet/brainandbrawn_alien4.png');
         this.load.image('goalBrainy','images/spritesheet/brainandbrawn_goalBrainy.png');
         this.load.image('goalBrawny','images/spritesheet/brainandbrawn_goalBrawny.png');
         this.load.image('moveable','images/spritesheet/brainandbrawn_slidingBlock.png');
