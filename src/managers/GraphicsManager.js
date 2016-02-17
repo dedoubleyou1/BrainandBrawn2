@@ -16,6 +16,8 @@ Summary: Handles all graphical updates (based on game state changes)
 BnB.GraphicsManager = function(map) {
     this.activeObjs = [];
     this.fixed = [];
+    this.isFinished = true;
+    this.missionSuccess = false;
 
     //Set grid dimensions
     this.gridWidth = map.width;
@@ -24,6 +26,7 @@ BnB.GraphicsManager = function(map) {
     //set up groups to hold SPRITE objects
     // var levelGroup = game.add.group();
     // levelGroup.enableBody = true;
+    this.starLayer = game.add.group();
     this.backgroundGroup = game.add.group(); //floor layer
     this.mainGroup = game.add.group(); //holds everything
     this.mainGroup.enableBody = true;
@@ -32,11 +35,13 @@ BnB.GraphicsManager = function(map) {
     this.convertValues = this.getConvertValues();
     
     //initialize sprites
+    this.starGenerator();
     this.initializeSprites(map);
 
     //used to track 
     this.animationCounter = 0
     this.gravityDirection;
+
 }
 
 /*
@@ -120,13 +125,13 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         //active
         'b':{
           order: 2,
-          image: 'SpriteSheet0000',
+          image: 'SpriteSheet0074',
           'b': {},
           'B': {}
         },
         'B':{
           order: 4,
-          image: 'SpriteSheet0000',
+          image: 'SpriteSheet0074',
           'b': {},
           'B': {}
         },
@@ -409,8 +414,11 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                 //If Brainy or Brawny - set up animations
                 if (activeSpriteType === 'b' || activeSpriteType === 'B') {
                     activeSprite.animations.add('moveRight', Phaser.Animation.generateFrameNames('SpriteSheet', 0, 10, '', 4), 24, false, false);
-                    activeSprite.animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
-                    activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 40, 50, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 10, 20, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
+                    activeSprite.animations.add('beamIn', Phaser.Animation.generateFrameNames('SpriteSheet', 74, 69, '', 4), 24, false, false);
+                    activeSprite.animations.add('beamOut', Phaser.Animation.generateFrameNames('SpriteSheet', 69, 74, '', 4), 24, false, false);
+                    activeSprite.animations.play('beamIn'); 
                 }
             }
 
@@ -524,6 +532,10 @@ BnB.GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
 BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     this.gravityDirection = gameStateChanges.gravity;
 
+    if (gameStateChanges.endState === 'missionSuccess') {
+          this.missionSuccess = true;
+    }
+
     //Callback - called every frame of movement tweens
     var checkGraphicalTriggers = function(gridPosArray, target, type){
         return function() {
@@ -583,6 +595,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
         //If the active element must move at least one cell - animate it
         if (gridDist > 0) {
+            this.isFinished = false;
             //create movement tween
             var moveTween = game.add.tween(activeSprite);
             moveTween.to({x: finalPixelPos.x, y: finalPixelPos.y}, 180, Phaser.Easing.Sinusoidal.In, true);
@@ -607,6 +620,8 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get moveUpdatecallback
             var moveUpdateCallback = checkGraphicalTriggers(gridPosArray, i, element);
+
+            
             
             //set up callback for when moveTween finishes
             moveTween.onComplete.add((function(moveUpdateCallback){
@@ -618,6 +633,8 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //set up callbakc for WHILE tween is playing
             moveTween.onUpdateCallback(moveUpdateCallback, this)
+        } else {
+          activeSprite.animations.play('leanReset'); 
         }
     };
 
@@ -628,6 +645,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   -Sorts graphics Z order
 */
 BnB.GraphicsManager.prototype.refresh = function() {
+    this.starUpdate(this.gravityDirection);
     for (element in this.activeObjs) {
       this.activeObjs[element].sprite.customZ = ((this.activeObjs[element].sprite.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };
@@ -661,12 +679,30 @@ BnB.GraphicsManager.prototype.refresh = function() {
 */
 BnB.GraphicsManager.prototype.areAnimationsFinished = function() {
     if (this.animationCounter === 0) {
-
-      // NEED TO CREATE BETTER PLACE TO CALL THIS, SHAKES EVEN WHEN NOTHING MOVED
       if(BnB.C.ENABLE_SCREEN_SHAKE) this.screenShake(this.gravityDirection);
       this.gravityFinished = undefined;
-
+ 
+      if (this.isFinished) {
         return true;
+      } else {
+        this.isFinished = true;
+        if (this.missionSuccess) {
+          for (var i=0;i<this.activeObjs.length;i++) {
+            if(!this.activeObjs[i].alive) continue;
+
+            if (this.activeObjs[i].type === 'b' || this.activeObjs[i].type === 'B'){
+              this.animationCounter += 1;
+              this.activeObjs[i].sprite.animations.getAnimation('beamOut').onComplete.add(function(){
+                this.animationCounter -= 1;
+              }, this);
+              this.activeObjs[i].sprite.animations.play('beamOut'); 
+            }
+
+          }
+        }
+      }
+
+      
     } else {
         return false;
     }
@@ -709,4 +745,204 @@ BnB.GraphicsManager.prototype.screenShake = function(direction) {
 
     return true
 };
+BnB.GraphicsManager.prototype.starGenerator = function() {
+  var makeCircle = function(size){
+    var circle = game.add.bitmapData(size, size);
+      circle.ctx.beginPath();
+      circle.ctx.arc(size/2, size/2, size/2, 0, 2 * Math.PI, false)
+      circle.ctx.fillStyle = '#ffffff';
+      circle.ctx.fill();
+    return circle;
+  }
+
+  // var emitter = game.add.emitter(game.world.centerX, 0, 400);
+  // this.starLayer.add(emitter);
+
+  // emitter.width = game.world.width;
+  // // emitter.angle = 30; // uncomment to set an angle for the rain.
+
+  // emitter.makeParticles(circle);
+
+  // emitter.minParticleScale = 0.1;
+  // emitter.maxParticleScale = 0.5;
+
+  // emitter.setYSpeed(300, 500);
+  // emitter.setXSpeed(0, 0);
+
+  // emitter.minRotation = 0;
+  // emitter.maxRotation = 0;
+
+  // emitter.start(false, 1600, 5, 0);
+
+    //  This is the sprite that will be drawn to the texture
+    //  Note that we 'make' it, not 'add' it, as we don't want it on the display list
+    this.star = game.make.sprite(0, 0, makeCircle(1));
+    this.star2 = game.make.sprite(0, 0, makeCircle(2));
+    this.star3 = game.make.sprite(0, 0, makeCircle(4));
+
+    this.stars = [];
+
+    //  For this effect we'll create a vertical scrolling starfield with 300 stars split across 3 layers.
+    //  This will use only 3 textures / sprites in total.
+    var texture1 = game.add.renderTexture(game.width, game.height, makeCircle(1));
+    var texture2 = game.add.renderTexture(game.width, game.height, makeCircle(2));
+    var texture3 = game.add.renderTexture(game.width, game.height, makeCircle(4));
+    
+    var tex1 = game.add.sprite(0, 0, texture1);
+    var tex2 = game.add.sprite(0, 0, texture2);
+    var tex3 = game.add.sprite(0, 0, texture3);
+    this.starLayer.add(tex1);
+    this.starLayer.add(tex2);
+    this.starLayer.add(tex3);
+
+    var t = texture1;
+    var s = 2;
+
+    //  100 sprites per layer
+    for (var i = 0; i < 280; i++)
+    {
+        if (i == 160) {
+            //  With each 100 stars we ramp up the speed a little and swap to the next texture
+            s = 4;
+            t = texture2;
+        }
+        else if (i == 240) {
+            s = 6;
+            t = texture3;
+        }
+
+        this.stars.push( { x: game.world.randomX, y: game.world.randomY, speed: s, texture: t });
+    }
+};
+
+BnB.GraphicsManager.prototype.starUpdate = function(direction) {
+    if (typeof direction === 'undefined') {
+      direction = 'up';
+    }
+    var directionVector = BnB.Util.directionLookup[direction];
+    for (var i = 0; i < 280; i++){
+      //  Update the stars position based on its speed
+      this.stars[i].y += directionVector.y * this.stars[i].speed;
+      this.stars[i].x += directionVector.x * this.stars[i].speed;
+
+      if (this.stars[i].y < -32 ) {
+          //  Off the bottom of the screen? Then wrap around to the top
+          this.stars[i].x = game.world.randomX;
+          this.stars[i].y = game.height + 32;
+      } else if (this.stars[i].y > game.height + 32 ) {
+          //  Off the bottom of the screen? Then wrap around to the top
+          this.stars[i].x = game.world.randomX;
+          this.stars[i].y = -32;
+      } else if (this.stars[i].x < -32 ) {
+          //  Off the bottom of the screen? Then wrap around to the top
+          this.stars[i].y = game.world.randomY;
+          this.stars[i].x = game.width + 32;
+      } else if (this.stars[i].x > game.width + 32 ) {
+          //  Off the bottom of the screen? Then wrap around to the top
+          this.stars[i].y = game.world.randomX;
+          this.stars[i].x = -32;
+      }
+
+      if (i == 0) {
+          //  If it's the first star of the layer then we clear the texture
+          this.stars[i].texture.renderXY(this.star, this.stars[i].x, this.stars[i].y, true);
+      } else if (i == 160) {
+          //  If it's the first star of the layer then we clear the texture
+          this.stars[i].texture.renderXY(this.star2, this.stars[i].x, this.stars[i].y, true);
+      } else if (i == 240) {
+          //  If it's the first star of the layer then we clear the texture
+          this.stars[i].texture.renderXY(this.star3, this.stars[i].x, this.stars[i].y, true);
+      }
+      else {
+          //  Otherwise just draw the star sprite where we need it
+          if (i < 160) {
+              this.stars[i].texture.renderXY(this.star, this.stars[i].x, this.stars[i].y, false);
+          } else if (i < 240) {
+              this.stars[i].texture.renderXY(this.star2, this.stars[i].x, this.stars[i].y, false);
+          } else {
+              this.stars[i].texture.renderXY(this.star3, this.stars[i].x, this.stars[i].y, false);
+          }
+      }
+    }
+};
+
+
+BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
+
+    amount = Math.abs(amount * 10);
+    if (amount === 0) {
+      amount = 1;
+    }
+    //adjusts the amount to be a value between 0 and 1
+    var normalizedAmount = 1 - (amount/Math.pow(amount, 2));
+    if (normalizedAmount < 0) {
+      normalizedAmount = 0
+    }
+
+    var activeSprite;
+    var element;
+
+    for (var i=0;i<this.activeObjs.length;i++) {
+        if(!this.activeObjs[i].alive) continue;
+
+        activeSprite = this.activeObjs[i].sprite;
+        element = this.activeObjs[i].type;
+
+        if (element === 'b' || element === 'B'){
+            if (direction === 'right') {
+                activeSprite.scale.x = Math.abs(activeSprite.scale.x); //Reset flip
+                activeSprite.animations.frame = 30 + Math.floor(normalizedAmount * 12);
+                activeSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 30, '', 4),
+                  24,
+                  false,
+                  false
+                );
+            } else if (direction === 'left'){
+                activeSprite.scale.x = -1 * Math.abs(activeSprite.scale.x); //Flip animation
+                activeSprite.animations.frame = 30 + Math.floor(normalizedAmount * 12);
+                activeSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 30, '', 4),
+                  24,
+                  false,
+                  false
+                );
+            } else if (direction === 'down'){
+                activeSprite.animations.frame = 43 + Math.floor(normalizedAmount * 12); 
+                activeSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 43 + Math.floor(normalizedAmount * 12), 43, '', 4),
+                  24,
+                  false,
+                  false
+                );
+            } else if (direction === 'up'){
+                activeSprite.animations.frame = 56 + Math.floor(normalizedAmount * 12);
+                activeSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 56 + Math.floor(normalizedAmount * 12), 56, '', 4),
+                  24,
+                  false,
+                  false
+                );
+            }
+        }
+
+    }
+
+}
+BnB.GraphicsManager.prototype.resetLeaning = function() {
+
+    for (var i=0;i<this.activeObjs.length;i++) {
+        if(!this.activeObjs[i].alive) continue;
+
+        if (this.activeObjs[i].type === 'b' || this.activeObjs[i].type === 'B'){
+            this.activeObjs[i].sprite.animations.play('leanReset'); 
+        }
+
+    }
+
+}
                   
