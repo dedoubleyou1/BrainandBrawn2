@@ -35,7 +35,9 @@ BnB.GraphicsManager = function(map) {
     this.convertValues = this.getConvertValues();
     
     //initialize sprites
-    this.starGenerator();
+    if (BnB.C.ENABLE_STARS) {
+      this.starGenerator();
+    }
     this.initializeSprites(map);
 
     //used to track 
@@ -661,7 +663,9 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   -Sorts graphics Z order
 */
 BnB.GraphicsManager.prototype.refresh = function() {
-    this.starUpdate(this.gravityDirection);
+    if (BnB.C.ENABLE_STARS) {
+      this.starUpdate(this.gravityDirection);
+    }
     for (element in this.activeObjs) {
       this.activeObjs[element].sprite.customZ = ((this.activeObjs[element].sprite.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
     };

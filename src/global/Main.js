@@ -33,6 +33,7 @@ BnB.C = {
     BOUNDARY_DEATH: true,
 
     //Visuals
+    ENABLE_STARS: false,
     SWIPING_OFFSET: false,
     SWIPING_LEANING: true,
     ENABLE_SCREEN_SHAKE: true,
