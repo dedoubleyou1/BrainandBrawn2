@@ -21,8 +21,6 @@ game.state.add('Boot', BnB.Boot);
 game.state.add('Preloader', BnB.Preloader);
 game.state.add('TitleScreen', BnB.TitleScreen);
 game.state.add('MainMenu', BnB.MainMenu);
-game.state.add('OptionsMenu', BnB.OptionsMenu);
-game.state.add('AboutMenu', BnB.AboutMenu);
 game.state.add('LevelSelect', BnB.LevelSelect);
 game.state.add('LevelBuilder', BnB.LevelBuilder);
 game.state.add('Level',BnB.Level);
