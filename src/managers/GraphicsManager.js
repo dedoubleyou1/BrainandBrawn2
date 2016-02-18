@@ -699,12 +699,11 @@ BnB.GraphicsManager.prototype.refresh = function() {
 */
 BnB.GraphicsManager.prototype.areAnimationsFinished = function() {
     if (this.animationCounter === 0) {
-      if(BnB.C.ENABLE_SCREEN_SHAKE) this.screenShake(this.gravityDirection);
-      this.gravityFinished = undefined;
- 
       if (this.isFinished) {
+        this.gravityFinished = undefined;
         return true;
       } else {
+        if(BnB.C.ENABLE_SCREEN_SHAKE) this.screenShake(this.gravityDirection);
         this.isFinished = true;
         if (this.missionSuccess) {
           for (var i=0;i<this.activeObjs.length;i++) {
@@ -748,11 +747,15 @@ BnB.GraphicsManager.prototype.screenShake = function(direction) {
 
     this.mainGroup.x += animateProperties.x;
     this.mainGroup.y += animateProperties.y;
+    this.backgroundGroup.x += animateProperties.x;
+    this.backgroundGroup.y += animateProperties.y;
 
     var callback = (function(animateProperties){
       return function () {
         this.mainGroup.x -= animateProperties.x;
         this.mainGroup.y -= animateProperties.y;
+        this.backgroundGroup.x -= animateProperties.x;
+        this.backgroundGroup.y -= animateProperties.y;
       }
     })(animateProperties).bind(this);
 
