@@ -30,11 +30,18 @@ BnB.Level.prototype = {
 	*/
 	create: function() {
         BnB.AudioManager.createAudioList([
-            'thunk',
-            'death',
             'finish',
-            'kill',
-            'switch',
+            'thunk',   
+            'shatter', 
+            'brainySpace',
+            'brawnySpace',    
+            'eaten',   
+            'spikey',  
+            'switch1', 
+            'switch2', 
+            'switch3', 
+            'switch4', 
+            'kill',    
         ]);
 
 		//set up level data
@@ -423,7 +430,7 @@ BnB.Level.prototype = {
     }
 		else if(this.tutorialFinished)
 		{
-			BnB.AudioManager.playSound('select');
+			// BnB.AudioManager.playSound('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === BnB.levels.length) {
@@ -440,7 +447,7 @@ BnB.Level.prototype = {
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
-			BnB.AudioManager.playSound('select');
+			// BnB.AudioManager.playSound('select');
 
 			if(BnB.levelType == 'normal')
 			{

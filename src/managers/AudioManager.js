@@ -1,69 +1,29 @@
 BnB.AudioManager = {
     soundAssets: {
-        //OLD
-        // 'select': 'sound/select_2.wav',
-        // 'thunk': 'sound/rs.mp3',
-        // 'death': 'sound/death_2.wav',
-        // 'finish': 'sound/finish_2.wav',
-        // 'kill': 'sound/kill_2.wav',
-        // 'switch': 'sound/switch_2.wav',
+        //music
+        'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
 
+        // 'select': 'sound/SwitchHit4.mp3',
+        'finish': 'sound/finish_2.wav',
+        'thunk': 'sound/rs.mp3', //'sound/Wall Hit 3.mp3',
+        'shatter': 'sound/Block Smash.mp3',
 
+        //death sounds
+        'brainySpace': 'sound/Brainy in Space.mp3',
+        'brawnySpace': 'sound/Brawny in Space.mp3',
+        'eaten': 'sound/AlienEatingv2.mp3',
+        'spikey': 'sound/Metal Spike Wall Hit.mp3',
+
+        //switch sounds
+        'switch1': 'sound/SwitchHit1.mp3',
+        'switch2': 'sound/SwitchHit2.mp3',
+        'switch3': 'sound/SwitchHit3.mp3',
+        'switch4': 'sound/SwitchHit4.mp3',
+
+        'kill': 'sound/Alien Splatted.mp3',
     }, 
 
     soundBank: {},
-
-    init: function()
-    {
-        // if(BnB.buildType == 'test')
-        // {
-            this.soundAssets = {
-                //music
-                'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
-
-                'select': 'sound/SwitchHit4.mp3',
-                'finish': 'sound/SwitchHit1.mp3',
-                'thunk': 'sound/Wall Hit 3.mp3',
-                'shatter': 'sound/Block Smash.mp3',
-
-                //death sounds
-                'brainySpace': 'sound/Brainy in Space.mp3',
-                'brawnySpace': 'sound/Brawny in Space.mp3',
-                'eaten': 'sound/AlienEatingv2.mp3',
-                'spikey': 'sound/Metal Spike Wall Hit.mp3',
-
-                //switch sounds
-                'switch1': 'sound/SwitchHit1.mp3',
-                'switch2': 'sound/SwitchHit2.mp3',
-                'switch3': 'sound/SwitchHit3.mp3',
-                'switch4': 'sound/SwitchHit4.mp3',
-
-                'kill': 'sound/Alien Splatted.mp3',
-            };
-        // }
-        // else
-        // {
-        //     this.soundAssets = {
-        //         'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
-
-        //         'select': 'sound/select_2.wav',
-        //         'thunk': 'sound/rs.mp3',
-                
-        //         'finish': 'sound/finish_2.wav',
-        //         'kill': 'sound/kill_2.wav',
-
-        //         'brainySpace': 'sound/death_2.wav',
-        //         'brawnySpace': 'sound/death_2.wav',
-        //         'eaten': 'sound/death_2.wav',
-        //         'spikey': 'sound/death_2.wav',
-                
-        //         'switch1': 'sound/switch_2.wav',
-        //         'switch2': 'sound/switch_2.wav',
-        //         'switch3': 'sound/switch_2.wav',
-        //         'switch4': 'sound/switch_2.wav',
-        //     };
-        // }
-    },
 
     //pass in preloader state - preload sound assets
     preload: function(preloader)
