@@ -52,12 +52,12 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     var triggers = {
         killSelf: function(position) {
             if(this.fixed[position.y][position.x].type == 'E'){
-                BnB.Util.playSound('kill');
+                BnB.AudioManager.playSound('kill');
             }
             this.fixed[position.y][position.x].sprite.destroy();
         },
         killActive: function(target){
-            BnB.Util.playSound('kill');
+            BnB.AudioManager.playSound('kill');
             this.activeObjs[target].alive = false;
             // this.activeObjs[target].sprite.destroy();
             this.activeObjs[target].sprite.visible = false;
@@ -91,7 +91,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
                 typePeg: typePeg
             };
             return function(position) {
-                BnB.Util.playSound('switch');
+                BnB.AudioManager.playSound('switch');
                 this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
 
                 //get gates
@@ -548,7 +548,6 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get current grid position of sprite
             var gridPos = this.pixelToGrid({x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y});
-            if(type == 'B') console.log(gridPos);
 
             //loop through coordinates
             for (var i = 1; i < gridPosArray.length - 1; i++) 

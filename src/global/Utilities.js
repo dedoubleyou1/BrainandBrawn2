@@ -21,13 +21,6 @@ BnB.Util = {
         game.state.start('Level',true,false,id,saveData);
     },
 
-    //Given a file, play audio
-    playSound: function(snd)
-    {
-        var sound = game.add.audio(snd);
-        sound.play();
-    },
-
     //adds state based on uploaded file
     handleFiles: function(files)
     {   

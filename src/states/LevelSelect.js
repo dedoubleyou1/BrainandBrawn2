@@ -31,7 +31,6 @@ BnB.LevelSelect.prototype = {
 	*/
 	create: function() 
 	{
-
 		var offsetY = 110;
 
 		//Debug/Demo only

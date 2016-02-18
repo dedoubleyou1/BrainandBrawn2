@@ -29,6 +29,14 @@ BnB.Level.prototype = {
 		Initialize HUD and gameplay space
 	*/
 	create: function() {
+        BnB.AudioManager.createAudioList([
+            'thunk',
+            'death',
+            'finish',
+            'kill',
+            'switch',
+        ]);
+
 		//set up level data
         if(BnB.levelType == 'normal')
 		{
@@ -214,7 +222,7 @@ BnB.Level.prototype = {
     //Called when animations finish and a successful move was completed
     onMoveComplete: function()
     {
-        BnB.Util.playSound('thunk');
+        BnB.AudioManager.playSound('thunk');
         
         //update # of moves
         if(this.numMoves<99)this.numMoves++;
@@ -226,7 +234,7 @@ BnB.Level.prototype = {
     checkEndState: function()
     {
         if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnB.spikeDeath) {
-            BnB.Util.playSound('death');
+            BnB.AudioManager.playSound('death');
             BnB.spikeDeath = false;//TEMP HACK
             this.restartLevel();
             return true;
@@ -308,7 +316,7 @@ BnB.Level.prototype = {
 		Draw a "tutorial screen" on top of the game (player taps to continue)
 	*/
 	startTutorial: function() {
-		BnB.Util.playSound('select');
+		BnB.AudioManager.playSound('select');
 		this.fadeOutGraphic = this.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
 	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, game.height);
@@ -330,7 +338,7 @@ BnB.Level.prototype = {
 	{
 		if(this.tutorialFinished) return;
 
-		BnB.Util.playSound('select');
+		BnB.AudioManager.playSound('select');
 
 		this.currentTutorial += 1;
 		this.tutorialImage.destroy();
@@ -352,7 +360,7 @@ BnB.Level.prototype = {
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
-			BnB.Util.playSound('finish');
+			BnB.AudioManager.playSound('finish');
 			this.levelFinished = true;
 			this.inputManager.state = 'waiting';
 
@@ -414,7 +422,7 @@ BnB.Level.prototype = {
     }
 		else if(this.tutorialFinished)
 		{
-			BnB.Util.playSound('select');
+			BnB.AudioManager.playSound('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === BnB.levels.length) {
@@ -431,7 +439,7 @@ BnB.Level.prototype = {
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
-			BnB.Util.playSound('select');
+			BnB.AudioManager.playSound('select');
 
 			if(BnB.levelType == 'normal')
 			{
@@ -450,7 +458,7 @@ BnB.Level.prototype = {
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
-			BnB.Util.playSound('select');
+			BnB.AudioManager.playSound('select');
 
             var pageNum = Math.floor(this.level/BnB.C.LEVELS_PER_PAGE);
 

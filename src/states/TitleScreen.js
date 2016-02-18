@@ -18,6 +18,7 @@ BnB.TitleScreen.prototype = {
 		TEMP: Initialize Level states
 	*/
 	create: function() {
+        BnB.AudioManager.createAudio('select');
 
 		//set up background image
 		var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'imageTitle');
@@ -34,7 +35,7 @@ BnB.TitleScreen.prototype = {
 	*/
 	startGame: function(){
 		if(BnB.buildType == 'test'){
-            BnB.Util.playSound('select');
+            BnB.AudioManager.playSound('select');
             this.state.start('MainMenu');
         }
         else{
