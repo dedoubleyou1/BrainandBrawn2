@@ -554,7 +554,7 @@ BnB.GameLogic.prototype.isPositionClear = function(character, target, x, y) {
 
         //- - - - TEMP HACK - - - -//
         //should be a part of triggers
-        if(BnB.C.SPIKEY_DEATH) BnB.C.BOUNDARY_DEATH = true;
+        if(BnB.C.BOUNDARY_DEATH) BnB.spikeDeath = true;
         //- - - END TEMP HACK - - - //
 
         return false;
@@ -588,7 +588,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
         //purple moving alien
         if(active1 == 'b' || active2 == 'b' || active1 == 'B' || active2 == 'B')
         {
-            BnB.C.SPIKEY_DEATH = true;
+            BnB.spikeDeath = true;
             return true;
         }
     }
@@ -597,7 +597,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
         //green moving alien
         if(active1 == 'b' || active2 == 'b')
         {
-            BnB.C.SPIKEY_DEATH = true;
+            BnB.spikeDeath = true;
             return true;
         }
         else if(active1 == 'B' || active1 == '$')

@@ -10,6 +10,8 @@ var BnB = {
     //mode
     levelType: 'normal',
     buildType: 'normal',//normal, test, demo
+
+    spikeDeath: false,
 };
 
 /*
@@ -27,7 +29,6 @@ BnB.C = {
     STRETCH: 'width',
 
     //Game Variables
-    SPIKEY_DEATH: false,
     BOUNDARY_DEATH: true,
 
     //Visuals
