@@ -30,7 +30,7 @@ BnB.InputManager = function(initialState) {
 		{
 			this.startPoint.x = pointer.clientX;
 			this.startPoint.y = pointer.clientY;
-			if(BnB.C.SWIPING_OFFSET){
+			if(BnB.C.SWIPING_OFFSET || BnB.C.SWIPING_LEANING){
 				this.state = 'swiping';
 			}
 		}
@@ -68,21 +68,24 @@ BnB.InputManager.prototype = {
         if (Math.abs(differences.x) > 15 || Math.abs(differences.y) > 15) {
             if (differences.x < 0 && Math.abs(differences.x) > Math.abs(differences.y)) {
                 this.setDirection('left').call(this);
-                return;
+                return true;
             } else if (differences.x > 0 && Math.abs(differences.x) > Math.abs(differences.y)){
                 this.setDirection('right').call(this);
-                return;
+                return true;
             } else if (differences.y < 0 && Math.abs(differences.y) > Math.abs(differences.x)){
                 this.setDirection('up').call(this);
-                return;
+                return true;
             } else if (differences.y > 0 && Math.abs(differences.y) > Math.abs(differences.x)){
                 this.setDirection('down').call(this);
-                return;
+                return true;
+            } else {
+                this.onUpCallback();
             }
         }
 
         //swipe not good - set state back to 'ready'
-        this.state = 'ready'; 
+        this.state = 'ready';
+        return false; 
     },
 
     /*
@@ -93,4 +96,7 @@ BnB.InputManager.prototype = {
         return {x: (game.input.activePointer.clientX - this.startPoint.x) / BnB.C.WIDTH,
         y: (game.input.activePointer.clientY - this.startPoint.y) / BnB.C.WIDTH};
     },
+    onUpCallback: function(){
+
+    }
 }

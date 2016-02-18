@@ -41,6 +41,7 @@ BnB.Level.prototype = {
 		this.gameLogic = new BnB.GameLogic(this.levelData);
 		this.graphicsManager = new BnB.GraphicsManager(this.levelData);
 		this.inputManager = new BnB.InputManager('waiting');
+		this.inputManager.onUpCallback = this.graphicsManager.resetLeaning.bind(this.graphicsManager);
 		
         //initialize settings
         this.tutorialFinished = false;
@@ -149,7 +150,7 @@ BnB.Level.prototype = {
 		else if (this.inputManager.state === 'swiping') {
             //player is dragging finger
             this.doSwipingOffset();
-		} else if (this.inputManager.state == 'moving') {
+		} else if (this.inputManager.state === 'moving') {
             //player completed a successful swipe
             this.startMoving();
 		}
@@ -165,9 +166,19 @@ BnB.Level.prototype = {
         var swipeOffset = this.inputManager.getSwipingOffset();
         var swipeDirection = BnB.Util.getDirection(swipeOffset);
         if (swipeDirection === 'left' || swipeDirection === 'right') {
-            this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
+        	if (BnB.C.SWIPING_OFFSET) {
+        		this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
+        	}
+        	if (BnB.C.SWIPING_LEANING) {
+        		this.graphicsManager.setLeaning(swipeDirection, swipeOffset.x);
+        	}
         } else if (swipeDirection === 'up' || swipeDirection === 'down') {
-            this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
+            if (BnB.C.SWIPING_OFFSET) {
+        		this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
+        	}
+        	if (BnB.C.SWIPING_LEANING) {
+        		this.graphicsManager.setLeaning(swipeDirection, swipeOffset.y);
+        	}
         }
     },
 
