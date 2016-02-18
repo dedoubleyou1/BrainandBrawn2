@@ -21,8 +21,8 @@ BnB.AudioManager = {
                 //music
                 'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
 
-                'select': 'sound/select_2.wav',
-                'finish': 'sound/finish_2.wav',
+                'select': 'sound/SwitchHit4.mp3',
+                'finish': 'sound/SwitchHit1.mp3',
                 'thunk': 'sound/Wall Hit 3.mp3',
                 'shatter': 'sound/Block Smash.mp3',
 
