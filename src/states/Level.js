@@ -317,7 +317,7 @@ BnB.Level.prototype = {
 		Draw a "tutorial screen" on top of the game (player taps to continue)
 	*/
 	startTutorial: function() {
-		BnB.AudioManager.playSound('select');
+		// BnB.AudioManager.playSound('select');
 		this.fadeOutGraphic = this.add.graphics(0, 0);
 	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
 	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, game.height);
@@ -339,7 +339,7 @@ BnB.Level.prototype = {
 	{
 		if(this.tutorialFinished) return;
 
-		BnB.AudioManager.playSound('select');
+		// BnB.AudioManager.playSound('select');
 
 		this.currentTutorial += 1;
 		this.tutorialImage.destroy();
@@ -459,7 +459,7 @@ BnB.Level.prototype = {
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
-			BnB.AudioManager.playSound('select');
+			// BnB.AudioManager.playSound('select');
 
             var pageNum = Math.floor(this.level/BnB.C.LEVELS_PER_PAGE);
 
