@@ -19,6 +19,7 @@ BnB.Boot.prototype = {
 
         //initialize level status
         BnB.SaveData.init();
+        BnB.AudioManager.init();
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     },

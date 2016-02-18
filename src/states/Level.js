@@ -233,9 +233,10 @@ BnB.Level.prototype = {
     //Based on results - check if we shoudl end the level (good or bad)
     checkEndState: function()
     {
-        if (this.results.endState === 'brainyEaten' || this.results.endState === 'brainyLost' || this.results.endState === 'brawnyLost' || BnB.spikeDeath) {
-            BnB.AudioManager.playSound('death');
-            BnB.spikeDeath = false;//TEMP HACK
+        if (this.results.endState != 'none' && this.results.endState != 'missionSuccess') {
+            //use end state to determine sound effect
+            BnB.AudioManager.playSound(this.results.endState);
+
             this.restartLevel();
             return true;
         } else if (this.results.endState === 'missionSuccess'){

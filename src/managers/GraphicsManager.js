@@ -51,10 +51,14 @@ BnB.GraphicsManager = function(map) {
 BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     var triggers = {
         killSelf: function(position) {
-            if(this.fixed[position.y][position.x].type == 'E'){
+            var self = this.fixed[position.y][position.x];
+            if(self.type == 'E' || self.type == 'm'){
                 BnB.AudioManager.playSound('kill');
             }
-            this.fixed[position.y][position.x].sprite.destroy();
+            else if(self.type == '+'){
+                BnB.AudioManager.playSound('shatter');
+            }
+            self.sprite.destroy();
         },
         killActive: function(target){
             BnB.AudioManager.playSound('kill');
@@ -91,7 +95,20 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
                 typePeg: typePeg
             };
             return function(position) {
-                BnB.AudioManager.playSound('switch');
+                if(typeSelf == '2'){
+                    BnB.AudioManager.playSound('switch1');
+                }
+                else if(typeSelf == '6'){
+                    BnB.AudioManager.playSound('switch2');
+                }
+                else if(typeSelf == '10'){
+                    BnB.AudioManager.playSound('switch3');
+                }
+                else if(typeSelf == '14'){
+                    BnB.AudioManager.playSound('switch4');
+                }
+
+
                 this.fixed[position.y][position.x].sprite.frameName = this.graphicsKeyLookup(typeSelf).image;
 
                 //get gates

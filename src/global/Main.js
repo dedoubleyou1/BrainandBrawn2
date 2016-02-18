@@ -12,6 +12,7 @@ var BnB = {
     buildType: 'normal',//normal, test, demo
 
     spikeDeath: false,
+    boundsDeath: false,
 };
 
 /*

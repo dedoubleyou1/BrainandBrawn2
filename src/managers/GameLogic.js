@@ -134,14 +134,14 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
         //   'm': {isSolid: false}
         // },
         '.':{
-          'b': {isSolid: false, trigger: triggers.killActive('brainyLost')},
-          'B': {isSolid: false, trigger: triggers.killActive('brawnyLost')},
+          'b': {isSolid: false, trigger: triggers.killActive('space')},
+          'B': {isSolid: false, trigger: triggers.killActive('space')},
           '@': {isSolid: false}, 
           '$': {isSolid: false},
           'm': {isSolid: false}      
         },
         'E':{
-          'b': {isSolid: false, trigger: triggers.killActive('brainyEaten')},
+          'b': {isSolid: false, trigger: triggers.killActive('eaten')},
           'B': {isSolid: false, trigger: triggers.killFixed},
           '@': {isSolid: true}, 
           '$': {isSolid: false, trigger: triggers.killFixed},
@@ -315,8 +315,8 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
 
         //spikes (4-way)
         'X':{
-          'b': {isSolid: false, trigger: triggers.killActive('brainyLost')},
-          'B': {isSolid: false, trigger: triggers.killActive('brawnyLost')},
+          'b': {isSolid: false, trigger: triggers.killActive('spikey')},
+          'B': {isSolid: false, trigger: triggers.killActive('spikey')},
           '@': {isSolid: true}, 
           '$': {isSolid: true},
           'm': {isSolid: true} 
@@ -328,36 +328,6 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '@': {isSolid: true}, 
           '$': {isSolid: false, trigger: triggers.killFixed},
         },
-
-        //unused
-        // '^':{
-        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('down','brainyLost')},
-        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('down','brawnyLost')},
-        //   '@': {isSolid: false}, 
-        //   '$': {isSolid: false},
-        //   'm': {isSolid: false} 
-        // },
-        // 'V':{
-        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('up','brainyLost')},
-        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('up','brawnyLost')},
-        //   '@': {isSolid: false}, 
-        //   '$': {isSolid: false},
-        //   'm': {isSolid: false} 
-        // },
-        // '>':{
-        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('left','brainyLost')},
-        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('left','brawnyLost')},
-        //   '@': {isSolid: false}, 
-        //   '$': {isSolid: false},
-        //   'm': {isSolid: false}
-        // },
-        // '<':{
-        //   'b': {isSolid: false, trigger: triggers.killActiveDirectional('right','brainyLost')},
-        //   'B': {isSolid: false, trigger: triggers.killActiveDirectional('right','brawnyLost')},
-        //   '@': {isSolid: false}, 
-        //   '$': {isSolid: false},
-        //   'm': {isSolid: false} 
-        // },
     }
     return keyLookup[key];
 };
@@ -418,23 +388,6 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
         stepResults = this.stepOnce(direction);
 
         if(stepResults.moveSuccess) this.gameStateChanges.moveSuccess = true;
-
-        //If this step triggered and end state, update the game state
-        if (typeof stepResults.endState === 'string' && this.gameStateChanges.endState === 'none') {
-            this.gameStateChanges.endState = stepResults.endState;
-        }
-
-        // //loop through each active char and log state updates
-        // for (var i = this.activeObjects.length - 1; i >= 0; i--) {
-        //     var activeObj = this.activeObjects[i];
-        //     var currentChanges = this.gameStateChanges.activeChanges[i];
-
-        //     if (typeof stepResults[activeObj] != 'undefined' && typeof currentChanges[currentChanges.length - 1] != 'undefined') {
-        //         if (stepResults[activeObj].x != currentChanges[currentChanges.length - 1].x || stepResults[activeObj].y != currentChanges[currentChanges.length - 1].y) {
-        //             this.gameStateChanges[activeObj].push(stepResults[activeObj])          
-        //         }
-        //     }
-        // };
     }
 
     //Add final positions
@@ -554,7 +507,20 @@ BnB.GameLogic.prototype.isPositionClear = function(character, target, x, y) {
 
         //- - - - TEMP HACK - - - -//
         //should be a part of triggers
-        if(BnB.C.BOUNDARY_DEATH) BnB.spikeDeath = true;
+        if(BnB.C.BOUNDARY_DEATH){
+            var end = this.gameStateChanges.endState;
+            if (end == 'none') {
+                if(character == 'b'){
+                    this.gameStateChanges.endState = 'brainySpace';
+                }
+                else if(character == 'B'){
+                    this.gameStateChanges.endState = 'brawnySpace';
+                }
+            }
+            else if(end == 'brawnySpace' || end == 'brainySpace'){
+                this.gameStateChanges.endState = 'bothSpace';
+            }
+        }
         //- - - END TEMP HACK - - - //
 
         return false;
@@ -588,7 +554,9 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
         //purple moving alien
         if(active1 == 'b' || active2 == 'b' || active1 == 'B' || active2 == 'B')
         {
-            BnB.spikeDeath = true;
+            if (this.gameStateChanges.endState === 'none') {
+                this.gameStateChanges.endState = 'spikey';
+            }
             return true;
         }
     }
@@ -597,7 +565,9 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
         //green moving alien
         if(active1 == 'b' || active2 == 'b')
         {
-            BnB.spikeDeath = true;
+            if (this.gameStateChanges.endState === 'none') {
+                this.gameStateChanges.endState = 'eaten';
+            }
             return true;
         }
         else if(active1 == 'B' || active1 == '$')
@@ -666,8 +636,8 @@ BnB.GameLogic.prototype.checkFixedTriggers = function(direction,stepResults) {
             //Call trigger function + setup results
             results = trigger.call(this, {x: x, y: y});
             
-            if (typeof results === 'string') {
-                stepResults.endState = results;
+            if (typeof results === 'string' && this.gameStateChanges.endState === 'none') {
+                this.gameStateChanges.endState = results;
             }
 
             //update game state changes
@@ -679,40 +649,6 @@ BnB.GameLogic.prototype.checkFixedTriggers = function(direction,stepResults) {
             this.gameStateChanges.activeChanges[i].push(newGridPos);
         }
     }
-
-
-    // var active;
-    // var fixed;
-    // var results;
-    // for (var y = 0; y < this.gameplayMap.height; y++) 
-    // {
-    //     for (var x = 0; x < this.gameplayMap.width; x++) 
-    //     {
-    //         //Get overlapping active + fixed objects at this gridPos
-    //         active = this.gameplayMap.active[y][x];
-    //         fixed = this.gameplayMap.fixed[y][x]
-
-    //         if (active != ' ') 
-    //         {
-    //             //get trigger for this collision
-    //             var trigger = this.mapKeyLookup(fixed,direction)[active].trigger;
-    //             if (typeof trigger === 'function') 
-    //             {
-    //                 //Call trigger function + setup results
-    //                 results = trigger.call(this, {x: x, y: y});
-                    
-    //                 if (typeof results === 'string') {
-    //                     stepResults.endState = results;
-    //                 }
-    //                 stepResults[active] = {
-    //                     x: x,
-    //                     y: y,
-    //                     eventType: fixed
-    //                 };
-    //             }
-    //         }
-    //     }
-    // }
 }
 
 BnB.GameLogic.prototype.getActiveObjectAtGridPos = function(gridX,gridY)
