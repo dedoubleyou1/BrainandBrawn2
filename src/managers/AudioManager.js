@@ -86,11 +86,14 @@ BnB.AudioManager = {
         }
     },
 
-    createAudio: function(key)
+    createAudio: function(key, isLooped)
     {
+        if (typeof isLooped === 'undefined') {
+            isLooped = false
+        }
         if(this.soundAssets.hasOwnProperty(key))
         {
-            var snd = game.add.audio(key);
+            var snd = game.add.audio(key, 1, isLooped);
             this.soundBank[key] = snd;
             return true;
         }
@@ -98,7 +101,7 @@ BnB.AudioManager = {
     },
 
     //given a key, attempt to play a sound
-    playSound: function(key)
+    playSound: function(key, isLooped)
     {
         if(key == 'bothSpace'){
             //SPECIAL case
@@ -113,7 +116,7 @@ BnB.AudioManager = {
         else
         {
             //oops! create and play
-            if(this.createAudio(key))
+            if(this.createAudio(key, isLooped))
             {
                 this.playSoundDirect(key);
             }     

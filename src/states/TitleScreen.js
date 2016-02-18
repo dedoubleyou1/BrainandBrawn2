@@ -18,7 +18,8 @@ BnB.TitleScreen.prototype = {
 		TEMP: Initialize Level states
 	*/
 	create: function() {
-        BnB.AudioManager.createAudio('select','gameplayMusic');
+		BnB.AudioManager.createAudio('select');
+        BnB.AudioManager.createAudio('gameplayMusic', true);
 
 		//set up background image
 		var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'imageTitle');
