@@ -62,7 +62,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
             }
             self.sprite.destroy();
         },
-        killActive: function(target){
+        killActiveTarget: function(target){
             BnB.AudioManager.playSound('kill');
             this.activeObjs[target].alive = false;
             // this.activeObjs[target].sprite.destroy();
@@ -146,20 +146,23 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           order: 2,
           image: 'SpriteSheet0074',
           'b': {},
-          'B': {}
+          'B': {},
+          '$': triggers.killActiveTarget
         },
         'B':{
           order: 4,
           image: 'SpriteSheet0074',
           'b': {},
-          'B': {}
+          'B': {},
+          'm': triggers.killActiveTarget,
+          '$': triggers.killActiveTarget
         },
         'm':{
           order: 3,
           image: 'brainandbrawn_alien4',
           'b': {},
-          'B': triggers.killActive,
-          '$': triggers.killActive
+          'B': triggers.killActiveTarget,
+          '$': triggers.killActiveTarget
         },
         '@':{
           order: 3,
@@ -171,7 +174,8 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           order: 0,
           image: 'brainandbrawn_alien3',
           'b': {},
-          'B': {}
+          'B': {},
+          'm': triggers.killActiveTarget,
         },
 
 
@@ -567,17 +571,19 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get current grid position of sprite
             var gridPos = this.pixelToGrid({x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y});
+            if(type == 'm') console.log(gridPos);
+            if(gridPos.y == 7) debugger;
 
             //loop through coordinates
-            for (var i = 1; i < gridPosArray.length - 1; i++) 
+            for (var i = 1; i < gridPosArray.length-1; i++) 
             {
                 if (gridPosArray[i].x === gridPos.x && gridPosArray[i].y === gridPos.y) 
                 {
                     //get graphical trigger and call it
                     var trigger = this.graphicsKeyLookup(gridPosArray[i].eventType)[type];
                     if (typeof trigger === 'function') {
-                        if(typeof gridPosArray[i].target != 'undefined'){
-                            results = trigger.call(this, gridPosArray[i].target);
+                        if(typeof gridPosArray[i].killTarget != 'undefined'){
+                            results = trigger.call(this, gridPosArray[i].killTarget);
                         }
                         else{
                             results = trigger.call(this, {x: gridPos.x, y: gridPos.y});

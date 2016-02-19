@@ -549,16 +549,13 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
 {
     //- - - - TEMP HACK - - - -//
     //TODO: work this functionality into TRIGGERS
-    if(active1 == '$' || active2 == '$')
+    if((active1 == '$' || active2 == '$') && (active1 == 'b' || active2 == 'b' || active1 == 'B' || active2 == 'B'))
     {
         //purple moving alien
-        if(active1 == 'b' || active2 == 'b' || active1 == 'B' || active2 == 'B')
-        {
-            if (this.gameStateChanges.endState === 'none') {
-                this.gameStateChanges.endState = 'spikey';
-            }
-            return true;
+        if (this.gameStateChanges.endState === 'none') {
+            this.gameStateChanges.endState = 'spikey';
         }
+        return true;
     }
     else if(active1 == 'm' || active2 == 'm')
     {
@@ -579,28 +576,28 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
             this.gameStateChanges.activeChanges[active2Index].push({x,y});
             this.killActiveObj(active2Index);
 
-            //update game state changes
+            //add "kill" event for killer
             this.gameStateChanges.activeChanges[active1Index].push({
                 x: x,
                 y: y,
                 eventType: active2,
-                target: active2Index,
+                killTarget: active2Index,
             });
             
             return true;
         }
         else if(active2 == 'B' || active2 == '$'){
-            //add "kill" event to killer
-            var active2Index = this.getActiveObjectAtGridPos(x,y);
-            this.gameStateChanges.activeChanges[active2Index].push({
+            //add "kill" event to killed
+            this.gameStateChanges.activeChanges[active1Index].push({
                 x: x,
                 y: y,
-                eventType: active1,
-                target: active1Index,
+                eventType: active2,
+                killTarget: active1Index,
             });
 
-            //add final position for killed
+            //push final coordinates a second time
             this.gameStateChanges.activeChanges[active1Index].push({x,y});
+
             this.killActiveObj(active1Index);
 
             return false;
