@@ -49,29 +49,32 @@ BnB.Level.prototype = {
 		{
 			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
 		}
-		this.width = this.levelData.width;
-		this.height = this.levelData.length;
+		this.gridWidth = this.levelData.width;
+		this.gridHeight = this.levelData.length;
+
+        //initialize settings
+        this.tutorialFinished = false;
+        this.levelFinished = false;
+        this.numMoves = 0;
+
+        //set STAR levels
+        this.currentStarLevel = 3;
+        this.starLevels = [20,10];//defult
+        if(typeof this.levelData.starLevels != 'undefined'){
+            this.starLevels = this.levelData.starLevels;
+        }
 
         //set up managers
 		this.gameLogic = new BnB.GameLogic(this.levelData);
 		this.graphicsManager = new BnB.GraphicsManager(this.levelData);
 		this.inputManager = new BnB.InputManager('waiting');
 		this.inputManager.onUpCallback = this.graphicsManager.resetLeaning.bind(this.graphicsManager);
-		
-        //initialize settings
-        this.tutorialFinished = false;
-		this.levelFinished = false;
-		this.numMoves = 0;
-
-		//set STAR levels
-		this.currentStarLevel = 3;
-      	this.starLevels = [20,10];//defult
-      	if(typeof this.levelData.starLevels != 'undefined'){
-      		this.starLevels = this.levelData.starLevels;
-      	}
 
 		//Set up the HUD
 		this.setUpHUD();
+
+        //set up HUD elements for screens
+        this.initializeScreens();
 
       	//TEMP: support level builder entry
       	if(BnB.levelType == 'builder') this.enableBuilderMode();
@@ -122,9 +125,47 @@ BnB.Level.prototype = {
         this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
         this.menuButtonBig.alpha = 0;
 
+        this.settingsButton = this.add.image(BnB.C.WIDTH-80,BnB.C.HEIGHT-80,'settingsButton');
+        this.settingsButton.scale.setTo(0.3);
+        this.settingsButton.inputEnabled = true;
+        this.settingsButton.events.onInputDown.add(this.showSettings,this);
+
+        //Create HUD elements for SETTINGS screen (and hide)
+        
+
         this.starsHUD = this.add.group();   
         this.updateStars(3);
     },
+
+    initializeScreens: function()
+    {  
+        //Add graphics filter (over game, behind HUD)
+        this.fadeOutGraphic = this.add.graphics(0, 0);
+        this.fadeOutGraphic.clear(); //move to state clear function
+        this.fadeOutGraphic.beginFill(0x000000, 0.8);
+        this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, BnB.C.HEIGHT);
+        this.fadeOutGraphic.endFill();
+        this.fadeOutGraphic.visible = false;
+
+        //continue button
+        this.continueButton = this.add.image(300,600,'pButton');
+        this.continueButton.scale.setTo(2.5,2.5);
+        this.continueButton.inputEnabled = true;
+        this.continueButton.events.onInputDown.add(this.hideSettings,this);
+        this.continueButton.visible = false;
+
+        //Credits
+        var creditsX = 250;
+        var creditsY = 400;
+        var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
+        this.creditsGroup = this.add.group();
+        this.creditsGroup.add(this.add.text(creditsX,creditsY,"CREDITS:",myFont));
+        this.creditsGroup.add(this.add.text(creditsX,creditsY,"Rohit Crasta",myFont));
+        this.creditsGroup.add(this.add.text(creditsX,creditsY+40,"David Wallin",myFont));
+        this.creditsGroup.add(this.add.text(creditsX,creditsY+80,"Michael Hoffman",myFont));
+        this.creditsGroup.visible = false;
+    },
+
 
     /*
         This is a test level accesed from the BUILDER
@@ -156,7 +197,7 @@ BnB.Level.prototype = {
 		Control the game using a system of flags
 	*/
 	update: function() {
-		//refresh graphics
+        //refresh graphics
         this.graphicsManager.refresh();
 
         if(this.inputManager.state == 'ready'){
@@ -206,6 +247,10 @@ BnB.Level.prototype = {
 
         //update graphics based on the results
         this.graphicsManager.updateGraphics(this.results);
+        
+        //disable settings button
+        // this.settingsButton.alpha = 0.8; //Too distracting!
+        this.settingsButton.inputEnabled = false;
 
         //WAIT for movement to finish
         this.inputManager.state = 'waiting';
@@ -221,6 +266,10 @@ BnB.Level.prototype = {
 
         //check for the END state (possible without a successful move?)
         if(!this.checkEndState()){
+            //disable settings button
+            this.settingsButton.alpha = 1;
+            this.settingsButton.inputEnabled = true;
+
             //Ready for more input!
             this.inputManager.state = 'ready';
         }
@@ -325,10 +374,7 @@ BnB.Level.prototype = {
 	*/
 	startTutorial: function() {
 		// BnB.AudioManager.playSound('select');
-		this.fadeOutGraphic = this.add.graphics(0, 0);
-	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, game.height);
-	    this.fadeOutGraphic.endFill();
+		this.fadeOutGraphic.visible = true;
     
 		this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
@@ -370,7 +416,7 @@ BnB.Level.prototype = {
 		if(this.tutorialFinished){
 			BnB.AudioManager.playSound('finish');
 			this.levelFinished = true;
-			this.inputManager.state = 'waiting';
+			this.inputManager.state = 'finished';
 
 			//Save stars
 			if(this.currentStarLevel > BnB.SaveData.levelStatus[this.level]){
@@ -385,10 +431,8 @@ BnB.Level.prototype = {
 				}
 			}
 
-			this.fadeOutGraphic = this.add.graphics(0, 0);
-    	   	this.fadeOutGraphic.beginFill(0x000000, 0.8);
-    	    this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, BnB.C.HEIGHT);
-    	    this.fadeOutGraphic.endFill();
+			//show background filter
+            this.fadeOutGraphic.visible = true;
 
     	    this.victoryImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 3, ('star'+this.currentStarLevel));
 			this.victoryImage.anchor = {x: 0.5, y: 0.5};
@@ -407,10 +451,31 @@ BnB.Level.prototype = {
 			this.playButton = this.add.image(400,600,'pButton');
 			this.playButton.scale.setTo(2.5,2.5);
 			this.playButton.inputEnabled = true;
-  		this.playButton.events.onInputDown.add(this.nextLevel,this);
+  		    this.playButton.events.onInputDown.add(this.nextLevel,this);
 			this.newGroup.add(this.playButton);
 		}
 	},
+
+    showSettings: function()
+    {
+        this.inputManager.state = 'none';
+
+        //show elements
+        this.fadeOutGraphic.visible = true;
+        this.continueButton.visible = true;
+        this.creditsGroup.visible = true;
+    },
+
+    hideSettings: function()
+    {
+        this.inputManager.state = 'ready';
+
+        //hide elements
+        this.fadeOutGraphic.visible = false;
+        this.continueButton.visible = false;
+        this.creditsGroup.visible = false;
+    },
+
 
 
 

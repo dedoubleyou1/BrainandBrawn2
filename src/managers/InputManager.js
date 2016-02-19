@@ -37,7 +37,7 @@ BnB.InputManager = function(initialState) {
 	}, this);
 
 	game.input.onUp.add(function(pointer) {
-			this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
+		this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
 	}, this);
 };
 
@@ -98,5 +98,5 @@ BnB.InputManager.prototype = {
     },
     onUpCallback: function(){
 
-    }
+    },
 }

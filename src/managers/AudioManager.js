@@ -23,6 +23,7 @@ BnB.AudioManager = {
         'kill': 'sound/Alien Splatted.mp3',
     }, 
 
+    //collection of ADDED audio (filled dynamically)
     soundBank: {},
 
     //pass in preloader state - preload sound assets
@@ -46,6 +47,7 @@ BnB.AudioManager = {
         }
     },
 
+    //add an audio track
     createAudio: function(key, isLooped)
     {
         if (typeof isLooped === 'undefined') {
@@ -83,9 +85,10 @@ BnB.AudioManager = {
         }
     },
 
+    //screw the rules - just play the sound!
     playSoundDirect: function(key)
     {
         this.soundBank[key].play();
-    }
+    },
 
 };

@@ -9,9 +9,6 @@ BnB.Victory.prototype = {
 	*/
 	create: function()
 	{
-		var myFont = { font: "50px Quicksand", fill: "#ffffff", align: "center"}
-        this.add.text(BnB.C.WIDTH/2,0,"MISSION COMPLETE",myFont);
-
         //Victory image
         var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'victory');
         background.anchor = {x: 0.5, y: 0.5};
