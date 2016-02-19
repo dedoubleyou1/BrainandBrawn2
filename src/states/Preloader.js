@@ -68,6 +68,7 @@ BnB.Preloader.prototype = {
         this.load.image('mButton', 'images/menu-button-02.png');
         // this.load.image('imageTitle','images/titlescreen-01.png');
         this.load.image('imageTitle','images/titlescreen-03.png');
+        this.load.image('victory','images/missionSuccess.png');
         this.load.image('star','images/star.png');
         this.load.image('star1','images/star1.png');
         this.load.image('star2','images/star2.png');

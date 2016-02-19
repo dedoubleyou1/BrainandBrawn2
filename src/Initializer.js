@@ -20,6 +20,7 @@ var game = new Phaser.Game(BnB.C.WIDTH, height); //Stretch height to fill device
 game.state.add('Boot', BnB.Boot);
 game.state.add('Preloader', BnB.Preloader);
 game.state.add('TitleScreen', BnB.TitleScreen);
+game.state.add('Victory', BnB.Victory);
 game.state.add('MainMenu', BnB.MainMenu);
 game.state.add('LevelSelect', BnB.LevelSelect);
 game.state.add('LevelBuilder', BnB.LevelBuilder);
