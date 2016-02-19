@@ -4,15 +4,57 @@
 <head>
     <meta charset="utf-8" />
     <title>Brain and Brawn</title>
+    <style>
+        body {
+            margin: auto;
+            background: #444;
+
+            @font-face {
+              font-family: "Quicksand:700:latin";
+              src: url('fonts/Quicksand-700/Quicksand-700.eot');
+              src: url('fonts/Quicksand-700/Quicksand-700.eot?#iefix') format('embedded-opentype'), 
+              url('fonts/Quicksand-700/Quicksand-700.woff2') format('woff'), 
+              url('fonts/Quicksand-700/Quicksand-700.ttf') format('truetype'), 
+              url('fonts/Quicksand-700/Quicksand-700.svg#open_sanslight') format('svg');
+              font-weight: normal;
+              font-style: normal;
+            }
+        }
+    </style>
+    
+    <script type="text/javascript" src="phaser.min.js"></script>
+
+    <!-- Core -->
+    <script type="text/javascript" src="src/global/Main.js"></script>
+    <script type="text/javascript" src="src/states/Boot.js"></script>
+    
+    <!-- Helpers -->
+    <script type="text/javascript" src="src/global/Utilities.js"></script>
+    <script type="text/javascript" src="src/global/SaveData.js"></script>
+    <script type="text/javascript" src="src/managers/AudioManager.js"></script>
+    
+    <!-- Managers -->
+    <script type="text/javascript" src="src/managers/GameLogic.js"></script>
+    <script type="text/javascript" src="src/managers/GraphicsManager.js"></script>
+    <script type="text/javascript" src="src/managers/InputManager.js"></script>
+
+    <!-- Menu States -->
+    <script type="text/javascript" src="src/states/MainMenu.js"></script>
+    <script type="text/javascript" src="src/states/AdjustMenu.js"></script>
+
+    <!-- State Files -->
+    <script type="text/javascript" src="src/states/Preloader.js"></script>
+    <script type="text/javascript" src="src/states/TitleScreen.js"></script>
+    <script type="text/javascript" src="src/states/LevelSelect.js"></script>
+    <script type="text/javascript" src="src/states/LevelBuilder.js"></script>
+    <script type="text/javascript" src="src/states/Level.js"></script>
 </head>
 
 <body>
-    <h3>Choose Build Type:</h3>
-    <ul>
-        <li><a href="main.html">Main</a></li>
-        <li><a href="demo.html">Demo</a></li>
-        <li><a href="test.html">Test</a></li>
-    </ul>
+    <script type="text/javascript">
+        BnB.buildType = "test";
+    </script>
+    <script type="text/javascript" src="src/Initializer.js"></script>
 </body>
 
 </html>
