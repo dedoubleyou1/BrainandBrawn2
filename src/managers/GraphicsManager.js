@@ -55,15 +55,15 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         killSelf: function(position) {
             var self = this.fixed[position.y][position.x];
             if(self.type == 'E' || self.type == 'm'){
-                BnB.AudioManager.playSound('kill');
+                BnB.AudioManager.playSFX('kill');
             }
             else if(self.type == '+'){
-                BnB.AudioManager.playSound('shatter');
+                BnB.AudioManager.playSFX('shatter');
             }
             self.sprite.destroy();
         },
         killActiveTarget: function(target){
-            BnB.AudioManager.playSound('kill');
+            BnB.AudioManager.playSFX('kill');
             this.activeObjs[target].alive = false;
             // this.activeObjs[target].sprite.destroy();
             this.activeObjs[target].sprite.visible = false;
@@ -98,16 +98,16 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
             };
             return function(position) {
                 if(typeSelf == '2'){
-                    BnB.AudioManager.playSound('switch1');
+                    BnB.AudioManager.playSFX('switch1');
                 }
                 else if(typeSelf == '6'){
-                    BnB.AudioManager.playSound('switch2');
+                    BnB.AudioManager.playSFX('switch2');
                 }
                 else if(typeSelf == '10'){
-                    BnB.AudioManager.playSound('switch3');
+                    BnB.AudioManager.playSFX('switch3');
                 }
                 else if(typeSelf == '14'){
-                    BnB.AudioManager.playSound('switch4');
+                    BnB.AudioManager.playSFX('switch4');
                 }
 
 

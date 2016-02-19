@@ -34,9 +34,9 @@ BnB.TitleScreen.prototype = {
 		onTap - start the game!
 	*/
 	startGame: function(){
-        BnB.AudioManager.playSound('gameplayMusic');
+        BnB.AudioManager.playMusic('gameplayMusic');
 		if(BnB.buildType == 'test'){
-            // BnB.AudioManager.playSound('select');
+            // BnB.AudioManager.playSFX('select');
             this.state.start('MainMenu');
         }
         else{

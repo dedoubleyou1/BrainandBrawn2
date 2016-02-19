@@ -1,4 +1,9 @@
 BnB.AudioManager = {
+    allowMusic: true,
+    allowSFX: true,
+
+    currentMusic: 'gameplayMusic',//TEMP 
+
     soundAssets: {
         //music
         'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
@@ -38,6 +43,28 @@ BnB.AudioManager = {
         }
     },
 
+    toggleMusic: function()
+    {
+        this.allowMusic = !this.allowMusic;
+
+        //TODO: pause/resume music
+        if(this.soundBank.hasOwnProperty(this.currentMusic)){
+            if(this.allowMusic){
+                this.soundBank[this.currentMusic].resume();
+            }
+            else{
+                this.soundBank[this.currentMusic].pause();
+            }
+        }
+    },
+
+    toggleSFX: function()
+    {
+        this.allowSFX = !this.allowSFX;
+
+        //TODO: stop sfx
+    },
+
     //given a list of keys, add audio to game
     createAudioList: function(keyList)
     {
@@ -62,7 +89,19 @@ BnB.AudioManager = {
         return false
     },
 
-    //given a key, attempt to play a sound
+    playMusic: function(key,isLooped)
+    {
+        if(!this.allowMusic) return;
+        this.playSound(key,isLooped);
+    },
+
+    playSFX: function(key,isLooped)
+    {
+        if(!this.allowSFX) return;
+        this.playSound(key,isLooped);
+    },
+
+    //INTERNAL - given a key, attempt to play a sound
     playSound: function(key, isLooped)
     {
         if(key == 'bothSpace'){

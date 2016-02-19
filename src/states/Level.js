@@ -139,6 +139,8 @@ BnB.Level.prototype = {
 
     initializeScreens: function()
     {  
+        var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"};
+
         //Add graphics filter (over game, behind HUD)
         this.fadeOutGraphic = this.add.graphics(0, 0);
         this.fadeOutGraphic.clear(); //move to state clear function
@@ -147,23 +149,44 @@ BnB.Level.prototype = {
         this.fadeOutGraphic.endFill();
         this.fadeOutGraphic.visible = false;
 
+        //Audio toggles
+
+        this.toggleMusicText = this.add.text(250,100,"Music: On",myFont);
+        this.toggleMusicText.inputEnabled = true;
+        this.toggleMusicText.events.onInputDown.add(function(){
+            BnB.AudioManager.toggleMusic();
+            this.updateToggleStrings();
+        },this)
+
+        this.toggleSFXText = this.add.text(250,150,"SFX: On",myFont);
+        this.toggleSFXText.inputEnabled = true;
+        this.toggleSFXText.events.onInputDown.add(function(){
+            BnB.AudioManager.toggleSFX();
+            this.updateToggleStrings();
+        },this)
+
+        this.toggleGroup = this.add.group();
+        this.toggleGroup.add(this.toggleMusicText);
+        this.toggleGroup.add(this.toggleSFXText);
+        this.toggleGroup.visible = false;
+        this.updateToggleStrings();//set initial properties
+
+        //Credits
+        var creditsX = 250;
+        var creditsY = 400;
+        this.creditsGroup = this.add.group();
+        this.creditsGroup.add(this.add.text(creditsX,creditsY,"CREDITS:",myFont));
+        this.creditsGroup.add(this.add.text(creditsX,creditsY+40,"Rohit Crasta",myFont));
+        this.creditsGroup.add(this.add.text(creditsX,creditsY+80,"David Wallin",myFont));
+        this.creditsGroup.add(this.add.text(creditsX,creditsY+120,"Michael Hoffman",myFont));
+        this.creditsGroup.visible = false;
+
         //continue button
         this.continueButton = this.add.image(300,600,'pButton');
         this.continueButton.scale.setTo(2.5,2.5);
         this.continueButton.inputEnabled = true;
         this.continueButton.events.onInputDown.add(this.hideSettings,this);
         this.continueButton.visible = false;
-
-        //Credits
-        var creditsX = 250;
-        var creditsY = 400;
-        var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-        this.creditsGroup = this.add.group();
-        this.creditsGroup.add(this.add.text(creditsX,creditsY,"CREDITS:",myFont));
-        this.creditsGroup.add(this.add.text(creditsX,creditsY,"Rohit Crasta",myFont));
-        this.creditsGroup.add(this.add.text(creditsX,creditsY+40,"David Wallin",myFont));
-        this.creditsGroup.add(this.add.text(creditsX,creditsY+80,"Michael Hoffman",myFont));
-        this.creditsGroup.visible = false;
     },
 
 
@@ -278,7 +301,7 @@ BnB.Level.prototype = {
     //Called when animations finish and a successful move was completed
     onMoveComplete: function()
     {
-        BnB.AudioManager.playSound('thunk');
+        BnB.AudioManager.playSFX('thunk');
         
         //update # of moves
         if(this.numMoves<99)this.numMoves++;
@@ -291,7 +314,7 @@ BnB.Level.prototype = {
     {
         if (this.results.endState != 'none' && this.results.endState != 'missionSuccess') {
             //use end state to determine sound effect
-            BnB.AudioManager.playSound(this.results.endState);
+            BnB.AudioManager.playSFX(this.results.endState);
 
             this.restartLevel();
             return true;
@@ -373,7 +396,7 @@ BnB.Level.prototype = {
 		Draw a "tutorial screen" on top of the game (player taps to continue)
 	*/
 	startTutorial: function() {
-		// BnB.AudioManager.playSound('select');
+		// BnB.AudioManager.playSFX('select');
 		this.fadeOutGraphic.visible = true;
     
 		this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
@@ -392,7 +415,7 @@ BnB.Level.prototype = {
 	{
 		if(this.tutorialFinished) return;
 
-		// BnB.AudioManager.playSound('select');
+		// BnB.AudioManager.playSFX('select');
 
 		this.currentTutorial += 1;
 		this.tutorialImage.destroy();
@@ -414,7 +437,7 @@ BnB.Level.prototype = {
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
-			BnB.AudioManager.playSound('finish');
+			BnB.AudioManager.playSFX('finish');
 			this.levelFinished = true;
 			this.inputManager.state = 'finished';
 
@@ -464,6 +487,7 @@ BnB.Level.prototype = {
         this.fadeOutGraphic.visible = true;
         this.continueButton.visible = true;
         this.creditsGroup.visible = true;
+        this.toggleGroup.visible = true;
     },
 
     hideSettings: function()
@@ -474,8 +498,25 @@ BnB.Level.prototype = {
         this.fadeOutGraphic.visible = false;
         this.continueButton.visible = false;
         this.creditsGroup.visible = false;
+        this.toggleGroup.visible = false;
     },
 
+    updateToggleStrings: function()
+    {
+        if(BnB.AudioManager.allowMusic){
+            this.toggleMusicText.text = "Music: On";
+        }
+        else {
+            this.toggleMusicText.text = "Music: Off";
+        }
+
+        if(BnB.AudioManager.allowSFX){
+            this.toggleSFXText.text = "SFX: On";
+        }
+        else{
+            this.toggleSFXText.text = "SFX: Off";
+        }
+    },
 
 
 
@@ -495,7 +536,7 @@ BnB.Level.prototype = {
     }
 		else if(this.tutorialFinished)
 		{
-			// BnB.AudioManager.playSound('select');
+			// BnB.AudioManager.playSFX('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === BnB.levels.length) {
@@ -512,7 +553,7 @@ BnB.Level.prototype = {
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
-			// BnB.AudioManager.playSound('select');
+			// BnB.AudioManager.playSFX('select');
 
 			if(BnB.levelType == 'normal')
 			{
@@ -531,7 +572,7 @@ BnB.Level.prototype = {
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
-			// BnB.AudioManager.playSound('select');
+			// BnB.AudioManager.playSFX('select');
 
             var pageNum = Math.floor(this.level/BnB.C.LEVELS_PER_PAGE);
 
