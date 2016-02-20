@@ -19,7 +19,7 @@ var BnB = {
     Constants for game-wide use
 */
 BnB.C = {
-    LEVELS_PER_PAGE: 25,
+    LEVELS_PER_PAGE: 100,
 
     //Core constants
     //sizing

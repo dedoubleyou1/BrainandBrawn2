@@ -31,7 +31,7 @@ BnB.LevelSelect.prototype = {
 	*/
 	create: function() 
 	{
-		var offsetY = 110;
+		var offsetY = 60;
 
 		//Debug/Demo only
 		// if(BnB.buildType == 'demo' || BnB.buildType == 'test')
@@ -44,12 +44,12 @@ BnB.LevelSelect.prototype = {
 
 			//Unlock ALL
 			var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-			this.unlockText = this.add.text(200,40,"Unlock All",myFont);
+			this.unlockText = this.add.text(200,20,"Unlock All",myFont);
 			this.unlockText.inputEnabled = true;
 			this.unlockText.events.onInputDown.add(this.unlockLevels,this);
 
 			//reset 
-			this.resetText = this.add.text(400,40,"Reset All",myFont);
+			this.resetText = this.add.text(400,20,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
 		// }
@@ -146,7 +146,14 @@ BnB.LevelSelect.prototype = {
 			}		
 		}
 
+        this.game.world.setBounds(0, 0, this.game.width, this.game.height*2);
+        this.game.kineticScrolling.start();
 	},
+
+    shutdown: function()
+    {
+        this.game.kineticScrolling.stop();
+    },
 
     //helper function to create a BUTTON
     createButton: function(buttonSize,id)

@@ -21,6 +21,18 @@ BnB.Boot.prototype = {
         BnB.SaveData.init();
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+        //set up kinetic scrolling (used in Level Select only)
+        game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
+        game.kineticScrolling.configure({
+            kineticMovement: true,
+            timeConstantScroll: 325, //really mimic iOS
+            horizontalScroll: false,
+            verticalScroll: true,
+            horizontalWheel: false,
+            verticalWheel: true,
+            deltaWheel: 40
+        });
     },
 
     // Preload loading bar images.
