@@ -442,15 +442,15 @@ BnB.Level.prototype = {
 			this.inputManager.state = 'finished';
 
 			//Save stars
-			if(this.currentStarLevel > BnB.SaveData.levelStatus[this.level]){
-				BnB.SaveData.levelStatus[this.level] = this.currentStarLevel;
+			if(this.currentStarLevel > BnB.SaveData.getStars(this.level)){
+                BnB.SaveData.setStars(this.level,this.currentStarLevel);
 			}
 
 			//unlock next level
-			if(this.level+1 < BnB.SaveData.levelStatus.length)
+			if(this.level+1 < BnB.SaveData.getNumLevels())
 			{
-				if(BnB.SaveData.levelStatus[this.level+1] == -1){
-					BnB.SaveData.levelStatus[this.level+1] = 0; //unlocked
+				if(BnB.SaveData.getStars(this.level+1) == -1){
+                    BnB.SaveData.setStars(this.level+1,0);//unlocked
 				}
 			}
 
@@ -586,13 +586,16 @@ BnB.Level.prototype = {
 	skipLevel: function()
 	{
 		this.numMoves = 0;
-		BnB.SaveData.levelStatus[this.level] = 0;
+        if(!this.levelFinished){
+            //overwrite with 0
+            BnB.SaveData.setStars(this.level,0);
+        }
 
 		//unlock next level if necessary
-		if(this.level+1 < BnB.SaveData.levelStatus.length)
+		if(this.level+1 < BnB.SaveData.getNumLevels())
 		{
-			if(BnB.SaveData.levelStatus[this.level+1] == -1){
-				BnB.SaveData.levelStatus[this.level+1] = 0; //unlocked
+			if(BnB.SaveData.getStars(this.level+1) == -1){
+                BnB.SaveData.setStars(this.level+1,0);
 			}
 		}
 

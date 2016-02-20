@@ -93,9 +93,9 @@ BnB.C = {
         //REMOVED
 
         //Basic
-        'levels/starterA.json',
-        'levels/starterB.json',
-        'levels/starterC.json',
+        'levels/starterA.json',//NEW
+        'levels/starterB.json',//NEW
+        'levels/starterC.json',//NEW
         'levels/splitlevel_starter.json',
         'levels/startlevel3_v2.json',
 
@@ -135,7 +135,7 @@ BnB.C = {
         'levels/tetris.json',
 
         //colored pegs
-        'levels/switchPegs01.json',
+        'levels/switchPegs01.json',//put enemy in center
         'levels/switchPegs02.json',
         'levels/switchPegs03.json',
 
@@ -152,7 +152,9 @@ BnB.C = {
         'levels/test_spike2.json',
         'levels/spikeCrack02.json',
 
-        //spiked ball
+        //moving green alien
+
+        //moving psikey alien
         'levels/test_spikedBall0.json',
         'levels/test_spikedBall1.json',
         'levels/test_spikedBall2.json',

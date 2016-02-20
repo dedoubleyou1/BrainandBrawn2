@@ -91,7 +91,7 @@ BnB.LevelSelect.prototype = {
             var newButton = this.createButton(buttonSize,currentID);
 
             //Determine button state/status from SaveData
-			if(BnB.SaveData.levelStatus[currentID] < 0){
+			if(BnB.SaveData.getStars(currentID) < 0){
 				newButton.alpha = 0.3;
 			}
 			else{
@@ -130,15 +130,16 @@ BnB.LevelSelect.prototype = {
 			this.buttonTexts.getAt(i).y = this.buttons.getAt(i).y+this.buttons.getAt(i).height+15;
 			
             //CREATE STARS
-			if(BnB.SaveData.levelStatus[currentID] == 1){
+            var numStars = BnB.SaveData.getStars(currentID);
+			if(numStars == 1){
                 this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
                 this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
 			}
-			else if(BnB.SaveData.levelStatus[currentID] == 2){
+			else if(numStars == 2){
                 this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize/2-13);
                 this.createStar(buttonX+buttonSize*.67, buttonY+buttonSize/2-13);
 			}
-			else if(BnB.SaveData.levelStatus[currentID] == 3){
+			else if(numStars == 3){
                 this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize*.25);
                 this.createStar(buttonX+buttonSize*.67,buttonY+buttonSize*.25);
                 this.createStar(buttonX+buttonSize*.5,buttonY+buttonSize*.5);
