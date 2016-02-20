@@ -122,6 +122,7 @@ BnB.Preloader.prototype = {
         this.load.image('playButton', 'images/playButton.png');
         this.load.image('stopButton', 'images/stopButton.png');
         this.load.image('eraser','images/eraserTool.png');
+        this.load.image('empty','images/cancel.png');
         //END TEMP FOR LEVEL EDITOR
 
         // Levels

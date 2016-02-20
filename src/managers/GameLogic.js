@@ -112,6 +112,13 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '$': {isSolid: false},
           'm': {isSolid: false}
         },
+        'n':{
+          'b': {isSolid: false},
+          'B': {isSolid: false},
+          '@': {isSolid: false}, 
+          '$': {isSolid: false},
+          'm': {isSolid: false}
+        },
         '#':{
           'b': {isSolid: true},
           'B': {isSolid: true},
@@ -145,7 +152,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           'B': {isSolid: false, trigger: triggers.killFixed},
           '@': {isSolid: true}, 
           '$': {isSolid: false, trigger: triggers.killFixed},
-          'm': {isSolid: false},
+          'm': {isSolid: true},
         },
         'g':{
           'b': {isSolid: false, trigger: triggers.checkWin},

@@ -184,6 +184,10 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'b': {},
           'B': {}
         },
+        'n':{
+          'b': {},
+          'B': {}
+        },
         '#':{
           order: 0,
           image: 'brainandbrawn_block',
@@ -400,10 +404,12 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
             var activeCoordinate = this.gridToPixel({x: x, y: y})
 
             //Add the FLOOR
-            var bgSpriteHolder = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
-            this.backgroundGroup.add(bgSpriteHolder);
-            bgSpriteHolder.anchor = {x: 0.5, y: 0.5};
-            bgSpriteHolder.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+            if(map.fixed[y][x] != 'n'){
+                var bgSpriteHolder = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
+                this.backgroundGroup.add(bgSpriteHolder);
+                bgSpriteHolder.anchor = {x: 0.5, y: 0.5};
+                bgSpriteHolder.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
+            }
             
 
             //If there is an active object...
