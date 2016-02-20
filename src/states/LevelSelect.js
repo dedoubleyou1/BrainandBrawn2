@@ -146,8 +146,16 @@ BnB.LevelSelect.prototype = {
 			}		
 		}
 
+        //enable kinetic scrolling
         this.game.world.setBounds(0, 0, this.game.width, this.game.height*2);
         this.game.kineticScrolling.start();
+
+        //enable music
+        if(BnB.fromState == 'Level'){
+            BnB.AudioManager.playMusic('menuMusic',true);
+        }
+
+        BnB.fromState = 'LevelSelect';
 	},
 
     shutdown: function()
@@ -180,7 +188,7 @@ BnB.LevelSelect.prototype = {
 	*/
 	loadLevel: function(image) 
 	{
-        BnB.Util.goToLevel(image.levelID)
+        BnB.Util.goToLevel(image.levelID);
 	},
 
 	//reset levels + restart state

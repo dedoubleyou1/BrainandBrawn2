@@ -7,6 +7,7 @@ BnB.AudioManager = {
     soundAssets: {
         //music
         'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
+        'menuMusic': 'sound/MenuTheme.mp3',
 
         // 'select': 'sound/SwitchHit4.mp3',
         'finish': 'sound/finish_2.wav',
@@ -92,7 +93,16 @@ BnB.AudioManager = {
     playMusic: function(key,isLooped)
     {
         if(!this.allowMusic) return;
+        this.stopSound(this.currentMusic);
+        this.currentMusic = key;
         this.playSound(key,isLooped);
+    },
+
+    stopSound: function(key)
+    {
+        if(this.soundBank.hasOwnProperty(key)){
+            this.soundBank[key].stop();
+        }
     },
 
     playSFX: function(key,isLooped)

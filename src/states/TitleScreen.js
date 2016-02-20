@@ -19,7 +19,7 @@ BnB.TitleScreen.prototype = {
 	*/
 	create: function() {
 		// BnB.AudioManager.createAudio('select');
-        BnB.AudioManager.createAudio('gameplayMusic', true);
+        BnB.AudioManager.createAudio('menuMusic', true);
 
 		//set up background image
 		var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'imageTitle');
@@ -34,7 +34,7 @@ BnB.TitleScreen.prototype = {
 		onTap - start the game!
 	*/
 	startGame: function(){
-        BnB.AudioManager.playMusic('gameplayMusic');
+        BnB.AudioManager.playMusic('menuMusic',true);
 		if(BnB.buildType == 'test'){
             // BnB.AudioManager.playSFX('select');
             this.state.start('MainMenu');

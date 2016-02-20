@@ -13,6 +13,9 @@ var BnB = {
 
     spikeDeath: false,
     boundsDeath: false,
+
+    //
+    fromState: 'TitleScreen',
 };
 
 /*

@@ -96,6 +96,13 @@ BnB.Level.prototype = {
         this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
         this.printKey.onUp.add(this.printMap,this);
         //end DEBUG input
+
+        //enable music
+        if(BnB.fromState == 'LevelSelect'){
+            BnB.AudioManager.playMusic('gameplayMusic',true);
+        }
+
+        BnB.fromState = 'Level';
 	},
 
     /*
