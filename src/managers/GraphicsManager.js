@@ -27,7 +27,8 @@ BnB.GraphicsManager = function(map) {
     // var levelGroup = game.add.group();
     // levelGroup.enableBody = true;
     this.starLayer = game.add.group();
-    this.backgroundGroup = game.add.group(); //floor layer
+    this.floorGroup = game.add.group(); //floor layer
+    this.floor2Group = game.add.group(); //holds floor-like objects
     this.mainGroup = game.add.group(); //holds everything
     this.mainGroup.enableBody = true;
 
@@ -132,7 +133,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
                     }
                 }, context);
 
-                //disable gates
+                //disable pegs
                 for (var i = foundPegs.length-1; i >=0 ; i--) {
                     foundPegs[i].sprite.destroy();
                 };
@@ -207,13 +208,13 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           '$': triggers.killSelf
         },
         'g':{
-          order: 0,
+          order: 0,//on floor
           image: 'brainandbrawn_goalBrainyB',
           'b': {},
           'B': {}
         },
         'G':{
-          order: 0,
+          order: 0,//on floor
           image: 'brainandbrawn_goalBrawnyB',
           'b': {},
           'B': {}
@@ -225,6 +226,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'B': {}
         },
         '1':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew1A',
           'b': triggers.switchBoth('2', '3', '4','17'),
@@ -243,12 +245,14 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'B': {}
         },
         '4':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_gateNew1D',
           'b': {},
           'B': {}
         },
         '5':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew2A',
           'b': triggers.switchBoth('6', '7', '8','18'),
@@ -267,12 +271,14 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'B': {}
         },
         '8':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_gateNew2D',
           'b': {},
           'B': {}
         },
         '9':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew3A',
           'b': triggers.switchBoth('10', '11', '12','19'),
@@ -291,12 +297,14 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'B': {}
         },
         '12':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_gateNew3D',
           'b': {},
           'B': {}
         },
         '13':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew4A',
           'b': triggers.switchBoth('14', '15', '16','20'),
@@ -315,6 +323,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           'B': {}
         },
         '16':{
+          onFloor: true,
           order: 0,
           image: 'brainandbrawn_gateNew4D',
           'b': {},
@@ -404,9 +413,9 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
             var activeCoordinate = this.gridToPixel({x: x, y: y})
 
             //Add the FLOOR
-            if(map.fixed[y][x] != 'n'){
+            if(map.fixed[y][x] != 'n' && map.fixed[y][x] != '#'){
                 var bgSpriteHolder = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
-                this.backgroundGroup.add(bgSpriteHolder);
+                this.floorGroup.add(bgSpriteHolder);
                 bgSpriteHolder.anchor = {x: 0.5, y: 0.5};
                 bgSpriteHolder.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
             }
@@ -428,7 +437,7 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                 var activeSprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, spritesheet, this.graphicsKeyLookup(activeSpriteType).image);
                 activeSprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
                 activeSprite.anchor = {x: 0.5, y: 0.5};
-                activeSprite.customZ = y * 10 + this.graphicsKeyLookup(activeSpriteType).order;
+                activeSprite.customZ = this.getZFromGridY(activeSpriteType,y);
                 activeSprite.priority = true;
 
                 this.mainGroup.add(activeSprite);
@@ -469,11 +478,16 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                 }
 
                 this.fixed[y][x].sprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, currentSheet, fixedLookup.image);
-                this.mainGroup.add(this.fixed[y][x].sprite);
                 this.fixed[y][x].sprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
                 this.fixed[y][x].sprite.anchor = {x: 0.5, y: 0.5};
-                this.fixed[y][x].sprite.customZ = y * 10 + fixedLookup.order;
+                this.fixed[y][x].sprite.customZ = this.getZFromGridY(map.fixed[y][x], y);
                 this.fixed[y][x].sprite.priority = false;
+
+                if(fixedLookup.hasOwnProperty('onFloor')){
+                    this.floor2Group.add(this.fixed[y][x].sprite);
+                }else{
+                    this.mainGroup.add(this.fixed[y][x].sprite);
+                }
             }
         }
     }
@@ -569,6 +583,13 @@ BnB.GraphicsManager.prototype.setActiveOffset = function(direction, amount) {
 */
 BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     this.gravityDirection = gameStateChanges.gravity;
+    
+    if(this.gravityDirection != 'down'){
+        this.sortMainZ(gameStateChanges,false);
+    }
+    else{
+        this.sortMainZ(gameStateChanges,true);
+    }
 
     if (gameStateChanges.endState === 'missionSuccess') {
           this.missionSuccess = true;
@@ -577,13 +598,6 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     //Callback - called every frame of movement tweens
     var checkGraphicalTriggers = function(gridPosArray, target, type){
         return function() {
-            /*
-                TODO: Revamp this system to only work in one direction (state changes -> graphics).
-                Risks of the currently implemented bi-direcitonal system include:
-                -missing a graphical trigger due to lag (which can already be seen if the game is lagging in a larger level)
-                -calling the same graphical trigger multiple times (because several update frames fall in the same gridPos)
-            */
-
             //get current grid position of sprite
             var gridPos = this.pixelToGrid({x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y});
 
@@ -614,9 +628,6 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
                         }
                     }
                 }
-
-                
-
             };
             //console.log(gameStateChanges, target, gridPos);
         }
@@ -693,36 +704,43 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
   -Sorts graphics Z order
 */
 BnB.GraphicsManager.prototype.refresh = function() {
+    //refresh stars
     if (BnB.C.ENABLE_STARS) {
       this.starUpdate(this.gravityDirection);
     }
-    for (element in this.activeObjs) {
-      this.activeObjs[element].sprite.customZ = ((this.activeObjs[element].sprite.y - (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 + this.graphicsKeyLookup(element).order;
+}
+
+BnB.GraphicsManager.prototype.sortMainZ = function(gameStateChanges,useFinalY) {
+    //refresh Z order
+    for (var i=0; i<this.activeObjs.length;i++) {
+        var obj = this.activeObjs[i];
+
+        var gridY;
+        if(useFinalY){
+            //use the final Y position of this active object
+            var gridPosArray = gameStateChanges.activeChanges[i];
+            gridY = gridPosArray[gridPosArray.length - 1].y;
+        }
+        else{
+            gridY = this.pixelToGrid(obj.sprite.position).y;
+        }
+
+        var newZ = this.getZFromGridY(obj.type,gridY);
+        obj.sprite.customZ = newZ;
+
+      //   this.activeObjs[element].sprite.customZ = this.pixelToGrid(this.)
+
+      // this.activeObjs[element].sprite.customZ = (
+      //   (this.activeObjs[element].sprite.y - 
+      //       (this.convertValues.borderY)) / this.convertValues.scaledTileSize) * 10 
+      // + this.graphicsKeyLookup(element).order;
     };
     this.mainGroup.sort('customZ', Phaser.Group.SORT_ASCENDING)
+};
 
-    // this.mainGroup.customSort(function(childA, childB){
-    //   return 0;
-    // });
-
-    // this.mainGroup.customSort(function(child1, child2) {
-    //   // var child1YOffset = 1;
-    //   // var child2YOffset = 1;
-    //   // if (child1.priority === true) {
-    //   //   child1YOffset = BnB.C.TILESIZE;
-    //   // }
-    //   // if (child2.priority === true) {
-    //   //   child2YOffset = BnB.C.TILESIZE;
-    //   // }
-    //   if (child1.y > child2.y) {
-    //     return 1;
-    //   } else if (child1.y < child2.y) {
-    //     return -1;
-    //   } else {
-    //     return 0;
-    //   }
-    // }, this)
-}
+BnB.GraphicsManager.prototype.getZFromGridY = function(type,gridY) {
+    return gridY * 10 + this.graphicsKeyLookup(type).order;
+};
 
 /*
   Checks to see if ALL movement tweens are finished
@@ -777,22 +795,26 @@ BnB.GraphicsManager.prototype.screenShake = function(direction) {
 
     this.mainGroup.x += animateProperties.x;
     this.mainGroup.y += animateProperties.y;
-    this.backgroundGroup.x += animateProperties.x;
-    this.backgroundGroup.y += animateProperties.y;
+    this.floorGroup.x += animateProperties.x;
+    this.floorGroup.y += animateProperties.y;
+    this.floor2Group.x += animateProperties.x;
+    this.floor2Group.y += animateProperties.y;
 
     var callback = (function(animateProperties){
       return function () {
         this.mainGroup.x -= animateProperties.x;
         this.mainGroup.y -= animateProperties.y;
-        this.backgroundGroup.x -= animateProperties.x;
-        this.backgroundGroup.y -= animateProperties.y;
+        this.floorGroup.x -= animateProperties.x;
+        this.floorGroup.y -= animateProperties.y;
+        this.floor2Group.x -= animateProperties.x;
+        this.floor2Group.y -= animateProperties.y;
       }
     })(animateProperties).bind(this);
 
     setTimeout(callback, 32);
 
     // var quakeFront = game.add.tween(this.mainGroup);
-    // var quakeBack = game.add.tween(this.backgroundGroup);
+    // var quakeBack = game.add.tween(this.floorGroup);
     // quakeFront.to(animateProperties, 100, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, true);
     // quakeBack.to(animateProperties, 100, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, true);
 
