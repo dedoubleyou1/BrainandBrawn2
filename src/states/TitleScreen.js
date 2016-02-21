@@ -28,13 +28,13 @@ BnB.TitleScreen.prototype = {
 
 		//add input to start the game
 		this.input.onTap.add(this.startGame, this);
+		BnB.AudioManager.playMusic('menuMusic',true);
 	},
 
 	/*
 		onTap - start the game!
 	*/
 	startGame: function(){
-        BnB.AudioManager.playMusic('menuMusic',true);
 		if(BnB.buildType == 'test'){
             // BnB.AudioManager.playSFX('select');
             this.state.start('MainMenu');
