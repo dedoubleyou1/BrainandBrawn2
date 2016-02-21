@@ -459,7 +459,16 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
             //Add the fixed sprite
             var fixedLookup = this.graphicsKeyLookup(map.fixed[y][x]);
             if (typeof fixedLookup.image === 'string') {
-                this.fixed[y][x].sprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', fixedLookup.image);
+                var currentSheet = 'spritesheet';
+
+                //get seamless wall sheet
+                if(BnB.C.ENABLE_SEAMLESS_WALLS && fixedLookup.image == 'brainandbrawn_block'){
+                    //get the correct block
+                    currentSheet = 'block_SpriteSheet'
+                    fixedLookup.image = this.getWallImage(map.fixed,x,y);
+                }
+
+                this.fixed[y][x].sprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, currentSheet, fixedLookup.image);
                 this.mainGroup.add(this.fixed[y][x].sprite);
                 this.fixed[y][x].sprite.scale.setTo(this.convertValues.spriteScale, this.convertValues.spriteScale);
                 this.fixed[y][x].sprite.anchor = {x: 0.5, y: 0.5};
@@ -988,5 +997,36 @@ BnB.GraphicsManager.prototype.resetLeaning = function() {
 
     }
 
+}
+
+
+BnB.GraphicsManager.prototype.getWallImage = function(map,x,y) {
+    //check up
+    var up = y-1 >= 0;
+    if(up){
+        up = map[y-1][x] == '#';
+    }
+
+    //check down
+    var down = y+1 < this.gridHeight;
+    if(down){
+        down = map[y+1][x] == '#';
+    }
+
+    //check left
+    var left = x-1 >= 0;
+    if(left){
+        left = map[y][x-1] == '#';
+    }
+
+    //check right
+    var right = x+1 < this.gridWidth;
+    if(right){
+        right = map[y][x+1] == '#';
+    }
+
+    //brainandbrawn_wall_false_false_false_true
+    var keyStr = "brainandbrawn_wall_" + up.toString() + "_" + down.toString() + "_" + left.toString() + "_" + right.toString() + ".png";
+    return keyStr;
 }
                   

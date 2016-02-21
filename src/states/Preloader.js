@@ -18,7 +18,6 @@ BnB.Preloader.prototype = {
         Called before preload
     */
     init: function(){
-
         //TODO: fix awkward SHIFT on page resize
         this.loadingBar = this.add.image(this.world.centerX,this.world.centerY,'loadingBar');
         this.loadingBar.x = this.world.centerX - this.loadingBar.width/2;
@@ -38,6 +37,7 @@ BnB.Preloader.prototype = {
         this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
         this.load.atlasJSONArray('brainy_SpriteSheet', 'images/Brainy_SpriteSheet.png', 'images/Brainy_SpriteSheet.json');
         this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
+        this.load.atlasJSONArray('block_SpriteSheet', 'images/seamlessWalls.png', 'images/seamlessWalls.json');
 
 
         // Static Images

@@ -40,6 +40,7 @@ BnB.C = {
     SWIPING_OFFSET: false,
     SWIPING_LEANING: true,
     ENABLE_SCREEN_SHAKE: true,
+    ENABLE_SEAMLESS_WALLS: true,
 
     //constants for the GraphicManager state
     TILESIZE: 256,
