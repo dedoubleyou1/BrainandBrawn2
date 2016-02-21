@@ -61,6 +61,11 @@ BnB.Preloader.prototype = {
         this.load.image('tutorial8','images/tutorials-08.png');
         this.load.image('tutorial9','images/tutorials-09.png');
 
+        // Starfield images
+        this.load.image('spaceA','images/space_A.png');
+        this.load.image('spaceB','images/space_B.png');
+        this.load.image('spaceC','images/space_C.png');
+
         //HUD & Title && reset button
         this.load.image('imageHUD','images/HUD-04.png'); //800x51
         // this.load.spritesheet('rButton', 'images/HUD-04.png',60,60);
