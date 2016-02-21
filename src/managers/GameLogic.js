@@ -589,6 +589,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
                 y: y,
                 eventType: active2,
                 killTarget: active2Index,
+                fired: false,
             });
             
             return true;
@@ -600,6 +601,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
                 y: y,
                 eventType: active2,
                 killTarget: active1Index,
+                fired: false,
             });
 
             //push final coordinates a second time
@@ -644,11 +646,12 @@ BnB.GameLogic.prototype.checkFixedTriggers = function(direction,stepResults) {
                 this.gameStateChanges.endState = results;
             }
 
-            //update game state changes
+            //add trigger to gameStateChanges
             var newGridPos = {
                 x: x,
                 y: y,
-                eventType: fixed
+                eventType: fixed,
+                fired: false,
             };
             this.gameStateChanges.activeChanges[i].push(newGridPos);
         }

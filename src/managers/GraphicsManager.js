@@ -577,24 +577,36 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get current grid position of sprite
             var gridPos = this.pixelToGrid({x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y});
-            if(type == 'm') console.log(gridPos);
 
             //loop through coordinates
             for (var i = 1; i < gridPosArray.length-1; i++) 
             {
-                if (gridPosArray[i].x === gridPos.x && gridPosArray[i].y === gridPos.y) 
+                var gridEvent = gridPosArray[i];
+
+                if(gridEvent.hasOwnProperty('fired') && !gridEvent.fired)
                 {
-                    //get graphical trigger and call it
-                    var trigger = this.graphicsKeyLookup(gridPosArray[i].eventType)[type];
-                    if (typeof trigger === 'function') {
-                        if(typeof gridPosArray[i].killTarget != 'undefined'){
-                            results = trigger.call(this, gridPosArray[i].killTarget);
-                        }
-                        else{
-                            results = trigger.call(this, {x: gridPos.x, y: gridPos.y});
+                    //check if we have passed the collision point
+                    if((this.gravityDirection == 'left' && gridPos.x <= gridEvent.x) || 
+                        (this.gravityDirection == 'right' && gridPos.x >= gridEvent.x) ||
+                        (this.gravityDirection == 'up' && gridPos.y <= gridEvent.y) ||
+                        (this.gravityDirection == 'down' && gridPos.y >= gridEvent.y))
+                    {
+                        gridEvent.fired = true;
+
+                        //get graphical trigger and call it
+                        var trigger = this.graphicsKeyLookup(gridPosArray[i].eventType)[type];
+                        if (typeof trigger === 'function') {
+                            if(typeof gridPosArray[i].killTarget != 'undefined'){
+                                results = trigger.call(this, gridPosArray[i].killTarget);
+                            }
+                            else{
+                                results = trigger.call(this, {x: gridEvent.x, y: gridEvent.y});
+                            }
                         }
                     }
                 }
+
+                
 
             };
             //console.log(gameStateChanges, target, gridPos);
@@ -649,8 +661,6 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get moveUpdatecallback
             var moveUpdateCallback = checkGraphicalTriggers(gridPosArray, i, element);
-
-            
             
             //set up callback for when moveTween finishes
             moveTween.onComplete.add((function(moveUpdateCallback){
@@ -780,48 +790,6 @@ BnB.GraphicsManager.prototype.screenShake = function(direction) {
     return true
 };
 BnB.GraphicsManager.prototype.starGenerator = function() {
-  // var makeCircle = function(size){
-  //   var circle = game.add.bitmapData(size, size);
-  //     circle.ctx.beginPath();
-  //     circle.ctx.arc(size/2, size/2, size/2, 0, 2 * Math.PI, false)
-  //     circle.ctx.fillStyle = '#ffffff';
-  //     circle.ctx.fill();
-  //   return circle;
-  // }
-
-  // var emitter = game.add.emitter(game.world.centerX, 0, 400);
-  // this.starLayer.add(emitter);
-
-  // emitter.width = game.world.width;
-  // // emitter.angle = 30; // uncomment to set an angle for the rain.
-
-  // emitter.makeParticles(circle);
-
-  // emitter.minParticleScale = 0.1;
-  // emitter.maxParticleScale = 0.5;
-
-  // emitter.setYSpeed(300, 500);
-  // emitter.setXSpeed(0, 0);
-
-  // emitter.minRotation = 0;
-  // emitter.maxRotation = 0;
-
-  // emitter.start(false, 1600, 5, 0);
-
-    //  This is the sprite that will be drawn to the texture
-    //  Note that we 'make' it, not 'add' it, as we don't want it on the display list
-    // this.star = game.make.sprite(0, 0, makeCircle(1));
-    // this.star2 = game.make.sprite(0, 0, makeCircle(2));
-    // this.star3 = game.make.sprite(0, 0, makeCircle(4));
-
-    // this.stars = [];
-
-    //  For this effect we'll create a vertical scrolling starfield with 300 stars split across 3 layers.
-    //  This will use only 3 textures / sprites in total.
-    // var texture1 = game.add.renderTexture(game.width, game.height, makeCircle(1));
-    // var texture2 = game.add.renderTexture(game.width, game.height, makeCircle(2));
-    // var texture3 = game.add.renderTexture(game.width, game.height, makeCircle(4));
-    
     this.spaceC = game.add.tileSprite(0, 0, game.width, game.height, 'spaceC');
     this.spaceB = game.add.tileSprite(0, 0, game.width, game.height, 'spaceB');
     this.spaceA = game.add.tileSprite(0, 0, game.width, game.height, 'spaceA');
@@ -829,24 +797,6 @@ BnB.GraphicsManager.prototype.starGenerator = function() {
     this.starLayer.add(this.spaceB);
     this.starLayer.add(this.spaceA);
 
-    // var t = texture1;
-    // var s = 2;
-
-    // //  100 sprites per layer
-    // for (var i = 0; i < 280; i++)
-    // {
-    //     if (i == 160) {
-    //         //  With each 100 stars we ramp up the speed a little and swap to the next texture
-    //         s = 4;
-    //         t = texture2;
-    //     }
-    //     else if (i == 240) {
-    //         s = 6;
-    //         t = texture3;
-    //     }
-
-    //     this.stars.push( { x: game.world.randomX, y: game.world.randomY, speed: s, texture: t });
-    // }
 };
 
 BnB.GraphicsManager.prototype.starUpdate = function(direction) {
@@ -861,51 +811,6 @@ BnB.GraphicsManager.prototype.starUpdate = function(direction) {
     this.spaceB.tilePosition.y += 2 * directionVector.y;
     this.spaceA.tilePosition.x += 4 * directionVector.x;
     this.spaceA.tilePosition.y += 4 * directionVector.y;
-
-    // for (var i = 0; i < 280; i++){
-    //   //  Update the stars position based on its speed
-    //   this.stars[i].y += directionVector.y * this.stars[i].speed;
-    //   this.stars[i].x += directionVector.x * this.stars[i].speed;
-
-    //   if (this.stars[i].y < -32 ) {
-    //       //  Off the bottom of the screen? Then wrap around to the top
-    //       this.stars[i].x = game.world.randomX;
-    //       this.stars[i].y = game.height + 32;
-    //   } else if (this.stars[i].y > game.height + 32 ) {
-    //       //  Off the bottom of the screen? Then wrap around to the top
-    //       this.stars[i].x = game.world.randomX;
-    //       this.stars[i].y = -32;
-    //   } else if (this.stars[i].x < -32 ) {
-    //       //  Off the bottom of the screen? Then wrap around to the top
-    //       this.stars[i].y = game.world.randomY;
-    //       this.stars[i].x = game.width + 32;
-    //   } else if (this.stars[i].x > game.width + 32 ) {
-    //       //  Off the bottom of the screen? Then wrap around to the top
-    //       this.stars[i].y = game.world.randomX;
-    //       this.stars[i].x = -32;
-    //   }
-
-    //   if (i == 0) {
-    //       //  If it's the first star of the layer then we clear the texture
-    //       this.stars[i].texture.renderXY(this.star, this.stars[i].x, this.stars[i].y, true);
-    //   } else if (i == 160) {
-    //       //  If it's the first star of the layer then we clear the texture
-    //       this.stars[i].texture.renderXY(this.star2, this.stars[i].x, this.stars[i].y, true);
-    //   } else if (i == 240) {
-    //       //  If it's the first star of the layer then we clear the texture
-    //       this.stars[i].texture.renderXY(this.star3, this.stars[i].x, this.stars[i].y, true);
-    //   }
-    //   else {
-    //       //  Otherwise just draw the star sprite where we need it
-    //       if (i < 160) {
-    //           this.stars[i].texture.renderXY(this.star, this.stars[i].x, this.stars[i].y, false);
-    //       } else if (i < 240) {
-    //           this.stars[i].texture.renderXY(this.star2, this.stars[i].x, this.stars[i].y, false);
-    //       } else {
-    //           this.stars[i].texture.renderXY(this.star3, this.stars[i].x, this.stars[i].y, false);
-    //       }
-    //   }
-    //}
 };
 
 
