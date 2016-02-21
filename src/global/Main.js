@@ -99,7 +99,7 @@ BnB.C = {
         'levels/starterA.json',//NEW
         'levels/starterB.json',//NEW
         'levels/starterC.json',//NEW
-        'levels/splitlevel_starter.json',
+        'levels/splitlevel.json',
         'levels/startlevel3_v2.json',
 
         //spatial
@@ -109,15 +109,15 @@ BnB.C = {
         'levels/reorientation04_snake.json',
         'levels/rotation.json',
         'levels/fliplevel_v2.json',
-        'levels/doubleBrain.json',
+        'levels/dots_v1.json',//'levels/doubleBrain.json',
         'levels/test_reorientation3.json',
 
         //enemy
         'levels/enemy00.json',
         'levels/rotateEnemy.json',
         'levels/enemy02.json',
-        'levels/enemy03_Rampage01_v2.json',
-        'levels/tower.json',
+        'levels/rampage_v3.json',
+        'levels/tower_v2.json',
 
         //switches
         'levels/wallgatelevel_v2.json',
@@ -126,10 +126,10 @@ BnB.C = {
         'levels/test_colors1.json',
 
         //pegs
-        'levels/passagelevel.json',
         'levels/rotatePegs.json',
         'levels/gates1.json',
-        'levels/pegBridge.json',
+        'levels/passagelevel.json',
+        'levels/pegBridge_v2.json',
 
         //open
         'levels/openlevel0_v2.json',
