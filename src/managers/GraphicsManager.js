@@ -577,25 +577,36 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get current grid position of sprite
             var gridPos = this.pixelToGrid({x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y});
-            if(type == 'm') console.log(gridPos);
-            if(gridPos.y == 7) debugger;
 
             //loop through coordinates
             for (var i = 1; i < gridPosArray.length-1; i++) 
             {
-                if (gridPosArray[i].x === gridPos.x && gridPosArray[i].y === gridPos.y) 
+                var gridEvent = gridPosArray[i];
+
+                if(gridEvent.hasOwnProperty('fired') && !gridEvent.fired)
                 {
-                    //get graphical trigger and call it
-                    var trigger = this.graphicsKeyLookup(gridPosArray[i].eventType)[type];
-                    if (typeof trigger === 'function') {
-                        if(typeof gridPosArray[i].killTarget != 'undefined'){
-                            results = trigger.call(this, gridPosArray[i].killTarget);
-                        }
-                        else{
-                            results = trigger.call(this, {x: gridPos.x, y: gridPos.y});
+                    //check if we have passed the collision point
+                    if((this.gravityDirection == 'left' && gridPos.x <= gridEvent.x) || 
+                        (this.gravityDirection == 'right' && gridPos.x >= gridEvent.x) ||
+                        (this.gravityDirection == 'up' && gridPos.y <= gridEvent.y) ||
+                        (this.gravityDirection == 'down' && gridPos.y >= gridEvent.y))
+                    {
+                        gridEvent.fired = true;
+
+                        //get graphical trigger and call it
+                        var trigger = this.graphicsKeyLookup(gridPosArray[i].eventType)[type];
+                        if (typeof trigger === 'function') {
+                            if(typeof gridPosArray[i].killTarget != 'undefined'){
+                                results = trigger.call(this, gridPosArray[i].killTarget);
+                            }
+                            else{
+                                results = trigger.call(this, {x: gridEvent.x, y: gridEvent.y});
+                            }
                         }
                     }
                 }
+
+                
 
             };
             //console.log(gameStateChanges, target, gridPos);
@@ -650,8 +661,6 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
             //get moveUpdatecallback
             var moveUpdateCallback = checkGraphicalTriggers(gridPosArray, i, element);
-
-            
             
             //set up callback for when moveTween finishes
             moveTween.onComplete.add((function(moveUpdateCallback){
