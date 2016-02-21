@@ -143,6 +143,9 @@ BnB.C = {
         'levels/switchPegs02.json',
         'levels/switchPegs03.json',
 
+        //moving green alien
+        'levels/greenMover.json',
+
         //breakable
         'levels/test_breakable0.json',
         'levels/test_breakable1.json',
@@ -156,9 +159,7 @@ BnB.C = {
         'levels/test_spike2.json',
         'levels/spikeCrack02.json',
 
-        //moving green alien
-
-        //moving psikey alien
+        //moving spikey alien
         'levels/test_spikedBall0.json',
         'levels/test_spikedBall1.json',
         'levels/test_spikedBall2.json',
