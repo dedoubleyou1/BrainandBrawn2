@@ -147,7 +147,7 @@ BnB.LevelSelect.prototype = {
 		}
 
         //enable kinetic scrolling
-        this.game.world.setBounds(0, 0, this.game.width, this.game.height*2);
+        this.game.world.setBounds(0, 0, this.game.width, BnB.C.HEIGHT*2);
         this.game.kineticScrolling.start();
 
         //enable music

@@ -132,7 +132,7 @@ BnB.Level.prototype = {
         this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
         this.menuButtonBig.alpha = 0;
 
-        this.settingsButton = this.add.image(BnB.C.WIDTH-80,BnB.C.HEIGHT-80,'settingsButton');
+        this.settingsButton = this.add.image(this.game.width-80,this.game.height-80,'settingsButton');
         this.settingsButton.scale.setTo(0.3);
         this.settingsButton.inputEnabled = true;
         this.settingsButton.events.onInputDown.add(this.showSettings,this);
@@ -152,7 +152,7 @@ BnB.Level.prototype = {
         this.fadeOutGraphic = this.add.graphics(0, 0);
         this.fadeOutGraphic.clear(); //move to state clear function
         this.fadeOutGraphic.beginFill(0x000000, 0.8);
-        this.fadeOutGraphic.drawRect(0, 0, BnB.C.WIDTH, BnB.C.HEIGHT);
+        this.fadeOutGraphic.drawRect(0, 0, this.game.width, this.game.height);
         this.fadeOutGraphic.endFill();
         this.fadeOutGraphic.visible = false;
 
@@ -406,7 +406,7 @@ BnB.Level.prototype = {
 		// BnB.AudioManager.playSFX('select');
 		this.fadeOutGraphic.visible = true;
     
-		this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+		this.tutorialImage = this.add.sprite(this.game.width / 2, this.game.height / 2, this.levelData.tutorial[this.currentTutorial]);
 		this.tutorialImage.anchor = {x: 0.5, y: 0.5};
 		this.tutorialImage.scale.multiply(BnB.scale, BnB.scale);
 		
@@ -432,7 +432,7 @@ BnB.Level.prototype = {
 			this.tutorialFinished = true;
 			this.inputManager.state = 'ready';
 		} else {
-			this.tutorialImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 2, this.levelData.tutorial[this.currentTutorial]);
+			this.tutorialImage = this.add.sprite(this.game.width / 2, this.game.height / 2, this.levelData.tutorial[this.currentTutorial]);
 			this.tutorialImage.anchor = {x: 0.5, y: 0.5};
 			this.tutorialImage.scale.multiply(BnB.scale, BnB.scale);
 		}
@@ -464,7 +464,7 @@ BnB.Level.prototype = {
 			//show background filter
             this.fadeOutGraphic.visible = true;
 
-    	    this.victoryImage = this.add.sprite(BnB.C.WIDTH / 2, BnB.C.HEIGHT / 3, ('star'+this.currentStarLevel));
+    	    this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
 			this.victoryImage.anchor = {x: 0.5, y: 0.5};
 			// this.victoryImage.scale.multiply(BnB.scale, BnB.scale);
 	  
@@ -475,10 +475,10 @@ BnB.Level.prototype = {
 
 			this.restartButtonBig.alpha = 1;
 			this.restartButtonBig.x = 80;
-			this.restartButtonBig.y = 600;
+			this.restartButtonBig.y = this.game.height*0.6;
 			this.newGroup.add(this.restartButtonBig);
 
-			this.playButton = this.add.image(400,600,'pButton');
+			this.playButton = this.add.image(400,this.game.height*0.6,'pButton');
 			this.playButton.scale.setTo(2.5,2.5);
 			this.playButton.inputEnabled = true;
   		    this.playButton.events.onInputDown.add(this.nextLevel,this);

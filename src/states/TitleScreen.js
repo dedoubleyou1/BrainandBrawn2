@@ -22,7 +22,7 @@ BnB.TitleScreen.prototype = {
         BnB.AudioManager.createAudio('menuMusic', true);
 
 		//set up background image
-		var background = this.add.sprite(BnB.C.WIDTH/2, BnB.C.HEIGHT/2, 'imageTitle');
+		var background = this.add.sprite(this.game.width/2, this.game.height/2, 'imageTitle');
 		background.anchor = {x: 0.5, y: 0.5};
 		background.scale.multiply(BnB.C.WIDTH/background.width,BnB.C.HEIGHT/background.height)
 
