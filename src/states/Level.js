@@ -100,6 +100,7 @@ BnB.Level.prototype = {
         //enable music
         if(BnB.fromState == 'LevelSelect'){
             BnB.AudioManager.playMusic('gameplayMusic',true);
+            this.game.world.setBounds(0,0,this.game.width,this.game.height);
         }
 
         BnB.fromState = 'Level';

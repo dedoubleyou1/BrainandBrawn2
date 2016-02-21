@@ -50,6 +50,20 @@ BnB.Preloader.prototype = {
         this.load.image('flipVertIcon','images/flipButtonVert.png');
         this.load.image('settingsButton','images/settingsButton.png');
 
+        //map images
+        this.load.image('levelmap01','images/levelmap/levelmap-01.png');
+        this.load.image('levelmap02','images/levelmap/levelmap-02.png');
+        this.load.image('levelmap03','images/levelmap/levelmap-03.png');
+        this.load.image('levelmap04','images/levelmap/levelmap-04.png');
+        this.load.image('levelmap05','images/levelmap/levelmap-05.png');
+        this.load.image('levelmap06','images/levelmap/levelmap-06.png');
+        this.load.image('levelmap07','images/levelmap/levelmap-07.png');
+        this.load.image('levelmap08','images/levelmap/levelmap-08.png');
+        this.load.image('levelmap09','images/levelmap/levelmap-09.png');
+        this.load.image('levelmap10','images/levelmap/levelmap-10.png');
+        this.load.image('levelmap11','images/levelmap/levelmap-11.png');
+        this.load.image('levelmap12','images/levelmap/levelmap-12.png');
+
         // New Tutorial images
         this.load.image('tutorial1','images/tutorials-01.png');
         this.load.image('tutorial2','images/tutorials-02.png');

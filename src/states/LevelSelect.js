@@ -16,12 +16,14 @@ BnB.LevelSelect = function() {};
 BnB.LevelSelect.prototype = {
     init: function(startingID)
     {
+        this.numSections = 12;
+
         //reset on entry (just in case the array changed...)
         this.numLevels = BnB.levels.length - startingID;
         this.startingID = startingID;
 
         if(this.numLevels > BnB.C.LEVELS_PER_PAGE){
-            this.numLevels = 25;
+            this.numLevels = BnB.C.LEVELS_PER_PAGE;
         }
     },
 
@@ -31,6 +33,20 @@ BnB.LevelSelect.prototype = {
 	*/
 	create: function() 
 	{
+        //place map images
+        for(var i=1;i<=this.numSections;i++)
+        {
+            var keyStr = "";
+            if(i < 10) keyStr = "0" + i;
+            else keyStr = i;
+
+            var startY = -BnB.C.HEIGHT*this.numSections + BnB.C.HEIGHT*i;
+            var newMap = this.add.image(0,startY,'levelmap' + keyStr);
+            newMap.width = this.game.width;
+            newMap.height = BnB.C.HEIGHT;
+        }
+
+
 		var offsetY = 60;
 
 		//Debug/Demo only
@@ -147,7 +163,7 @@ BnB.LevelSelect.prototype = {
 		}
 
         //enable kinetic scrolling
-        this.game.world.setBounds(0, 0, this.game.width, BnB.C.HEIGHT*2);
+        this.game.world.setBounds(0, BnB.C.HEIGHT-BnB.C.HEIGHT*this.numSections, this.game.width, BnB.C.HEIGHT*this.numSections);
         this.game.kineticScrolling.start();
 
         //enable music
