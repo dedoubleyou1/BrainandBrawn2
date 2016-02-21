@@ -35,7 +35,7 @@ BnB.Preloader.prototype = {
     preload: function() {
         
         //load in Spritesheets
-        this.load.atlasJSONArray('spritesheet', 'images/spritesheet_temp2.png', 'images/spritesheet_temp2.json');
+        this.load.atlasJSONArray('spritesheet', 'images/spritesheet.png', 'images/spritesheet.json');
         this.load.atlasJSONArray('brainy_SpriteSheet', 'images/Brainy_SpriteSheet.png', 'images/Brainy_SpriteSheet.json');
         this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
 

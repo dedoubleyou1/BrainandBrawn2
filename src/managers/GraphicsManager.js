@@ -159,7 +159,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         },
         'm':{
           order: 3,
-          image: 'brainandbrawn_alien4',
+          image: 'brainandbrawn_alienA_move',
           'b': {},
           'B': triggers.killActiveTarget,
           '$': triggers.killActiveTarget
@@ -172,7 +172,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         },
         '$':{
           order: 0,
-          image: 'brainandbrawn_alien3',
+          image: 'brainandbrawn_alienB_move',
           'b': {},
           'B': {},
           'm': triggers.killActiveTarget,
@@ -208,13 +208,13 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         },
         'g':{
           order: 0,
-          image: 'brainandbrawn_goalBrainy',
+          image: 'brainandbrawn_goalBrainyB',
           'b': {},
           'B': {}
         },
         'G':{
           order: 0,
-          image: 'brainandbrawn_goalBrawny',
+          image: 'brainandbrawn_goalBrawnyB',
           'b': {},
           'B': {}
         },
@@ -324,25 +324,25 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         //colored pegs (TEST)
         '17':{
           order: 0,
-          image: 'brainandbrawn_coloredPeg1',
+          image: 'brainandbrawn_peg1',
           'b': {},
           'B': {}
         },
         '18':{
           order: 0,
-          image: 'brainandbrawn_coloredPeg2',
+          image: 'brainandbrawn_peg2',
           'b': {},
           'B': {}
         },
         '19':{
           order: 0,
-          image: 'brainandbrawn_coloredPeg3',
+          image: 'brainandbrawn_peg3',
           'b': {},
           'B': {}
         },
         '20':{
           order: 0,
-          image: 'brainandbrawn_coloredPeg4',
+          image: 'brainandbrawn_peg4',
           'b': {},
           'B': {}
         },
@@ -351,7 +351,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         //spikes
         'X':{
           order: 0,
-          image: 'brainandbrawn_alien2',
+          image: 'brainandbrawn_alienB',
           'b': {},
           'B': {}
         },
