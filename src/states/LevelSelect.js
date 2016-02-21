@@ -33,6 +33,19 @@ BnB.LevelSelect.prototype = {
 	*/
 	create: function() 
 	{
+        //set bounds
+        this.bounds = {
+            x: 0,
+            y: BnB.C.HEIGHT-BnB.C.HEIGHT*this.numSections, 
+            width: this.game.width,
+            height: BnB.C.HEIGHT*this.numSections
+        };
+        this.game.world.setBounds(this.bounds.x,this.bounds.y,this.bounds.width,this.bounds.height);
+
+        //set up starry background
+        this.starLayer = this.add.group();
+        this.initializeStars();
+
         //place map images
         for(var i=1;i<=this.numSections;i++)
         {
@@ -60,12 +73,12 @@ BnB.LevelSelect.prototype = {
 
 			//Unlock ALL
 			var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-			this.unlockText = this.add.text(200,20,"Unlock All",myFont);
+			this.unlockText = this.add.text(0,BnB.C.HEIGHT-150,"Unlock All",myFont);
 			this.unlockText.inputEnabled = true;
 			this.unlockText.events.onInputDown.add(this.unlockLevels,this);
 
 			//reset 
-			this.resetText = this.add.text(400,20,"Reset All",myFont);
+			this.resetText = this.add.text(0,BnB.C.HEIGHT-100,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
 		// }
@@ -96,8 +109,7 @@ BnB.LevelSelect.prototype = {
 		this.buttons = this.add.group();
 		this.buttonTexts = this.add.group();
 
-		var buttonSize = 100;
-		var buttonGapX = 23;
+		var buttonSize = 80;
 		var buttonGapY = 60;
 
         //populate level buttons
@@ -123,19 +135,15 @@ BnB.LevelSelect.prototype = {
 		
 		
         //position level buttons
-        var totalColumns = 5;
-		var currentRow = 0;
+        var startX = this.game.width/2 - buttonSize/2;
+        var startY = BnB.C.HEIGHT*0.6;
 		for(var i=0;i<this.buttons.length;i++)
 		{
             var currentID = this.startingID + i;
 
-            //get row and column
-			var currentColumn = i%totalColumns;
-			if(currentColumn == 0 && i!=0) currentRow++;
-
             //get desired button coordinates
-			var buttonX = currentColumn*(buttonSize+buttonGapX)+buttonGapX;
-			var buttonY = currentRow*(buttonSize+buttonGapY)+buttonGapX + offsetY;
+            var buttonX = startX;
+			var buttonY = startY - i*(buttonSize+buttonGapY);
 
             //set button position
 			this.buttons.getAt(i).x = buttonX;
@@ -163,7 +171,6 @@ BnB.LevelSelect.prototype = {
 		}
 
         //enable kinetic scrolling
-        this.game.world.setBounds(0, BnB.C.HEIGHT-BnB.C.HEIGHT*this.numSections, this.game.width, BnB.C.HEIGHT*this.numSections);
         this.game.kineticScrolling.start();
 
         //enable music
@@ -173,6 +180,11 @@ BnB.LevelSelect.prototype = {
 
         BnB.fromState = 'LevelSelect';
 	},
+
+    update: function()
+    {
+        this.updateStars();
+    },
 
     shutdown: function()
     {
@@ -235,4 +247,26 @@ BnB.LevelSelect.prototype = {
     },
 
 
+
+    initializeStars: function() 
+    {
+        var rect = this.bounds;
+        this.spaceC = game.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'spaceC');
+        this.spaceB = game.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'spaceB');
+        this.spaceA = game.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'spaceA');
+        this.starLayer.add(this.spaceC);
+        this.starLayer.add(this.spaceB);
+        this.starLayer.add(this.spaceA);
+    },
+
+    updateStars: function()
+    {
+        var directionVector = BnB.Util.directionLookup['down'];
+        this.spaceC.tilePosition.x += directionVector.x;
+        this.spaceC.tilePosition.y += directionVector.y;
+        this.spaceB.tilePosition.x += 2 * directionVector.x;
+        this.spaceB.tilePosition.y += 2 * directionVector.y;
+        this.spaceA.tilePosition.x += 4 * directionVector.x;
+        this.spaceA.tilePosition.y += 4 * directionVector.y;
+    },
 };
