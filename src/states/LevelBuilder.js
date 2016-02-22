@@ -436,17 +436,21 @@ BnB.LevelBuilder.prototype = {
         BnB.levelBuilderY = this.gridHeight;
 
         //save to save data
-        BnB.SaveData.workingLevel.name = "test";
         BnB.SaveData.workingLevel.height = this.gridHeight;
         BnB.SaveData.workingLevel.width =this.gridWidth;
         BnB.SaveData.workingLevel.active = [];
         BnB.SaveData.workingLevel.fixed = [];
 
         //If no star levels - save some!
-        if(typeof BnB.SaveData.workingLevel.starLevels == 'undefined' || BnB.SaveData.workingLevel.starLevels.length != 2)
+        if(typeof BnB.SaveData.workingLevel.starLevels == 'undefined' || BnB.SaveData.workingLevel.starLevels.length != 3)
         {
             //TEMP - placeholder #s
-            BnB.SaveData.workingLevel.starLevels = [98,99];
+            BnB.SaveData.workingLevel.starLevels = [99,98,97];
+        }
+        //if no name = test
+        if(typeof BnB.SaveData.workingLevel.name == 'undefined')
+        {
+            BnB.SaveData.workingLevel.name = "test";   
         }
 
         var string1 = "{\n";
