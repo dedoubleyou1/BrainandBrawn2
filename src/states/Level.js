@@ -142,8 +142,8 @@ BnB.Level.prototype = {
         
 
         this.starsHUD = this.add.group();
-        this.starsHUD.visible = false; //TEMP
-        this.updateStars(3);
+        // this.starsHUD.visible = false; //TEMP
+        this.setUpStars();
     },
 
     initializeScreens: function()
@@ -351,28 +351,27 @@ BnB.Level.prototype = {
 
         //update stars in the HUD
         if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[2]){
-            this.updateStars(2);
+            this.currentStarLevel = 2;
         }
         else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[1]){
-            this.updateStars(1);
+            this.currentStarLevel = 1;
         }
         else if(this.currentStarLevel == 1 && this.numMoves >= this.starLevels[0]){
-            this.updateStars(0);
             this.moveText.visible = false;
+            this.starsHUD.visible = false;
+            this.currentStarLevel = 0;
         }
     },
 
     /*
         Draw 1-3 stars in the HUD (based on number of player moves)
     */
-    updateStars: function(numStars)
+    setUpStars: function(numStars)
     {
-        this.currentStarLevel = numStars;
-        this.starsHUD.removeAll(true);
+        var numStars = BnB.SaveData.getStars(this.level) + 1;
+        if(numStars > 3) return;
 
-        if(numStars == 0) return;
-
-        var starX = 510;
+        var starX = 450;
         var starY = 30;
 
         if(numStars == 3){
@@ -383,7 +382,13 @@ BnB.Level.prototype = {
             this.createStar(starX-10,starY);
             this.createStar(starX+15,starY);
         } else if(numStars == 1){
-            this.createStar(starX,starY);
+            this.createStar(starX-100,starY);
+        }
+
+        //starText
+        if(numStars > 1){
+            var starText = this.add.text(starX+30,starY-15," = " + (this.starLevels[0]-this.starLevels[numStars-1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+            this.starsHUD.add(starText);
         }
     },
 
