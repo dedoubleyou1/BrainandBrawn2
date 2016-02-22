@@ -29,6 +29,10 @@ BnB.TitleScreen.prototype = {
 		//add input to start the game
 		this.input.onTap.add(this.startGame, this);
 		BnB.AudioManager.playMusic('menuMusic',true);
+
+		//hack to solve animation problem on first level run
+		game.add.sprite(game.width, game.height, 'brawny_SpriteSheet');
+        game.add.sprite(game.width, game.height, 'brainy_SpriteSheet');
 	},
 
 	/*

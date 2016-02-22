@@ -413,7 +413,7 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
             var activeCoordinate = this.gridToPixel({x: x, y: y})
 
             //Add the FLOOR
-            if(map.fixed[y][x] != 'n' && map.fixed[y][x] != '#'){
+            if(map.fixed[y][x] != 'n'){
                 var bgSpriteHolder = game.add.sprite(activeCoordinate.x, activeCoordinate.y, 'spritesheet', 'brainandbrawn_floor');
                 this.floorGroup.add(bgSpriteHolder);
                 bgSpriteHolder.anchor = {x: 0.5, y: 0.5};
@@ -457,6 +457,14 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                     activeSprite.animations.add('beamIn', Phaser.Animation.generateFrameNames('SpriteSheet', 74, 69, '', 4), 24, false, false);
                     activeSprite.animations.add('beamOut', Phaser.Animation.generateFrameNames('SpriteSheet', 69, 74, '', 4), 24, false, false);
                     activeSprite.animations.play('beamIn'); 
+
+                    // var callback = (function(activeSprite){
+                    //   return function () {
+                    //     activeSprite.animations.play('beamIn'); 
+                    //   }
+                    // })(activeSprite).bind(this);
+
+                    // setTimeout(callback, 1000);
                 }
             }
 

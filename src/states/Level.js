@@ -153,7 +153,8 @@ BnB.Level.prototype = {
         //Add graphics filter (over game, behind HUD)
         this.fadeOutGraphic = this.add.graphics(0, 0);
         this.fadeOutGraphic.clear(); //move to state clear function
-        this.fadeOutGraphic.beginFill(0x000000, 0.8);
+        this.fadeOutGraphic.beginFill(0x000000, 1);
+        this.fadeOutGraphic.alpha = 0.8;
         this.fadeOutGraphic.drawRect(0, 0, this.game.width, this.game.height);
         this.fadeOutGraphic.endFill();
         this.fadeOutGraphic.visible = false;
