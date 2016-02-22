@@ -115,7 +115,7 @@ BnB.Level.prototype = {
             levelName = ": " + this.levelData.name;
         }
 
-        this.moveText = this.add.text(200,15,('Moves: '+"0/"+this.starLevels[1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.moveText = this.add.text(200,15,('Moves: '+ BnB.C.ONE_STAR), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         this.levelText = this.add.text(15,game.height-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
@@ -141,7 +141,8 @@ BnB.Level.prototype = {
         //Create HUD elements for SETTINGS screen (and hide)
         
 
-        this.starsHUD = this.add.group();   
+        this.starsHUD = this.add.group();
+        this.starsHUD.visible = false; //TEMP
         this.updateStars(3);
     },
 
@@ -312,7 +313,11 @@ BnB.Level.prototype = {
         BnB.AudioManager.playSFX('thunk');
         
         //update # of moves
-        if(this.numMoves<99)this.numMoves++;
+        if(this.numMoves<BnB.C.ONE_STAR){
+            this.numMoves++;
+        }else{
+            //TODO: end game
+        }
         
         this.updateHUD();
     },
@@ -340,13 +345,14 @@ BnB.Level.prototype = {
     updateHUD: function()
     {
         //Display # of Moves
-        var moveTextDisplay = "Moves: " + this.numMoves;
-        if(this.numMoves <=this.starLevels[1]){
-            moveTextDisplay += "/" + this.starLevels[1];    
-        }
-        else if(this.numMoves <=this.starLevels[0]){
-            moveTextDisplay += "/" + this.starLevels[0];
-        }
+        var movesLeft = BnB.C.ONE_STAR - this.numMoves;
+        var moveTextDisplay = "Moves: " + movesLeft;
+        // if(this.numMoves <=this.starLevels[1]){
+        //     moveTextDisplay += "/" + this.starLevels[1];    
+        // }
+        // else if(this.numMoves <=this.starLevels[0]){
+        //     moveTextDisplay += "/" + this.starLevels[0];
+        // }
         this.moveText.text = moveTextDisplay;
 
         //update stars in the HUD

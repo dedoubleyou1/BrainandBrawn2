@@ -24,6 +24,8 @@ var BnB = {
 BnB.C = {
     LEVELS_PER_PAGE: 100,
 
+    ONE_STAR: 99,//TEMP PLACEHOLDER
+
     //Core constants
     //sizing
     STANDARD_WIDTH: 2048,
