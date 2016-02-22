@@ -495,17 +495,17 @@ BnB.Level.prototype = {
                 // this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
                 // this.victoryImage.anchor = {x: 0.5, y: 0.5};
 
-                var bigStar = this.add.sprite(this.game.width/2,this.game.height/2,'starFinish','stars.ai0000');
+                var bigStar = this.add.sprite(this.game.width/2,this.game.height/2,'starFinish','stars0000');
                 bigStar.anchor = {x: 0.5, y: 0.5};
                 //bigStar.scale.setTo(0.4);
                 if(this.currentStarLevel == 1){
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 0, 11, '', 4), 24, false, false);
+                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 11, '', 4), 24, false, false);
                 }
                 else if(this.currentStarLevel == 2){
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 0, 23, '', 4), 24, false, false);
+                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 23, '', 4), 24, false, false);
                 }
                 else{
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 0, 35, '', 4), 24, false, false);
+                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 35, '', 4), 24, false, false);
                 }
                 bigStar.animations.play('finish');
             }

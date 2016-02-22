@@ -216,6 +216,7 @@ BnB.LevelSelect.prototype = {
 	*/
 	loadLevel: function(image) 
 	{
+        this.game.kineticScrolling.stop();
         BnB.Util.goToLevel(image.levelID);
 	},
 
