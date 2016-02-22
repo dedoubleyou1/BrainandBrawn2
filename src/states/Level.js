@@ -514,26 +514,26 @@ BnB.Level.prototype = {
 			this.newGroup = this.add.group();
 
             //show star counts
-            var starScale = 0.2;
+            var starScale = 0.4;
             var miniStarX = 50;
             var miniStarY = this.game.height*.7;
             var starFont = { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" };
-            if(this.currentStarLevel < 1){
+            if(this.currentStarLevel < 3){
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star3');
                 starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+70,miniStarY," = " + this.starLevels[2],starFont);
+                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]-this.starLevels[2]),starFont);
             }
             if(this.currentStarLevel < 2){
-                miniStarY += 100;
+                miniStarY += 60;
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star2');
                 starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+70,miniStarY," = " + this.starLevels[1],starFont);
+                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]-this.starLevels[1]),starFont);
             }
-            if(this.currentStarLevel < 3){
-                miniStarY += 100;
+            if(this.currentStarLevel < 1){
+                miniStarY += 60;
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star1');
                 starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+70,miniStarY," = " + this.starLevels[2],starFont);
+                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]-this.starLevels[0]),starFont);
             }
 
 
