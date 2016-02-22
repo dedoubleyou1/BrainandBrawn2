@@ -120,6 +120,7 @@ BnB.Level.prototype = {
         
         this.restartButton = this.add.image(570,2,'rButton');
         this.restartButtonBig = this.add.image(500,-30,'rButton');
+        this.restartButtonBig.anchor = {x: 0.5, y: 0.5};
         this.restartButtonBig.scale.setTo(2.5,2.5);
         this.restartButtonBig.inputEnabled = true;
         this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
@@ -494,19 +495,19 @@ BnB.Level.prototype = {
                 // this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
                 // this.victoryImage.anchor = {x: 0.5, y: 0.5};
 
-                var bigStar = this.add.sprite(this.game.width/2,this.game.height/3,'starFinish','stars.ai0000');
+                var bigStar = this.add.sprite(this.game.width/2,this.game.height/2,'starFinish','stars.ai0000');
                 bigStar.anchor = {x: 0.5, y: 0.5};
-                bigStar.scale.setTo(0.4);
-                if(this.currentStarLevel == 3){
+                //bigStar.scale.setTo(0.4);
+                if(this.currentStarLevel == 1){
                     bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 0, 11, '', 4), 24, false, false);
                 }
                 else if(this.currentStarLevel == 2){
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 12, 23, '', 4), 24, false, false);
+                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 0, 23, '', 4), 24, false, false);
                 }
                 else{
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 24, 35, '', 4), 24, false, false);
+                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars.ai', 0, 35, '', 4), 24, false, false);
                 }
-                // bigStar.animations.play('finish');
+                bigStar.animations.play('finish');
             }
 	  
 			//input for next level
@@ -517,7 +518,7 @@ BnB.Level.prototype = {
             var miniStarX = 50;
             var miniStarY = this.game.height*.7;
             var starFont = { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" };
-            if(this.currentStarLevel < 3){
+            if(this.currentStarLevel < 1){
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star3');
                 starSprite.scale.setTo(starScale);
                 this.add.text(miniStarX+70,miniStarY," = " + this.starLevels[2],starFont);
@@ -528,7 +529,7 @@ BnB.Level.prototype = {
                 starSprite.scale.setTo(starScale);
                 this.add.text(miniStarX+70,miniStarY," = " + this.starLevels[1],starFont);
             }
-            if(this.currentStarLevel < 1){
+            if(this.currentStarLevel < 3){
                 miniStarY += 100;
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star1');
                 starSprite.scale.setTo(starScale);
@@ -537,11 +538,12 @@ BnB.Level.prototype = {
 
 
 			this.restartButtonBig.alpha = 1;
-			this.restartButtonBig.x = 200;
-			this.restartButtonBig.y = this.game.height*0.8;
+			this.restartButtonBig.x = game.width/6*2;
+			this.restartButtonBig.y = this.game.height*0.9;
 			this.newGroup.add(this.restartButtonBig);
 
-			this.playButton = this.add.image(400,this.game.height*0.8,'pButton');
+			this.playButton = this.add.image(game.width/6*4,this.game.height*0.9,'pButton');
+			this.playButton.anchor = {x: 0.5, y: 0.5};
 			this.playButton.scale.setTo(2.5,2.5);
 			this.playButton.inputEnabled = true;
   		    this.playButton.events.onInputDown.add(this.nextLevel,this);
