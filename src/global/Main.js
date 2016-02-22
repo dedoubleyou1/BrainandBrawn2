@@ -99,6 +99,7 @@ BnB.C = {
         //REMOVED
 
         //Basic
+        'levels/idiot_proof.json',//NEW
         'levels/starterA.json',//NEW
         'levels/starterB.json',//NEW
         'levels/starterC.json',//NEW
