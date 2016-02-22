@@ -313,10 +313,8 @@ BnB.Level.prototype = {
         BnB.AudioManager.playSFX('thunk');
         
         //update # of moves
-        if(this.numMoves<this.starLevels[0]){
+        if(this.numMoves<99){
             this.numMoves++;
-        }else{
-            //TODO: end game
         }
         
         this.updateHUD();
@@ -345,15 +343,11 @@ BnB.Level.prototype = {
     updateHUD: function()
     {
         //Display # of Moves
-        var movesLeft = this.starLevels[0] - this.numMoves;
-        var moveTextDisplay = "Moves: " + movesLeft;
-        // if(this.numMoves <=this.starLevels[1]){
-        //     moveTextDisplay += "/" + this.starLevels[1];    
-        // }
-        // else if(this.numMoves <=this.starLevels[0]){
-        //     moveTextDisplay += "/" + this.starLevels[0];
-        // }
-        this.moveText.text = moveTextDisplay;
+        if(this.currentStarLevel > 0){
+            var movesLeft = this.starLevels[0] - this.numMoves;
+            var moveTextDisplay = "Moves: " + movesLeft;
+            this.moveText.text = moveTextDisplay;
+        }
 
         //update stars in the HUD
         if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[2]){
@@ -361,6 +355,10 @@ BnB.Level.prototype = {
         }
         else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[1]){
             this.updateStars(1);
+        }
+        else if(this.currentStarLevel == 1 && this.numMoves >= this.starLevels[0]){
+            this.updateStars(0);
+            this.moveText.visible = false;
         }
     },
 
@@ -372,6 +370,8 @@ BnB.Level.prototype = {
         this.currentStarLevel = numStars;
         this.starsHUD.removeAll(true);
 
+        if(numStars == 0) return;
+
         var starX = 510;
         var starY = 30;
 
@@ -382,7 +382,7 @@ BnB.Level.prototype = {
         } else if(numStars == 2){
             this.createStar(starX-10,starY);
             this.createStar(starX+15,starY);
-        } else {
+        } else if(numStars == 1){
             this.createStar(starX,starY);
         }
     },
@@ -471,13 +471,12 @@ BnB.Level.prototype = {
 			//show background filter
             this.fadeOutGraphic.visible = true;
 
-    	    this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
-			this.victoryImage.anchor = {x: 0.5, y: 0.5};
-			// this.victoryImage.scale.multiply(BnB.scale, BnB.scale);
+            if(this.currentStarLevel > 0){
+                this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
+                this.victoryImage.anchor = {x: 0.5, y: 0.5};
+            }
 	  
 			//input for next level
-			// game.input.onTap.add(this.nextLevel, this);
-			// game.input.keyboard.addCallbacks(this,null,this.nextLevel);
 			this.newGroup = this.add.group();
 
 			this.restartButtonBig.alpha = 1;
