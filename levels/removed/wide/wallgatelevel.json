@@ -2,7 +2,7 @@
 	"name": "",
 	"width": 9,
 	"height": 6,
-	"starLevels": [12,7],
+	"starLevels": [90,12,7],
 	"tutorial": [
 		"tutorial8",
         "tutorial9"

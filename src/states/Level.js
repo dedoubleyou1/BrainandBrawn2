@@ -59,7 +59,7 @@ BnB.Level.prototype = {
 
         //set STAR levels
         this.currentStarLevel = 3;
-        this.starLevels = [20,10];//defult
+        this.starLevels = [90,20,10];//defult
         if(typeof this.levelData.starLevels != 'undefined'){
             this.starLevels = this.levelData.starLevels;
         }
@@ -115,7 +115,7 @@ BnB.Level.prototype = {
             levelName = ": " + this.levelData.name;
         }
 
-        this.moveText = this.add.text(200,15,('Moves: '+ BnB.C.ONE_STAR), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.moveText = this.add.text(200,15,('Moves: '+ this.starLevels[0]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         this.levelText = this.add.text(15,game.height-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
@@ -313,7 +313,7 @@ BnB.Level.prototype = {
         BnB.AudioManager.playSFX('thunk');
         
         //update # of moves
-        if(this.numMoves<BnB.C.ONE_STAR){
+        if(this.numMoves<this.starLevels[0]){
             this.numMoves++;
         }else{
             //TODO: end game
@@ -345,7 +345,7 @@ BnB.Level.prototype = {
     updateHUD: function()
     {
         //Display # of Moves
-        var movesLeft = BnB.C.ONE_STAR - this.numMoves;
+        var movesLeft = this.starLevels[0] - this.numMoves;
         var moveTextDisplay = "Moves: " + movesLeft;
         // if(this.numMoves <=this.starLevels[1]){
         //     moveTextDisplay += "/" + this.starLevels[1];    
@@ -356,10 +356,10 @@ BnB.Level.prototype = {
         this.moveText.text = moveTextDisplay;
 
         //update stars in the HUD
-        if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[1]){
+        if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[2]){
             this.updateStars(2);
         }
-        else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[0]){
+        else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[1]){
             this.updateStars(1);
         }
     },

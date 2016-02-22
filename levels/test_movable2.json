@@ -2,7 +2,7 @@
 "name": "Exported Level",
 "width": 5,
 "height": 5,
-"starLevels": [10,5],
+"starLevels": [90,10,5],
 "active": [
 [" "," "," "," "," "," "," "," "," "," "],
 [" "," ","B","b"," "," "," "," "," "," "],
