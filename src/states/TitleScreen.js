@@ -44,7 +44,7 @@ BnB.TitleScreen.prototype = {
             this.state.start('MainMenu');
         }
         else{
-            BnB.Util.goToLevel(0);
+            this.state.start('LevelSelect',true,false,0);
         }
 	}
 };
