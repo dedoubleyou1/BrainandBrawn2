@@ -495,7 +495,7 @@ BnB.Level.prototype = {
                 // this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
                 // this.victoryImage.anchor = {x: 0.5, y: 0.5};
 
-                var bigStar = this.add.sprite(this.game.width/2,this.game.height/2,'starFinish','stars0000');
+                var bigStar = this.add.sprite(this.game.width/2,this.game.height/2,'starFinish','stars0001');
                 bigStar.anchor = {x: 0.5, y: 0.5};
                 //bigStar.scale.setTo(0.4);
                 if(this.currentStarLevel == 1){
