@@ -129,31 +129,30 @@ BnB.C = {
         'levels/gatetunnellevel.json',
         'levels/test_colors1.json',
 
+        //open
+        'levels/openlevel0_v2.json',
+        'levels/openLevel02.json',
+        'levels/openLevel03.json',
+        'levels/tetris.json',
+        'levels/switchCenter_v1.json',//NEW
+
         //pegs
         'levels/rotatePegs.json',
         'levels/gates1.json',
         'levels/passagelevel.json',
         'levels/pegBridge_v2.json',
 
-        //open
-        'levels/openlevel0_v2.json',
-        'levels/openLevel02.json',
-        'levels/openLevel03.json',
-        'levels/tetris.json',
+        //breakable
+        'levels/breakspace.json',//NEW
+        'levels/test_breakable0.json',
+        'levels/test_breakable1.json',
+        'levels/test_breakable2.json',
+        'levels/switchCracked.json',
 
         //colored pegs
         'levels/switchPegs01.json',//put enemy in center
         'levels/switchPegs02.json',
         'levels/switchPegs03.json',
-
-        //moving green alien
-        'levels/greenMover.json',
-
-        //breakable
-        'levels/test_breakable0.json',
-        'levels/test_breakable1.json',
-        'levels/test_breakable2.json',
-        'levels/switchCracked.json',
 
         //spike
         'levels/test_spikedBlock0.json',
@@ -162,10 +161,10 @@ BnB.C = {
         'levels/test_spike2.json',
         'levels/spikeCrack02.json',
 
-        //moving spikey alien
-        'levels/test_spikedBall0.json',
-        'levels/test_spikedBall1.json',
-        'levels/test_spikedBall2.json',
+        //moving green alien
+        'levels/greenMover.json',//NEW
+        'levels/activealien.json',//NEW
+        'levels/brawnypit.json',//NEW
 
         //movable
         'levels/test_movable2.json',
@@ -174,7 +173,14 @@ BnB.C = {
         'levels/test_movable1_v2.json',
         'levels/test_moveBlock0.json',
 
+        //moving spikey alien
+        'levels/test_spikedBall0.json',
+        'levels/test_spikedBall1.json',
+        'levels/test_spikedBall2.json',
+
         //moveable + 
+        'levels/holycrap.json',//NEW
+
         //superHard - FINISH LEVEL!
     ],
 
