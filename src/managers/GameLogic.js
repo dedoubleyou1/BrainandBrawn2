@@ -334,6 +334,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           'B': {isSolid: false, trigger: triggers.killFixed},
           '@': {isSolid: true}, 
           '$': {isSolid: false, trigger: triggers.killFixed},
+          'm': {isSolid: true}
         },
     }
     return keyLookup[key];
@@ -628,7 +629,7 @@ BnB.GameLogic.prototype.checkFixedTriggers = function(direction,stepResults) {
     {
         var activeObj = this.activeObjects[i];
 
-        if(!activeObj.alive) return;
+        if(!activeObj.alive) continue;
 
         var x = activeObj.gridPos.x;
         var y = activeObj.gridPos.y;
