@@ -60,11 +60,11 @@ BnB.SaveData = {
 	//reset leveling progress
 	reset: function()
 	{
-		for(var i=0;i<this.levelStatus.length;i++)
-		{
-			this.levelStatus[i] = -1;
-		}
-		this.levelStatus[0] = 0; //unlock first level
+        this.levelStatus = [];
+        for (var i = 0; i < BnB.levels.length; i++) {
+            this.levelStatus.push(-1);
+        };
+        this.levelStatus[0] = 0; //unlock first level with 0 stars (incomplete)
         this.saveGame();
 	},
 
