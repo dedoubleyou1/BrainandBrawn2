@@ -133,8 +133,9 @@ BnB.C = {
         'levels/openlevel0_v2.json',
         'levels/openLevel02.json',
         'levels/openLevel03.json',
-        'levels/tetris.json',
+        'levels/tetris_v2.json',
         'levels/switchCenter_v1.json',//NEW
+        'levels/scatterplot.json',//NEW
 
         //pegs
         'levels/rotatePegs.json',
@@ -148,6 +149,7 @@ BnB.C = {
         'levels/test_breakable1.json',
         'levels/test_breakable2.json',
         'levels/switchCracked.json',
+        'levels/test_breakable3.json',//RE-MAKE
 
         //colored pegs
         'levels/switchPegs01.json',//put enemy in center
@@ -158,7 +160,7 @@ BnB.C = {
         'levels/test_spikedBlock0.json',
         'levels/rotateSpike02.json',
         'levels/test_spike1_v2.json',
-        'levels/test_spike2.json',
+        // 'levels/test_spike2.json', //REMOVED
         'levels/spikeCrack02.json',
 
         //moving green alien
