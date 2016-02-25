@@ -119,7 +119,7 @@ BnB.Level.prototype = {
         this.levelText = this.add.text(15,game.height-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
-        this.restartButtonBig = this.add.image(500,-30,'rButton');
+        this.restartButtonBig = this.add.image(580,50,'rButton');
         this.restartButtonBig.anchor = {x: 0.5, y: 0.5};
         this.restartButtonBig.scale.setTo(2.5,2.5);
         this.restartButtonBig.inputEnabled = true;
