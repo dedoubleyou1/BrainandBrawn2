@@ -24,8 +24,6 @@ var BnB = {
 BnB.C = {
     LEVELS_PER_PAGE: 100,
 
-    HIDE_STARS: true,
-
     //Core constants
     //sizing
     STANDARD_WIDTH: 2048,
@@ -53,6 +51,7 @@ BnB.C = {
     HUD_HEIGHT: 80,
     BOTTOM_HUD_HEIGHT: 40,
     BORDER_X: 30,
+    HIDE_STARS: false,
 
 
     LEVELS_DEMO: [

@@ -94,6 +94,7 @@ BnB.Preloader.prototype = {
         this.load.image('star1','images/star1.png');
         this.load.image('star2','images/star2.png');
         this.load.image('star3','images/star3.png');
+        this.load.image('checkMark','images/greencheck.png');
 
         // Sound
         // this.load.audio('thunk','sound/rs.mp3');

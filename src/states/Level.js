@@ -498,25 +498,44 @@ BnB.Level.prototype = {
             //show star counts
             var starScale = 0.4;
             var miniStarX = 50;
-            var miniStarY = this.game.height*.7;
+            var miniStarY = this.game.height*.6;
+            var checkX = miniStarX + 130;
             var starFont = { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" };
-            
-            if(this.currentStarLevel < 3){
-                var starSprite = this.add.sprite(miniStarX,miniStarY,'star3');
-                starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[1]),starFont);
+            var earnedStars = BnB.SaveData.getStars(this.level);
+
+            //3 star
+            var starSprite = this.add.image(miniStarX,miniStarY,'star3');
+            starSprite.scale.setTo(starScale);
+            this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[1]),starFont);
+            if(earnedStars == 3){
+                var check = this.add.image(checkX,miniStarY+20,'checkMark');
+                check.anchor.setTo(0.5);
+                check.scale.setTo(0.2);
             }
-            if(this.currentStarLevel < 2){
-                miniStarY += 60;
-                var starSprite = this.add.sprite(miniStarX,miniStarY,'star2');
-                starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]),starFont);
+
+            //2-star
+            miniStarY += 60;
+            var starSprite = this.add.image(miniStarX,miniStarY,'star2');
+            starSprite.scale.setTo(starScale);
+            this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]),starFont);
+            if(earnedStars >= 2){
+                var check = this.add.image(checkX,miniStarY+20,'checkMark');
+                check.anchor.setTo(0.5);
+                check.scale.setTo(0.2);
             }
             
-            //STAR
-            // miniStarY += 60;
-            // var starSprite = this.add.sprite(miniStarX,miniStarY,'star1');
-            // starSprite.scale.setTo(starScale);\
+            //1-star
+            miniStarY += 60;
+            var starSprite = this.add.image(miniStarX,miniStarY,'star1');
+            starSprite.scale.setTo(starScale);
+            var check = this.add.image(checkX-50,miniStarY+20,'checkMark');
+            check.anchor.setTo(0.5);
+            check.scale.setTo(0.2);
+
+            //place checkmarks
+            
+
+
 
 
 			this.restartButtonBig.alpha = 1;
