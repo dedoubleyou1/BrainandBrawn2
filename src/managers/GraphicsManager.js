@@ -840,7 +840,7 @@ BnB.GraphicsManager.prototype.starGenerator = function() {
 
 BnB.GraphicsManager.prototype.starUpdate = function(direction) {
     if (typeof direction === 'undefined') {
-      direction = 'up';
+      direction = 'down';
     }
     var directionVector = BnB.Util.directionLookup[direction];
 

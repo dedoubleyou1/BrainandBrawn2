@@ -251,10 +251,15 @@ BnB.LevelSelect.prototype = {
 
     initializeStars: function() 
     {
-        var rect = this.bounds;
-        this.spaceC = game.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'spaceC');
-        this.spaceB = game.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'spaceB');
-        this.spaceA = game.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'spaceA');
+        //var rect = this.bounds;
+        this.spaceC = game.add.tileSprite(0, 0, game.width, game.height, 'spaceC');
+        this.spaceB = game.add.tileSprite(0, 0, game.width, game.height, 'spaceB');
+        this.spaceA = game.add.tileSprite(0, 0, game.width, game.height, 'spaceA');
+
+        this.spaceC.fixedToCamera = true;
+        this.spaceB.fixedToCamera = true;
+        this.spaceA.fixedToCamera = true;
+
         this.starLayer.add(this.spaceC);
         this.starLayer.add(this.spaceB);
         this.starLayer.add(this.spaceA);
@@ -262,6 +267,7 @@ BnB.LevelSelect.prototype = {
 
     updateStars: function()
     {
+
         var directionVector = BnB.Util.directionLookup['down'];
         this.spaceC.tilePosition.x += directionVector.x;
         this.spaceC.tilePosition.y += directionVector.y;
