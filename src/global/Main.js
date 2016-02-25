@@ -182,6 +182,7 @@ BnB.C = {
 
         //moveable + 
         'levels/holycrap.json',//NEW
+        'levels/superHard.json',//NEW
 
         //superHard - FINISH LEVEL!
     ],
