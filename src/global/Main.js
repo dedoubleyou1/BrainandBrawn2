@@ -24,7 +24,7 @@ var BnB = {
 BnB.C = {
     LEVELS_PER_PAGE: 100,
 
-    ONE_STAR: 99,//TEMP PLACEHOLDER
+    HIDE_STARS: true,
 
     //Core constants
     //sizing

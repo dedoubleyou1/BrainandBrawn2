@@ -365,6 +365,8 @@ BnB.Level.prototype = {
     */
     updateStars: function(numStars)
     {
+        if(BnB.SaveData.getStars(this.level) == 0 && BnB.C.HIDE_STARS) return;
+
         this.starsHUD.removeAll();
 
         var starX = 350;
