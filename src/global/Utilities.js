@@ -13,7 +13,9 @@ BnB.Util = {
     //
     goToLevel: function(id)
     {
-        game.state.start('Level',true,false,id);
+        if(id >=0 && id < BnB.levels.length){
+            game.state.start('Level',true,false,id);
+        }
     },
 
     goToCustomLevel: function(id,saveData)

@@ -89,12 +89,14 @@ BnB.Level.prototype = {
 		}
 
         //Set up DEBUG input
+        this.prevKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        this.prevKey.onUp.add(this.previousLevel,this);
         this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
         this.nextKey.onUp.add(this.skipLevel,this);
         this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
         this.restartKey.onUp.add(this.restartLevel,this);
-        this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-        this.printKey.onUp.add(this.printMap,this);
+        // this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        // this.printKey.onUp.add(this.printMap,this);
         //end DEBUG input
 
         //enable music
@@ -674,6 +676,21 @@ BnB.Level.prototype = {
 
 		this.nextLevel();
 	},
+
+    /* 
+        Jump back to previous level
+    */
+    previousLevel: function()
+    {
+        if(this.level - 1 < 0) return;
+
+        this.numMoves = 0;
+        if(!this.levelFinished){
+            //overwrite with 0
+            BnB.SaveData.setStars(this.level,0);
+        }
+        BnB.Util.goToLevel(this.level-1);
+    },
 
 
 
