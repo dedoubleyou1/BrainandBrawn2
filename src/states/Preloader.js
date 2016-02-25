@@ -39,6 +39,7 @@ BnB.Preloader.prototype = {
         this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
         this.load.atlasJSONArray('block_SpriteSheet', 'images/seamlessWalls.png', 'images/seamlessWalls.json');
         this.load.atlasJSONArray('starFinish', 'images/stars.png', 'images/stars.json');
+        this.load.atlasJSONArray('buttons', 'images/buttons.png', 'images/buttons.json');
 
 
         // Static Images

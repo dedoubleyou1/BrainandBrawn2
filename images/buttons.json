@@ -1,0 +1,76 @@
+{"frames": [
+
+{
+	"filename": "buttons_levelselect_down",
+	"frame": {"x":239,"y":518,"w":1024,"h":241},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":15,"w":1024,"h":241},
+	"sourceSize": {"w":1024,"h":256}
+},
+{
+	"filename": "buttons_levelselect_up",
+	"frame": {"x":2,"y":260,"w":1024,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1024,"h":256},
+	"sourceSize": {"w":1024,"h":256}
+},
+{
+	"filename": "buttons_resume_down",
+	"frame": {"x":2,"y":765,"w":1025,"h":241},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":15,"w":1025,"h":241},
+	"sourceSize": {"w":1025,"h":256}
+},
+{
+	"filename": "buttons_resume_up",
+	"frame": {"x":2,"y":2,"w":1025,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1025,"h":256},
+	"sourceSize": {"w":1025,"h":256}
+},
+{
+	"filename": "buttons_toggleA_down",
+	"frame": {"x":1028,"y":260,"w":235,"h":234},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":11,"w":235,"h":234},
+	"sourceSize": {"w":256,"h":256}
+},
+{
+	"filename": "buttons_toggleA_up",
+	"frame": {"x":1029,"y":2,"w":235,"h":234},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":11,"w":235,"h":234},
+	"sourceSize": {"w":256,"h":256}
+},
+{
+	"filename": "buttons_toggleB_down",
+	"frame": {"x":1029,"y":761,"w":235,"h":234},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":11,"w":235,"h":234},
+	"sourceSize": {"w":256,"h":256}
+},
+{
+	"filename": "buttons_toggleB_up",
+	"frame": {"x":2,"y":518,"w":235,"h":245},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":0,"w":235,"h":245},
+	"sourceSize": {"w":256,"h":256}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "buttons.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ffd0cb71e2be140c3dc336cda420d2a1:1820944106aded78f075cf8b49782f8d:b34c8670b11bb20cb1751a70d3683e22$"
+}
+}

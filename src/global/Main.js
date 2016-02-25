@@ -36,6 +36,7 @@ BnB.C = {
     BOUNDARY_DEATH: true,
 
     //Visuals
+    ENABLE_LEVEL_NAMES: false,
     ENABLE_STARS: true,
     SWIPING_OFFSET: false,
     SWIPING_LEANING: true,

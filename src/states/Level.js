@@ -117,9 +117,12 @@ BnB.Level.prototype = {
             levelName = ": " + this.levelData.name;
         }
 
-        this.moveText = this.add.text(150,15,('Moves: 0'), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-        this.levelText = this.add.text(15,game.height-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-        
+        this.moveText = this.add.text(150,15,('Moves: 0'), { font: "25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        if (BnB.C.ENABLE_LEVEL_NAMES){
+        	this.levelText = this.add.text(game.width/2,game.height,('Level '+(this.level+1) + levelName), { font: "18px Quicksand", fill: "#ffffff", align: "left" });
+        	this.levelText.anchor = {x: 0.5, y: 1};        	
+        }
+
         this.restartButton = this.add.image(570,2,'rButton');
         this.restartButtonBig = this.add.image(580,50,'rButton');
         this.restartButtonBig.anchor = {x: 0.5, y: 0.5};
@@ -128,16 +131,16 @@ BnB.Level.prototype = {
         this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
         this.restartButtonBig.alpha = 0;
         
-        this.menuButton = this.add.image(20,8,'mButton');
-        this.menuButton.scale.setTo(0.8,0.8);
-        this.menuButtonBig = this.add.image(0,-12,'mButton');
-        this.menuButtonBig.scale.setTo(2,2);
-        this.menuButtonBig.inputEnabled = true;
-        this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
-        this.menuButtonBig.alpha = 0;
+        // this.menuButton = this.add.image(0,0,'mButton');
+        // this.menuButton.scale.setTo(0.2,0.2);
+        // this.menuButtonBig = this.add.image(0,-12,'mButton');
+        // this.menuButtonBig.scale.setTo(2,2);
+        // this.menuButtonBig.inputEnabled = true;
+        // this.menuButtonBig.events.onInputDown.add(this.returnToLevelSelect,this);
+        // this.menuButtonBig.alpha = 0;
 
-        this.settingsButton = this.add.image(this.game.width-80,this.game.height-80,'settingsButton');
-        this.settingsButton.scale.setTo(0.3);
+        this.settingsButton = this.add.image(0,0,'mButton');
+        this.settingsButton.scale.setTo(0.25);
         this.settingsButton.inputEnabled = true;
         this.settingsButton.events.onInputDown.add(this.showSettings,this);
 
@@ -151,7 +154,7 @@ BnB.Level.prototype = {
 
     initializeScreens: function()
     {  
-        var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"};
+        var myFont = { font: "36px Quicksand", fill: "#ffffff", align: "center"};
 
         //Add graphics filter (over game, behind HUD)
         this.fadeOutGraphic = this.add.graphics(0, 0);
@@ -162,43 +165,85 @@ BnB.Level.prototype = {
         this.fadeOutGraphic.endFill();
         this.fadeOutGraphic.visible = false;
 
+        // Return to level select
+        this.returnToSelect = game.add.button(game.world.centerX, 160, 'buttons', this.returnToLevelSelect, this, undefined, 'buttons_levelselect_up', 'buttons_levelselect_down');
+        this.returnToSelect.anchor = {x: 0.5, y: 0.5};
+        this.returnToSelect.scale.setTo(0.4,0.4);
+
         //Audio toggles
 
-        this.toggleMusicText = this.add.text(250,100,"Music: On",myFont);
-        this.toggleMusicText.inputEnabled = true;
-        this.toggleMusicText.events.onInputDown.add(function(){
+        var toggleMusicFunction = function(){
             BnB.AudioManager.toggleMusic();
-            this.updateToggleStrings();
-        },this)
+            //this.updateToggleStrings();
+            if (this.toggleMusicButton.frameName === 'buttons_toggleA_up') {
+            	this.toggleMusicButton.frameName = 'buttons_toggleA_down';
+            } else {
+            	this.toggleMusicButton.frameName = 'buttons_toggleA_up';
+            }
+        };
 
-        this.toggleSFXText = this.add.text(250,150,"SFX: On",myFont);
-        this.toggleSFXText.inputEnabled = true;
-        this.toggleSFXText.events.onInputDown.add(function(){
+        var toggleSFXFunction = function(){
             BnB.AudioManager.toggleSFX();
-            this.updateToggleStrings();
-        },this)
+            //this.updateToggleStrings();
+            if (this.toggleSFXButton.frameName === 'buttons_toggleB_up') {
+            	this.toggleSFXButton.frameName = 'buttons_toggleB_down';
+            } else {
+            	this.toggleSFXButton.frameName = 'buttons_toggleB_up';
+            }
+        };
+
+        this.toggleMusicText = this.add.text(game.world.centerX - 90,280,"Music:",myFont);
+        this.toggleMusicText.anchor = {x: 0.5, y: 0.5};
+        this.toggleMusicText.inputEnabled = true;
+        this.toggleMusicText.events.onInputDown.add(toggleMusicFunction,this)
+        this.toggleMusicButton = game.add.button(game.world.centerX - 90, 360, 'buttons', toggleMusicFunction, this);
+        this.toggleMusicButton.anchor = {x: 0.5, y: 0.5};
+        this.toggleMusicButton.frameName = 'buttons_toggleA_up';
+        this.toggleMusicButton.scale.setTo(0.4,0.4);
+
+        this.toggleSFXText = this.add.text(game.world.centerX + 90,280,"SFX:",myFont);
+        this.toggleSFXText.anchor = {x: 0.5, y: 0.5};
+        this.toggleSFXText.inputEnabled = true;
+        this.toggleSFXText.events.onInputDown.add(toggleSFXFunction,this)
+        this.toggleSFXButton = game.add.button(game.world.centerX + 90, 360, 'buttons', toggleSFXFunction, this);
+        this.toggleSFXButton.anchor = {x: 0.5, y: 0.5};
+        this.toggleSFXButton.frameName = 'buttons_toggleB_up';
+        this.toggleSFXButton.scale.setTo(0.4,0.4);
 
         this.toggleGroup = this.add.group();
         this.toggleGroup.add(this.toggleMusicText);
+        this.toggleGroup.add(this.toggleMusicButton);
         this.toggleGroup.add(this.toggleSFXText);
+        this.toggleGroup.add(this.toggleSFXButton);
+        this.toggleGroup.add(this.returnToSelect);
         this.toggleGroup.visible = false;
-        this.updateToggleStrings();//set initial properties
+        //this.updateToggleStrings();//set initial properties
 
         //Credits
-        var creditsX = 250;
-        var creditsY = 400;
+        var creditsY = 480;
         this.creditsGroup = this.add.group();
-        this.creditsGroup.add(this.add.text(creditsX,creditsY,"CREDITS:",myFont));
-        this.creditsGroup.add(this.add.text(creditsX,creditsY+40,"Rohit Crasta",myFont));
-        this.creditsGroup.add(this.add.text(creditsX,creditsY+80,"David Wallin",myFont));
-        this.creditsGroup.add(this.add.text(creditsX,creditsY+120,"Michael Hoffman",myFont));
+        var textA = this.add.text(game.world.centerX,creditsY,"CREDITS:",myFont);
+        var textB = this.add.text(game.world.centerX,creditsY+60,"Rohit Crasta",myFont);
+        var textC = this.add.text(game.world.centerX,creditsY+100,"David Wallin",myFont);
+        var textD = this.add.text(game.world.centerX,creditsY+140,"Michael Hoffman",myFont);
+
+        textA.anchor = {x: 0.5, y: 0.5};
+        textB.anchor = {x: 0.5, y: 0.5};
+        textC.anchor = {x: 0.5, y: 0.5};
+        textD.anchor = {x: 0.5, y: 0.5};
+
+        this.creditsGroup.add(textA);
+        this.creditsGroup.add(textB);
+        this.creditsGroup.add(textC);
+        this.creditsGroup.add(textD);
         this.creditsGroup.visible = false;
 
         //continue button
-        this.continueButton = this.add.image(300,600,'pButton');
-        this.continueButton.scale.setTo(2.5,2.5);
-        this.continueButton.inputEnabled = true;
-        this.continueButton.events.onInputDown.add(this.hideSettings,this);
+        this.continueButton = game.add.button(game.world.centerX, 720, 'buttons', this.hideSettings, this, undefined, 'buttons_resume_up', 'buttons_resume_down');
+        this.continueButton.anchor = {x: 0.5, y: 0.5};
+        this.continueButton.scale.setTo(0.4,0.4);
+        // this.continueButton.inputEnabled = true;
+        // this.continueButton.events.onInputDown.add(this.hideSettings,this);
         this.continueButton.visible = false;
     },
 
@@ -387,7 +432,7 @@ BnB.Level.prototype = {
 
         //starText
         if(numStars > 1){
-            var starText = this.add.text(starX+30,starY-15," = " + (this.starLevels[numStars-2]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+            var starText = this.add.text(starX+30,starY-15," = " + (this.starLevels[numStars-2]), { font: "25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
             this.starsHUD.add(starText);
         }
     },
@@ -477,7 +522,7 @@ BnB.Level.prototype = {
             this.fadeOutGraphic.visible = true;
 
             //show Num Moves
-            this.add.text(this.game.width/2.5,this.game.height*0.6,this.numMoves + " moves",{ font: "bold 100px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+            this.add.text(this.game.width/2.5,this.game.height*0.6,this.numMoves + " moves",{ font: "100px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
 
 
             var bigStar = this.add.sprite(this.game.width/2,this.game.height/3,'starFinish','stars0001');
@@ -502,7 +547,7 @@ BnB.Level.prototype = {
             var miniStarX = 50;
             var miniStarY = this.game.height*.6;
             var checkX = miniStarX + 130;
-            var starFont = { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" };
+            var starFont = { font: "25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" };
             var earnedStars = BnB.SaveData.getStars(this.level);
 
             //3 star
