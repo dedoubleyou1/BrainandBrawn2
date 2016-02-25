@@ -59,8 +59,8 @@ BnB.Level.prototype = {
 
         //set STAR levels
         this.currentStarLevel = 3;
-        this.starLevels = [90,20,10];//defult
-        if(typeof this.levelData.starLevels != 'undefined'){
+        this.starLevels = [20,10];//defult
+        if(typeof this.levelData.starLevels != 'undefined' && this.levelData.starLevels.length == 2){
             this.starLevels = this.levelData.starLevels;
         }
 
@@ -115,7 +115,7 @@ BnB.Level.prototype = {
             levelName = ": " + this.levelData.name;
         }
 
-        this.moveText = this.add.text(200,15,('Moves: '+ this.starLevels[0]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+        this.moveText = this.add.text(150,15,('Moves: 0'), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         this.levelText = this.add.text(15,game.height-30,('Level '+(this.level+1) + levelName), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
         
         this.restartButton = this.add.image(570,2,'rButton');
@@ -144,7 +144,7 @@ BnB.Level.prototype = {
 
         this.starsHUD = this.add.group();
         // this.starsHUD.visible = false; //TEMP
-        this.setUpStars();
+        this.updateStars(3);
     },
 
     initializeScreens: function()
@@ -346,35 +346,28 @@ BnB.Level.prototype = {
     {
         //Display # of Moves
         if(this.currentStarLevel > 0){
-            var movesLeft = this.starLevels[0] - this.numMoves;
-            var moveTextDisplay = "Moves: " + movesLeft;
-            this.moveText.text = moveTextDisplay;
+            this.moveText.text = "Moves: " + this.numMoves;
         }
 
         //update stars in the HUD
-        if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[2]){
+        if(this.currentStarLevel == 3 && this.numMoves > this.starLevels[1]){
             this.currentStarLevel = 2;
+            this.updateStars(2);
         }
-        else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[1]){
+        else if(this.currentStarLevel == 2 && this.numMoves > this.starLevels[0]){
             this.currentStarLevel = 1;
-        }
-        else if(this.currentStarLevel == 1 && this.numMoves >= this.starLevels[0]){
-            this.moveText.visible = false;
-            this.starsHUD.visible = false;
-            this.currentStarLevel = 0;
+            this.updateStars(1);
         }
     },
 
     /*
         Draw 1-3 stars in the HUD (based on number of player moves)
     */
-    setUpStars: function(numStars)
+    updateStars: function(numStars)
     {
-        var numStars = BnB.SaveData.getStars(this.level) + 1;
-        if(numStars > 3) return;
+        this.starsHUD.removeAll();
 
-
-        var starX = 450;
+        var starX = 350;
         var starY = 30;
 
         if(numStars == 3){
@@ -385,12 +378,12 @@ BnB.Level.prototype = {
             this.createStar(starX-10,starY);
             this.createStar(starX+15,starY);
         } else if(numStars == 1){
-            this.createStar(starX-100,starY);
+            this.createStar(starX,starY);
         }
 
         //starText
         if(numStars > 1){
-            var starText = this.add.text(starX+30,starY-15," = " + (this.starLevels[0]-this.starLevels[numStars-1]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+            var starText = this.add.text(starX+30,starY-15," = " + (this.starLevels[numStars-2]), { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
             this.starsHUD.add(starText);
         }
     },
@@ -480,35 +473,22 @@ BnB.Level.prototype = {
             this.fadeOutGraphic.visible = true;
 
             //show Num Moves
-            var movesLeft = this.starLevels[0] - this.numMoves;
-            var moveStr; 
-            if(movesLeft < 0){
-                moveStr = -1*movesLeft + " moves over";
+            this.add.text(this.game.width/2.5,this.game.height*0.6,this.numMoves + " moves",{ font: "bold 100px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
+
+
+            var bigStar = this.add.sprite(this.game.width/2,this.game.height/3,'starFinish','stars0001');
+            bigStar.anchor = {x: 0.5, y: 0.5};
+            //bigStar.scale.setTo(0.4);
+            if(this.currentStarLevel == 1){
+                bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 11, '', 4), 24, false, false);
+            }
+            else if(this.currentStarLevel == 2){
+                bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 23, '', 4), 24, false, false);
             }
             else{
-                moveStr = movesLeft + " moves left";
+                bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 35, '', 4), 24, false, false);
             }
-            this.add.text(this.game.width/3,this.game.height/5,moveStr,{ font: "bold 100px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" });
-
-
-            if(this.currentStarLevel > 0){
-                // this.victoryImage = this.add.sprite(this.game.width / 2, this.game.height / 3, ('star'+this.currentStarLevel));
-                // this.victoryImage.anchor = {x: 0.5, y: 0.5};
-
-                var bigStar = this.add.sprite(this.game.width/2,this.game.height/2,'starFinish','stars0001');
-                bigStar.anchor = {x: 0.5, y: 0.5};
-                //bigStar.scale.setTo(0.4);
-                if(this.currentStarLevel == 1){
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 11, '', 4), 24, false, false);
-                }
-                else if(this.currentStarLevel == 2){
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 23, '', 4), 24, false, false);
-                }
-                else{
-                    bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 35, '', 4), 24, false, false);
-                }
-                bigStar.animations.play('finish');
-            }
+            bigStar.animations.play('finish');
 	  
 			//input for next level
 			this.newGroup = this.add.group();
@@ -518,23 +498,23 @@ BnB.Level.prototype = {
             var miniStarX = 50;
             var miniStarY = this.game.height*.7;
             var starFont = { font: "bold 25px Quicksand", fontSize: 25, fill: "#ffffff", align: "left" };
+            
             if(this.currentStarLevel < 3){
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star3');
                 starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]-this.starLevels[2]),starFont);
+                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[1]),starFont);
             }
             if(this.currentStarLevel < 2){
                 miniStarY += 60;
                 var starSprite = this.add.sprite(miniStarX,miniStarY,'star2');
                 starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]-this.starLevels[1]),starFont);
+                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]),starFont);
             }
-            if(this.currentStarLevel < 1){
-                miniStarY += 60;
-                var starSprite = this.add.sprite(miniStarX,miniStarY,'star1');
-                starSprite.scale.setTo(starScale);
-                this.add.text(miniStarX+50,miniStarY+15," = " + (this.starLevels[0]-this.starLevels[0]),starFont);
-            }
+            
+            //STAR
+            // miniStarY += 60;
+            // var starSprite = this.add.sprite(miniStarX,miniStarY,'star1');
+            // starSprite.scale.setTo(starScale);\
 
 
 			this.restartButtonBig.alpha = 1;

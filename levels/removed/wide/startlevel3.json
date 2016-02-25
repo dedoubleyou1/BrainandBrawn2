@@ -2,7 +2,7 @@
 	"name": "Start Level 3",
 	"width": 8,
 	"height": 6,
-	"starLevels": [90,15,10],
+	"starLevels": [15,10],
 	"active": [
 	    [" "," "," "," "," "," "," "," "],
 	    

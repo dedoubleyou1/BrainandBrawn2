@@ -2,7 +2,7 @@
 	"name": "Enemy Level 1",
 	"width": 8,
 	"height": 6,
-	"starLevels": [90,9,4],
+	"starLevels": [9,4],
 	"tutorial": [
 		"tutorial6",
         "tutorial7"
