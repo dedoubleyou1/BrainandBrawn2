@@ -73,14 +73,17 @@ BnB.LevelSelect.prototype = {
 
 			//Unlock ALL
 			var myFont = { font: "30px Quicksand", fill: "#ffffff", align: "center"}
-			this.unlockText = this.add.text(0,BnB.C.HEIGHT-150,"Unlock All",myFont);
+			this.unlockText = this.add.text(30,game.height - 60,"Unlock All",myFont);
 			this.unlockText.inputEnabled = true;
 			this.unlockText.events.onInputDown.add(this.unlockLevels,this);
+            this.unlockText.fixedToCamera = true;
 
 			//reset 
-			this.resetText = this.add.text(0,BnB.C.HEIGHT-100,"Reset All",myFont);
+			this.resetText = this.add.text(480, game.height-60,"Reset All",myFont);
 			this.resetText.inputEnabled = true;
 			this.resetText.events.onInputDown.add(this.resetLevels,this);
+            this.resetText.fixedToCamera = true;
+
 		// }
 
         if(this.startingID != 0)
@@ -109,65 +112,14 @@ BnB.LevelSelect.prototype = {
 		this.buttons = this.add.group();
 		this.buttonTexts = this.add.group();
 
-		var buttonSize = 80;
-		var buttonGapY = 60;
 
         //populate level buttons
-		for (var i=0;i<this.numLevels;i++)
-		{
+        var startY = BnB.C.HEIGHT*0.666;
+        var buttonGapY = 128;
+
+		for (var i=0;i<this.numLevels;i++) {
             var currentID = this.startingID + i;
-            var newButton = this.createButton(buttonSize,currentID);
-
-            //Determine button state/status from SaveData
-			if(BnB.SaveData.getStars(currentID) < 0){
-				newButton.alpha = 0.3;
-			}
-			else{
-				newButton.inputEnabled = true;
-                newButton.events.onInputDown.add(this.loadLevel,this);
-			}
-
-            //set up text
-			var newText = this.add.text(50,50,(currentID+1), { font: "bold 25px Quicksand", fill: "#ffffff", align: "center" });
-			newText.anchor = {x: 0.5, y: 0.5};
-			this.buttonTexts.add(newText);
-		}
-		
-		
-        //position level buttons
-        var startX = this.game.width/2 - buttonSize/2;
-        var startY = BnB.C.HEIGHT*0.6;
-		for(var i=0;i<this.buttons.length;i++)
-		{
-            var currentID = this.startingID + i;
-
-            //get desired button coordinates
-            var buttonX = startX;
-			var buttonY = startY - i*(buttonSize+buttonGapY);
-
-            //set button position
-			this.buttons.getAt(i).x = buttonX;
-			this.buttons.getAt(i).y = buttonY;
-
-            //set button text position
-			this.buttonTexts.getAt(i).x = this.buttons.getAt(i).x+this.buttons.getAt(i).width/2;
-			this.buttonTexts.getAt(i).y = this.buttons.getAt(i).y+this.buttons.getAt(i).height+15;
-			
-            //CREATE STARS
-            var numStars = BnB.SaveData.getStars(currentID);
-			if(numStars == 1){
-                this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
-                this.createStar(buttonX+buttonSize/2,buttonY+buttonSize/2-13);
-			}
-			else if(numStars == 2){
-                this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize/2-13);
-                this.createStar(buttonX+buttonSize*.67, buttonY+buttonSize/2-13);
-			}
-			else if(numStars == 3){
-                this.createStar(buttonX+buttonSize*.33, buttonY+buttonSize*.25);
-                this.createStar(buttonX+buttonSize*.67,buttonY+buttonSize*.25);
-                this.createStar(buttonX+buttonSize*.5,buttonY+buttonSize*.5);
-			}		
+            var newButton = this.createButton(currentID, this.game.width/2, startY - i*buttonGapY);
 		}
 
         //enable kinetic scrolling
@@ -192,32 +144,44 @@ BnB.LevelSelect.prototype = {
     },
 
     //helper function to create a BUTTON
-    createButton: function(buttonSize,id)
-    {
-        //set up button
-        var newButton = this.add.image(50,50,'spritesheet', 'brainandbrawn_block');
-        newButton.width = buttonSize;
-        newButton.height = buttonSize;
-        newButton.levelID = id;
-        this.buttons.add(newButton);
-        return newButton;
+    createButton: function(id, xPos, yPos) {
+        var numStars = BnB.SaveData.getStars(id);
+        var starGraphics = ['ui_level_lock','ui_level_unlock','ui_level_star1','ui_level_star2','ui_level_star3']
+        var buttonSize = 96;
+
+        var levelButton = this.add.group();
+        console.log(levelButton);
+
+        var buttonGraphic = this.add.image(xPos,yPos,'ui', starGraphics[numStars+1]);
+        buttonGraphic.anchor = {x: 0.5, y: 0.5};
+        buttonGraphic.width = buttonSize;
+        buttonGraphic.height = buttonSize;
+        buttonGraphic.inputEnabled = true;
+        buttonGraphic.events.onInputDown.add(this.loadLevel,this);
+        buttonGraphic.levelID = id;
+
+        var newText = this.add.text(xPos, yPos - 12, id + 1, {font: "48px Quicksand", fill: "#5C6466"});
+        newText.anchor = {x: 0.5, y: 0.5};
+
+        levelButton.add(buttonGraphic);
+        levelButton.add(newText);
+
+        return levelButton;
+
+
+        //this.buttonTexts.add(newText);
     },
 
-    //helper function to create a STAR
-    createStar: function(starX,starY)
-    {
-        var star = this.add.image(starX,starY,'star');
-        star.anchor = {x: 0.5, y: 0.5};
-        star.scale.setTo(0.7,0.7);
-    },
 
 	/*
 		When player taps a specific image - load the associated level
 	*/
 	loadLevel: function(image) 
 	{
-        this.game.kineticScrolling.stop();
-        BnB.Util.goToLevel(image.levelID);
+        if (BnB.SaveData.getStars(image.levelID) >= 0) {
+            this.game.kineticScrolling.stop();
+            BnB.Util.goToLevel(image.levelID);        
+        }
 	},
 
 	//reset levels + restart state

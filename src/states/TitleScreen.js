@@ -33,6 +33,9 @@ BnB.TitleScreen.prototype = {
 		//hack to solve animation problem on first level run
 		game.add.sprite(game.width, game.height, 'brawny_SpriteSheet');
         game.add.sprite(game.width, game.height, 'brainy_SpriteSheet');
+
+        //hack to solve font loading issue
+        this.add.text(game.width, game.height, 'text', {font: "12px Quicksand"});
 	},
 
 	/*

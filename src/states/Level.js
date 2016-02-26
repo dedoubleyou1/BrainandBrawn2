@@ -154,7 +154,7 @@ BnB.Level.prototype = {
 
     initializeScreens: function()
     {  
-        var myFont = { font: "36px Quicksand", fill: "#ffffff", align: "center"};
+        var myFont = {font: "36px Quicksand", fill: "#ffffff"};
 
         //Add graphics filter (over game, behind HUD)
         this.fadeOutGraphic = this.add.graphics(0, 0);
@@ -255,10 +255,10 @@ BnB.Level.prototype = {
     {
         //hide HUD
         this.levelText.visible = false;
-        this.menuButton.visible = false;
-        this.menuButtonBig.visible = false;
-        this.restartButton.visible = false;
-        this.restartButtonBig.visible = false;
+        //this.menuButton.visible = false;
+        //this.menuButtonBig.visible = false;
+        //this.restartButton.visible = false;
+       // this.restartButtonBig.visible = false;
         this.starsHUD.visible = false;
 
         //add STOP button

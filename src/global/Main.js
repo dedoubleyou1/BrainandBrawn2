@@ -36,7 +36,7 @@ BnB.C = {
     BOUNDARY_DEATH: true,
 
     //Visuals
-    ENABLE_LEVEL_NAMES: false,
+    ENABLE_LEVEL_NAMES: true,
     ENABLE_STARS: true,
     SWIPING_OFFSET: false,
     SWIPING_LEANING: true,
@@ -128,6 +128,7 @@ BnB.C = {
         'levels/gatelevel.json',
         'levels/gatetunnellevel.json',
         'levels/test_colors1.json',
+        'levels/musicalscale.json', //NEW
 
         //open
         'levels/openlevel0_v2.json',
@@ -149,6 +150,7 @@ BnB.C = {
         'levels/test_breakable1.json',
         'levels/test_breakable2.json',
         'levels/switchCracked.json',
+        'levels/brokenBridge.json', //NEW
         'levels/test_breakable3.json',//RE-MAKE
 
         //colored pegs
