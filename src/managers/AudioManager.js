@@ -8,6 +8,9 @@ BnB.AudioManager = {
         //music
         'gameplayMusic': 'sound/BrainBrawnTheme.mp3',
         'menuMusic': 'sound/MenuTheme.mp3',
+        'star1': 'sound/Stage Clear 1 Star.mp3',
+        'star2': 'sound/Stage Clear 2 Star.mp3',
+        'star3': 'sound/Stage Clear 3 Star.mp3',
 
         // 'select': 'sound/SwitchHit4.mp3',
         'finish': 'sound/finish_2.wav',
@@ -44,6 +47,7 @@ BnB.AudioManager = {
         }
     },
 
+    //Turn on/off all music
     toggleMusic: function()
     {
         this.allowMusic = !this.allowMusic;
@@ -98,6 +102,27 @@ BnB.AudioManager = {
         this.playSound(key,isLooped);
     },
 
+    //pause current background music
+    pauseMusic: function()
+    {
+        if(!this.allowMusic) return;
+
+        if(this.soundBank.hasOwnProperty(this.currentMusic)){
+            this.soundBank[this.currentMusic].pause();
+        }
+    },
+
+    //resume current background music
+    resumeMusic: function()
+    {
+        if(!this.allowMusic) return;
+
+        if(this.soundBank.hasOwnProperty(this.currentMusic)){
+            this.soundBank[this.currentMusic].resume();
+        }
+    },
+
+    //Given a key - stop target sound!
     stopSound: function(key)
     {
         if(this.soundBank.hasOwnProperty(key)){

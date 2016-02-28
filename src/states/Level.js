@@ -41,7 +41,10 @@ BnB.Level.prototype = {
             'switch2', 
             'switch3', 
             'switch4', 
-            'kill',    
+            'kill',
+            'star1',
+            'star2',
+            'star3',
         ]);
 
 		//set up level data
@@ -103,6 +106,10 @@ BnB.Level.prototype = {
         if(BnB.fromState == 'LevelSelect'){
             BnB.AudioManager.playMusic('gameplayMusic',true);
             this.game.world.setBounds(0,0,this.game.width,this.game.height);
+        }
+        else{
+            //resume music
+            BnB.AudioManager.resumeMusic(); //TEMP - paused during finish
         }
 
         BnB.fromState = 'Level';
@@ -501,7 +508,9 @@ BnB.Level.prototype = {
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
-			BnB.AudioManager.playSFX('finish');
+			// BnB.AudioManager.playSFX('finish');
+            BnB.AudioManager.pauseMusic(); //TEMP - will replace with volume adjustment
+
 			this.levelFinished = true;
 			this.inputManager.state = 'finished';
 
@@ -529,12 +538,15 @@ BnB.Level.prototype = {
             bigStar.anchor = {x: 0.5, y: 0.5};
             //bigStar.scale.setTo(0.4);
             if(this.currentStarLevel == 1){
+                BnB.AudioManager.playSFX('star1');
                 bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 11, '', 4), 24, false, false);
             }
             else if(this.currentStarLevel == 2){
+                BnB.AudioManager.playSFX('star2');
                 bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 23, '', 4), 24, false, false);
             }
             else{
+                BnB.AudioManager.playSFX('star3');
                 bigStar.animations.add('finish',Phaser.Animation.generateFrameNames('stars', 0, 35, '', 4), 24, false, false);
             }
             bigStar.animations.play('finish');
