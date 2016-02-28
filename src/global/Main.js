@@ -57,6 +57,7 @@ BnB.C = {
     //Audio
     VOLUME_SETTINGS: 0.3,
     VOLUME_FINISH: 0.15,
+    DURATION_CROSS_FADE: 800,
 
 
     LEVELS_DEMO: [

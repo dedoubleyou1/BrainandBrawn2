@@ -97,9 +97,17 @@ BnB.AudioManager = {
     playMusic: function(key,isLooped)
     {
         if(!this.allowMusic) return;
-        this.stopSound(this.currentMusic);
+
+        //fade out current
+        if(this.soundBank.hasOwnProperty(this.currentMusic)){
+            this.soundBank[this.currentMusic].fadeTo(BnB.DURATION_CROSS_FADE,0);
+        }
+
+        //fade in new
         this.currentMusic = key;
         this.playSound(key,isLooped);
+        this.soundBank[this.currentMusic].volume = 0;
+        this.soundBank[this.currentMusic].fadeTo(BnB.DURATION_CROSS_FADE,1);
     },
 
     //pause current background music
@@ -125,6 +133,7 @@ BnB.AudioManager = {
     //dim to target volume (used for settings + finish)
     fadeMusicTo: function(duration,target)
     {
+        if(!this.allowMusic) return;
         if(this.soundBank.hasOwnProperty(this.currentMusic)){
             this.soundBank[this.currentMusic].fadeTo(duration,target);
         }
@@ -133,6 +142,7 @@ BnB.AudioManager = {
     //helper function to quickly restore music to full volume
     restoreMusic: function(duration)
     {
+        if(!this.allowMusic) return;
         if(typeof duration == 'undefined') duration = 500;//ms
         this.fadeMusicTo(duration,1);
     },
