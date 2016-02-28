@@ -54,6 +54,10 @@ BnB.C = {
     BORDER_X: 30,
     HIDE_STARS: false,
 
+    //Audio
+    VOLUME_SETTINGS: 0.3,
+    VOLUME_FINISH: 0.15,
+
 
     LEVELS_DEMO: [
         //Basic

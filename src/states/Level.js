@@ -109,7 +109,7 @@ BnB.Level.prototype = {
         }
         else{
             //resume music
-            BnB.AudioManager.resumeMusic(); //TEMP - paused during finish
+            BnB.AudioManager.restoreMusic();
         }
 
         BnB.fromState = 'Level';
@@ -509,7 +509,7 @@ BnB.Level.prototype = {
 	{
 		if(this.tutorialFinished){
 			// BnB.AudioManager.playSFX('finish');
-            BnB.AudioManager.pauseMusic(); //TEMP - will replace with volume adjustment
+            BnB.AudioManager.fadeMusicTo(200,BnB.C.VOLUME_FINISH);
 
 			this.levelFinished = true;
 			this.inputManager.state = 'finished';
@@ -614,6 +614,7 @@ BnB.Level.prototype = {
     showSettings: function()
     {
         this.inputManager.state = 'none';
+        BnB.AudioManager.fadeMusicTo(200,BnB.C.VOLUME_SETTINGS);
 
         //show elements
         this.fadeOutGraphic.visible = true;
@@ -625,6 +626,7 @@ BnB.Level.prototype = {
     hideSettings: function()
     {
         this.inputManager.state = 'ready';
+        BnB.AudioManager.restoreMusic();
 
         //hide elements
         this.fadeOutGraphic.visible = false;

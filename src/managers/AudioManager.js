@@ -122,6 +122,21 @@ BnB.AudioManager = {
         }
     },
 
+    //dim to target volume (used for settings + finish)
+    fadeMusicTo: function(duration,target)
+    {
+        if(this.soundBank.hasOwnProperty(this.currentMusic)){
+            this.soundBank[this.currentMusic].fadeTo(duration,target);
+        }
+    },
+
+    //helper function to quickly restore music to full volume
+    restoreMusic: function(duration)
+    {
+        if(typeof duration == 'undefined') duration = 500;//ms
+        this.fadeMusicTo(duration,1);
+    },
+
     //Given a key - stop target sound!
     stopSound: function(key)
     {
