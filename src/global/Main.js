@@ -26,8 +26,8 @@ BnB.C = {
 
     //Core constants
     //sizing
-    STANDARD_WIDTH: 2048,
-    STANDARD_HEIGHT: 1536,
+    STANDARD_WIDTH: 1536,
+    STANDARD_HEIGHT: 2048,
     WIDTH: 640,
     HEIGHT: 900,//900, 1136
     STRETCH: 'width',
