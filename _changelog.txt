@@ -1,0 +1,40 @@
+Change Log for Brain and Brawn
+Dates are in the format: YYYY-MM-DD
+
+---------------------------------------------------------------------------
+Version 1.6 (2016-03-06)
+* UI overhaul - menu, level select screen, etc
+* Audio - crossfading, new SFX
+
+---------------------------------------------------------------------------
+Version 1.5 (2016-02-24)
+* Updated star system (back to counting up + HUD display)
+* New levels (scattered)
+* Level polish - added more floor, made changes to match the new seamless walls, updated star counts
+
+---------------------------------------------------------------------------
+Version 1.4 (2016-02-22) - after "BnB' weekend"
+* scrolling level map
+* background stars
+* logic - updated graphics collision code (for cleaner collision events)
+* Save Data (local storage)
+* Bug Fix: levels not centering on X
+* New animations (WIP):
+    -basic move
+    -leaning
+    -warping
+    -star animation
+* visual polish:
+    -fixed level ratios
+    -floor cancel tile
+    -seamless walls
+    -UI maps to layouts
+    -fixed Z order issues
+
+---------------------------------------------------------------------------
+Version 1.3 (2016-02-17)
+* New sounds (WIP)
+* New mechanics: 
+    -Moving green aliens
+    -colored pegs
+    -multiple movable entities
