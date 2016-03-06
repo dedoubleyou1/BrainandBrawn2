@@ -93,16 +93,16 @@ BnB.Level.prototype = {
 		}
 
         //Set up DEBUG input
-        this.prevKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-        this.prevKey.onUp.add(this.previousLevel,this);
-        this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
-        this.nextKey.onUp.add(this.skipLevel,this);
-        this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
-        this.restartKey.onUp.add(function(){
-            this.forceRestart();
-        },this);
-        // this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-        // this.printKey.onUp.add(this.printMap,this);
+        // if(BnB.buildType == 'test'){
+            this.prevKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+            this.prevKey.onUp.add(this.previousLevel,this);
+            this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
+            this.nextKey.onUp.add(this.skipLevel,this);
+            this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+            this.restartKey.onUp.add(function(){
+                this.forceRestart();
+            },this);
+        // }
         //end DEBUG input
 
         //enable music
@@ -123,7 +123,9 @@ BnB.Level.prototype = {
     */
     setUpHUD: function(){
         var levelName = "";
-        if(this.levelData.name != "test" && this.levelData.name != "Exported Level"){
+        
+        //TEMP DISABLE
+        if(BnB.buildType == 'test' && this.levelData.name != "test" && this.levelData.name != "Exported Level"){
             levelName = ": " + this.levelData.name;
         }
 
