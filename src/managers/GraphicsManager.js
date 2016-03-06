@@ -456,7 +456,10 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                     activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
                     activeSprite.animations.add('beamIn', Phaser.Animation.generateFrameNames('SpriteSheet', 74, 69, '', 4), 24, false, false);
                     activeSprite.animations.add('beamOut', Phaser.Animation.generateFrameNames('SpriteSheet', 69, 74, '', 4), 24, false, false);
+                    
+                    //teleport in
                     activeSprite.animations.play('beamIn'); 
+                    BnB.AudioManager.playSFX('teleportIn');
 
                     // var callback = (function(activeSprite){
                     //   return function () {
@@ -770,7 +773,11 @@ BnB.GraphicsManager.prototype.areAnimationsFinished = function() {
               this.activeObjs[i].sprite.animations.getAnimation('beamOut').onComplete.add(function(){
                 this.animationCounter -= 1;
               }, this);
-              this.activeObjs[i].sprite.animations.play('beamOut'); 
+              
+              //beam out finish
+              this.activeObjs[i].sprite.animations.play('beamOut');
+              BnB.AudioManager.playSFX('teleportOut');
+              
             }
 
           }

@@ -11,10 +11,20 @@ BnB.AudioManager = {
         'star1': 'sound/Stage Clear 1 Star.mp3',
         'star2': 'sound/Stage Clear 2 Star.mp3',
         'star3': 'sound/Stage Clear 3 Star.mp3',
+        'ambience1': 'sound/Space Ambience 1.ogg',
+        'ambience2': 'sound/Space Ambience 2.ogg',
 
-        // 'select': 'sound/SwitchHit4.mp3',
+        //ui
+        'select': 'sound/UI Tap.mp3',
+        'next-slide': 'sound/UI Continue Tap.mp3',
+        'menu-start': 'sound/Menu Start Chime.mp3',
+
+        'teleportIn': 'sound/Teleport In (Short).mp3',
+        'teleportOut': 'sound/Teleport Out (Short).mp3',
         'finish': 'sound/finish_2.wav',
-        'thunk': 'sound/rs.mp3', //'sound/Wall Hit 3.mp3',
+
+        //impact
+        'thunk': 'sound/Wall Hit (v2).mp3', //'thunk': 'sound/rs.mp3',
         'shatter': 'sound/Block Smash.mp3',
 
         //death sounds
@@ -75,7 +85,9 @@ BnB.AudioManager = {
     {
         for(var i=0;i<keyList.length;i++)
         {
-            this.createAudio(keyList[i]);
+            if(keyList[i] != this.currentMusic){
+                this.createAudio(keyList[i]);
+            }
         }
     },
 
@@ -94,7 +106,10 @@ BnB.AudioManager = {
         return false
     },
 
-    playMusic: function(key,isLooped)
+    /*
+        Crossfade from old to new music
+    */
+    switchToMusic: function(key,isLooped)
     {
         if(!this.allowMusic) return;
 
@@ -108,6 +123,23 @@ BnB.AudioManager = {
         this.playSound(key,isLooped);
         this.soundBank[this.currentMusic].volume = 0;
         this.soundBank[this.currentMusic].fadeTo(BnB.DURATION_CROSS_FADE,1);
+    },
+
+    /*
+        Immediately play music track
+    */
+    playMusic: function(key,isLooped)
+    {
+        if(!this.allowMusic) return;
+
+        //stop current
+        if(this.soundBank.hasOwnProperty(this.currentMusic)){
+            this.soundBank[this.currentMusic].stop();
+        }
+
+        //fade in new
+        this.currentMusic = key;
+        this.playSound(key,isLooped);
     },
 
     //pause current background music

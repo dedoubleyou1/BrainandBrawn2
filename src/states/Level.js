@@ -30,7 +30,8 @@ BnB.Level.prototype = {
 	*/
 	create: function() {
         BnB.AudioManager.createAudioList([
-            'finish',
+            'teleportIn',
+            'teleportOut',
             'thunk',   
             'shatter', 
             'brainySpace',
@@ -97,14 +98,16 @@ BnB.Level.prototype = {
         this.nextKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
         this.nextKey.onUp.add(this.skipLevel,this);
         this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
-        this.restartKey.onUp.add(this.restartLevel,this);
+        this.restartKey.onUp.add(function(){
+            this.forceRestart();
+        },this);
         // this.printKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
         // this.printKey.onUp.add(this.printMap,this);
         //end DEBUG input
 
         //enable music
         if(BnB.fromState == 'LevelSelect'){
-            BnB.AudioManager.playMusic('gameplayMusic',true);
+            BnB.AudioManager.switchToMusic('gameplayMusic',true);
             this.game.world.setBounds(0,0,this.game.width,this.game.height);
         }
         else{
@@ -135,7 +138,7 @@ BnB.Level.prototype = {
         this.restartButtonBig.anchor = {x: 0.5, y: 0.5};
         this.restartButtonBig.scale.setTo(2.5,2.5);
         this.restartButtonBig.inputEnabled = true;
-        this.restartButtonBig.events.onInputDown.add(this.restartLevel,this);
+        this.restartButtonBig.events.onInputDown.add(this.forceRestart,this);
         this.restartButtonBig.alpha = 0;
         
         // this.menuButton = this.add.image(0,0,'mButton');
@@ -181,7 +184,8 @@ BnB.Level.prototype = {
 
         var toggleMusicFunction = function(){
             BnB.AudioManager.toggleMusic();
-            //this.updateToggleStrings();
+            BnB.AudioManager.playSFX('select');
+
             if (this.toggleMusicButton.frameName === 'buttons_toggleA_up') {
             	this.toggleMusicButton.frameName = 'buttons_toggleA_down';
             } else {
@@ -191,6 +195,7 @@ BnB.Level.prototype = {
 
         var toggleSFXFunction = function(){
             BnB.AudioManager.toggleSFX();
+            BnB.AudioManager.playSFX('select');
             //this.updateToggleStrings();
             if (this.toggleSFXButton.frameName === 'buttons_toggleB_up') {
             	this.toggleSFXButton.frameName = 'buttons_toggleB_down';
@@ -246,11 +251,9 @@ BnB.Level.prototype = {
         this.creditsGroup.visible = false;
 
         //continue button
-        this.continueButton = game.add.button(game.world.centerX, 720, 'buttons', this.hideSettings, this, undefined, 'buttons_resume_up', 'buttons_resume_down');
+        this.continueButton = game.add.button(game.world.centerX, 720, 'buttons', this.hideSettings, this, 'buttons_resume_up', 'buttons_resume_up', 'buttons_resume_down','buttons_resume_up');
         this.continueButton.anchor = {x: 0.5, y: 0.5};
         this.continueButton.scale.setTo(0.4,0.4);
-        // this.continueButton.inputEnabled = true;
-        // this.continueButton.events.onInputDown.add(this.hideSettings,this);
         this.continueButton.visible = false;
     },
 
@@ -486,7 +489,7 @@ BnB.Level.prototype = {
 	{
 		if(this.tutorialFinished) return;
 
-		// BnB.AudioManager.playSFX('select');
+		BnB.AudioManager.playSFX('next-slide');
 
 		this.currentTutorial += 1;
 		this.tutorialImage.destroy();
@@ -508,7 +511,6 @@ BnB.Level.prototype = {
 	loadVictory: function()
 	{
 		if(this.tutorialFinished){
-			// BnB.AudioManager.playSFX('finish');
             BnB.AudioManager.fadeMusicTo(200,BnB.C.VOLUME_FINISH);
 
 			this.levelFinished = true;
@@ -614,6 +616,8 @@ BnB.Level.prototype = {
     showSettings: function()
     {
         this.inputManager.state = 'none';
+        
+        BnB.AudioManager.playSFX('select');
         BnB.AudioManager.fadeMusicTo(200,BnB.C.VOLUME_SETTINGS);
 
         //show elements
@@ -626,6 +630,8 @@ BnB.Level.prototype = {
     hideSettings: function()
     {
         this.inputManager.state = 'ready';
+
+        BnB.AudioManager.playSFX('select');
         BnB.AudioManager.restoreMusic();
 
         //hide elements
@@ -670,7 +676,6 @@ BnB.Level.prototype = {
     }
 		else if(this.tutorialFinished)
 		{
-			// BnB.AudioManager.playSFX('select');
 			game.input.keyboard.addCallbacks(this,null,null);
 			//load next level (unless we're at the end)
 			if (this.level+1 === BnB.levels.length) {
@@ -681,14 +686,21 @@ BnB.Level.prototype = {
 		}
 	},
 
+    /*
+        Pressed restart button or "R" key
+    */
+    forceRestart: function()
+    {
+        BnB.AudioManager.playSFX('select');
+        this.restartLevel();
+    },
+
 	/*
 		restart the current level state
 	*/
 	restartLevel: function()
 	{
 		if(this.tutorialFinished){
-			// BnB.AudioManager.playSFX('select');
-
 			if(BnB.levelType == 'normal')
 			{
                 BnB.Util.goToLevel(this.level);
@@ -706,7 +718,7 @@ BnB.Level.prototype = {
 	returnToLevelSelect: function()
 	{
 		if(this.tutorialFinished){
-			// BnB.AudioManager.playSFX('select');
+			BnB.AudioManager.playSFX('select');
 
             var pageNum = Math.floor(this.level/BnB.C.LEVELS_PER_PAGE);
 

@@ -33,6 +33,10 @@ BnB.LevelSelect.prototype = {
 	*/
 	create: function() 
 	{
+        BnB.AudioManager.createAudioList([
+            'select',
+        ]);
+
         //set bounds
         this.bounds = {
             x: 0,
@@ -126,8 +130,11 @@ BnB.LevelSelect.prototype = {
         this.game.kineticScrolling.start();
 
         //enable music
-        if(BnB.fromState == 'Level'){
+        if(BnB.fromState == 'TitleScreen' || BnB.fromState == 'LevelSelect'){
             BnB.AudioManager.playMusic('menuMusic',true);
+        }
+        else{
+            BnB.AudioManager.switchToMusic('menuMusic',true);
         }
 
         BnB.fromState = 'LevelSelect';
@@ -157,7 +164,7 @@ BnB.LevelSelect.prototype = {
         buttonGraphic.width = buttonSize;
         buttonGraphic.height = buttonSize;
         buttonGraphic.inputEnabled = true;
-        buttonGraphic.events.onInputDown.add(this.loadLevel,this);
+        buttonGraphic.events.onInputUp.add(this.loadLevel,this);
         buttonGraphic.levelID = id;
 
         var newText = this.add.text(xPos, yPos - 12, id + 1, {font: "48px Quicksand", fill: "#5C6466"});
@@ -178,6 +185,8 @@ BnB.LevelSelect.prototype = {
 	*/
 	loadLevel: function(image) 
 	{
+        BnB.AudioManager.playSFX('select');
+
         if (BnB.SaveData.getStars(image.levelID) >= 0) {
             this.game.kineticScrolling.stop();
             BnB.Util.goToLevel(image.levelID);        
@@ -187,6 +196,7 @@ BnB.LevelSelect.prototype = {
 	//reset levels + restart state
 	resetLevels: function()
 	{
+        BnB.AudioManager.playSFX('select');
 		BnB.SaveData.reset();
 		this.state.start('LevelSelect',true,false,0);
 	},
@@ -194,6 +204,7 @@ BnB.LevelSelect.prototype = {
 	//unlock all levels + restart state
 	unlockLevels: function()
 	{
+        BnB.AudioManager.playSFX('select');
 		BnB.SaveData.unlockAll();
 		this.state.start('LevelSelect',true,false,this.startingID);
 	},

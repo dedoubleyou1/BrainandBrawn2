@@ -98,12 +98,6 @@ BnB.Preloader.prototype = {
         this.load.image('checkMark','images/greencheck.png');
 
         // Sound
-        // this.load.audio('thunk','sound/rs.mp3');
-        // this.load.audio('select','sound/select_2.wav');
-        // this.load.audio('death','sound/death_2.wav');
-        // this.load.audio('finish','sound/finish_2.wav');
-        // this.load.audio('kill','sound/kill_2.wav');
-        // this.load.audio('switch','sound/switch_2.wav');
         BnB.AudioManager.preload(this);
 
 

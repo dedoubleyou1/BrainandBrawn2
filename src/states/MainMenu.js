@@ -32,7 +32,7 @@ BnB.MainMenu.prototype = {
 	*/
 	onPlay: function()
 	{
-		// BnB.AudioManager.playSFX('select');
+		BnB.AudioManager.playSFX('select');
 		this.state.start('LevelSelect',true,false,0);
 	},
 

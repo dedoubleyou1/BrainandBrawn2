@@ -18,17 +18,16 @@ BnB.TitleScreen.prototype = {
 		TEMP: Initialize Level states
 	*/
 	create: function() {
-		// BnB.AudioManager.createAudio('select');
-        BnB.AudioManager.createAudio('menuMusic', true);
+        BnB.AudioManager.createAudioList([
+            'ambience1',
+            'select',
+        ]);
+
 
 		//set up background image
 		var background = this.add.sprite(this.game.width/2, this.game.height/2, 'imageTitle');
 		background.anchor = {x: 0.5, y: 0.5};
 		background.scale.multiply(BnB.C.WIDTH/background.width,BnB.C.HEIGHT/background.height)
-
-		//add input to start the game
-		this.input.onTap.add(this.startGame, this);
-		BnB.AudioManager.playMusic('menuMusic',true);
 
 		//hack to solve animation problem on first level run
 		game.add.sprite(game.width, game.height, 'brawny_SpriteSheet');
@@ -36,14 +35,21 @@ BnB.TitleScreen.prototype = {
 
         //hack to solve font loading issue
         this.add.text(game.width, game.height, 'text', {font: "12px Quicksand"});
+
+        //add input to start the game
+        this.input.onTap.add(this.startGame, this);
+
+        //start music
+        BnB.AudioManager.playMusic('ambience1',true);
 	},
 
 	/*
 		onTap - start the game!
 	*/
 	startGame: function(){
-		if(BnB.buildType == 'test'){
-            // BnB.AudioManager.playSFX('select');
+		BnB.AudioManager.playSFX('menu-start');
+
+        if(BnB.buildType == 'test'){
             this.state.start('MainMenu');
         }
         else{
