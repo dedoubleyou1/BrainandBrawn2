@@ -25,7 +25,7 @@ BnB.GameLogic = function(map) {
     if (this.debugMode) {
         this.consoleLogMap();
     }
-}
+};
 
 BnB.GameLogic.prototype.initializeActiveObjects = function()
 {
@@ -43,7 +43,7 @@ BnB.GameLogic.prototype.initializeActiveObjects = function()
             } 
         }
     }
-}
+};
 
 /*
   Given: game object key, movement direciton
@@ -336,7 +336,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key,direction) {
           '$': {isSolid: false, trigger: triggers.killFixed},
           'm': {isSolid: true}
         },
-    }
+    };
     return keyLookup[key];
 };
 
@@ -430,7 +430,7 @@ BnB.GameLogic.prototype.populateActiveChanges = function()
         //push to main array
         this.gameStateChanges.activeChanges.push(positions);
     }
-}
+};
 
 /*
   Move all active objects a single cell in the specified direction.
@@ -470,7 +470,7 @@ BnB.GameLogic.prototype.stepOnce = function(direction) {
     stepResults.moveSuccess = moveSuccess;
 
     return stepResults;
-}
+};
 
 /*
   Attempt to move a target ACTIVE object in the chosen direction.
@@ -581,7 +581,10 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
 
             //add final position for killed active2
             var active2Index = this.getActiveObjectAtGridPos(x,y);
-            this.gameStateChanges.activeChanges[active2Index].push({x,y});
+            this.gameStateChanges.activeChanges[active2Index].push({
+                x: x,
+                y: y
+            });
             this.killActiveObj(active2Index);
 
             //add "kill" event for killer
@@ -606,7 +609,10 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
             });
 
             //push final coordinates a second time
-            this.gameStateChanges.activeChanges[active1Index].push({x,y});
+            this.gameStateChanges.activeChanges[active1Index].push({
+                x: x,
+                y: y
+            });
 
             this.killActiveObj(active1Index);
 
@@ -616,7 +622,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
 
     return false;
     //- - - END TEMP HACK - - - //
-}
+};
 
 /*
     Check for trigger functions that need to activate due to various collisions
@@ -657,7 +663,7 @@ BnB.GameLogic.prototype.checkFixedTriggers = function(direction,stepResults) {
             this.gameStateChanges.activeChanges[i].push(newGridPos);
         }
     }
-}
+};
 
 BnB.GameLogic.prototype.getActiveObjectAtGridPos = function(gridX,gridY)
 {
@@ -672,7 +678,7 @@ BnB.GameLogic.prototype.getActiveObjectAtGridPos = function(gridX,gridY)
 
     //something went wrong
     return -1;
-}
+};
 
 BnB.GameLogic.prototype.killActiveObj = function(target)
 {
@@ -683,5 +689,5 @@ BnB.GameLogic.prototype.killActiveObj = function(target)
         this.gameplayMap.active[obj.gridPos.y][obj.gridPos.x] = ' ';
         obj.gridPos = {x:-1,y:-1};
     }
-}
+};
 

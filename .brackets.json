@@ -1,0 +1,30 @@
+{
+    "jscompiler": {
+        "outputs": [
+            {
+                "inputs": [
+                    "src/global/Main.js",
+                    "src/global/SaveData.js",
+                    "src/global/Utilities.js",
+                    "src/managers/AudioManager.js",
+                    "src/managers/GameLogic.js",
+                    "src/managers/GraphicsManager.js",
+                    "src/managers/InputManager.js",
+                    "src/states/AdjustMenu.js",
+                    "src/states/Boot.js",
+                    "src/states/Level.js",
+                    "src/states/LevelBuilder.js",
+                    "src/states/LevelSelect.js",
+                    "src/states/MainMenu.js",
+                    "src/states/Preloader.js",
+                    "src/states/TitleScreen.js",
+                    "src/states/Victory.js"
+                ],
+                "output": "src/bnb.min.js",
+                "generateMap": false,
+                "mangle": true,
+                "isolate": false
+            }
+        ]
+    }
+}
