@@ -2,6 +2,10 @@ Change Log for Brain and Brawn
 Dates are in the format: YYYY-MM-DD
 
 ---------------------------------------------------------------------------
+NEW:
+* Updated star levels
+
+---------------------------------------------------------------------------
 Version 1.6 (2016-03-06)
 * UI overhaul - menu, level select screen, etc
 * Audio - crossfading, new SFX

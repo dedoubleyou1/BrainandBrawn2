@@ -445,7 +445,7 @@ BnB.LevelBuilder.prototype = {
         if(typeof BnB.SaveData.workingLevel.starLevels == 'undefined' || BnB.SaveData.workingLevel.starLevels.length != 3)
         {
             //TEMP - placeholder #s
-            BnB.SaveData.workingLevel.starLevels = [1,1];
+            BnB.SaveData.workingLevel.starLevels = [99,99];
         }
         //if no name = test
         if(typeof BnB.SaveData.workingLevel.name == 'undefined')
