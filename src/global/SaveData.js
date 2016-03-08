@@ -70,7 +70,7 @@ BnB.SaveData = {
 
     loadGame: function()
     {
-        var data = localStorage.getItem('BnBLevelData');
+        var data = localStorage.getItem('BnBLevelData-v1.6.1');
 
         if(data != null){
             this.levelStatus = JSON.parse(data);
@@ -82,6 +82,6 @@ BnB.SaveData = {
 
     saveGame: function()
     {
-        localStorage.setItem('BnBLevelData',JSON.stringify(this.levelStatus))
+        localStorage.setItem('BnBLevelData-v1.6.1',JSON.stringify(this.levelStatus))
     },
 };
