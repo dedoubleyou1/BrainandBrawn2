@@ -18,7 +18,8 @@
                     "src/states/MainMenu.js",
                     "src/states/Preloader.js",
                     "src/states/TitleScreen.js",
-                    "src/states/Victory.js"
+                    "src/states/Victory.js",
+                    "src/Initializer.js"
                 ],
                 "output": "src/bnb.min.js",
                 "generateMap": false,
