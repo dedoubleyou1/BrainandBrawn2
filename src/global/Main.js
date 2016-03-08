@@ -105,20 +105,20 @@ BnB.C = {
 
         //Basic
         'levels/idiot_proof.json',//NEW
-        'levels/starterA.json',//NEW
+        // 'levels/starterA.json',//NEW
         'levels/starterB.json',//NEW
-        'levels/starterC.json',//NEW
+        // 'levels/starterC.json',//NEW
         'levels/splitlevel.json',
-        'levels/startlevel3_v2.json',
+        // 'levels/startlevel3_v2.json',
 
         //spatial
         'levels/rotate_simple.json',
         'levels/test_reorientation0_v2b.json',
         'levels/teamlevel.json',
-        'levels/reorientation04_snake.json',
-        'levels/rotation.json',
-        'levels/fliplevel_v2.json',
-        'levels/dots_v1.json',//'levels/doubleBrain.json',
+        // 'levels/reorientation04_snake.json',
+        // 'levels/rotation.json',
+        // 'levels/fliplevel_v2.json',
+        'levels/dots_v1.json', //'levels/doubleBrain.json',
         'levels/test_reorientation3.json',
 
         //enemy

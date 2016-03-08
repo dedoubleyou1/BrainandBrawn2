@@ -4,6 +4,7 @@ Dates are in the format: YYYY-MM-DD
 ---------------------------------------------------------------------------
 NEW:
 * Updated star levels
+* Commented out select starting levels (aliens introduced on lvl 9)
 
 ---------------------------------------------------------------------------
 Version 1.6 (2016-03-06)
