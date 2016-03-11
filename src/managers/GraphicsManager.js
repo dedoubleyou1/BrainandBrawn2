@@ -451,11 +451,11 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
 
                 //If Brainy or Brawny - set up animations
                 if (activeSpriteType === 'b' || activeSpriteType === 'B') {
-                    activeSprite.animations.add('moveRight', Phaser.Animation.generateFrameNames('SpriteSheet', 0, 10, '', 4), 24, false, false);
-                    activeSprite.animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 10, 20, '', 4), 24, false, false);
-                    activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 20, 30, '', 4), 24, false, false);
-                    activeSprite.animations.add('beamIn', Phaser.Animation.generateFrameNames('SpriteSheet', 74, 69, '', 4), 24, false, false);
-                    activeSprite.animations.add('beamOut', Phaser.Animation.generateFrameNames('SpriteSheet', 69, 74, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveRight', Phaser.Animation.generateFrameNames('SpriteSheet', 1, 11, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveDown', Phaser.Animation.generateFrameNames('SpriteSheet', 11, 21, '', 4), 24, false, false);
+                    activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 21, 31, '', 4), 24, false, false);
+                    activeSprite.animations.add('beamIn', Phaser.Animation.generateFrameNames('SpriteSheet', 75, 70, '', 4), 24, false, false);
+                    activeSprite.animations.add('beamOut', Phaser.Animation.generateFrameNames('SpriteSheet', 70, 75, '', 4), 24, false, false);
                     
                     //teleport in
                     activeSprite.animations.play('beamIn'); 

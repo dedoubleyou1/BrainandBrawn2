@@ -25,7 +25,7 @@ BnB.Boot.prototype = {
         //set up kinetic scrolling (used in Level Select only)
         game.kineticScrolling = this.game.plugins.add(Phaser.Plugin.KineticScrolling);
         game.kineticScrolling.configure({
-            kineticMovement: false,
+            kineticMovement: true,
             timeConstantScroll: 325, //325 really mimic iOS
             horizontalScroll: false,
             verticalScroll: true,

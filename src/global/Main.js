@@ -172,6 +172,7 @@ BnB.C = {
 
         //moving green alien
         'levels/greenMover.json',//NEW
+        'levels/AlienC_test.json',//NEW
         'levels/activealien.json',//NEW
         'levels/brawnypit.json',//NEW
 

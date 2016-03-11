@@ -119,7 +119,7 @@ BnB.LevelSelect.prototype = {
 
         //populate level buttons
         var startY = BnB.C.HEIGHT*0.666;
-        var buttonGapY = 128;
+        var buttonGapY = 144;
 
 		for (var i=0;i<this.numLevels;i++) {
             var currentID = this.startingID + i;
