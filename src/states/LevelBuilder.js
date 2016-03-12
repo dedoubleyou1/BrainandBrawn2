@@ -1,69 +1,69 @@
 var activeKeyChar = {
-  brainandbrawn_brainy: 'b',
-  brainandbrawn_brawny: 'B',
-  brainandbrawn_moveable: '@',
-  brainandbrawn_spikey: '$',
-  brainandbrawn_alienRoller: 'm',
+  brainy: 'b',
+  brawny: 'B',
+  moveable: '@',
+  spikey: '$',
+  alienRoller: 'm',
 };
 
 var fixedKeyChar = {
-  brainandbrawn_block: '#',
-  brainandbrawn_alien: 'E',
-  brainandbrawn_goalBrainy: 'g',
-  brainandbrawn_goalBrawny: 'G',
-  brainandbrawn_pipe0: '0',
-  brainandbrawn_spikedBlock: 'X',
-  brainandbrawn_breakable: '+',
+  block: '#',
+  alien: 'E',
+  goalBrainy: 'g',
+  goalBrawny: 'G',
+  pipe0: '0',
+  spikedBlock: 'X',
+  breakable: '+',
 
   //used to explicitly remove floor tiles
-  brainandbrawn_empty: 'n',
+  empty: 'n',
 
-  brainandbrawn_switchNew1A: '1',
-  brainandbrawn_switchNew2A: '5',
-  brainandbrawn_switchNew3A: '9',
-  brainandbrawn_switchNew4A: '13',
-  brainandbrawn_gateNew1C: '3',
-  brainandbrawn_gateNew2C: '7',
-  brainandbrawn_gateNew3C: '11',
-  brainandbrawn_gateNew4C: '15',
+  switchNew1A: '1',
+  switchNew2A: '5',
+  switchNew3A: '9',
+  switchNew4A: '13',
+  gateNew1C: '3',
+  gateNew2C: '7',
+  gateNew3C: '11',
+  gateNew4C: '15',
 
   //colored coloredPeg
-  brainandbrawn_coloredPeg1: '17',
-  brainandbrawn_coloredPeg2: '18',
-  brainandbrawn_coloredPeg3: '19',
-  brainandbrawn_coloredPeg4: '20',
+  coloredPeg1: '17',
+  coloredPeg2: '18',
+  coloredPeg3: '19',
+  coloredPeg4: '20',
 };
 
 var bigKeyLookup = {
-    'b': 'brainandbrawn_brainy' ,
-    'B': 'brainandbrawn_brawny',
-    '@': 'brainandbrawn_moveable',
-    '$': 'brainandbrawn_spikey',
+    'b': 'brainy' ,
+    'B': 'brawny',
+    '@': 'moveable',
+    '$': 'spikey',
 
-    '#': 'brainandbrawn_block',         
-    'E': 'brainandbrawn_alien',         
-    'g': 'brainandbrawn_goalBrainy',    
-    'G': 'brainandbrawn_goalBrawny',    
-    '0': 'brainandbrawn_pipe0',         
-    'X': 'brainandbrawn_spikedBlock',  
-    '+': 'brainandbrawn_breakable', 
-    'm': 'brainandbrawn_alienRoller',
+    '#': 'block',         
+    'E': 'alien',         
+    'g': 'goalBrainy',    
+    'G': 'goalBrawny',    
+    '0': 'pipe0',         
+    'X': 'spikedBlock',  
+    '+': 'breakable', 
+    'm': 'alienRoller',
 
-    'n': 'brainandbrawn_empty',
+    'n': 'empty',
     
-    '1': 'brainandbrawn_switchNew1A',   
-    '5': 'brainandbrawn_switchNew2A',   
-    '9': 'brainandbrawn_switchNew3A',   
-    '13':'brainandbrawn_switchNew4A',   
-    '3': 'brainandbrawn_gateNew1C',     
-    '7': 'brainandbrawn_gateNew2C',     
-    '11':'brainandbrawn_gateNew3C',     
-    '15':'brainandbrawn_gateNew4C',      
+    '1': 'switchNew1A',   
+    '5': 'switchNew2A',   
+    '9': 'switchNew3A',   
+    '13':'switchNew4A',   
+    '3': 'gateNew1C',     
+    '7': 'gateNew2C',     
+    '11':'gateNew3C',     
+    '15':'gateNew4C',      
 
-    '17': 'brainandbrawn_coloredPeg1',
-    '18': 'brainandbrawn_coloredPeg2',
-    '19': 'brainandbrawn_coloredPeg3',
-    '20': 'brainandbrawn_coloredPeg4',
+    '17': 'coloredPeg1',
+    '18': 'coloredPeg2',
+    '19': 'coloredPeg3',
+    '20': 'coloredPeg4',
 };
 
 
@@ -156,7 +156,7 @@ BnB.LevelBuilder.prototype = {
                 if(i >= BnB.SaveData.workingLevel.height){
                     for(var j=0;j<this.gridWidth;j++)
                     {
-                        var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'spritesheet','floor')
+                        var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
                         newImage.width = this.cellWidth;
                         newImage.height = this.cellHeight;
                         newImage.visible = false;
@@ -170,17 +170,17 @@ BnB.LevelBuilder.prototype = {
                         var newImage;
                         if(currentFixedKey in bigKeyLookup)
                         {
-                            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'spritesheet',bigKeyLookup[currentFixedKey])
+                            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,bigKeyLookup[currentFixedKey])
                             newImage.visible = true;
                         }
                         else if(currentActiveKey in bigKeyLookup)
                         {
-                            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'spritesheet',bigKeyLookup[currentActiveKey])
+                            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,bigKeyLookup[currentActiveKey])
                             newImage.visible = true;
                         }
                         else
                         {
-                            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'spritesheet','brainandbrawn_floor')
+                            newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
                             newImage.visible = false;
                         }
 
@@ -199,7 +199,7 @@ BnB.LevelBuilder.prototype = {
           {
             for(var j=0;j<this.gridWidth;j++)
             {
-              var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'spritesheet','brainandbrawn_floor')
+              var newImage = this.gridImages.create(this.playArea.x+j*this.cellWidth,this.playArea.y+i*this.cellHeight,'floor')
               newImage.width = this.cellWidth;
               newImage.height = this.cellHeight;
               newImage.visible = false;
@@ -234,39 +234,39 @@ BnB.LevelBuilder.prototype = {
         this.graphics.lineStyle(3, 0x00FFFF, 1);
         this.graphics.drawRect(0, 0, this.brushWidth+4, this.brushHeight+4);
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_brainy');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_brawny');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_goalBrainy');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_goalBrawny');
+        this.brushes.create(0,0,'brainy');
+        this.brushes.create(0,0,'brawny');
+        this.brushes.create(0,0,'goalBrainy');
+        this.brushes.create(0,0,'goalBrawny');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_switchNew1A');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_switchNew2A');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_switchNew3A');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_switchNew4A');
+        this.brushes.create(0,0,'switchNew1A');
+        this.brushes.create(0,0,'switchNew2A');
+        this.brushes.create(0,0,'switchNew3A');
+        this.brushes.create(0,0,'switchNew4A');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_empty');
+        this.brushes.create(0,0,'empty');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_block');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_pipe0');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_breakable');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_moveable');
+        this.brushes.create(0,0,'block');
+        this.brushes.create(0,0,'pipe0');
+        this.brushes.create(0,0,'breakable');
+        this.brushes.create(0,0,'moveable');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_gateNew1C');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_gateNew2C');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_gateNew3C');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_gateNew4C');
+        this.brushes.create(0,0,'gateNew1C');
+        this.brushes.create(0,0,'gateNew2C');
+        this.brushes.create(0,0,'gateNew3C');
+        this.brushes.create(0,0,'gateNew4C');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_empty');
+        this.brushes.create(0,0,'empty');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_alien');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_alienRoller');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_spikedBlock');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_spikey');
+        this.brushes.create(0,0,'alien');
+        this.brushes.create(0,0,'alienRoller');
+        this.brushes.create(0,0,'spikedBlock');
+        this.brushes.create(0,0,'spikey');
 
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_coloredPeg1');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_coloredPeg2');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_coloredPeg3');
-        this.brushes.create(0,0,'spritesheet','brainandbrawn_coloredPeg4');
+        this.brushes.create(0,0,'coloredPeg1');
+        this.brushes.create(0,0,'coloredPeg2');
+        this.brushes.create(0,0,'coloredPeg3');
+        this.brushes.create(0,0,'coloredPeg4');
 
         
 
