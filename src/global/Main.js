@@ -98,27 +98,16 @@ BnB.C = {
         // 'levels/test/startlevel4.json',
         // 'levels/test/test_reorientation2.json',
         // 'levels/test/001.json',
+        // 'levels/test/AlienC_test.json',//TEST
 
-        //TEST - 2
-
-        //REMOVED
-
-        //Basic
-        'levels/idiot_proof.json',//NEW
-        // 'levels/starterA.json',//NEW
-        'levels/starterB.json',//NEW
-        // 'levels/starterC.json',//NEW
+        //Basic + Spatial 
+        'levels/idiot_proof.json',
+        'levels/starterB.json',
         'levels/splitlevel.json',
-        // 'levels/startlevel3_v2.json',
-
-        //spatial
         'levels/rotate_simple.json',
         'levels/test_reorientation0_v2b.json',
         'levels/teamlevel.json',
-        // 'levels/reorientation04_snake.json',
-        // 'levels/rotation.json',
-        // 'levels/fliplevel_v2.json',
-        'levels/dots_v1.json', //'levels/doubleBrain.json',
+        'levels/dots_v1.json',
         'levels/test_reorientation3.json',
 
         //enemy
@@ -133,15 +122,15 @@ BnB.C = {
         'levels/gatelevel.json',
         'levels/gatetunnellevel.json',
         'levels/test_colors1.json',
-        'levels/musicalscale.json', //NEW
+        'levels/musicalscale.json', 
 
         //open
         'levels/openlevel0_v2.json',
         'levels/openLevel02.json',
         'levels/openLevel03.json',
         'levels/tetris_v2.json',
-        'levels/switchCenter_v1.json',//NEW
-        'levels/scatterplot.json',//NEW
+        'levels/switchCenter_v1.json',
+        'levels/scatterplot.json',
 
         //pegs
         'levels/rotatePegs.json',
@@ -150,16 +139,16 @@ BnB.C = {
         'levels/pegBridge_v2.json',
 
         //breakable
-        'levels/breakspace.json',//NEW
+        'levels/breakspace.json',
         'levels/test_breakable0.json',
         'levels/test_breakable1.json',
         'levels/test_breakable2.json',
         'levels/switchCracked.json',
-        'levels/brokenBridge.json', //NEW
-        'levels/test_breakable3.json',//RE-MAKE
+        'levels/brokenBridge.json', 
+        'levels/test_breakable3.json',
 
         //colored pegs
-        'levels/switchPegs01.json',//put enemy in center
+        'levels/switchPegs01.json',
         'levels/switchPegs02.json',
         'levels/switchPegs03.json',
 
@@ -167,14 +156,12 @@ BnB.C = {
         'levels/test_spikedBlock0.json',
         'levels/rotateSpike02.json',
         'levels/test_spike1_v2.json',
-        // 'levels/test_spike2.json', //REMOVED
         'levels/spikeCrack02.json',
 
         //moving green alien
-        'levels/greenMover.json',//NEW
-        'levels/AlienC_test.json',//NEW
-        'levels/activealien.json',//NEW
-        'levels/brawnypit.json',//NEW
+        'levels/greenMover.json',
+        'levels/activealien.json',
+        'levels/brawnypit.json',
 
         //movable
         'levels/test_movable2.json',
@@ -188,11 +175,9 @@ BnB.C = {
         'levels/test_spikedBall1.json',
         'levels/test_spikedBall2.json',
 
-        //moveable + 
-        'levels/holycrap.json',//NEW
-        'levels/superHard.json',//NEW
-
-        //superHard - FINISH LEVEL!
+        //hard levels
+        'levels/holycrap.json',
+        'levels/superHard.json',
     ],
 
     LEVELS_TEST: [
