@@ -492,11 +492,17 @@ BnB.GameLogic.prototype.attemptMove = function(direction, x, y) {
 
     if (this.isPositionClear(character, target, newPosition.x, newPosition.y)) 
     {
-        //Move active char to new spot
+        //Remove character from old gridPos
         this.gameplayMap.active[y][x] = ' ';
-        this.gameplayMap.active[newPosition.y][newPosition.x] = character;
-        
-        this.activeObjects[target].gridPos = newPosition;
+
+        //get character at new gridPos
+        var oldChar = this.gameplayMap.active[newPosition.y][newPosition.x];
+
+        //If not green alien moving into death
+        if(character != 'm' || (oldChar!='B' && oldChar!='$')){
+            this.gameplayMap.active[newPosition.y][newPosition.x] = character;
+            this.activeObjects[target].gridPos = newPosition;
+        }
 
         return true;
     } 
@@ -577,7 +583,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
         }
         else if(active1 == 'B' || active1 == '$')
         {
-            //Brawny moving into green alien
+            //Brawny or Spikey alien moving into Green Alien
 
             //add final position for killed active2
             var active2Index = this.getActiveObjectAtGridPos(x,y);
@@ -599,6 +605,8 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
             return true;
         }
         else if(active2 == 'B' || active2 == '$'){
+            //EVENT: Green alien moving into death!
+
             //add "kill" event to killed
             this.gameStateChanges.activeChanges[active1Index].push({
                 x: x,
@@ -616,7 +624,7 @@ BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,acti
 
             this.killActiveObj(active1Index);
 
-            return false;
+            return true;
         }
     }
 
