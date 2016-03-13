@@ -91,7 +91,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
                 };
             };
         },
-        switchBoth: function(typeSelf, typeOther, typeToOther,typePeg) {
+        switchBoth: function(typeSelf, typeOther, typeToOther, typePeg, typePegTo) {
             var context = {
                 type: typeOther,
                 typeTo: typeToOther,
@@ -135,7 +135,8 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
 
                 //disable pegs
                 for (var i = foundPegs.length-1; i >=0 ; i--) {
-                    foundPegs[i].sprite.destroy();
+                    foundPegs[i].sprite.frameName = this.graphicsKeyLookup(typePegTo).image;
+                    //foundPegs[i].sprite.destroy();
                 };
             };
         }
@@ -229,7 +230,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew1A',
-          'b': triggers.switchBoth('2', '3', '4','17'),
+          'b': triggers.switchBoth('2', '3', '4','17','21'),
           'B': {}
         },
         '2':{
@@ -255,7 +256,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew2A',
-          'b': triggers.switchBoth('6', '7', '8','18'),
+          'b': triggers.switchBoth('6', '7', '8','18','22'),
           'B': {}
         },
         '6':{
@@ -281,7 +282,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew3A',
-          'b': triggers.switchBoth('10', '11', '12','19'),
+          'b': triggers.switchBoth('10', '11', '12','19','23'),
           'B': {}
         },
         '10':{
@@ -307,7 +308,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           onFloor: true,
           order: 0,
           image: 'brainandbrawn_switchNew4A',
-          'b': triggers.switchBoth('14', '15', '16','20'),
+          'b': triggers.switchBoth('14', '15', '16','20','24'),
           'B': {}
         },
         '14':{
@@ -333,25 +334,49 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         //colored pegs (TEST)
         '17':{
           order: 0,
-          image: 'brainandbrawn_peg1',
+          image: 'brainandbrawn_peg1_up',
           'b': {},
           'B': {}
         },
         '18':{
           order: 0,
-          image: 'brainandbrawn_peg2',
+          image: 'brainandbrawn_peg2_up',
           'b': {},
           'B': {}
         },
         '19':{
           order: 0,
-          image: 'brainandbrawn_peg3',
+          image: 'brainandbrawn_peg3_up',
           'b': {},
           'B': {}
         },
         '20':{
           order: 0,
-          image: 'brainandbrawn_peg4',
+          image: 'brainandbrawn_peg4_up',
+          'b': {},
+          'B': {}
+        },
+        '21':{
+          order: 0,
+          image: 'brainandbrawn_peg1_down',
+          'b': {},
+          'B': {}
+        },
+        '22':{
+          order: 0,
+          image: 'brainandbrawn_peg2_down',
+          'b': {},
+          'B': {}
+        },
+        '23':{
+          order: 0,
+          image: 'brainandbrawn_peg3_down',
+          'b': {},
+          'B': {}
+        },
+        '24':{
+          order: 0,
+          image: 'brainandbrawn_peg4_down',
           'b': {},
           'B': {}
         },
