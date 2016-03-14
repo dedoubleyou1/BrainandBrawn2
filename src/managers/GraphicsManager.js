@@ -943,7 +943,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
 
     var activeSprite;
     var element;
-
+    console.log(direction);
     for (var i=0;i<this.activeObjs.length;i++) {
         if(!this.activeObjs[i].alive) continue;
 
@@ -953,38 +953,38 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
         if (element === 'b' || element === 'B'){
             if (direction === 'right') {
                 activeSprite.scale.x = Math.abs(activeSprite.scale.x); //Reset flip
-                activeSprite.animations.frame = 31 + Math.floor(normalizedAmount * 12);
+                activeSprite.animations.frame = 30 + Math.floor(normalizedAmount * 12);
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 31 + Math.floor(normalizedAmount * 12), 31, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 31, '', 4),
                   24,
                   false,
                   false
                 );
             } else if (direction === 'left'){
                 activeSprite.scale.x = -1 * Math.abs(activeSprite.scale.x); //Flip animation
-                activeSprite.animations.frame = 31 + Math.floor(normalizedAmount * 12);
+                activeSprite.animations.frame = 30 + Math.floor(normalizedAmount * 12);
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 31 + Math.floor(normalizedAmount * 12), 31, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 31, '', 4),
                   24,
                   false,
                   false
                 );
             } else if (direction === 'down'){
-                activeSprite.animations.frame = 44 + Math.floor(normalizedAmount * 12); 
+                activeSprite.animations.frame = 43 + Math.floor(normalizedAmount * 12); 
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 44 + Math.floor(normalizedAmount * 12), 44, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 43 + Math.floor(normalizedAmount * 12), 44, '', 4),
                   24,
                   false,
                   false
                 );
             } else if (direction === 'up'){
-                activeSprite.animations.frame = 57 + Math.floor(normalizedAmount * 12);
+                activeSprite.animations.frame = 56 + Math.floor(normalizedAmount * 12);
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 57 + Math.floor(normalizedAmount * 12), 57, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 56 + Math.floor(normalizedAmount * 12), 57, '', 4),
                   24,
                   false,
                   false
@@ -997,37 +997,37 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
             if (this.fixed[y][x].type === 'E' && this.fixed[y][x].sprite.alive){
               thisSprite = this.fixed[y][x].sprite;
               if (direction === 'right') {
-                thisSprite.animations.frame = 35 + Math.floor(normalizedAmount * 8);
+                thisSprite.animations.frame = 34 + Math.floor(normalizedAmount * 8);
                 thisSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 35 + Math.floor(normalizedAmount * 8), 35, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 34 + Math.floor(normalizedAmount * 8), 35, '', 4),
                   24,
                   false,
                   false
                 );
               } else if (direction === 'left'){
-                thisSprite.animations.frame = 19 + Math.floor(normalizedAmount * 8);
+                thisSprite.animations.frame = 18 + Math.floor(normalizedAmount * 8);
                 thisSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 19 + Math.floor(normalizedAmount * 8), 19, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 18 + Math.floor(normalizedAmount * 8), 19, '', 4),
                   24,
                   false,
                   false
                 );
               } else if (direction === 'down'){
-                thisSprite.animations.frame = 43 + Math.floor(normalizedAmount * 8); 
+                thisSprite.animations.frame = 42 + Math.floor(normalizedAmount * 8); 
                 thisSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 43 + Math.floor(normalizedAmount * 8), 43, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 42 + Math.floor(normalizedAmount * 8), 43, '', 4),
                   24,
                   false,
                   false
                 );
               } else if (direction === 'up'){
-                thisSprite.animations.frame = 27 + Math.floor(normalizedAmount * 8);
+                thisSprite.animations.frame = 26 + Math.floor(normalizedAmount * 8);
                 thisSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 27 + Math.floor(normalizedAmount * 8), 27, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 26 + Math.floor(normalizedAmount * 8), 27, '', 4),
                   24,
                   false,
                   false
