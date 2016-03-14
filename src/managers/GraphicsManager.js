@@ -387,7 +387,8 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
           order: 0,
           image: 'brainandbrawn_alienB',
           'b': {},
-          'B': {}
+          'B': {},
+          'm': triggers.killActiveTarget,
         },
         '+':{
           order: 0,

@@ -87,19 +87,46 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
             this.gameplayMap.fixed[position.y][position.x] = ' ';
         },
 
-        //Called when an active object shoudld be destroyed
+        //Called when a fixed object kills an active obj
+        killActive: function(position,activeIndex){
+            //add "kill" event to moving
+            this.gameStateChanges.activeChanges[activeIndex].push({
+                x: position.x,
+                y: position.y,
+                eventType: this.gameplayMap.fixed[position.y][position.x],
+                killTarget: activeIndex,
+                fired: false,
+            });
+
+            //push final coordinates a second time (HACK)
+            this.gameStateChanges.activeChanges[activeIndex].push({
+                x: position.x,
+                y: position.y
+            });
+
+            this.killActiveObj(activeIndex);
+        },
+
+        //Called when Brainy or Brawny is killed
         killHero: function(killType) {
-            return function() {
+            return function(position,activeIndex) {
+                //push final coordinates for hero
+                this.gameStateChanges.activeChanges[activeIndex].push({
+                    x: position.x,
+                    y: position.y
+                });
+
+                this.killActiveObj(activeIndex);
                 return killType;
             };
         },
 
-        //kill active1 (moving)
-        killActiveMover: function(x,y,active1,active1Index,active2) {
-            //add "kill" event to active2
+        //Active-Active -> kill active1 (moving)
+        killActiveMover: function(position,active1Index,active1,active2) {
+            //add "kill" event to moving
             this.gameStateChanges.activeChanges[active1Index].push({
-                x: x,
-                y: y,
+                x: position.x,
+                y: position.y,
                 eventType: active2,
                 killTarget: active1Index,
                 fired: false,
@@ -107,8 +134,8 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
 
             //push final coordinates a second time
             this.gameStateChanges.activeChanges[active1Index].push({
-                x: x,
-                y: y
+                x: position.x,
+                y: position.y
             });
 
             this.killActiveObj(active1Index);
@@ -116,14 +143,14 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
             return 'death';
         },
 
-        //Kill active2 (stationary)
-        killActiveStationary: function(x,y,active1,active1Index,active2) {
-            var active2Index = this.getIndexOfActiveObj(x,y);
+        //Active-Active -> Kill active2 (stationary)
+        killActiveStationary: function(position,active1Index,active1,active2) {
+            var active2Index = this.getIndexOfActiveObj(position.x,position.y);
 
             //add "kill" event for killer
             this.gameStateChanges.activeChanges[active1Index].push({
-                x: x,
-                y: y,
+                x: position.x,
+                y: position.y,
                 eventType: active2,
                 killTarget: active2Index,
                 fired: false,
@@ -131,8 +158,8 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
 
             //add final position for killed active2
             this.gameStateChanges.activeChanges[active2Index].push({
-                x: x,
-                y: y
+                x: position.x,
+                y: position.y,
             });
             this.killActiveObj(active2Index);
 
@@ -401,7 +428,7 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
           'B': {isSolid: false, trigger: triggers.killHero('spikey')},
           '@': {isSolid: true}, 
           '$': {isSolid: true},
-          'm': {isSolid: true} 
+          'm': {isSolid: false, trigger: triggers.killActive} 
         },
         //breakable block
         '+':{
@@ -471,6 +498,7 @@ BnB.GameLogic.prototype.gravitySwitch = function(direction) {
         stepResults = this.stepOnce(direction);
 
         if(stepResults.moveSuccess) this.gameStateChanges.moveSuccess = true;
+        if(this.gameStateChanges.endState != 'none') break;
     }
 
     //Add final positions
@@ -618,14 +646,14 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
         }
         //- - - END TEMP HACK - - - //
 
-        return 'death';
+        return 'blocked';
     }
 
     //Check active-active collisions
     if(this.gameplayMap.active[y][x] != ' ')
     {
         //colliding with another active object
-        return this.checkActiveTriggers2(activeChar,activeIndex,this.gameplayMap.active[y][x],x,y);
+        return this.checkActiveTriggers(activeChar,activeIndex,this.gameplayMap.active[y][x],x,y);
     }
 
     //Check active-fixed collisions
@@ -639,7 +667,7 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
     return 'clear';
 };
 
-BnB.GameLogic.prototype.checkActiveTriggers2 = function(active1,active1Index,active2,x,y)
+BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,active2,x,y)
 {
     if(this.mapKeyLookup(active2)[active1].isSolid === true){
         return 'blocked';
@@ -650,7 +678,7 @@ BnB.GameLogic.prototype.checkActiveTriggers2 = function(active1,active1Index,act
     if (typeof trigger === 'function') 
     {
         //Call trigger function + setup results
-        var results = trigger.call(this,x,y,active1,active1Index,active2);
+        var results = trigger.call(this,{x: x, y: y},active1Index,active1,active2);
         
         if (typeof results === 'string') {
             if(results == 'clear' || results == 'death'){
@@ -665,84 +693,6 @@ BnB.GameLogic.prototype.checkActiveTriggers2 = function(active1,active1Index,act
     }
 
     return 'clear';
-};
-
-
-/*
-    active1 - object moving INTO the specified cell
-    active2 - object already in the specified cell (should have stopped moving)
-*/
-BnB.GameLogic.prototype.checkActiveTriggers = function(active1,active1Index,active2,x,y)
-{
-    //- - - - TEMP HACK - - - -//
-    //TODO: work this functionality into TRIGGERS
-    if((active1 == '$' || active2 == '$') && (active1 == 'b' || active2 == 'b' || active1 == 'B' || active2 == 'B'))
-    {
-        //purple moving alien
-        if (this.gameStateChanges.endState === 'none') {
-            this.gameStateChanges.endState = 'spikey';
-        }
-        return true;
-    }
-    else if(active1 == 'm' || active2 == 'm')
-    {
-        //green moving alien
-        if(active1 == 'b' || active2 == 'b')
-        {
-            if (this.gameStateChanges.endState === 'none') {
-                this.gameStateChanges.endState = 'eaten';
-            }
-            return true;
-        }
-        else if(active1 == 'B' || active1 == '$')
-        {
-            //Brawny or Spikey alien moving into Green Alien
-
-            //add final position for killed active2
-            var active2Index = this.getIndexOfActiveObj(x,y);
-            this.gameStateChanges.activeChanges[active2Index].push({
-                x: x,
-                y: y
-            });
-            this.killActiveObj(active2Index);
-
-            //add "kill" event for killer
-            this.gameStateChanges.activeChanges[active1Index].push({
-                x: x,
-                y: y,
-                eventType: active2,
-                killTarget: active2Index,
-                fired: false,
-            });
-            
-            return true;
-        }
-        else if(active2 == 'B' || active2 == '$'){
-            //EVENT: Green alien moving into death!
-
-            //add "kill" event to killed
-            this.gameStateChanges.activeChanges[active1Index].push({
-                x: x,
-                y: y,
-                eventType: active2,
-                killTarget: active1Index,
-                fired: false,
-            });
-
-            //push final coordinates a second time
-            this.gameStateChanges.activeChanges[active1Index].push({
-                x: x,
-                y: y
-            });
-
-            this.killActiveObj(active1Index);
-
-            return true;
-        }
-    }
-
-    return false;
-    //- - - END TEMP HACK - - - //
 };
 
 /*
@@ -766,7 +716,7 @@ BnB.GameLogic.prototype.checkFixedTriggers = function(stepResults) {
         if (typeof trigger === 'function') 
         {
             //Call trigger function + setup results
-            results = trigger.call(this, {x: x, y: y});
+            results = trigger.call(this, {x: x, y: y},i);
             
             if (typeof results === 'string' && this.gameStateChanges.endState === 'none') {
                 this.gameStateChanges.endState = results;
