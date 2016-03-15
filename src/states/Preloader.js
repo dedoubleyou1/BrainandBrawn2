@@ -38,6 +38,7 @@ BnB.Preloader.prototype = {
         this.load.atlasJSONArray('brainy_SpriteSheet', 'images/brainy.png', 'images/brainy.json');
         this.load.atlasJSONArray('brawny_SpriteSheet', 'images/brawny.png', 'images/brawny.json');
         this.load.atlasJSONArray('alienA_SpriteSheet', 'images/alienA.png', 'images/alienA.json');
+        this.load.atlasJSONArray('alienC_SpriteSheet', 'images/alienC.png', 'images/alienC.json');
         //this.load.atlasJSONArray('brainy_SpriteSheet', 'images/Brainy_SpriteSheet.png', 'images/Brainy_SpriteSheet.json');
         //this.load.atlasJSONArray('brawny_SpriteSheet', 'images/Brawny_SpriteSheet.png', 'images/Brawny_SpriteSheet.json');
         this.load.atlasJSONArray('block_SpriteSheet', 'images/seamlessWalls.png', 'images/seamlessWalls.json');
