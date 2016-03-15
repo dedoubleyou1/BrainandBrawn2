@@ -98,24 +98,12 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
                 fired: false,
             });
 
-            // //push final coordinates a second time (HACK)
-            // this.gameStateChanges.activeChanges[activeIndex].push({
-            //     x: position.x,
-            //     y: position.y
-            // });
-
             this.killActiveObj(activeIndex,position);
         },
 
         //Called when Brainy or Brawny is killed
         killHero: function(killType) {
             return function(position,activeIndex) {
-                // //push final coordinates for hero
-                // this.gameStateChanges.activeChanges[activeIndex].push({
-                //     x: position.x,
-                //     y: position.y
-                // });
-
                 this.killActiveObj(activeIndex,position);
                 return killType;
             };
@@ -131,12 +119,6 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
                 killTarget: active1Index,
                 fired: false,
             });
-
-            // //push final coordinates a second time
-            // this.gameStateChanges.activeChanges[active1Index].push({
-            //     x: position.x,
-            //     y: position.y
-            // });
 
             this.killActiveObj(active1Index,position);
 
@@ -156,11 +138,6 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
                 fired: false,
             });
 
-            // //add final position for killed active2
-            // this.gameStateChanges.activeChanges[active2Index].push({
-            //     x: position.x,
-            //     y: position.y,
-            // });
             this.killActiveObj(active2Index,position);
 
             return 'clear';
@@ -645,7 +622,14 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
                 this.gameStateChanges.endState = 'bothSpace';
             }
 
-            //Deal with enemy death
+            //send thoroughly off screen
+            var buffer = 3;
+            if(x < 0) x = -buffer;
+            if(y < 0) y = -buffer*2;
+            if(x >= this.gameplayMap.width) x = this.gameplayMap.width+buffer;
+            if(y >= this.gameplayMap.height) y = this.gameplayMap.height+buffer;
+
+            //Kill in Logic
             this.killActiveObj(activeIndex,{x:x,y:y});
         }
         //- - - END TEMP HACK - - - //
@@ -760,7 +744,7 @@ BnB.GameLogic.prototype.getIndexOfActiveObj = function(gridX,gridY)
     Given: Index of an active object
     Kill target active object
 */
-BnB.GameLogic.prototype.killActiveObj = function(targetIndex,position)
+BnB.GameLogic.prototype.killActiveObj = function(targetIndex,position,isMovingDeath)
 {
     //check range of index
     if(targetIndex < 0 || targetIndex >= this.activeObjects.length) return;
