@@ -622,12 +622,14 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
                 this.gameStateChanges.endState = 'bothSpace';
             }
 
-            //send thoroughly off screen
+            //TEMP HACK - will replace with cleaner method
+            //Send activeObj to an offscreen coordinate
             var buffer = 3;
             if(x < 0) x = -buffer;
             if(y < 0) y = -buffer*2;
             if(x >= this.gameplayMap.width) x = this.gameplayMap.width+buffer;
             if(y >= this.gameplayMap.height) y = this.gameplayMap.height+buffer;
+            //END TEMP HACK
 
             //Kill in Logic
             this.killActiveObj(activeIndex,{x:x,y:y});
