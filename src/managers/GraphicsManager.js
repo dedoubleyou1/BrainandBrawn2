@@ -61,13 +61,16 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
             else if(self.type == '+'){
                 BnB.AudioManager.playSFX('shatter');
             }
-            self.sprite.destroy();
+            if (self.type === 'E' || self.type === 'b' || self.type === 'B') {
+              self.sprite.alive = false;
+              self.sprite.animations.play('destroy', 36, false, true);                  
+            } else {
+              self.sprite.kill();
+            }
         },
         killActiveTarget: function(target){
             BnB.AudioManager.playSFX('kill');
-            this.activeObjs[target].alive = false;
-            // this.activeObjs[target].sprite.destroy();
-            this.activeObjs[target].sprite.visible = false;
+            this.activeObjs[target].kill();
         },
         switchTo: function(type) {
             return function(position) {
@@ -146,14 +149,14 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         //active
         'b':{
           order: 2,
-          image: 'SpriteSheet0074',
+          image: 'SpriteSheet0001',
           'b': {},
           'B': {},
           '$': triggers.killActiveTarget
         },
         'B':{
           order: 4,
-          image: 'SpriteSheet0074',
+          image: 'SpriteSheet0001',
           'b': {},
           'B': {},
           'm': triggers.killActiveTarget,
@@ -203,7 +206,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
         },
         'E':{
           order: 3,
-          image: 'brainandbrawn_alien-b',
+          image: 'SpriteSheet0001',
           'b': {},
           'B': triggers.killSelf,
           '$': triggers.killSelf
@@ -482,7 +485,9 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                     activeSprite.animations.add('moveUp', Phaser.Animation.generateFrameNames('SpriteSheet', 21, 31, '', 4), 24, false, false);
                     activeSprite.animations.add('beamIn', Phaser.Animation.generateFrameNames('SpriteSheet', 75, 70, '', 4), 24, false, false);
                     activeSprite.animations.add('beamOut', Phaser.Animation.generateFrameNames('SpriteSheet', 70, 75, '', 4), 24, false, false);
-                    
+                    activeSprite.animations.add('destroy', Phaser.Animation.generateFrameNames('SpriteSheet', 76, 87, '', 4), 24, false, false);
+
+
                     //teleport in
                     activeSprite.animations.play('beamIn'); 
                     BnB.AudioManager.playSFX('teleportIn');
@@ -503,15 +508,18 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
             };
 
             //Add the fixed sprite
-            var fixedLookup = this.graphicsKeyLookup(map.fixed[y][x]);
+            var fixedLookup = this.graphicsKeyLookup(this.fixed[y][x].type);
             if (typeof fixedLookup.image === 'string') {
-                var currentSheet = 'spritesheet';
-
-                //get seamless wall sheet
+                var currentSheet;
                 if(BnB.C.ENABLE_SEAMLESS_WALLS && fixedLookup.image == 'brainandbrawn_block'){
                     //get the correct block
                     currentSheet = 'block_SpriteSheet'
                     fixedLookup.image = this.getWallImage(map.fixed,x,y);
+                } else if (this.fixed[y][x].type === 'E') {
+                    console.log('enemy');
+                    currentSheet = 'alienA_SpriteSheet';
+                } else {
+                    currentSheet = 'spritesheet';
                 }
 
                 this.fixed[y][x].sprite = game.add.sprite(activeCoordinate.x, activeCoordinate.y, currentSheet, fixedLookup.image);
@@ -519,6 +527,34 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
                 this.fixed[y][x].sprite.anchor = {x: 0.5, y: 0.5};
                 this.fixed[y][x].sprite.customZ = this.getZFromGridY(map.fixed[y][x], y);
                 this.fixed[y][x].sprite.priority = false;
+
+                if (map.fixed[y][x] === 'E') {
+                  function idleLooped(sprite, animation) {
+                    console.log('triggered', animation.loopCount);
+                      if (animation.loopCount >= 3) {
+                        if (Math.random() > 0.75) {
+                          sprite.animations.play('blink');
+                        }
+                      }
+                  }
+                  function blinkStopped(sprite, animation) {
+                      sprite.animations.play('idle');
+                  }
+
+                  this.fixed[y][x].sprite.animations.add('idle', 
+                    Phaser.Animation.generateFrameNames('SpriteSheet', 1, 15, '', 4), 
+                    24, true, false).onLoop.add(idleLooped, this);
+
+                  this.fixed[y][x].sprite.animations.add('blink', 
+                    Phaser.Animation.generateFrameNames('SpriteSheet', 15, 19, '', 4), 
+                    12, false, false).onComplete.add(blinkStopped, this);
+
+                  this.fixed[y][x].sprite.animations.add('destroy', 
+                    Phaser.Animation.generateFrameNames('SpriteSheet', 51, 62, '', 4), 
+                    24, false, false);
+
+                  this.fixed[y][x].sprite.animations.play('idle');                  
+                }
 
                 if(fixedLookup.hasOwnProperty('onFloor')){
                     this.floor2Group.add(this.fixed[y][x].sprite);
@@ -671,8 +707,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     };
 
     //loop through char element in this.activeObjs array
-    for (var i=0;i<this.activeObjs.length;i++) 
-    {
+    for (var i=0;i<this.activeObjs.length;i++) {
         if(!this.activeObjs[i].alive) continue;
 
         var activeSprite = this.activeObjs[i].sprite;
@@ -732,7 +767,16 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
         } else {
           activeSprite.animations.play('leanReset'); 
         }
-    };
+    }
+    for (var y = 0; y < this.gridHeight; y++) {
+      for (var x = 0; x < this.gridWidth; x++) {
+        if (this.fixed[y][x].type === 'E' && this.fixed[y][x].sprite.alive && this.fixed[y][x].sprite.animations.getAnimation('leanReset')){
+          this.fixed[y][x].sprite.animations.play('leanReset').onComplete.add(function(sprite, animation){
+            sprite.animations.play('idle');
+          }, this);
+        }
+      }
+    }
 
 };
 
@@ -900,7 +944,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
 
     var activeSprite;
     var element;
-
+    console.log(direction);
     for (var i=0;i<this.activeObjs.length;i++) {
         if(!this.activeObjs[i].alive) continue;
 
@@ -913,7 +957,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
                 activeSprite.animations.frame = 30 + Math.floor(normalizedAmount * 12);
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 30, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 31, '', 4),
                   24,
                   false,
                   false
@@ -923,7 +967,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
                 activeSprite.animations.frame = 30 + Math.floor(normalizedAmount * 12);
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 30, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 30 + Math.floor(normalizedAmount * 12), 31, '', 4),
                   24,
                   false,
                   false
@@ -932,7 +976,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
                 activeSprite.animations.frame = 43 + Math.floor(normalizedAmount * 12); 
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 43 + Math.floor(normalizedAmount * 12), 43, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 43 + Math.floor(normalizedAmount * 12), 44, '', 4),
                   24,
                   false,
                   false
@@ -941,18 +985,64 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
                 activeSprite.animations.frame = 56 + Math.floor(normalizedAmount * 12);
                 activeSprite.animations.add(
                   'leanReset', 
-                  Phaser.Animation.generateFrameNames('SpriteSheet', 56 + Math.floor(normalizedAmount * 12), 56, '', 4),
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 56 + Math.floor(normalizedAmount * 12), 57, '', 4),
                   24,
                   false,
                   false
                 );
             }
         }
-
+        var thisSprite;
+        for (var y = 0; y < this.gridHeight; y++) {
+          for (var x = 0; x < this.gridWidth; x++) {
+            if (this.fixed[y][x].type === 'E' && this.fixed[y][x].sprite.alive){
+              thisSprite = this.fixed[y][x].sprite;
+              if (direction === 'right') {
+                thisSprite.animations.frame = 34 + Math.floor(normalizedAmount * 8);
+                thisSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 34 + Math.floor(normalizedAmount * 8), 35, '', 4),
+                  24,
+                  false,
+                  false
+                );
+              } else if (direction === 'left'){
+                thisSprite.animations.frame = 18 + Math.floor(normalizedAmount * 8);
+                thisSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 18 + Math.floor(normalizedAmount * 8), 19, '', 4),
+                  24,
+                  false,
+                  false
+                );
+              } else if (direction === 'down'){
+                thisSprite.animations.frame = 42 + Math.floor(normalizedAmount * 8); 
+                thisSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 42 + Math.floor(normalizedAmount * 8), 43, '', 4),
+                  24,
+                  false,
+                  false
+                );
+              } else if (direction === 'up'){
+                thisSprite.animations.frame = 26 + Math.floor(normalizedAmount * 8);
+                thisSprite.animations.add(
+                  'leanReset', 
+                  Phaser.Animation.generateFrameNames('SpriteSheet', 26 + Math.floor(normalizedAmount * 8), 27, '', 4),
+                  24,
+                  false,
+                  false
+                );
+              }
+            }
+          }
+        }
     }
 
 }
 BnB.GraphicsManager.prototype.resetLeaning = function() {
+    console.log(this.gridHeight, this.gridWidth);
+
 
     for (var i=0;i<this.activeObjs.length;i++) {
         if(!this.activeObjs[i].alive) continue;
@@ -995,4 +1085,5 @@ BnB.GraphicsManager.prototype.getWallImage = function(map,x,y) {
     var keyStr = "brainandbrawn_wall_" + up.toString() + "_" + down.toString() + "_" + left.toString() + "_" + right.toString();
     return keyStr;
 }
-                  
+    
+
