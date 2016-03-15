@@ -98,25 +98,25 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
                 fired: false,
             });
 
-            //push final coordinates a second time (HACK)
-            this.gameStateChanges.activeChanges[activeIndex].push({
-                x: position.x,
-                y: position.y
-            });
+            // //push final coordinates a second time (HACK)
+            // this.gameStateChanges.activeChanges[activeIndex].push({
+            //     x: position.x,
+            //     y: position.y
+            // });
 
-            this.killActiveObj(activeIndex);
+            this.killActiveObj(activeIndex,position);
         },
 
         //Called when Brainy or Brawny is killed
         killHero: function(killType) {
             return function(position,activeIndex) {
-                //push final coordinates for hero
-                this.gameStateChanges.activeChanges[activeIndex].push({
-                    x: position.x,
-                    y: position.y
-                });
+                // //push final coordinates for hero
+                // this.gameStateChanges.activeChanges[activeIndex].push({
+                //     x: position.x,
+                //     y: position.y
+                // });
 
-                this.killActiveObj(activeIndex);
+                this.killActiveObj(activeIndex,position);
                 return killType;
             };
         },
@@ -132,13 +132,13 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
                 fired: false,
             });
 
-            //push final coordinates a second time
-            this.gameStateChanges.activeChanges[active1Index].push({
-                x: position.x,
-                y: position.y
-            });
+            // //push final coordinates a second time
+            // this.gameStateChanges.activeChanges[active1Index].push({
+            //     x: position.x,
+            //     y: position.y
+            // });
 
-            this.killActiveObj(active1Index);
+            this.killActiveObj(active1Index,position);
 
             return 'death';
         },
@@ -156,12 +156,12 @@ BnB.GameLogic.prototype.mapKeyLookup = function(key) {
                 fired: false,
             });
 
-            //add final position for killed active2
-            this.gameStateChanges.activeChanges[active2Index].push({
-                x: position.x,
-                y: position.y,
-            });
-            this.killActiveObj(active2Index);
+            // //add final position for killed active2
+            // this.gameStateChanges.activeChanges[active2Index].push({
+            //     x: position.x,
+            //     y: position.y,
+            // });
+            this.killActiveObj(active2Index,position);
 
             return 'clear';
         },
@@ -631,6 +631,7 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
         //- - - - TEMP HACK - - - -//
         //should be a part of triggers
         if(BnB.C.BOUNDARY_DEATH){
+            //Deal with hero death
             var end = this.gameStateChanges.endState;
             if (end == 'none') {
                 if(activeChar == 'b'){
@@ -640,9 +641,12 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
                     this.gameStateChanges.endState = 'brawnySpace';
                 }
             }
-            else if(end == 'brawnySpace' || end == 'brainySpace'){
+            else if((end == 'brawnySpace' && activeChar == 'b') || end == 'brainySpace' && activeChar == 'B'){
                 this.gameStateChanges.endState = 'bothSpace';
             }
+
+            //Deal with enemy death
+            this.killActiveObj(activeIndex,{x:x,y:y});
         }
         //- - - END TEMP HACK - - - //
 
@@ -656,10 +660,9 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
         return this.checkActiveTriggers(activeChar,activeIndex,this.gameplayMap.active[y][x],x,y);
     }
 
-    //Check active-fixed collisions
+    //Check for a solid fixed object
     if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[activeChar].isSolid === true) 
     {
-        //Active object is colliding with solid fixed object
         return 'blocked';
     }
 
@@ -757,14 +760,20 @@ BnB.GameLogic.prototype.getIndexOfActiveObj = function(gridX,gridY)
     Given: Index of an active object
     Kill target active object
 */
-BnB.GameLogic.prototype.killActiveObj = function(target)
+BnB.GameLogic.prototype.killActiveObj = function(targetIndex,position)
 {
-    if(target >= 0 && target < this.activeObjects.length)   
-    {
-        var obj = this.activeObjects[target];
-        obj.alive = false;
-        this.gameplayMap.active[obj.gridPos.y][obj.gridPos.x] = ' ';
-        obj.gridPos = {x:-1,y:-1};
-    }
+    //check range of index
+    if(targetIndex < 0 || targetIndex >= this.activeObjects.length) return;
+    
+    //push final coordinates
+    this.gameStateChanges.activeChanges[targetIndex].push({
+        x: position.x,
+        y: position.y,
+    });
+
+    var obj = this.activeObjects[targetIndex];
+    obj.alive = false;
+    this.gameplayMap.active[obj.gridPos.y][obj.gridPos.x] = ' ';
+    obj.gridPos = {x:-1,y:-1};
 };
 
