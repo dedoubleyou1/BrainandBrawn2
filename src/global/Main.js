@@ -111,7 +111,11 @@ BnB.C = {
         'levels/test_reorientation3.json',
 
         //enemy
-        'levels/enemy00.json',
+        'levels/alienA_basic.json', //NEW
+        'levels/alienA_basic2.json', //NEW
+        'levels/alienA_basic3.json', //NEW
+        //Split enemy00 up into basic and basic 2. Concept was good but we need to show the new sprite more clearly first since it's a new mechanic.
+        //'levels/enemy00.json', 
         'levels/rotateEnemy.json',
         'levels/enemy02.json',
         'levels/rampage_v3.json',
@@ -119,10 +123,12 @@ BnB.C = {
 
         //switches
         'levels/wallgatelevel_v2.json',
-        'levels/gatelevel.json',
+        'levels/switches_basic1.json', 
         'levels/gatetunnellevel.json',
+        'levels/gatelevel.json',
         'levels/test_colors1.json',
-        'levels/musicalscale.json', 
+        'levels/musicalscale.json',
+        'levels/openbutton_00.json',
 
         //open
         'levels/openlevel0_v2.json',
