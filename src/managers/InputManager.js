@@ -26,8 +26,7 @@ BnB.InputManager = function(initialState) {
 
 	this.startPoint = {}
 	game.input.onDown.add(function(pointer) {
-		if(this.state === 'ready')
-		{
+		if(this.state === 'ready'){
 			this.startPoint.x = pointer.clientX;
 			this.startPoint.y = pointer.clientY;
 			if(BnB.C.SWIPING_OFFSET || BnB.C.SWIPING_LEANING){
@@ -37,7 +36,9 @@ BnB.InputManager = function(initialState) {
 	}, this);
 
 	game.input.onUp.add(function(pointer) {
-		this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
+        if(this.state === 'swiping'){
+            this._isSwipeGood(this.startPoint, {x: pointer.clientX, y: pointer.clientY});
+        }
 	}, this);
 };
 

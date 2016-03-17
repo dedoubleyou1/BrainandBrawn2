@@ -147,7 +147,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>../../images/alienC.json</filename>
             </struct>
         </map>
         <key>multiPack</key>

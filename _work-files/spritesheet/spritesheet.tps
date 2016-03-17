@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>4.0.2</string>
+        <string>4.1.0</string>
         <key>fileName</key>
-        <string>/Users/davidwallin/Documents/BrainandBrawn2/images/spritesheet/spritesheet.tps</string>
+        <string>/Users/davidwallin/Documents/BrainandBrawn2/_work-files/spritesheet/spritesheet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>phaser-json-array</string>
         <key>textureFileName</key>
-        <filename>../spritesheet.png</filename>
+        <filename>../../images/spritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -147,7 +147,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../spritesheet.json</filename>
+                <filename>../../images/spritesheet.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -187,9 +187,54 @@
             <int>200</int>
             <key>heuristicMask</key>
             <false/>
-            <key>pivotPoint</key>
-            <enum type="SpriteSettings::PivotPoint">Center</enum>
+            <key>defaultPivotPoint</key>
+            <point_f>0.5,0.5</point_f>
+            <key>writePivotPoints</key>
+            <false/>
         </struct>
+        <key>individualSpriteSettings</key>
+        <map type="IndividualSpriteSettingsMap">
+            <key type="filename">brainandbrawn_alien-b.png</key>
+            <key type="filename">brainandbrawn_alienA_move.png</key>
+            <key type="filename">brainandbrawn_alienB.png</key>
+            <key type="filename">brainandbrawn_alienB_move.png</key>
+            <key type="filename">brainandbrawn_blank.png</key>
+            <key type="filename">brainandbrawn_block.png</key>
+            <key type="filename">brainandbrawn_floor.png</key>
+            <key type="filename">brainandbrawn_gateNew1C.png</key>
+            <key type="filename">brainandbrawn_gateNew1D.png</key>
+            <key type="filename">brainandbrawn_gateNew2C.png</key>
+            <key type="filename">brainandbrawn_gateNew2D.png</key>
+            <key type="filename">brainandbrawn_gateNew3C.png</key>
+            <key type="filename">brainandbrawn_gateNew3D.png</key>
+            <key type="filename">brainandbrawn_gateNew4C.png</key>
+            <key type="filename">brainandbrawn_gateNew4D.png</key>
+            <key type="filename">brainandbrawn_goalBrainyB.png</key>
+            <key type="filename">brainandbrawn_goalBrawnyB.png</key>
+            <key type="filename">brainandbrawn_peg1_down.png</key>
+            <key type="filename">brainandbrawn_peg1_up.png</key>
+            <key type="filename">brainandbrawn_peg2_down.png</key>
+            <key type="filename">brainandbrawn_peg2_up.png</key>
+            <key type="filename">brainandbrawn_peg3_down.png</key>
+            <key type="filename">brainandbrawn_peg3_up.png</key>
+            <key type="filename">brainandbrawn_peg4_down.png</key>
+            <key type="filename">brainandbrawn_peg4_up.png</key>
+            <key type="filename">brainandbrawn_pipe0.png</key>
+            <key type="filename">brainandbrawn_slidingBlock.png</key>
+            <key type="filename">brainandbrawn_switchNew1A.png</key>
+            <key type="filename">brainandbrawn_switchNew1B.png</key>
+            <key type="filename">brainandbrawn_switchNew2A.png</key>
+            <key type="filename">brainandbrawn_switchNew2B.png</key>
+            <key type="filename">brainandbrawn_switchNew3A.png</key>
+            <key type="filename">brainandbrawn_switchNew3B.png</key>
+            <key type="filename">brainandbrawn_switchNew4A.png</key>
+            <key type="filename">brainandbrawn_switchNew4B.png</key>
+            <key type="filename">brainandbrawn_wallDamaged.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+            </struct>
+        </map>
         <key>fileList</key>
         <array>
             <filename>.</filename>

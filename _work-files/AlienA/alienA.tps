@@ -249,6 +249,13 @@
             <key type="filename">SpriteSheet0053.png</key>
             <key type="filename">SpriteSheet0054.png</key>
             <key type="filename">SpriteSheet0055.png</key>
+            <key type="filename">SpriteSheet0056.png</key>
+            <key type="filename">SpriteSheet0057.png</key>
+            <key type="filename">SpriteSheet0058.png</key>
+            <key type="filename">SpriteSheet0059.png</key>
+            <key type="filename">SpriteSheet0060.png</key>
+            <key type="filename">SpriteSheet0061.png</key>
+            <key type="filename">SpriteSheet0062.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

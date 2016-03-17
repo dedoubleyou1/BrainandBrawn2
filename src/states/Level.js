@@ -336,7 +336,7 @@ BnB.Level.prototype = {
     {
         //update logic and set the RESULTS
         this.results = this.gameLogic.gravitySwitch(this.inputManager.direction);
-        console.log(this.results);
+        //console.log(this.results);
 
         //update graphics based on the results
         this.graphicsManager.updateGraphics(this.results);

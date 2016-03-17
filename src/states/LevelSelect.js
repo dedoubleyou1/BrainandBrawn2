@@ -138,6 +138,7 @@ BnB.LevelSelect.prototype = {
         }
 
         BnB.fromState = 'LevelSelect';
+
 	},
 
     update: function()
@@ -157,7 +158,6 @@ BnB.LevelSelect.prototype = {
         var buttonSize = 96;
 
         var levelButton = this.add.group();
-        console.log(levelButton);
 
         var buttonGraphic = this.add.image(xPos,yPos,'ui', starGraphics[numStars+1]);
         buttonGraphic.anchor = {x: 0.5, y: 0.5};
