@@ -319,14 +319,14 @@ BnB.Level.prototype = {
         		this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.x);
         	}
         	if (BnB.C.SWIPING_LEANING) {
-        		this.graphicsManager.setLeaning(swipeDirection, swipeOffset.x);
+        		this.graphicsManager.setLeaning(swipeDirection, Math.abs(swipeOffset.x));
         	}
         } else if (swipeDirection === 'up' || swipeDirection === 'down') {
             if (BnB.C.SWIPING_OFFSET) {
         		this.graphicsManager.setActiveOffset(swipeDirection, swipeOffset.y);
         	}
         	if (BnB.C.SWIPING_LEANING) {
-        		this.graphicsManager.setLeaning(swipeDirection, swipeOffset.y);
+        		this.graphicsManager.setLeaning(swipeDirection, Math.abs(swipeOffset.y));
         	}
         }
     },

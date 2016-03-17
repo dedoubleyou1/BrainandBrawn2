@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.1.0</string>
         <key>fileName</key>
-        <string>/Users/davidwallin/Documents/BrainandBrawn2/images/brawny/brawny.tps</string>
+        <string>/Users/davidwallin/Documents/BrainandBrawn2/_work-files/brawny/brawny.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -147,7 +147,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>../../images/brawny.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -281,6 +281,11 @@
             <key type="filename">SpriteSheet0085.png</key>
             <key type="filename">SpriteSheet0086.png</key>
             <key type="filename">SpriteSheet0087.png</key>
+            <key type="filename">SpriteSheet0088.png</key>
+            <key type="filename">SpriteSheet0089.png</key>
+            <key type="filename">SpriteSheet0090.png</key>
+            <key type="filename">SpriteSheet0091.png</key>
+            <key type="filename">SpriteSheet0092.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
