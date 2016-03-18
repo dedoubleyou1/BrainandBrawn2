@@ -1116,12 +1116,14 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
   }
 }
 BnB.GraphicsManager.prototype.resetLeaning = function(sprite, type) {
-  var animData = this.graphicsKeyLookup(type).animations;
-  var start = sprite.animations.frame;
-  var end;
+
 
   //Figure out which animation is playing and set new end
   if (type === 'b' || type === 'B' || type === 'm' || type === 'E' || type === 'X') {
+    var animData = this.graphicsKeyLookup(type).animations;
+    var start = sprite.animations.frame;
+    var end;
+
     if (animData.leanLeft.start < start && start <= animData.leanLeft.end) {
       end = animData.leanLeft.start;
     } else if (animData.leanUp.start < start && start <= animData.leanUp.end) {
@@ -1133,17 +1135,19 @@ BnB.GraphicsManager.prototype.resetLeaning = function(sprite, type) {
     } else {
       end = start;
     }
+    
+    //play reverse to base animation
+    var leanAnimation = sprite.animations.add('leanReset', Phaser.ArrayUtils.numberArrayStep(start, end - 1, -1), 24);
+    if (sprite.animations.getAnimation('idle')) {
+      leanAnimation.onComplete.add(function(sprite, animation) {   
+        sprite.animations.play('idle');
+      }, this);
+    }
+
+    sprite.animations.play('leanReset');
   }
 
-  //play reverse to base animation
-  var leanAnimation = sprite.animations.add('leanReset', Phaser.ArrayUtils.numberArrayStep(start, end - 1, -1), 24);
-  if (sprite.animations.getAnimation('idle')) {
-    leanAnimation.onComplete.add(function(sprite, animation) {   
-      sprite.animations.play('idle');
-    }, this);
-  }
 
-  sprite.animations.play('leanReset');
 }
 
 
