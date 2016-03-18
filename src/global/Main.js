@@ -123,12 +123,12 @@ BnB.C = {
 
         //switches
         'levels/wallgatelevel_v2.json',
-        'levels/switches_basic1.json', 
+        'levels/switches_basic1.json', //NEW
         'levels/gatetunnellevel.json',
         'levels/gatelevel.json',
         'levels/test_colors1.json',
         'levels/musicalscale.json',
-        'levels/openbutton_00.json',
+        'levels/openbutton_00.json', //NEW
 
         //open
         'levels/openlevel0_v2.json',

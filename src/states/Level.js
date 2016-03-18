@@ -72,7 +72,7 @@ BnB.Level.prototype = {
 		this.gameLogic = new BnB.GameLogic(this.levelData);
 		this.graphicsManager = new BnB.GraphicsManager(this.levelData);
 		this.inputManager = new BnB.InputManager('waiting');
-		this.inputManager.onUpCallback = this.graphicsManager.resetLeaning.bind(this.graphicsManager);
+		//this.inputManager.onUpCallback = this.graphicsManager.resetLeaning.bind(this.graphicsManager);
 
 		//Set up the HUD
 		this.setUpHUD();
