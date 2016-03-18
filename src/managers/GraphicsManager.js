@@ -261,19 +261,19 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       animations: {
         leanLeft: {
           start: 18,
-          end: 26
+          end: 25
         },
         leanUp: {
           start: 26,
-          end: 34
+          end: 33
         },
         leanRight: {
           start: 34,
-          end: 42
+          end: 41
         },
         leanDown: {
           start: 42,
-          end: 50
+          end: 49
         },
       },
       'b': {},
@@ -461,19 +461,19 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       animations: {
         leanLeft: {
           start: 18,
-          end: 26
+          end: 25
         },
         leanUp: {
           start: 26,
-          end: 34
+          end: 33
         },
         leanRight: {
           start: 34,
-          end: 42
+          end: 41
         },
         leanDown: {
           start: 42,
-          end: 50
+          end: 49
         },
       },
       'b': {},
@@ -1100,6 +1100,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
     for (var x = 0; x < this.gridWidth; x++) {
       if ((this.fixed[y][x].type === 'E' || this.fixed[y][x].type === 'X') && this.fixed[y][x].sprite.alive) {
         fixedSprite = this.fixed[y][x].sprite;
+        element = this.fixed[y][x].type;
         if (direction === 'right') {
           animData = this.graphicsKeyLookup(element).animations.leanRight;
         } else if (direction === 'left') {
