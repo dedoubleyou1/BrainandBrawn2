@@ -2,6 +2,11 @@ Change Log for Brain and Brawn
 Dates are in the format: YYYY-MM-DD
 
 ---------------------------------------------------------------------------
+Version 1.7.0 (working)
+* 
+
+
+---------------------------------------------------------------------------
 Version 1.6.1 (2016-03-08)
 * Updated star levels
 * Commented out select starting levels (aliens introduced on lvl 9)
