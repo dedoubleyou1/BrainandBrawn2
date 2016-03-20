@@ -639,17 +639,17 @@ BnB.GameLogic.prototype.isPositionClear = function(activeChar, activeIndex, x, y
         return 'blocked';
     }
 
+    //Check for a solid fixed object
+    if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[activeChar].isSolid === true) 
+    {
+        return 'blocked';
+    }
+
     //Check active-active collisions
     if(this.gameplayMap.active[y][x] != ' ')
     {
         //colliding with another active object
         return this.checkActiveTriggers(activeChar,activeIndex,this.gameplayMap.active[y][x],x,y);
-    }
-
-    //Check for a solid fixed object
-    if (this.mapKeyLookup(this.gameplayMap.fixed[y][x])[activeChar].isSolid === true) 
-    {
-        return 'blocked';
     }
 
     //Position is clear!
