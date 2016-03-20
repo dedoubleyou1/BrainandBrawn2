@@ -51,7 +51,7 @@ BnB.Level.prototype = {
 		//set up level data
         if(BnB.levelType == 'normal')
 		{
-			this.levelData = JSON.parse(game.cache.getText('level'+this.level));
+			this.levelData = JSON.parse(game.cache.getText(BnB.levels[this.level]));
 		}
 		this.gridWidth = this.levelData.width;
 		this.gridHeight = this.levelData.length;

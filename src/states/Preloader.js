@@ -148,7 +148,7 @@ BnB.Preloader.prototype = {
 
         // Levels
         BnB.levels.forEach(function(element, index){
-            this.load.text('level'+index, element);
+            this.load.text(element, BnB.C.PATH_LEVELS + element + '.json');
         }, this)
 
         //Add handler to update loading %
