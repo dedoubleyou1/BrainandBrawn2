@@ -146,7 +146,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     //active
     'b': {
       order: 2,
-      image: 'SpriteSheet0001',
+      image: 'SpriteSheet0087',
       animations: {
         leanLeft: {
           start: 30,
@@ -171,7 +171,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     },
     'B': {
       order: 4,
-      image: 'SpriteSheet0001',
+      image: 'SpriteSheet0087',
       animations: {
         leanLeft: {
           start: 30,
@@ -575,19 +575,21 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
           activeSprite.animations.add('moveRight', Phaser.ArrayUtils.numberArray(0, 10), 24);
           activeSprite.animations.add('moveDown', Phaser.ArrayUtils.numberArray(10, 20), 24);
           activeSprite.animations.add('moveUp', Phaser.ArrayUtils.numberArray(20, 30), 24);
-          activeSprite.animations.add('beamIn', Phaser.ArrayUtils.numberArray(87, 91), 24);
+          activeSprite.animations.add('beamIn', Phaser.ArrayUtils.numberArray(86, 91), 24);
           activeSprite.animations.add('beamOut', Phaser.ArrayUtils.numberArray(69, 74), 24);
           activeSprite.animations.add('destroy', Phaser.ArrayUtils.numberArray(75, 86), 24);
 
-
-          //teleport in
+          //teleport in with delay
 
           this.animationCounter += 1;
-          activeSprite.animations.play('beamIn').onComplete.add(function() {
-            console.log('finished Beam In');
-            this.animationCounter -= 1;
-          }, this);
-          BnB.AudioManager.playSFX('teleportIn');
+
+          setTimeout(function(activeSprite) {
+            activeSprite.animations.play('beamIn')
+            .onComplete.add(function(sprite, animation) {
+              this.animationCounter -= 1;
+            }, this);
+            BnB.AudioManager.playSFX('teleportIn');
+          }.bind(this, activeSprite), 100);
 
         }
 
@@ -1135,7 +1137,7 @@ BnB.GraphicsManager.prototype.resetLeaning = function(sprite, type) {
     } else {
       end = start;
     }
-    
+
     //play reverse to base animation
     var leanAnimation = sprite.animations.add('leanReset', Phaser.ArrayUtils.numberArrayStep(start, end - 1, -1), 24);
     if (sprite.animations.getAnimation('idle')) {
