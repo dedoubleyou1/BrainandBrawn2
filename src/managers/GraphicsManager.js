@@ -69,6 +69,7 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
       }
     },
     killActiveTarget: function(target) {
+      console.log(target);
       BnB.AudioManager.playSFX('kill');
       this.activeObjs[target].sprite.kill();
     },
@@ -228,7 +229,25 @@ BnB.GraphicsManager.prototype.graphicsKeyLookup = function(key) {
     },
     '$': {
       order: 0,
-      image: 'brainandbrawn_alienB_move',
+      image: 'SpriteSheet0001',
+      animations: {
+        leanLeft: {
+          start: 22,
+          end: 29
+        },
+        leanUp: {
+          start: 30,
+          end: 37
+        },
+        leanRight: {
+          start: 38,
+          end: 45
+        },
+        leanDown: {
+          start: 46,
+          end: 53
+        },
+      },
       'b': {},
       'B': {},
       'm': triggers.killActiveTarget,
@@ -531,6 +550,10 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
       var returnToIdle = function(sprite, animation) {
         sprite.animations.play('idle');
       };
+      var idleFromMove = function(sprite, animation) {
+        sprite.animations.play('idle');
+        this.animationCounter -= 1;
+      };     
 
       //Add the FLOOR
       if (map.fixed[y][x] != 'n') {
@@ -551,6 +574,8 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
           spritesheet = 'brawny_SpriteSheet';
         } else if (activeSpriteType === 'm') {
           spritesheet = 'alienB_SpriteSheet';
+        } else if (activeSpriteType === '$') {
+          spritesheet = 'alienD_SpriteSheet';
         } else {
           spritesheet = 'spritesheet';
         }
@@ -572,12 +597,16 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
 
         //If Brainy or Brawny - set up animations
         if (activeSpriteType === 'b' || activeSpriteType === 'B') {
-          activeSprite.animations.add('moveRight', Phaser.ArrayUtils.numberArray(0, 10), 24);
-          activeSprite.animations.add('moveDown', Phaser.ArrayUtils.numberArray(10, 20), 24);
-          activeSprite.animations.add('moveUp', Phaser.ArrayUtils.numberArray(20, 30), 24);
+          activeSprite.animations.add('moveRight', Phaser.ArrayUtils.numberArray(0, 10), 24)
+            .onComplete.add(idleFromMove, this);
+          activeSprite.animations.add('moveDown', Phaser.ArrayUtils.numberArray(10, 20), 24)
+            .onComplete.add(idleFromMove, this);
+          activeSprite.animations.add('moveUp', Phaser.ArrayUtils.numberArray(20, 30), 24)
+            .onComplete.add(idleFromMove, this);
           activeSprite.animations.add('beamIn', Phaser.ArrayUtils.numberArray(86, 91), 24);
           activeSprite.animations.add('beamOut', Phaser.ArrayUtils.numberArray(69, 74), 24);
           activeSprite.animations.add('destroy', Phaser.ArrayUtils.numberArray(75, 86), 24);
+          activeSprite.animations.add('idle', [0], 24);
 
           //teleport in with delay
 
@@ -586,6 +615,7 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
           setTimeout(function(activeSprite) {
             activeSprite.animations.play('beamIn')
             .onComplete.add(function(sprite, animation) {
+              sprite.animations.play('idle');
               this.animationCounter -= 1;
             }, this);
             BnB.AudioManager.playSFX('teleportIn');
@@ -593,7 +623,7 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
 
         }
 
-        // Setup animation for moveable aliens
+        // Setup animation for moveable alienA
         if (activeSpriteType === 'm') {
 
           activeSprite.animations.add('idle', Phaser.ArrayUtils.numberArray(0, 14), 24, true)
@@ -607,16 +637,43 @@ BnB.GraphicsManager.prototype.initializeSprites = function(map) {
             }, this);
 
           activeSprite.animations.add('blink', Phaser.ArrayUtils.numberArray(14, 22), 24)
-            .onComplete.add(returnToIdle, this);
+            .onComplete.add(idleFromMove, this);
           activeSprite.animations.add('moveLeft', Phaser.ArrayUtils.numberArray(54, 64), 24)
-            .onComplete.add(returnToIdle, this);
+            .onComplete.add(idleFromMove, this);
           activeSprite.animations.add('moveUp', Phaser.ArrayUtils.numberArray(64, 74), 24)
-            .onComplete.add(returnToIdle, this);
+            .onComplete.add(idleFromMove, this);
           activeSprite.animations.add('moveRight', Phaser.ArrayUtils.numberArray(74, 84), 24)
-            .onComplete.add(returnToIdle, this);
+            .onComplete.add(idleFromMove, this);
           activeSprite.animations.add('moveDown', Phaser.ArrayUtils.numberArray(84, 94), 24)
-            .onComplete.add(returnToIdle, this);
+            .onComplete.add(idleFromMove, this);
           activeSprite.animations.add('destroy', Phaser.ArrayUtils.numberArray(94, 105), 24);
+
+          activeSprite.animations.play('idle');
+        }
+
+        // Setup animation for moveable aliens
+        if (activeSpriteType === '$') {
+
+          activeSprite.animations.add('idle', Phaser.ArrayUtils.numberArray(0, 14), 24, true)
+            .onLoop.add(function(sprite, animation) {
+              console.log('alienB_idle')
+              if (animation.loopCount >= 3) {
+                if (Math.random() > 0.75) {
+                  sprite.animations.play('blink');
+                }
+              }
+            }, this);
+
+          activeSprite.animations.add('blink', Phaser.ArrayUtils.numberArray(14, 22), 24)
+            .onComplete.add(idleFromMove, this);
+          activeSprite.animations.add('moveLeft', Phaser.ArrayUtils.numberArray(54, 62), 24)
+            .onComplete.add(idleFromMove, this);
+          activeSprite.animations.add('moveUp', Phaser.ArrayUtils.numberArray(62, 70), 24)
+            .onComplete.add(idleFromMove, this);
+          activeSprite.animations.add('moveRight', Phaser.ArrayUtils.numberArray(70, 78), 24)
+            .onComplete.add(idleFromMove, this);
+          activeSprite.animations.add('moveDown', Phaser.ArrayUtils.numberArray(78, 86), 24)
+            .onComplete.add(idleFromMove, this);
 
           activeSprite.animations.play('idle');
         }
@@ -792,7 +849,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
     return function() {
       //get current grid position of sprite
       var gridPos = this.pixelToGrid({ x: this.activeObjs[target].sprite.x, y: this.activeObjs[target].sprite.y });
-
+      console.log(type, gridPos, gridPosArray);
       //loop through coordinates
       for (var i = 1; i < gridPosArray.length - 1; i++) {
         var gridEvent = gridPosArray[i];
@@ -832,6 +889,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
 
     //get ending position
     var finalGridPos = gridPosArray[gridPosArray.length - 1];
+    console.log(finalGridPos);
     var finalPixelPos = this.gridToPixel(finalGridPos);
 
     //get distance (in cells) between two grid coordinates
@@ -846,9 +904,11 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
       this.isFinished = false;
       //create movement tween
       var moveTween = game.add.tween(activeSprite);
+      console.log(finalPixelPos);
       moveTween.to({ x: finalPixelPos.x, y: finalPixelPos.y }, 180, Phaser.Easing.Sinusoidal.In, true);
 
       //If active obj is Brainy or Brawny - run animations
+      this.animationCounter += 1;
       if (element === 'b' || element === 'B') {
         if (activeSprite.x - finalPixelPos.x < 0) {
           activeSprite.scale.x = Math.abs(activeSprite.scale.x); //Reset flip
@@ -861,7 +921,7 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
         } else if (activeSprite.y - finalPixelPos.y > 0) {
           activeSprite.animations.play('moveUp');
         }
-      } else if (element === 'm') { //If active obj is moveable - run animations
+      } else if (element === 'm' || element === '$') { //If active obj is moveable - run animations
         if (activeSprite.x - finalPixelPos.x < 0) {
           activeSprite.animations.play('moveRight');
         } else if (activeSprite.x - finalPixelPos.x > 0) {
@@ -874,7 +934,6 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
       }
 
       //keep track of how many tweens need to run
-      this.animationCounter += 1;
 
       //get moveUpdatecallback
       var moveUpdateCallback = checkGraphicalTriggers(gridPosArray, i, element);
@@ -883,7 +942,8 @@ BnB.GraphicsManager.prototype.updateGraphics = function(gameStateChanges) {
       moveTween.onComplete.add((function(moveUpdateCallback) {
         return function() {
           moveUpdateCallback.call(this);
-          this.animationCounter -= 1;
+          console.log('tweenend', this.animationCounter);
+          //this.animationCounter -= 1;
         }
       })(moveUpdateCallback), this);
 
@@ -955,7 +1015,13 @@ BnB.GraphicsManager.prototype.getZFromGridY = function(type, gridY) {
   Checks to see if ALL movement tweens are finished
 */
 BnB.GraphicsManager.prototype.areAnimationsFinished = function() {
+  //Prevents animation errors or bugs from stopping gameplay and notifies in console
+  if (this.animationsCounter < 0){
+    console.log('ANIMATION COUNTER ERROR: ', this.animationCounter);
+    this.animationCounter = 0;
+  }
   if (this.animationCounter === 0) {
+    console.log(this.animationCounter);
     if (this.isFinished) {
       this.gravityFinished = undefined;
       return true;
@@ -1075,7 +1141,7 @@ BnB.GraphicsManager.prototype.setLeaning = function(direction, amount) {
       activeSprite = this.activeObjs[i].sprite;
       element = this.activeObjs[i].type;
   
-      if (element === 'b' || element === 'B' || element === 'm') {
+      if (element === 'b' || element === 'B' || element === 'm' || element === '$') {
         if (direction === 'right') {
           if (element === 'b' || element === 'B') {
             activeSprite.scale.x = Math.abs(activeSprite.scale.x); //Reset flip
@@ -1121,7 +1187,7 @@ BnB.GraphicsManager.prototype.resetLeaning = function(sprite, type) {
 
 
   //Figure out which animation is playing and set new end
-  if (type === 'b' || type === 'B' || type === 'm' || type === 'E' || type === 'X') {
+  if (type === 'b' || type === 'B' || type === 'm' || type === 'E' || type === 'X' || type === '$') {
     var animData = this.graphicsKeyLookup(type).animations;
     var start = sprite.animations.frame;
     var end;

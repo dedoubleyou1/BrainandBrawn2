@@ -127,6 +127,7 @@ BnB.C = {
         'gatetunnellevel',
         'gatelevel',
         'test_colors1',
+        'stickswitch', //NEW
         'musicalscale',
         'openbutton_00', //NEW
 

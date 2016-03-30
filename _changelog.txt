@@ -6,6 +6,8 @@ Version 1.7.0 - DEV
 * Updated Phaser to 2.4.6
 * Updated saving functionality (can acommodate level reordering)
 * Fixed Bug: Moving aliens can kill brainy inside pegs
+* New Animations
+    -Alien D
 
 
 ---------------------------------------------------------------------------
